@@ -16,12 +16,16 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+bool processState;  // 게임 진행 중이면 true 종료면 false
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); //메모리 누수 체크
+    setlocale(LC_ALL, "Korean");    //지역 설정
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -37,25 +41,36 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         return FALSE;
     }
+    processState = true;
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINDOWENGINEFRAMEWORK));
-
+    // 다음 틱 카운트 입니다.
+    ULONGLONG nextTickCount = 0;
+    ULONGLONG tickCount;
     MSG msg;
 
-    // 기본 메시지 루프입니다:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (processState)
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))// 단축키 처리 하지만, 단축키가 아닐 경우
+            {
+                TranslateMessage(&msg); // 입력 메시지 번역
+                DispatchMessage(&msg); // 입력 메시지 처리, WinProc에서 전달된 메시지 처리
+            }
+        }
+        else
+        {
+            tickCount = GetTickCount64();
+            if (nextTickCount <= tickCount)
+            {
+                nextTickCount = tickCount + 10;
+            }
         }
     }
 
     return (int) msg.wParam;
 }
-
-
 
 //
 //  함수: MyRegisterClass()
@@ -97,13 +112,31 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+   DWORD myStyle = WS_OVERLAPPED
+       | WS_CAPTION
+       | WS_SYSMENU
+       | WS_THICKFRAME
+       | WS_MINIMIZEBOX
+       //|WS_MAXIMIZEBOX
+       ;
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
+   HWND hWnd = CreateWindowW(
+       szWindowClass,
+       szTitle,
+       myStyle,
+
+       CW_USEDEFAULT,   //Start Pos X //CW_DEFAULT
+       0,               //Start Pos Y //CW_DEFAULT
+
+       CW_USEDEFAULT,   //Size X
+       0,               //Size Y
+
+       nullptr,
+       nullptr,
+       hInstance,
+       nullptr);
+
+   if (!hWnd)   {    return FALSE;   }
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -136,6 +169,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
+                processState = false;
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
