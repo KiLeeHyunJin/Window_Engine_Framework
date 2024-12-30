@@ -4,6 +4,9 @@
 #include "framework.h"
 #include "Window_Engine_Framework.h"
 
+#include "..\\WindowEngine_SOURCE\\Application.h"
+#pragma comment (lib,"..\\x64\\Debug\\WindowEngine.lib" )
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -16,39 +19,43 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-bool processState;  // 게임 진행 중이면 true 종료면 false
 
+Framework::Application application;
+bool processState;  // 게임 진행 중이면 true 종료면 false
+bool scaleMaximum;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); //메모리 누수 체크
-    setlocale(LC_ALL, "Korean");    //지역 설정
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: 여기에 코드를 입력합니다.
+#pragma region  Window_Process_Init
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);         //메모리 누수 체크
+    setlocale(LC_ALL, "Korean");                                    //지역 설정
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_WINDOWENGINEFRAMEWORK, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
+#pragma endregion Window_Process_Init
+
+    //app.Test();
     // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance (hInstance, nCmdShow))
-    {
-        return FALSE;
-    }
-    processState = true;
+    if (!InitInstance (hInstance, nCmdShow))    {   return FALSE;   }
+
+    // TODO: 여기에 코드를 입력합니다.
+
+    // 다음 틱 카운트 입니다.
+    //ULONGLONG nextTickCount = 0;
+    //ULONGLONG tickCount;
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINDOWENGINEFRAMEWORK));
-    // 다음 틱 카운트 입니다.
-    ULONGLONG nextTickCount = 0;
-    ULONGLONG tickCount;
     MSG msg;
-
+    processState = true;
     while (processState)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -61,11 +68,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
-            tickCount = GetTickCount64();
-            if (nextTickCount <= tickCount)
-            {
-                nextTickCount = tickCount + 10;
-            }
+            application.Run();
+            //tickCount = GetTickCount64();
+            //if (nextTickCount <= tickCount)
+            //{
+            //    nextTickCount = tickCount + 10;
+            //}
         }
     }
 
@@ -89,11 +97,11 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWENGINEFRAMEWORK));
+    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WINDOWENGINEFRAMEWORK);
+    wcex.lpszMenuName   = nullptr;//MAKEINTRESOURCEW(IDC_WINDOWENGINEFRAMEWORK);
     wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
@@ -120,26 +128,32 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        //|WS_MAXIMIZEBOX
        ;
 
+   int screenScaleX = GetSystemMetrics(SM_CXSCREEN);
+   int screenScaleY = GetSystemMetrics(SM_CYSCREEN);
+
    HWND hWnd = CreateWindowW(
        szWindowClass,
        szTitle,
        myStyle,
 
-       CW_USEDEFAULT,   //Start Pos X //CW_DEFAULT
-       0,               //Start Pos Y //CW_DEFAULT
+       (screenScaleX - WINSIZEX) * 0.5f, 
+       (screenScaleY - WINSIZEY) * 0.5f,               //Start Pos Y //CW_DEFAULT
 
-       CW_USEDEFAULT,   //Size X
-       0,               //Size Y
+       WINSIZEX,   //Size X
+       WINSIZEY,   //Size Y
 
        nullptr,
        nullptr,
        hInstance,
        nullptr);
 
+   scaleMaximum = false;
+
    if (!hWnd)   {    return FALSE;   }
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
+   application.Initialize(hWnd);
 
    return TRUE;
 }
@@ -161,6 +175,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
+            
             // 메뉴 선택을 구문 분석합니다:
             switch (wmId)
             {
@@ -171,11 +186,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DestroyWindow(hWnd);
                 processState = false;
                 break;
+            case ID_CHANGESCALE:
+            {
+                //해당 위치와 크기로 셋팅해준다.
+                int screenScaleX = GetSystemMetrics(SM_CXSCREEN);
+                int screenScaleY = GetSystemMetrics(SM_CYSCREEN);
+                if (scaleMaximum)
+                {
+                    SetWindowPos(hWnd, NULL, 
+                        (screenScaleX - WINSIZEX) * 0.5f, (screenScaleY - WINSIZEY) * 0.5f,
+                        WINSIZEX, WINSIZEY,
+                        0);
+                }
+                else
+                {
+                    SetWindowPos(hWnd, NULL, 
+                        0, 0, 
+                        screenScaleX, screenScaleY, 
+                        0);
+                }
+                scaleMaximum = !scaleMaximum;
+            }
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
         }
         break;
+   
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
@@ -186,6 +223,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        break;
+    case WM_CLOSE:
+        DestroyWindow(hWnd);
+        processState = false;
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
