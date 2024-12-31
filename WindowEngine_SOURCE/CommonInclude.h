@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 
 // Windows 헤더 파일
 #include <windows.h>
@@ -18,7 +18,6 @@
 
 //#include <chrono>
 
-
 //STL
 #include <vector>
 #include <list>
@@ -26,3 +25,5 @@
 
 #include <map>
 #include <unordered_map>
+
+using namespace std;

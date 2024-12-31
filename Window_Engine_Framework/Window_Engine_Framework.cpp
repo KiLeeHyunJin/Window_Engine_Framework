@@ -4,7 +4,7 @@
 #include "framework.h"
 #include "Window_Engine_Framework.h"
 
-#include "..\\WindowEngine_SOURCE\\Application.h"
+#include "..\\WindowEngine_SOURCE\\CApplication.h"
 #pragma comment (lib,"..\\x64\\Debug\\WindowEngine.lib" )
 
 #define MAX_LOADSTRING 100
@@ -20,7 +20,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-Framework::Application application;
+Framework::CApplication application;
 bool processState;  // 게임 진행 중이면 true 종료면 false
 bool scaleMaximum;
 
@@ -49,10 +49,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // TODO: 여기에 코드를 입력합니다.
 
-    // 다음 틱 카운트 입니다.
-    //ULONGLONG nextTickCount = 0;
-    //ULONGLONG tickCount;
-
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINDOWENGINEFRAMEWORK));
     MSG msg;
     processState = true;
@@ -69,11 +65,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             application.Run();
-            //tickCount = GetTickCount64();
-            //if (nextTickCount <= tickCount)
-            //{
-            //    nextTickCount = tickCount + 10;
-            //}
         }
     }
 
@@ -136,11 +127,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        szTitle,
        myStyle,
 
-       (screenScaleX - WINSIZEX) * 0.5f, 
-       (screenScaleY - WINSIZEY) * 0.5f,               //Start Pos Y //CW_DEFAULT
+       0, 
+       0,               //Start Pos Y //CW_DEFAULT
 
-       WINSIZEX,   //Size X
-       WINSIZEY,   //Size Y
+       0,   //Size X
+       0,   //Size Y
 
        nullptr,
        nullptr,
@@ -153,7 +144,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-   application.Initialize(hWnd);
+   application.Initialize(
+       hWnd, 
+       WINSIZEX , WINSIZEY, 
+       (screenScaleX - WINSIZEX) >> 1,
+       (screenScaleY - WINSIZEY) >> 1,
+       myStyle, false
+   );
 
    return TRUE;
 }
@@ -188,24 +185,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case ID_CHANGESCALE:
             {
-                //해당 위치와 크기로 셋팅해준다.
-                int screenScaleX = GetSystemMetrics(SM_CXSCREEN);
-                int screenScaleY = GetSystemMetrics(SM_CYSCREEN);
-                if (scaleMaximum)
-                {
-                    SetWindowPos(hWnd, NULL, 
-                        (screenScaleX - WINSIZEX) * 0.5f, (screenScaleY - WINSIZEY) * 0.5f,
-                        WINSIZEX, WINSIZEY,
-                        0);
-                }
-                else
-                {
-                    SetWindowPos(hWnd, NULL, 
-                        0, 0, 
-                        screenScaleX, screenScaleY, 
-                        0);
-                }
                 scaleMaximum = !scaleMaximum;
+                application.ScreenSize(scaleMaximum);
             }
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
