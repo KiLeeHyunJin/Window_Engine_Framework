@@ -7,12 +7,12 @@
 namespace Framework
 {
 	CApplication::CApplication() :
-		m_hWnd(nullptr),
-		m_hDC(nullptr),
-		m_iWindowWidth(0), m_iWindowHeight(0),
-		m_iScreenWidth(0), m_iScreenHeight(0),
-		m_iCurrentWidth(0), m_iCurrentHeight(0),
+		m_hWnd(nullptr),	m_hDC(nullptr),
 		m_BackHDC(nullptr), m_BmpBuffer(nullptr),
+		m_iWindowWidth(0),	m_iWindowHeight(0),
+		m_iScreenWidth(0),	m_iScreenHeight(0),
+		m_iCurrentBufferBitmapWidth(0), 
+		m_iCurrentBufferBitmapHeight(0),
 		m_bScreenMaximum(false)
 	{
 	}
@@ -93,28 +93,27 @@ namespace Framework
 	{
 		if (m_bScreenMaximum)
 		{
-			if (m_iCurrentWidth != m_iScreenWidth)
+			if (m_iCurrentBufferBitmapWidth != m_iScreenWidth)
 			{
-				m_iCurrentWidth		= m_iScreenWidth;
-				m_iCurrentHeight	= m_iScreenHeight;
+				m_iCurrentBufferBitmapWidth		= m_iScreenWidth;
+				m_iCurrentBufferBitmapHeight	= m_iScreenHeight;
 			}
-
 		}
 		else
 		{
-			if (m_iCurrentWidth != m_iWindowWidth)
+			if (m_iCurrentBufferBitmapWidth != m_iWindowWidth)
 			{
-				m_iCurrentWidth		= m_iWindowWidth;
-				m_iCurrentHeight	= m_iWindowHeight;
+				m_iCurrentBufferBitmapWidth		= m_iWindowWidth;
+				m_iCurrentBufferBitmapHeight	= m_iWindowHeight;
 			}
 		}
-		Rectangle(m_BackHDC, -1, -1, m_iCurrentWidth + 1, m_iCurrentHeight + 1);
+		Rectangle(m_BackHDC, -1, -1, m_iCurrentBufferBitmapWidth + 1, m_iCurrentBufferBitmapHeight + 1);
 	}
 
 	void CApplication::EndDraw()
 	{
 		BitBlt(
-			m_hDC, 0, 0, m_iCurrentWidth, m_iCurrentHeight,
+			m_hDC, 0, 0, m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,
 			m_BackHDC, 0, 0, SRCCOPY);
 	}
 

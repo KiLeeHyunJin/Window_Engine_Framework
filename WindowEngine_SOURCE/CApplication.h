@@ -3,8 +3,6 @@
 
 namespace Framework
 {
-	class GameObject;
-
 	class CApplication
 	{
 	public:
@@ -43,8 +41,8 @@ namespace Framework
 		int m_iScreenWidth; //화면 해상도
 		int m_iScreenHeight;
 
-		int m_iCurrentWidth;
-		int m_iCurrentHeight;
+		int m_iCurrentBufferBitmapWidth;
+		int m_iCurrentBufferBitmapHeight;
 
 		bool m_bScreenMaximum;
 

@@ -1,5 +1,7 @@
 #pragma once
 #include "CommonInclude.h"
+#include "CScene.h"
+
 namespace Framework
 {
 	class CApplication;
@@ -17,8 +19,18 @@ namespace Framework
 		static void Render(HDC hDC);
 		static void Release();
 
+		template<typename T>
+		static CScene* CreateScene(const wstring& name)
+		{
+			T* createScene = new T();
+			CScene* scene = static_cast<CScene*>(scene);
+			scene->SetName(name);
+			m_mapScene.insert(make_pair(name, scene));
+			return scene;
+		}
+
 	private:
-		static vector<CScene*> m_vecScene;
+		static map<wstring, CScene*> m_mapScene;
 		static CScene* m_pCurrentScene;
 	};
 	
