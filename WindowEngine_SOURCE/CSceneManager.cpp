@@ -3,7 +3,7 @@
 
 namespace Framework
 {
-	vector<CScene*>	CSceneManager::m_vecScene		= {};
+	map<wstring,CScene*>	CSceneManager::m_mapScene		= {};
 	CScene*			CSceneManager::m_pCurrentScene	= nullptr;
 
 
@@ -12,9 +12,9 @@ namespace Framework
 	}
 	CSceneManager::~CSceneManager()
 	{
-		for (CScene* scene : m_vecScene)
+		for (const pair<wstring, CScene*>& scenePair : m_mapScene)
 		{
-			delete scene;
+			delete scenePair.second;
 		}
 	}
 
@@ -37,8 +37,12 @@ namespace Framework
 	{
 		m_pCurrentScene->Render(hDC);
 	}
+
 	void CSceneManager::Release()
 	{
-		m_pCurrentScene->Release();
+		for (const pair<wstring, CScene*>& scenePair : m_mapScene)
+		{
+			scenePair.second->Release();
+		}
 	}
 }

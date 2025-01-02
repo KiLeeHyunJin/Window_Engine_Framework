@@ -40,6 +40,11 @@ namespace Framework
 			gameObject->Render(hDC);
 		}
 	}
+	void CScene::AddGameObject(CGameObject* pGameObject)
+	{
+		m_vecGameObject.push_back(pGameObject);
+	}
+
 	void CScene::Release()
 	{
 		for (CGameObject* gameObject : m_vecGameObject)

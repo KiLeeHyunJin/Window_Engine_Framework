@@ -29,7 +29,7 @@ namespace Framework
 		CreateBackBuffer(width, height);
 		INPUT::Initialize();
 		TIME::Initialize();
-		//SCENE::Initialize();
+		SCENE::Initialize();
 	}
 
 	void CApplication::AdjustWindow(HWND hWnd, int width, int height,int xPos, int yPos, DWORD winStyle, bool menu)
@@ -73,18 +73,18 @@ namespace Framework
 	{
 		INPUT::Tick();
 		TIME::Tick();
-		//SCENE::Tick();
+		SCENE::Tick();
 	}
 
 	void CApplication::LastTick()
 	{
-		//SCENE::LastTick();
+		SCENE::LastTick();
 	}
 
 	void CApplication::Render()
 	{
 		BeginDraw();
-		//SCENE::Render(m_BackHDC);
+		SCENE::Render(m_BackHDC);
 		TIME::Render(m_BackHDC);
 		EndDraw();
 	}
@@ -117,7 +117,7 @@ namespace Framework
 			m_BackHDC, 0, 0, SRCCOPY);
 	}
 
-	void CApplication::ScreenSize(bool maximumScale)
+	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
 		int width, height;
 		m_bScreenMaximum = maximumScale;

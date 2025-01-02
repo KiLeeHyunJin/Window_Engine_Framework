@@ -10,7 +10,7 @@ namespace Framework
 		virtual ~CApplication();
 
 		void Run();
-		void ScreenSize(bool maximumScale);
+		void ChangeScreenSize(bool maximumScale);
 
 		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 

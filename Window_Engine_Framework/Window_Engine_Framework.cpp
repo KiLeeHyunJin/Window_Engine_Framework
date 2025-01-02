@@ -5,6 +5,8 @@
 #include "Window_Engine_Framework.h"
 
 #include "..\\WindowEngine_SOURCE\\CApplication.h"
+#include "..\\WindowEngine\\LoadScene.h"
+
 #pragma comment (lib,"..\\x64\\Debug\\WindowEngine.lib" )
 
 #define MAX_LOADSTRING 100
@@ -142,6 +144,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    if (!hWnd)   {    return FALSE;   }
 
+   Framework::LoadScenes();
+
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
    application.Initialize(
@@ -151,6 +155,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        (screenScaleY - WINSIZEY) >> 1,
        myStyle, false
    );
+
 
    return TRUE;
 }
@@ -186,7 +191,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case ID_CHANGESCALE:
             {
                 scaleMaximum = !scaleMaximum;
-                application.ScreenSize(scaleMaximum);
+                application.ChangeScreenSize(scaleMaximum);
             }
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);

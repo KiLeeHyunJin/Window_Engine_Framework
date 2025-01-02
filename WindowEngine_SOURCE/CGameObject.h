@@ -1,8 +1,12 @@
 #pragma once
 #include "CommonInclude.h"
 #include "CEntity.h"
+#include "CComponent.h"
+
 namespace Framework
 {
+	class CComponent;
+
 	class CGameObject : public CEntity
 	{
 	public:
@@ -15,14 +19,33 @@ namespace Framework
 		void Render(HDC hdc) const;
 		void Release();
 
-		//void SetPosition(float x, float y) { m_fX = x; m_fY = y; }
-		//float GetPositionX() const { return m_fX; }
-		//float GetPositionY() const { return m_fY; }
+		template<typename T>
+		T* AddComponent()
+		{
+			T* com = new T;
+			CComponent* pCom = static_cast<CComponent*>(com);
+			pCom->SetOwner(this);
+			m_vecComponent.push_back(pCom);
+			return com;
+		}
+
+		template<typename T>
+		T* GetComponent()
+		{
+			for (CComponent* pCom: m_vecComponent)
+			{
+				T* com = dynamic_cast<T*>(pCom);
+				if (com != nullptr)
+				{
+					return com;
+				}
+			}
+			return nullptr;
+		}
 
 	private:
 
-		float m_fX;
-		float m_fY;
+		vector<CComponent*> m_vecComponent;
 	};
 }
 

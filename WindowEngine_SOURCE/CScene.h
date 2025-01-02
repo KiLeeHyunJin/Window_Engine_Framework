@@ -3,22 +3,30 @@
 #include "CEntity.h"
 namespace Framework
 {
-	class CApplication;
+	//class CApplication;
 	class CGameObject;
+	class CSceneManager;
 
 	class CScene : public CEntity
 	{
 	public:
+
+		//friend CApplication;
+		friend CSceneManager;
+	protected:
 		CScene();
 		virtual ~CScene();
 
-		void Initialize();
-		void Tick();
-		void LastTick();
-		void Render(HDC hDC);
-		void Release();
+		virtual void Initialize();
+		virtual void Release();
 
-		friend CApplication;
+		virtual void Tick();
+		virtual void LastTick();
+
+		virtual void Render(HDC hDC);
+
+		void AddGameObject(CGameObject* pGameObject);
+
 	private:
 
 		vector<CGameObject*> m_vecGameObject;

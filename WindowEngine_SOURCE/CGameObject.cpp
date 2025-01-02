@@ -2,13 +2,13 @@
 #include "CGameObject.h"
 #include "CInputManager.h"
 #include "CTimeManager.h"
-
+#include "CTransform.h"
 namespace Framework
 {
 	CGameObject::CGameObject()
 	{
-		m_fX = 0;
-		m_fY = 0;
+		//m_fX = 0;
+		//m_fY = 0;
 	}
 	CGameObject::~CGameObject()
 	{
@@ -16,56 +16,63 @@ namespace Framework
 
 	void CGameObject::Initialize()
 	{
+		for (CComponent* pCom : m_vecComponent)
+		{
+			pCom->Initialize();
+		}
 	}
 
 	void CGameObject::Tick()
 	{
+		for (CComponent* pCom : m_vecComponent)
+		{
+			pCom->Tick();
+		}
 		float speed = 200;
+		CTransform* tr = GetComponent<CTransform>();
+		float x = tr->GetX();
+		float y = tr->GetY();
 		if (INPUT::GetKeyPressed(eKeyCode::Left))
 		{
-			m_fX -= speed * DELTATIME;
+			x -= speed * DELTATIME;
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Right))
 		{
-			m_fX += speed * DELTATIME;
+			x += speed * DELTATIME;
 
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Up))
 		{
-			m_fY -= speed * DELTATIME;
+			y -= speed * DELTATIME;
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Down))
 		{
-			m_fY += speed * DELTATIME;
+			y += speed * DELTATIME;
 		}
+		tr->SetPos(x, y);
 	}
 
 	void CGameObject::LastTick()
 	{
+		for (CComponent* pCom : m_vecComponent)
+		{
+			pCom->LastTick();
+		}
 
 	}
 	
 	void CGameObject::Render(HDC hdc) const
 	{
-		int x = (int)m_fX;
-		int y = (int)m_fY;
-
-		HPEN redPen = CreatePen(BS_SOLID,2,RGB(255, 0, 0));
-		HPEN oldPen = (HPEN)SelectObject(hdc, (HGDIOBJ)redPen);
-
-		HBRUSH bluBrush = CreateSolidBrush(RGB(0, 0, 255));
-		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, (HGDIOBJ)bluBrush);
-		Rectangle(hdc,
-			x - 10, y - 10,
-			x + 10, y + 10);
-
-		SelectObject(hdc, (HGDIOBJ)oldPen);
-		DeleteObject(redPen);
-
-		SelectObject(hdc, (HGDIOBJ)oldBrush);
-		DeleteObject(bluBrush);
+		for (CComponent* pCom : m_vecComponent)
+		{
+			pCom->Render(hdc);
+		}
 	}
 	void CGameObject::Release()
 	{
+		for (CComponent* pCom : m_vecComponent)
+		{
+			pCom->Release();
+		}
 	}
 }
