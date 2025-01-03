@@ -2,7 +2,7 @@
 
 namespace Framework
 {
-	vector<CInputManager::Key> CInputManager::m_vecKeys = {};
+	std::vector<CInputManager::Key> CInputManager::m_vecKeys = {};
 
 	int ASCII[] =
 	{

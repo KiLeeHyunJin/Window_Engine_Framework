@@ -3,7 +3,7 @@
 
 namespace Framework
 {
-	map<wstring,CScene*>	CSceneManager::m_mapScene		= {};
+	std::map<std::wstring,CScene*>	CSceneManager::m_mapScene		= {};
 	CScene*			CSceneManager::m_pCurrentScene	= nullptr;
 
 
@@ -12,7 +12,7 @@ namespace Framework
 	}
 	CSceneManager::~CSceneManager()
 	{
-		for (const pair<wstring, CScene*>& scenePair : m_mapScene)
+		for (const std::pair<std::wstring, CScene*>& scenePair : m_mapScene)
 		{
 			delete scenePair.second;
 		}
@@ -20,29 +20,29 @@ namespace Framework
 
 	void CSceneManager::Initialize()
 	{
-		m_pCurrentScene->Initialize();
+		m_pCurrentScene->SceneInitialize();
 	}
 
 	void CSceneManager::Tick()
 	{
-		m_pCurrentScene->Tick();
+		m_pCurrentScene->SceneTick();
 	}
 
 	void CSceneManager::LastTick()
 	{
-		m_pCurrentScene->LastTick();
+		m_pCurrentScene->SceneLastTick();
 	}
 
 	void CSceneManager::Render(HDC hDC)
 	{
-		m_pCurrentScene->Render(hDC);
+		m_pCurrentScene->SceneRender(hDC);
 	}
 
 	void CSceneManager::Release()
 	{
-		for (const pair<wstring, CScene*>& scenePair : m_mapScene)
+		for (const std::pair<std::wstring, CScene*>& scenePair : m_mapScene)
 		{
-			scenePair.second->Release();
+			scenePair.second->SceneRelease();
 		}
 	}
 }

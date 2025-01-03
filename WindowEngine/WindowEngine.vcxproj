@@ -132,11 +132,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CPlayeScene.h" />
+    <ClInclude Include="CPlayScene.h" />
+    <ClInclude Include="CTitleScene.h" />
     <ClInclude Include="LoadScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPlayeScene.cpp" />
+    <ClCompile Include="CPlayScene.cpp" />
+    <ClCompile Include="CTitleScene.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -37,7 +37,7 @@ namespace Framework
 
 		wchar_t str[50] = L"";
 		swprintf_s(str, 50, L"FPS : %d", (int)fps);
-		int len = wcsnlen_s(str, 50);
+		int len = (int)wcsnlen_s(str, 50);
 
 		TextOut(hdc, 0, 0, str, len);
 	}

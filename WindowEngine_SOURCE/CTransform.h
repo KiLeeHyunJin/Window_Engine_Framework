@@ -3,6 +3,7 @@
 
 namespace Framework
 {
+    using namespace Framework::BaseMath;
     class CTransform :
         public CComponent
     {
@@ -10,10 +11,11 @@ namespace Framework
         CTransform();
         virtual ~CTransform();
 
-        float GetX() const              { return m_fX; }
-        float GetY() const              { return m_fY; }
-        void SetPos(float x, float y)   { m_fX = x; 
-                                          m_fY = y; }
+        float GetX() const              { return m_vecPos.x; }
+        float GetY() const              { return m_vecPos.y; }
+
+        Vector2 GetPos() const          { return m_vecPos; }
+        void SetPos(Vector2 pos)        { m_vecPos = pos; }
 
         // CComponent을(를) 통해 상속됨
         void Initialize() override;
@@ -27,8 +29,7 @@ namespace Framework
         void Render(HDC hdc) override;
 
     private:
-        float m_fX;
-        float m_fY;
+        Vector2 m_vecPos;
 
     };
 }

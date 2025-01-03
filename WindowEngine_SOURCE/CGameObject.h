@@ -24,6 +24,7 @@ namespace Framework
 		{
 			T* com = new T;
 			CComponent* pCom = static_cast<CComponent*>(com);
+			pCom->Initialize();
 			pCom->SetOwner(this);
 			m_vecComponent.push_back(pCom);
 			return com;
@@ -45,7 +46,7 @@ namespace Framework
 
 	private:
 
-		vector<CComponent*> m_vecComponent;
+		std::vector<CComponent*> m_vecComponent;
 	};
 }
 

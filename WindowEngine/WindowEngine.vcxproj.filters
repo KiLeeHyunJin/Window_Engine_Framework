@@ -9,12 +9,18 @@
     <ClInclude Include="LoadScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayeScene.h">
+    <ClInclude Include="CPlayScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPlayeScene.cpp">
+    <ClCompile Include="CPlayScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>

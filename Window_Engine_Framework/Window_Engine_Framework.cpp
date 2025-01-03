@@ -23,6 +23,9 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 Framework::CApplication application;
+
+ULONG_PTR g_pToken;
+Gdiplus::GdiplusStartupInput gpsi;
 bool processState;  // 게임 진행 중이면 true 종료면 false
 bool scaleMaximum;
 
@@ -69,6 +72,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             application.Run();
         }
     }
+    Gdiplus::GdiplusShutdown(g_pToken);
 
     return (int) msg.wParam;
 }
@@ -143,6 +147,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    scaleMaximum = false;
 
    if (!hWnd)   {    return FALSE;   }
+   Gdiplus::GdiplusStartup(&g_pToken, &gpsi, NULL);
 
    Framework::LoadScenes();
 
@@ -155,7 +160,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        (screenScaleY - WINSIZEY) >> 1,
        myStyle, false
    );
-
 
    return TRUE;
 }

@@ -7,9 +7,8 @@ namespace Framework
 {
 	CGameObject::CGameObject()
 	{
-		//m_fX = 0;
-		//m_fY = 0;
 	}
+
 	CGameObject::~CGameObject()
 	{
 	}
@@ -49,7 +48,7 @@ namespace Framework
 		{
 			y += speed * DELTATIME;
 		}
-		tr->SetPos(x, y);
+		tr->SetPos(Vector2(x,y));
 	}
 
 	void CGameObject::LastTick()

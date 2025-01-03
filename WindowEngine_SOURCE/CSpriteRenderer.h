@@ -16,6 +16,14 @@ namespace Framework
 		void Tick() override;
 		void LastTick() override;
 		void Render(HDC hdc) override;
+
+		void ImageLoad(const std::wstring& path);
+
+	private :
+		int m_iWidth;
+		int m_iHeight;
+		Gdiplus::Image* m_pImg;
+
 	};
 }
 
