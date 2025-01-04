@@ -1,6 +1,7 @@
 #include "CPlayScene.h"
 #include "CGameObject.h"
-
+#include "CInputManager.h"
+#include "CSceneManager.h"
 #include "CTransform.h"
 #include "CSpriteRenderer.h"
 
@@ -14,16 +15,23 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
-	CGameObject* obj = new CGameObject();
-	obj->AddComponent<CTransform>()->SetPos(Vector2(200,200));
-	CSpriteRenderer* pRender = obj->AddComponent<CSpriteRenderer>();
-	pRender->ImageLoad(L"Resources\\Room.png");
-	AddGameObject(obj);
+	CGameObject* pObj = new CGameObject();
+	CTransform*		 pTs = pObj->AddComponent<CTransform>();
+	CSpriteRenderer* pSr = pObj->AddComponent<CSpriteRenderer>();
+
+	pTs->SetPos(Vector2(200, 200));
+	pSr->ImageLoad(L"Resources\\Room.png");
+
+	AddGameObject(pObj, eLayerType::BackGround);
 
 }
 
 void Framework::CPlayScene::Tick()
 {
+	if (INPUT::GetKeyDown(eKeyCode::A))
+	{
+		CSceneManager::LoadScene(L"PlayScene");
+	}
 }
 
 void Framework::CPlayScene::LastTick()
@@ -48,4 +56,5 @@ void Framework::CPlayScene::OnEnter()
 
 void Framework::CPlayScene::OnExit()
 {
+	//obj->GetComponent<CTransform>()->SetPos(Vector2(0, 0));
 }

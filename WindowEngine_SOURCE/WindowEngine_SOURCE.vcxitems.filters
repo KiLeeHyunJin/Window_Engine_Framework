@@ -29,10 +29,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp">
+      <Filter>Resource\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -64,6 +66,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Component.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h">
+      <Filter>Resource\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enums.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h">
+      <Filter>Resource\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Manager">
@@ -80,6 +94,9 @@
     </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{23761ff3-6959-47bb-a5f3-7cf1a71f9afe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{96f98ce1-2f3f-46cb-8aa6-c10cc54f3771}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

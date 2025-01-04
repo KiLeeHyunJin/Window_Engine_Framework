@@ -6,18 +6,12 @@
 namespace Framework
 {
 	class CComponent;
-
+	class CLayer;
 	class CGameObject : public CEntity
 	{
 	public:
 		CGameObject();
 		virtual ~CGameObject();
-
-		void Initialize();
-		void Tick();
-		void LastTick();
-		void Render(HDC hdc) const;
-		void Release();
 
 		template<typename T>
 		T* AddComponent()
@@ -44,8 +38,15 @@ namespace Framework
 			return nullptr;
 		}
 
+		friend CLayer;
 	private:
+		void Initialize();
+		void Tick();
+		void LastTick();
+		void Render(HDC hdc) const;
+		void Release();
 
+		void AddTransform();
 		std::vector<CComponent*> m_vecComponent;
 	};
 }

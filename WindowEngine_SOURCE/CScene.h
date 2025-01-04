@@ -1,6 +1,8 @@
 #pragma once
 #include "CommonInclude.h"
 #include "CEntity.h"
+#include "CLayer.h"
+
 namespace Framework
 {
 	//class CApplication;
@@ -26,7 +28,7 @@ namespace Framework
 		virtual void OnEnter()			= 0;
 		virtual void OnExit()			= 0;
 
-		void AddGameObject(CGameObject* pGameObject);
+		void AddGameObject(CGameObject* pGameObject, eLayerType layer);
 
 		friend CSceneManager;
 	private:
@@ -37,7 +39,8 @@ namespace Framework
 		void SceneLastTick();
 		void SceneRender(HDC hdc);
 
-		std::vector<CGameObject*> m_vecGameObject;
+		//std::vector<CGameObject*> m_vecGameObject;
+		std::vector<CLayer*> m_vecLayer;
 	};
 
 }

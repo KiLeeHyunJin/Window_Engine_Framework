@@ -3,6 +3,7 @@
 #include "CInputManager.h"
 #include "CPlayScene.h"
 #include "CSceneManager.h"
+#include "CObject.h"
 
 Framework::CTitleScene::CTitleScene()
 {
@@ -14,6 +15,7 @@ Framework::CTitleScene::~CTitleScene()
 
 void Framework::CTitleScene::Initialize()
 {
+	Object::Instantiate<CGameObject>(eLayerType::BackGround);
 }
 
 void Framework::CTitleScene::Tick()

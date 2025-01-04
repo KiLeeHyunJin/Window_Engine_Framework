@@ -17,28 +17,15 @@ namespace Framework
 		{
 			T* createScene = new T();
 			CScene* scene = static_cast<CScene*>(createScene);
+			m_pCurrentScene = scene;
 			scene->SetName(name);
 			scene->Initialize();
 			m_mapScene.insert(make_pair(name, scene));
 			return scene;
 		}
 
-		static CScene* LoadScene(const std::wstring& name)
-		{
-			std::map<std::wstring, CScene*>::iterator iter = m_mapScene.find(name);
-			if (iter != m_mapScene.end())
-			{
-				if (m_pCurrentScene != nullptr)
-				{
-					m_pCurrentScene->OnExit();
-				}
-				m_pCurrentScene = iter->second;
-				m_pCurrentScene->OnEnter();
-				return m_pCurrentScene;
-			}
-			return nullptr;
-		}
-
+		static CScene* LoadScene(const std::wstring& name);
+		static CScene* GetCurrentScene() { return m_pCurrentScene; }
 		friend CApplication;
 	private:
 		static void Initialize();

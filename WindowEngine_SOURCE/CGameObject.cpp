@@ -7,6 +7,7 @@ namespace Framework
 {
 	CGameObject::CGameObject()
 	{
+		AddTransform();
 	}
 
 	CGameObject::~CGameObject()
@@ -73,5 +74,10 @@ namespace Framework
 		{
 			pCom->Release();
 		}
+	}
+
+	void CGameObject::AddTransform()
+	{
+		AddComponent<CTransform>();
 	}
 }

@@ -1,10 +1,17 @@
 #include "CScene.h"
 #include "CGameObject.h"
+#include "Enums.h"
 
 namespace Framework
 {
 	CScene::CScene()
 	{
+		m_vecLayer = {};
+		m_vecLayer.resize((int)eLayerType::Size);
+		for (size_t i = 0; i < m_vecLayer.size(); i++)
+		{
+			m_vecLayer[i] = new CLayer((eLayerType)i);
+		}
 	}
 
 	CScene::~CScene()
@@ -12,47 +19,47 @@ namespace Framework
 	}
 	void CScene::SceneInitialize()
 	{
-		for (CGameObject* gameObject : m_vecGameObject)
+		for (CLayer* pLayer : m_vecLayer)
 		{
-			gameObject->Initialize();
+			pLayer->Initialize();
 		}
 		Initialize();
 	}
 	void CScene::SceneRelease()
 	{
-		for (CGameObject* gameObject : m_vecGameObject)
+		for (CLayer* pLayer : m_vecLayer)
 		{
-			gameObject->Release();
+			pLayer->Release();
 		}
 		Release();
 	}
 	void CScene::SceneTick()
 	{
-		for (CGameObject* gameObject : m_vecGameObject)
+		for (CLayer* pLayer : m_vecLayer)
 		{
-			gameObject->Tick();
+			pLayer->Tick();
 		}
 		Tick();
 	}
 	void CScene::SceneLastTick()
 	{
-		for (CGameObject* gameObject : m_vecGameObject)
+		for (CLayer* pLayer : m_vecLayer)
 		{
-			gameObject->LastTick();
+			pLayer->LastTick();
 		}
 		LastTick();
 	}
 	void CScene::SceneRender(HDC hdc)
 	{
-		for (CGameObject* gameObject : m_vecGameObject)
+		for (CLayer* pLayer : m_vecLayer)
 		{
-			gameObject->Render(hdc);
+			pLayer->Render(hdc);
 		}
 		Render(hdc);
 	}
 	
-	void CScene::AddGameObject(CGameObject* pGameObject)
+	void CScene::AddGameObject(CGameObject* pGameObject, eLayerType layer) 
 	{
-		m_vecGameObject.push_back(pGameObject);
+		m_vecLayer[(int)layer]->AddGameObject(pGameObject);
 	}
 }

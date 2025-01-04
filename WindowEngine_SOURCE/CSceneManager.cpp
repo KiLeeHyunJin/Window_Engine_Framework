@@ -45,4 +45,19 @@ namespace Framework
 			scenePair.second->SceneRelease();
 		}
 	}
+	CScene* CSceneManager::LoadScene(const std::wstring& name)
+	{
+		std::map<std::wstring, CScene*>::iterator iter = m_mapScene.find(name);
+		if (iter != m_mapScene.end())
+		{
+			if (m_pCurrentScene != nullptr)
+			{
+				m_pCurrentScene->OnExit();
+			}
+			m_pCurrentScene = iter->second;
+			m_pCurrentScene->OnEnter();
+			return m_pCurrentScene;
+		}
+		return nullptr;
+	}
 }

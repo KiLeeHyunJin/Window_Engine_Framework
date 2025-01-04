@@ -17,6 +17,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Component.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h" />
@@ -26,7 +27,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CSpriteRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTimeManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enums.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FrameworkMath.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp" />
@@ -39,5 +42,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTimeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp" />
   </ItemGroup>
 </Project>

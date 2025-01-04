@@ -10,7 +10,6 @@ namespace Framework
 	{
 	public:
 
-
 		friend CSceneManager;
 	private:
 		CPlayScene();
