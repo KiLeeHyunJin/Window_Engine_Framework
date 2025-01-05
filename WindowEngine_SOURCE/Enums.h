@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Framework
+namespace Framework::Enum
 {
 	enum class eLayerType
 	{
@@ -8,5 +8,14 @@ namespace Framework
 		BackGround,
 
 		Size = 16,
+	};
+
+	enum class eResourceType
+	{
+		Texture,
+		AudioClip,
+		Prefab,
+
+		Size,
 	};
 }

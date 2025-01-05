@@ -9,16 +9,16 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Asset</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp">
-      <Filter>Resource\GameObject</Filter>
+      <Filter>Asset\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
-      <Filter>Resource\Scene</Filter>
+      <Filter>Asset\Scene</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
       <Filter>Component</Filter>
@@ -30,7 +30,16 @@
       <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp">
-      <Filter>Resource\Scene</Filter>
+      <Filter>Asset\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CResource.h.cpp">
+      <Filter>Asset\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp">
+      <Filter>Asset\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
+      <Filter>Asset\Resource\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,16 +51,16 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h">
-      <Filter>Resource</Filter>
+      <Filter>Asset</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
-      <Filter>Resource\GameObject</Filter>
+      <Filter>Asset\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
-      <Filter>Resource\Scene</Filter>
+      <Filter>Asset\Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
       <Filter>Component</Filter>
@@ -67,7 +76,7 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h">
-      <Filter>Resource\Scene</Filter>
+      <Filter>Asset\Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
       <Filter>Common</Filter>
@@ -76,27 +85,42 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h">
-      <Filter>Resource\GameObject</Filter>
+      <Filter>Asset\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
+      <Filter>Asset\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CResources.h">
+      <Filter>Asset\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
+      <Filter>Asset\Resource\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Manager">
       <UniqueIdentifier>{c27cb48a-7f4e-4e7c-ad0f-c408f53feef3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource">
-      <UniqueIdentifier>{27c7c084-fbec-4fbd-bb3b-1a78796946f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\GameObject">
-      <UniqueIdentifier>{d050dd29-9c10-4fea-bdb3-1bbc0b267fe7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Scene">
-      <UniqueIdentifier>{9424293a-d966-4c38-85c7-1d0b96f312cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{23761ff3-6959-47bb-a5f3-7cf1a71f9afe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{96f98ce1-2f3f-46cb-8aa6-c10cc54f3771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset">
+      <UniqueIdentifier>{27c7c084-fbec-4fbd-bb3b-1a78796946f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\GameObject">
+      <UniqueIdentifier>{d050dd29-9c10-4fea-bdb3-1bbc0b267fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Scene">
+      <UniqueIdentifier>{9424293a-d966-4c38-85c7-1d0b96f312cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Resource">
+      <UniqueIdentifier>{39bc4c31-b606-48c4-9eb1-fc1cae01cf46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Resource\Texture">
+      <UniqueIdentifier>{94ab9566-4190-45f6-acca-184e9e07efaf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

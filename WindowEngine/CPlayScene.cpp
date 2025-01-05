@@ -4,6 +4,7 @@
 #include "CSceneManager.h"
 #include "CTransform.h"
 #include "CSpriteRenderer.h"
+#include "CTexture.h"
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -19,10 +20,12 @@ void Framework::CPlayScene::Initialize()
 	CTransform*		 pTs = pObj->AddComponent<CTransform>();
 	CSpriteRenderer* pSr = pObj->AddComponent<CSpriteRenderer>();
 
+	CTexture* tex = new CTexture(Enum::eResourceType::Texture);
+	tex->Load(L"Resources\\Room.png");
 	pTs->SetPos(Vector2(200, 200));
-	pSr->ImageLoad(L"Resources\\Room.png");
+	//pSr->ImageLoad(L"Resources\\Room.png");
 
-	AddGameObject(pObj, eLayerType::BackGround);
+	AddGameObject(pObj, Enum::eLayerType::BackGround);
 
 }
 

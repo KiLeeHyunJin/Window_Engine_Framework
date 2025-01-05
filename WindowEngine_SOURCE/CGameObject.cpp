@@ -3,6 +3,7 @@
 #include "CInputManager.h"
 #include "CTimeManager.h"
 #include "CTransform.h"
+
 namespace Framework
 {
 	CGameObject::CGameObject()

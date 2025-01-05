@@ -14,6 +14,7 @@ namespace Framework
 
 		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 
+		HDC GetHDC() { return m_hDC; }
 		void Release();
 
 	private:

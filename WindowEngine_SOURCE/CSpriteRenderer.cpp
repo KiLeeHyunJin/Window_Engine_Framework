@@ -31,15 +31,17 @@ void Framework::CSpriteRenderer::LastTick()
 
 void Framework::CSpriteRenderer::Render(HDC hdc)
 {
+	return;
+
 	CTransform* tr = GetOwner()->GetComponent<CTransform>();
 	Vector2 pos = tr->GetPos();
 
-	if (m_pImg != nullptr)
-	{
-		Gdiplus::Graphics graphic(hdc);
-		graphic.DrawImage(m_pImg, Gdiplus::Rect(pos.x, pos.y, m_iWidth, m_iHeight));
-		return;
-	}
+	//if (m_pImg != nullptr)
+	//{
+	//	Gdiplus::Graphics graphic(hdc);
+	//	graphic.DrawImage(m_pImg, Gdiplus::Rect(pos.x, pos.y, m_iWidth, m_iHeight));
+	//	return;
+	//}
 
 	HPEN redPen = CreatePen(BS_SOLID,2,RGB(255, 0, 255));
 	HPEN oldPen = (HPEN)SelectObject(hdc, (HGDIOBJ)redPen);
@@ -58,11 +60,4 @@ void Framework::CSpriteRenderer::Render(HDC hdc)
 	
 	SelectObject(hdc, (HGDIOBJ)oldBrush);
 	DeleteObject(bluBrush);
-}
-
-void Framework::CSpriteRenderer::ImageLoad(const std::wstring& path)
-{
-	m_pImg = Gdiplus::Image::FromFile(path.c_str());
-	m_iWidth = m_pImg->GetWidth();
-	m_iHeight = m_pImg->GetHeight();
 }
