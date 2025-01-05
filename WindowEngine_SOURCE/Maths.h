@@ -1,5 +1,5 @@
 
-namespace Framework::BaseMath
+namespace Framework::Maths
 {
 	struct Vector2
 	{

@@ -3,9 +3,7 @@
 #include "CTransform.h"
 #include "CGameObject.h"
 
-Framework::CSpriteRenderer::CSpriteRenderer():
-	m_pImg(nullptr),
-	m_iHeight(0), m_iWidth(0)
+Framework::CSpriteRenderer::CSpriteRenderer()
 {
 }
 
@@ -34,7 +32,7 @@ void Framework::CSpriteRenderer::Render(HDC hdc)
 	return;
 
 	CTransform* tr = GetOwner()->GetComponent<CTransform>();
-	Vector2 pos = tr->GetPos();
+	Maths::Vector2 pos = tr->GetPos();
 
 	//if (m_pImg != nullptr)
 	//{

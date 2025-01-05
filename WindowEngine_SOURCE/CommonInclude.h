@@ -28,7 +28,7 @@
 
 //using namespace std;
 
-#include "FrameworkMath.h"
+#include "Maths.h"
 
 
 #include <mmsystem.h>

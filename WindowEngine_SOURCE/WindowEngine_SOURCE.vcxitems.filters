@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CInputManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -41,9 +40,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
       <Filter>Asset\Resource\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -71,7 +72,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FrameworkMath.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Component.h">
       <Filter>Component</Filter>
     </ClInclude>
@@ -95,6 +95,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
       <Filter>Asset\Resource\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +127,9 @@
     </Filter>
     <Filter Include="Asset\Resource\Texture">
       <UniqueIdentifier>{94ab9566-4190-45f6-acca-184e9e07efaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6799316e-f70b-4493-b893-4a70ebba22be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

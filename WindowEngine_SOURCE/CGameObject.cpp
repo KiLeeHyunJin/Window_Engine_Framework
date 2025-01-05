@@ -50,7 +50,7 @@ namespace Framework
 		{
 			y += speed * DELTATIME;
 		}
-		tr->SetPos(Vector2(x,y));
+		tr->SetPos(Maths::Vector2(x,y));
 	}
 
 	void CGameObject::LastTick()

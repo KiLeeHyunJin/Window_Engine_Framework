@@ -6,7 +6,7 @@ extern Framework::CApplication application;
 namespace Framework
 {
 	CTexture::CTexture() :
-		CResource(Enum::eResourceType::Texture),
+		CResource(Enums::eResourceType::Texture),
 		m_uiHeight(0), m_uiWidth(0),
 		m_hBmp(0),m_hdc(0), m_pImg(nullptr)
 	{

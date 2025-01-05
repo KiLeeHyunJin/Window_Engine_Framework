@@ -7,10 +7,10 @@ namespace Framework
 	CScene::CScene()
 	{
 		m_vecLayer = {};
-		m_vecLayer.resize((int)eLayerType::Size);
+		m_vecLayer.resize((int)Enums::eLayerType::Size);
 		for (size_t i = 0; i < m_vecLayer.size(); i++)
 		{
-			m_vecLayer[i] = new CLayer((eLayerType)i);
+			m_vecLayer[i] = new CLayer((Enums::eLayerType)i);
 		}
 	}
 
@@ -58,7 +58,7 @@ namespace Framework
 		Render(hdc);
 	}
 	
-	void CScene::AddGameObject(CGameObject* pGameObject, eLayerType layer) 
+	void CScene::AddGameObject(CGameObject* pGameObject, Enums::eLayerType layer)
 	{
 		m_vecLayer[(int)layer]->AddGameObject(pGameObject);
 	}

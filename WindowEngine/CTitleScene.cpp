@@ -15,7 +15,7 @@ Framework::CTitleScene::~CTitleScene()
 
 void Framework::CTitleScene::Initialize()
 {
-	Object::Instantiate<CGameObject>(eLayerType::BackGround);
+	Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround);
 }
 
 void Framework::CTitleScene::Tick()

@@ -12,6 +12,7 @@ namespace Framework
 	class CScene : public CEntity
 	{
 	public:
+		void AddGameObject(CGameObject* pGameObject, Enums::eLayerType layer);
 
 	protected:
 		CScene();
@@ -28,7 +29,6 @@ namespace Framework
 		virtual void OnEnter()			= 0;
 		virtual void OnExit()			= 0;
 
-		void AddGameObject(CGameObject* pGameObject, eLayerType layer);
 
 		friend CSceneManager;
 	private:

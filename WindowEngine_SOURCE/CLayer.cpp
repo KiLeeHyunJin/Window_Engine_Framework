@@ -3,7 +3,7 @@
 
 namespace Framework
 {
-	CLayer::CLayer(eLayerType layer):
+	CLayer::CLayer(Enums::eLayerType layer) :
 		m_listGameObject({}), m_eLayer(layer)
 	{
 	}

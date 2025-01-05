@@ -20,12 +20,12 @@ void Framework::CPlayScene::Initialize()
 	CTransform*		 pTs = pObj->AddComponent<CTransform>();
 	CSpriteRenderer* pSr = pObj->AddComponent<CSpriteRenderer>();
 
-	CTexture* tex = new CTexture(Enum::eResourceType::Texture);
+	CTexture* tex = new CTexture();
 	tex->Load(L"Resources\\Room.png");
-	pTs->SetPos(Vector2(200, 200));
+	pTs->SetPos(Maths::Vector2(200, 200));
 	//pSr->ImageLoad(L"Resources\\Room.png");
 
-	AddGameObject(pObj, Enum::eLayerType::BackGround);
+	AddGameObject(pObj, Enums::eLayerType::BackGround);
 
 }
 

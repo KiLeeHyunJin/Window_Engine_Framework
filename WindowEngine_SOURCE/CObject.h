@@ -10,7 +10,7 @@
 namespace Framework::Object
 {
 	template <typename T>
-	static T* Instantiate(eLayerType layerType)
+	static T* Instantiate(Enums::eLayerType layerType)
 	{
 		T* pGameObject = new T();
 		CScene* pCurScene = CSceneManager::GetCurrentScene();

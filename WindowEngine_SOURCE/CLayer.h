@@ -9,7 +9,7 @@ namespace Framework
 		public CEntity
 	{
 	public :
-		CLayer(eLayerType layer);
+		CLayer(Enums::eLayerType layer);
 		virtual ~CLayer();
 
 		void Initialize();
@@ -23,7 +23,7 @@ namespace Framework
 		void AddGameObject(CGameObject* pGameObject);
 
 	private:
-		eLayerType m_eLayer;
+		Enums::eLayerType m_eLayer;
 		std::list<CGameObject*> m_listGameObject;
 	};
 }
