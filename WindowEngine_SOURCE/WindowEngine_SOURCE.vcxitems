@@ -32,7 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CResources.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp" />
@@ -48,6 +48,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.h.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp" />
   </ItemGroup>
 </Project>

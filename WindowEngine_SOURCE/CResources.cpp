@@ -1,1 +1,0 @@
-#include "CResources.h"

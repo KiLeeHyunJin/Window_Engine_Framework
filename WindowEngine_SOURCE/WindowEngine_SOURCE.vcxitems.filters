@@ -34,15 +34,16 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.h.cpp">
       <Filter>Asset\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp">
-      <Filter>Asset\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
       <Filter>Asset\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -90,9 +91,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
       <Filter>Asset\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CResources.h">
-      <Filter>Asset\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
       <Filter>Asset\Resource\Texture</Filter>
     </ClInclude>
@@ -101,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
