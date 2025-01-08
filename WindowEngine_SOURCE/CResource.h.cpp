@@ -1,5 +1,5 @@
 #include "CResource.h"
-namespace Framework
+namespace Framework::Resource
 {
 	CResource::CResource(Enums::eResourceType eType):
 		m_eResourceType(eType)

@@ -5,12 +5,14 @@
 
 namespace Framework
 {
-	class CSpriteRenderer :
+	using namespace Resource;
+
+	class CSpriteRendererComponent :
 		public CComponent
 	{
 	public:
-		CSpriteRenderer();
-		virtual ~CSpriteRenderer();
+		CSpriteRendererComponent();
+		virtual ~CSpriteRendererComponent();
 
 		// CComponent을(를) 통해 상속됨
 		void Initialize() override;
@@ -21,7 +23,7 @@ namespace Framework
 
 		void SetTexture(const std::wstring& wstrResourceKey) 
 		{ 
-			m_pTexture = CResourceManager::Find<CTexture>(wstrResourceKey);
+			m_pTexture = Framework::CResourceManager::Find<CTexture>(wstrResourceKey);
 		};
 		void SetSize(Maths::Vector2 scale) { m_vecScale = scale; }
 

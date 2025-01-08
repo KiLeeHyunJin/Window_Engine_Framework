@@ -3,12 +3,12 @@
 
 namespace Framework
 {
-    class CTransform :
+    class CTransformComponent :
         public CComponent
     {
     public :
-        CTransform();
-        virtual ~CTransform();
+        CTransformComponent();
+        virtual ~CTransformComponent();
 
         float GetX() const              { return m_vecPos.x; }
         float GetY() const              { return m_vecPos.y; }

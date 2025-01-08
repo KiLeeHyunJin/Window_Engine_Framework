@@ -1,5 +1,5 @@
 #include "CResourceManager.h"
 namespace Framework
 {
-	std::map<std::wstring, CResource*> CResourceManager::m_mapResoucre = {};
+	std::map<std::wstring, Resource::CResource*> CResourceManager::m_mapResoucre = {};
 }

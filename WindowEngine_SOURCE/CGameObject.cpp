@@ -2,12 +2,13 @@
 #include "CGameObject.h"
 #include "CInputManager.h"
 #include "CTimeManager.h"
-#include "CTransform.h"
+#include "CTransformComponent.h"
 
 namespace Framework
 {
 	CGameObject::CGameObject()
 	{
+		m_vecComponent.resize((int)Enums::eComponentType::Size);
 		AddTransform();
 	}
 
@@ -19,7 +20,10 @@ namespace Framework
 	{
 		for (CComponent* pCom : m_vecComponent)
 		{
-			pCom->Initialize();
+			if (pCom != nullptr)
+			{
+				pCom->Initialize();
+			}
 		}
 	}
 
@@ -27,37 +31,21 @@ namespace Framework
 	{
 		for (CComponent* pCom : m_vecComponent)
 		{
-			pCom->Tick();
+			if (pCom != nullptr)
+			{
+				pCom->Tick();
+			}
 		}
-		float speed = 200;
-		CTransform* tr = GetComponent<CTransform>();
-		float x = tr->GetX();
-		float y = tr->GetY();
-		if (INPUT::GetKeyPressed(eKeyCode::Left))
-		{
-			x -= speed * DELTATIME;
-		}
-		if (INPUT::GetKeyPressed(eKeyCode::Right))
-		{
-			x += speed * DELTATIME;
-
-		}
-		if (INPUT::GetKeyPressed(eKeyCode::Up))
-		{
-			y -= speed * DELTATIME;
-		}
-		if (INPUT::GetKeyPressed(eKeyCode::Down))
-		{
-			y += speed * DELTATIME;
-		}
-		tr->SetPos(Maths::Vector2(x,y));
 	}
 
 	void CGameObject::LastTick()
 	{
 		for (CComponent* pCom : m_vecComponent)
 		{
-			pCom->LastTick();
+			if (pCom != nullptr)
+			{
+				pCom->LastTick();
+			}
 		}
 
 	}
@@ -66,19 +54,25 @@ namespace Framework
 	{
 		for (CComponent* pCom : m_vecComponent)
 		{
-			pCom->Render(hdc);
+			if (pCom != nullptr)
+			{
+				pCom->Render(hdc);
+			}
 		}
 	}
 	void CGameObject::Release()
 	{
 		for (CComponent* pCom : m_vecComponent)
 		{
-			pCom->Release();
+			if (pCom != nullptr)
+			{
+				pCom->Release();
+			}
 		}
 	}
 
 	void CGameObject::AddTransform()
 	{
-		AddComponent<CTransform>();
+		AddComponent<CTransformComponent>();
 	}
 }

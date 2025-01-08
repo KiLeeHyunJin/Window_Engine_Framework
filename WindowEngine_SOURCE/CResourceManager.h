@@ -16,27 +16,26 @@ namespace Framework
 		template<typename T>
 		static T* Load(const std::wstring& key, const std::wstring& path)
 		{
-			T* pResource = CResourceManager::Find(key);
+			T* pResource = CResourceManager::Find<T>(key);
 			if (pResource != nullptr)
 			{
 				return pResource;
 			}
-			pResource = new T();
-			if ( FAILED(pResource->Load(path)) )
+			Resource::CResource* pParentResource = static_cast<Resource::CResource*>(new T());
+			if ( FAILED(pParentResource->Load(path)) )
 			{
-				assert();
+				assert(1);
 				//MessageBox(nullptr, key + L"Image Load Failed!", L"Error", MB_OK);
 				return nullptr;
 			}
-			pResource->SetName(key);
-			pResource->SetPath(path);
-
-			m_mapResoucre.insert(std::make_pair<key,pResource>);
+			pParentResource->SetName(key);
+			pParentResource->SetPath(path);
+			m_mapResoucre.insert(std::make_pair(key, pParentResource));
 			return pResource;
 		}
 
 	private:
-		static std::map<std::wstring, CResource*> m_mapResoucre;
+		static std::map<std::wstring, Resource::CResource*> m_mapResoucre;
 	};
 }
 

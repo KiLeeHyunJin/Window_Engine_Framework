@@ -13,10 +13,9 @@ namespace Framework
 		void ChangeScreenSize(bool maximumScale);
 
 		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
-
-		HDC GetHDC() { return m_hDC; }
 		void Release();
-
+		Maths::Vector2 GetResolution() {}
+		HDC GetHDC() { return m_hDC; }
 	private:
 		void Tick();
 		void LastTick();
@@ -44,8 +43,6 @@ namespace Framework
 
 		int m_iCurrentBufferBitmapWidth;
 		int m_iCurrentBufferBitmapHeight;
-
-		bool m_bScreenMaximum;
 
 	};
 

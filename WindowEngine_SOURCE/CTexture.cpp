@@ -3,7 +3,7 @@
 
 extern Framework::CApplication application;
 
-namespace Framework
+namespace Framework::Resource
 {
 	CTexture::CTexture() :
 		CResource(Enums::eResourceType::Texture),

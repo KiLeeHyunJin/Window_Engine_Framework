@@ -20,7 +20,8 @@ namespace Framework
 			CComponent* pCom = static_cast<CComponent*>(com);
 			pCom->Initialize();
 			pCom->SetOwner(this);
-			m_vecComponent.push_back(pCom);
+			Enums::eComponentType componentType = pCom->GetComponentType();
+			m_vecComponent[(int)componentType] = pCom;
 			return com;
 		}
 

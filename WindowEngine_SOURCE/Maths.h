@@ -16,6 +16,23 @@ namespace Framework::Maths
 			this->x = x;
 			this->y = y;
 		}
-
+		Vector2 operator - ( Vector2 other)
+		{
+			return Vector2(x - other.x, y - other.y);
+		}
+		Vector2 operator + (Vector2 other)
+		{
+			return Vector2(x + other.x, y + other.y);
+		}
+		template<typename T>
+		Vector2 operator / (T other)
+		{
+			return Vector2(x / other, y / other);
+		}
+		template<typename T>
+		Vector2 operator * (T other)
+		{
+			return Vector2(x * other, y * other);
+		}
 	};
 }

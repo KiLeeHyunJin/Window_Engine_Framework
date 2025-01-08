@@ -6,6 +6,7 @@
 
 #include "..\\WindowEngine_SOURCE\\CApplication.h"
 #include "..\\WindowEngine\\LoadScene.h"
+#include "..\\WindowEngine\\LoadResource.h"
 
 #pragma comment (lib,"..\\x64\\Debug\\WindowEngine.lib" )
 
@@ -148,7 +149,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    if (!hWnd)   {    return FALSE;   }
    Gdiplus::GdiplusStartup(&g_pToken, &gpsi, NULL);
-
+   Framework::LoadResource();
    Framework::LoadScenes();
 
    ShowWindow(hWnd, nCmdShow);

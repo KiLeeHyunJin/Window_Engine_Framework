@@ -1,6 +1,8 @@
 #include "CComponent.h"
 
-Framework::CComponent::CComponent()
+Framework::CComponent::CComponent(Enums::eComponentType eComopnentType) : 
+m_eComponentType(eComopnentType),
+m_pOwner(nullptr)
 {
 }
 

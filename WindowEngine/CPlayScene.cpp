@@ -2,9 +2,13 @@
 #include "CGameObject.h"
 #include "CInputManager.h"
 #include "CSceneManager.h"
-#include "CTransform.h"
-#include "CSpriteRenderer.h"
+#include "CTransformComponent.h"
+#include "CSpriteRendererComponent.h"
 #include "CTexture.h"
+#include "..\\WindowEngine_SOURCE\\CObject.h"
+#include "CCameraComponent.h"
+#include "CPlayerInput.h"
+#include "CRenderer.h"
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -16,12 +20,14 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
+	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None);
+	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
+	Renderer::mainCamera = pCamera;
+	pCameraObj->AddComponent<CPlayerInput>();
 	CGameObject* pObj = new CGameObject();
-	CTransform*		 pTs = pObj->AddComponent<CTransform>();
-	CSpriteRenderer* pSr = pObj->AddComponent<CSpriteRenderer>();
-
-	CTexture* tex = new CTexture();
-	tex->Load(L"Resources\\Room.png");
+	CTransformComponent*		 pTs = pObj->AddComponent<CTransformComponent>();
+	pCamera->SetTarget(pObj);
+	pObj->AddComponent<CSpriteRendererComponent>() ->SetTexture(L"Room");
 	pTs->SetPos(Maths::Vector2(200, 200));
 	//pSr->ImageLoad(L"Resources\\Room.png");
 

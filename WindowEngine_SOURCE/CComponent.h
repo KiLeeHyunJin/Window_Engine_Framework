@@ -8,8 +8,6 @@ namespace Framework
         public CEntity
     {
     public :
-        CComponent();
-        virtual ~CComponent();
 
         virtual void Initialize()       = 0;
         virtual void Release()          = 0;
@@ -21,10 +19,15 @@ namespace Framework
 
         void SetOwner(CGameObject* pOwner)  { m_pOwner = pOwner; }
         CGameObject* GetOwner()             { return m_pOwner; }
+        Enums::eComponentType GetComponentType() const { return m_eComponentType; }
+
+    protected:
+        Enums::eComponentType m_eComponentType;
+        CComponent(Enums::eComponentType eComopnentType);
+        virtual ~CComponent();
 
     private:
         CGameObject* m_pOwner;
-
     };
 }
 

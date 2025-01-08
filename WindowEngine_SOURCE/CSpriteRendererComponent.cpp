@@ -1,41 +1,43 @@
 #pragma once
-#include "CSpriteRenderer.h"
-#include "CTransform.h"
+#include "CSpriteRendererComponent.h"
+#include "CTransformComponent.h"
 #include "CGameObject.h"
+#include "CRenderer.h"
 
-Framework::CSpriteRenderer::CSpriteRenderer():
-	CComponent()
+Framework::CSpriteRendererComponent::CSpriteRendererComponent() :
+	CComponent(Enums::eComponentType::SpriteRenderer),
 	m_pTexture(nullptr), m_vecScale(Maths::Vector2::One)
 {
 }
 
-Framework::CSpriteRenderer::~CSpriteRenderer()
+Framework::CSpriteRendererComponent::~CSpriteRendererComponent()
 {
 }
 
-void Framework::CSpriteRenderer::Initialize()
+void Framework::CSpriteRendererComponent::Initialize()
 {
 }
 
-void Framework::CSpriteRenderer::Release()
+void Framework::CSpriteRendererComponent::Release()
 {
 }
 
-void Framework::CSpriteRenderer::Tick()
+void Framework::CSpriteRendererComponent::Tick()
 {
 }
 
-void Framework::CSpriteRenderer::LastTick()
+void Framework::CSpriteRendererComponent::LastTick()
 {
 }
 
-void Framework::CSpriteRenderer::Render(HDC hdc)
+void Framework::CSpriteRendererComponent::Render(HDC hdc)
 {
 	if (m_pTexture == nullptr)
 		return;
 
-	const CTransform* tr = GetOwner()->GetComponent<CTransform>();
-	const Maths::Vector2 pos = tr->GetPos();
+	const CTransformComponent* tr = GetOwner()->GetComponent<CTransformComponent>();
+	const Maths::Vector2 trPos  = tr->GetPos();
+	const Maths::Vector2 pos = Renderer::mainCamera->CaluatePosition(trPos);
 
 	const CTexture::eTextureType textureType = m_pTexture->GetTextureType();
 	const UINT imgWidth = m_pTexture->GetWidth();
@@ -44,7 +46,9 @@ void Framework::CSpriteRenderer::Render(HDC hdc)
 	if (textureType == CTexture::eTextureType::Bmp)
 	{
 		TransparentBlt(
-			hdc, pos.x, pos.y, imgWidth * m_vecScale.x, imgHeight * m_vecScale.y,
+			hdc, 
+			(int)pos.x, (int)pos.y, 
+			(int)imgWidth * m_vecScale.x, (int)imgHeight * m_vecScale.y,
 			m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight, RGB(255,0,255));
 	}
 	else if (textureType == CTexture::eTextureType::Png)
@@ -52,7 +56,9 @@ void Framework::CSpriteRenderer::Render(HDC hdc)
 		Gdiplus::Graphics graphics(hdc);
 		graphics.DrawImage(
 			m_pTexture->GetImage(), 
-			Gdiplus::Rect(pos.x, pos.y, imgWidth * m_vecScale.x, imgHeight * m_vecScale.y));
+			Gdiplus::Rect(
+				(int)pos.x, (int)pos.y, 
+				(int)imgWidth * m_vecScale.x, (int)imgHeight * m_vecScale.y));
 	}
 
 	return;

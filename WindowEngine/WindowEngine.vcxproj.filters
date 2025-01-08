@@ -4,16 +4,28 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{b45ffb2f-8a6a-45ac-8ecc-6ef1e1a66921}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Load">
+      <UniqueIdentifier>{92693911-01df-448e-81a0-406b094eac51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{96ce5319-3e93-4ccb-b6c2-5f226ec531a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LoadScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="CTitleScene.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadScene.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadResource.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerInput.h">
+      <Filter>Script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -22,6 +34,9 @@
     </ClCompile>
     <ClCompile Include="CTitleScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerInput.cpp">
+      <Filter>Script</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

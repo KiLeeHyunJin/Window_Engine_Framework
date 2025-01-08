@@ -2,6 +2,16 @@
 
 namespace Framework::Enums
 {
+	enum class eComponentType
+	{
+		Transform,
+		SpriteRenderer,
+		Custom,
+
+		Camera,
+		Size,
+	};
+
 	enum class eLayerType
 	{
 		None,

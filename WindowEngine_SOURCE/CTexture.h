@@ -1,6 +1,6 @@
 #pragma once
 #include "CResource.h"
-namespace Framework
+namespace Framework::Resource
 {
 	class CTexture :
 		public CResource

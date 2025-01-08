@@ -3,6 +3,7 @@
 #include "CInputManager.h"
 #include "CTimeManager.h"
 #include "CSceneManager.h"
+#include "CRenderer.h"
 
 namespace Framework
 {
@@ -12,8 +13,7 @@ namespace Framework
 		m_iWindowWidth(0),	m_iWindowHeight(0),
 		m_iScreenWidth(0),	m_iScreenHeight(0),
 		m_iCurrentBufferBitmapWidth(0), 
-		m_iCurrentBufferBitmapHeight(0),
-		m_bScreenMaximum(false)
+		m_iCurrentBufferBitmapHeight(0)
 	{
 	}
 
@@ -91,22 +91,6 @@ namespace Framework
 
 	void CApplication::BeginDraw()
 	{
-		if (m_bScreenMaximum)
-		{
-			if (m_iCurrentBufferBitmapWidth != m_iScreenWidth)
-			{
-				m_iCurrentBufferBitmapWidth		= m_iScreenWidth;
-				m_iCurrentBufferBitmapHeight	= m_iScreenHeight;
-			}
-		}
-		else
-		{
-			if (m_iCurrentBufferBitmapWidth != m_iWindowWidth)
-			{
-				m_iCurrentBufferBitmapWidth		= m_iWindowWidth;
-				m_iCurrentBufferBitmapHeight	= m_iWindowHeight;
-			}
-		}
 		Rectangle(m_BackHDC, -1, -1, m_iCurrentBufferBitmapWidth + 1, m_iCurrentBufferBitmapHeight + 1);
 	}
 
@@ -119,29 +103,29 @@ namespace Framework
 
 	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
-		int width, height;
-		m_bScreenMaximum = maximumScale;
-		if (m_bScreenMaximum)
+		int xPos, yPos;
+		if (maximumScale)
 		{
-			width	= m_iScreenWidth;
-			height	= m_iScreenHeight;
-			SetWindowPos(m_hWnd, NULL,
-				0, 0,
-				m_iScreenWidth, m_iScreenHeight,
-				0);
+			m_iCurrentBufferBitmapWidth = m_iScreenWidth;
+			m_iCurrentBufferBitmapHeight = m_iScreenHeight;
+			xPos = 0;
+			yPos = 0;
 		}
 		else
 		{
-			width	= m_iWindowWidth;
-			height	= m_iWindowHeight;
-			SetWindowPos(m_hWnd, NULL,
-				(m_iScreenWidth  - m_iWindowWidth)  >> 1,
-				(m_iScreenHeight - m_iWindowHeight) >> 1,
-				m_iWindowWidth, m_iWindowHeight,
-				0);
+			m_iCurrentBufferBitmapWidth = m_iWindowWidth;
+			m_iCurrentBufferBitmapHeight = m_iWindowHeight;
+			xPos = (m_iScreenWidth - m_iWindowWidth)	>> 1;
+			yPos = (m_iScreenHeight - m_iWindowHeight)	>> 1;
 		}
 
-		CreateBackBuffer(width, height);
+		SetWindowPos(m_hWnd, NULL,
+			xPos, yPos,
+			m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,
+			0);
+		Renderer::mainCamera->SetResolution(Maths::Vector2(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight));
+
+		CreateBackBuffer(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight);
 	}
 
 }
