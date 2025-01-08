@@ -7,15 +7,16 @@ namespace Framework
         public CComponent
     {
     public :
-        CTransformComponent();
-        virtual ~CTransformComponent();
-
         float GetX() const              { return m_vecPos.x; }
         float GetY() const              { return m_vecPos.y; }
 
         Maths::Vector2 GetPos() const          { return m_vecPos; }
         void SetPos(Maths::Vector2 pos)        { m_vecPos = pos; }
 
+        friend CGameObject;
+    private:
+        CTransformComponent();
+        virtual ~CTransformComponent();
         // CComponent을(를) 통해 상속됨
         void Initialize() override;
 
@@ -27,7 +28,6 @@ namespace Framework
 
         void Render(HDC hdc) override;
 
-    private:
         Maths::Vector2 m_vecPos;
 
     };

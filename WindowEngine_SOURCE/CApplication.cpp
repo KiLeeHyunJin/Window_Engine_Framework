@@ -89,12 +89,12 @@ namespace Framework
 		EndDraw();
 	}
 
-	void CApplication::BeginDraw()
+	void CApplication::BeginDraw() const
 	{
 		Rectangle(m_BackHDC, -1, -1, m_iCurrentBufferBitmapWidth + 1, m_iCurrentBufferBitmapHeight + 1);
 	}
 
-	void CApplication::EndDraw()
+	void CApplication::EndDraw() const
 	{
 		BitBlt(
 			m_hDC, 0, 0, m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,

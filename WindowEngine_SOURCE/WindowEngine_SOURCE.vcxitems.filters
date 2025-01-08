@@ -84,10 +84,10 @@
       <Filter>Asset\Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
-      <Filter>Common</Filter>
+      <Filter>CommonHeader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Enums.h">
-      <Filter>Common</Filter>
+      <Filter>CommonHeader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h">
       <Filter>Asset\GameObject</Filter>
@@ -102,7 +102,7 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
-      <Filter>Common</Filter>
+      <Filter>CommonHeader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h">
       <Filter>Manager</Filter>
@@ -130,9 +130,6 @@
     </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{23761ff3-6959-47bb-a5f3-7cf1a71f9afe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common">
-      <UniqueIdentifier>{96f98ce1-2f3f-46cb-8aa6-c10cc54f3771}</UniqueIdentifier>
     </Filter>
     <Filter Include="Asset">
       <UniqueIdentifier>{27c7c084-fbec-4fbd-bb3b-1a78796946f5}</UniqueIdentifier>
@@ -163,6 +160,9 @@
     </Filter>
     <Filter Include="Component\Camera">
       <UniqueIdentifier>{4a604509-e6b9-4b67-b041-dc23d1a814d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommonHeader">
+      <UniqueIdentifier>{96f98ce1-2f3f-46cb-8aa6-c10cc54f3771}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

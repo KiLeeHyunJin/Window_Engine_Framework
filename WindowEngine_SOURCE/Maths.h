@@ -6,8 +6,8 @@ namespace Framework::Maths
 		static Vector2 One;
 		static Vector2 Zero;
 
-		float x;
-		float y;
+		FLOAT x;
+		FLOAT y;
 
 		Vector2():x(0), y(0)
 		{	}

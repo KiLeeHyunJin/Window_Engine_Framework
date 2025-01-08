@@ -5,9 +5,12 @@ namespace Framework
 {
 	class CCustomComponent : public CComponent
 	{
-	public:
+	protected:
 		CCustomComponent();
 		virtual ~CCustomComponent();
+
+		friend CGameObject;
+	private:
 
 		void Initialize() override;
 		void Release() override;

@@ -11,6 +11,14 @@ namespace Framework
 		public CComponent
 	{
 	public:
+		void SetTexture(const std::wstring& wstrResourceKey)
+		{
+			m_pTexture = Framework::CResourceManager::Find<CTexture>(wstrResourceKey);
+		};
+		void SetSize(Maths::Vector2 scale) { m_vecScale = scale; }
+
+		friend CGameObject;
+	private:
 		CSpriteRendererComponent();
 		virtual ~CSpriteRendererComponent();
 
@@ -21,13 +29,6 @@ namespace Framework
 		void LastTick() override;
 		void Render(HDC hdc) override;
 
-		void SetTexture(const std::wstring& wstrResourceKey) 
-		{ 
-			m_pTexture = Framework::CResourceManager::Find<CTexture>(wstrResourceKey);
-		};
-		void SetSize(Maths::Vector2 scale) { m_vecScale = scale; }
-
-	private :
 		CTexture* m_pTexture;
 		Maths::Vector2 m_vecScale;
 

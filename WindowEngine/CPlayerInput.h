@@ -10,7 +10,6 @@ namespace Framework
 		virtual ~CPlayerInput();
 
 	private:
-
 		void Initialize() override;
 		void Release() override;
 

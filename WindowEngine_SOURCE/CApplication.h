@@ -14,16 +14,16 @@ namespace Framework
 
 		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 		void Release();
-		Maths::Vector2 GetResolution() {}
-		HDC GetHDC() { return m_hDC; }
+		Maths::Vector2 GetResolution() const { return  Maths::Vector2(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight); }
+		HDC GetHDC() const { return m_hDC; }
 	private:
 		void Tick();
 		void LastTick();
 
 		void Render();
 
-		void BeginDraw();
-		void EndDraw();
+		void BeginDraw() const;
+		void EndDraw() const;
 
 		void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 		void CreateBackBuffer(int width, int height);

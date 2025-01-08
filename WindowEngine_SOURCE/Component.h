@@ -1,4 +1,4 @@
 #pragma once
 
-#include "CTransform.h"
-#include "CSpriteRenderer.h"
+#include "CTransformComponent.h"
+#include "CSpriteRendererComponent.h"

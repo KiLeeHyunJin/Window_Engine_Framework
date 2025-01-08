@@ -20,14 +20,17 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
+	CGameObject* pObj = new CGameObject();
+	CTransformComponent* pTs = pObj->AddComponent<CTransformComponent>();
+
 	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None);
+	pCameraObj->AddComponent<CPlayerInput>();
+
 	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
 	Renderer::mainCamera = pCamera;
-	pCameraObj->AddComponent<CPlayerInput>();
-	CGameObject* pObj = new CGameObject();
-	CTransformComponent*		 pTs = pObj->AddComponent<CTransformComponent>();
 	pCamera->SetTarget(pObj);
 	pObj->AddComponent<CSpriteRendererComponent>() ->SetTexture(L"Room");
+
 	pTs->SetPos(Maths::Vector2(200, 200));
 	//pSr->ImageLoad(L"Resources\\Room.png");
 

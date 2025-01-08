@@ -47,8 +47,8 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	{
 		TransparentBlt(
 			hdc, 
-			(int)pos.x, (int)pos.y, 
-			(int)imgWidth * m_vecScale.x, (int)imgHeight * m_vecScale.y,
+			(INT)pos.x, (INT)pos.y,
+			(INT)(imgWidth * m_vecScale.x), (INT)(imgHeight * m_vecScale.y),
 			m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight, RGB(255,0,255));
 	}
 	else if (textureType == CTexture::eTextureType::Png)
@@ -57,8 +57,8 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 		graphics.DrawImage(
 			m_pTexture->GetImage(), 
 			Gdiplus::Rect(
-				(int)pos.x, (int)pos.y, 
-				(int)imgWidth * m_vecScale.x, (int)imgHeight * m_vecScale.y));
+				(INT)pos.x, (INT)pos.y,
+				(INT)(imgWidth * m_vecScale.x), (INT)(imgHeight * m_vecScale.y)));
 	}
 
 	return;
@@ -72,8 +72,8 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 
 
 	Rectangle(hdc,
-		pos.x - 10, pos.y - 10,
-		pos.x + 10, pos.y + 10);
+		(INT)(pos.x - 10), (INT)(pos.y - 10),
+		(INT)(pos.x + 10), (INT)(pos.y + 10));
 	
 	SelectObject(hdc, (HGDIOBJ)oldPen);
 	DeleteObject(redPen);
