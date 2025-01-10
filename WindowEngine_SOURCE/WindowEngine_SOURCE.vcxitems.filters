@@ -37,7 +37,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCustomComponent.cpp">
       <Filter>Component\Custom</Filter>
     </ClCompile>
@@ -54,6 +53,9 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp">
+      <Filter>Common\Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -84,10 +86,10 @@
       <Filter>Asset\Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
-      <Filter>CommonHeader</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Enums.h">
-      <Filter>CommonHeader</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h">
       <Filter>Asset\GameObject</Filter>
@@ -100,9 +102,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
-      <Filter>CommonHeader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h">
       <Filter>Manager</Filter>
@@ -123,6 +122,9 @@
       <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
+      <Filter>Common\Maths</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Manager">
@@ -161,8 +163,11 @@
     <Filter Include="Component\Camera">
       <UniqueIdentifier>{4a604509-e6b9-4b67-b041-dc23d1a814d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CommonHeader">
+    <Filter Include="Common">
       <UniqueIdentifier>{96f98ce1-2f3f-46cb-8aa6-c10cc54f3771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Maths">
+      <UniqueIdentifier>{369bb958-1dd3-48f0-9151-835e7d12248d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
