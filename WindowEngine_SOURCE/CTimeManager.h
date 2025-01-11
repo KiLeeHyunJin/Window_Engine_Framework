@@ -4,6 +4,7 @@
 namespace Framework
 {
 	class CApplication;
+	class CRenderManager;
 
 	class CTimeManager
 	{
@@ -14,6 +15,7 @@ namespace Framework
 		static float DeltaTime() { return m_fDeltaTime; }
 
 		friend CApplication;
+		friend CRenderManager;
 	private:
 		static void Initialize();
 		static void Tick();

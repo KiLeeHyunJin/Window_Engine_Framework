@@ -6,6 +6,7 @@ namespace Framework::Enums
 	{
 		Transform,
 		SpriteRenderer,
+		Animator,
 		Custom,
 
 		Camera,
@@ -25,6 +26,7 @@ namespace Framework::Enums
 		Texture,
 		AudioClip,
 		Prefab,
+		Animation,
 
 		Size,
 	};

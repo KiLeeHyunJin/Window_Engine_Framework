@@ -9,8 +9,8 @@ namespace Framework
 		template<typename T>
 		static T* Find(const std::wstring& key) 
 		{
-			auto iter = m_mapResoucre.find(key);
-			return iter == m_mapResoucre.end() ? nullptr : dynamic_cast<T*>(iter->second);
+			auto iter = m_mapResoucres.find(key);
+			return iter == m_mapResoucres.end() ? nullptr : dynamic_cast<T*>(iter->second);
 		}
 
 		template<typename T>
@@ -30,12 +30,12 @@ namespace Framework
 			}
 			pParentResource->SetName(key);
 			pParentResource->SetPath(path);
-			m_mapResoucre.insert(std::make_pair(key, pParentResource));
+			m_mapResoucres.insert(std::make_pair(key, pParentResource));
 			return pResource;
 		}
 
 	private:
-		static std::map<std::wstring, Resource::CResource*> m_mapResoucre;
+		static std::map<std::wstring, Resource::CResource*> m_mapResoucres;
 	};
 }
 

@@ -21,14 +21,14 @@ namespace Framework
 			pCom->Initialize();
 			pCom->SetOwner(this);
 			Enums::eComponentType componentType = pCom->GetComponentType();
-			m_vecComponent[(int)componentType] = pCom;
+			m_vecComponents[(int)componentType] = pCom;
 			return com;
 		}
 
 		template<typename T>
 		T* GetComponent()
 		{
-			for (CComponent* pCom: m_vecComponent)
+			for (CComponent* pCom: m_vecComponents)
 			{
 				T* com = dynamic_cast<T*>(pCom);
 				if (com != nullptr)
@@ -48,7 +48,7 @@ namespace Framework
 		void Release();
 
 		void AddTransform();
-		std::vector<CComponent*> m_vecComponent;
+		std::vector<CComponent*> m_vecComponents;
 	};
 }
 

@@ -7,7 +7,8 @@ namespace Framework
 
 	class CRenderManager
 	{
-	public:
+		friend CApplication;
+	private:
 		static void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 		static void Release();
 
@@ -21,8 +22,6 @@ namespace Framework
 
 		static void CreateBackBuffer(int width, int height);
 
-		friend CApplication;
-	private:
 		static HDC GetHDC() { return m_hDC; }
 
 		static HWND m_hWnd;
@@ -40,6 +39,6 @@ namespace Framework
 		static int m_iCurrentBufferBitmapWidth;
 		static int m_iCurrentBufferBitmapHeight;
 	};
-
+#define RENDER CRenderManager;
 }
 

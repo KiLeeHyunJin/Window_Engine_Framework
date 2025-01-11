@@ -7,9 +7,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CTimeManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp">
-      <Filter>Asset</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -52,9 +49,20 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp">
       <Filter>Common\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAnimatorComponent.cpp">
+      <Filter>Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAnimation.cpp">
+      <Filter>Asset\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp">
+      <Filter>Asset\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +71,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTimeManager.h">
       <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h">
-      <Filter>Asset</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
       <Filter>Manager</Filter>
@@ -121,9 +126,20 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
       <Filter>Common\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAnimatorComponent.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAnimation.h">
+      <Filter>Asset\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h">
+      <Filter>Asset\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +184,18 @@
     </Filter>
     <Filter Include="Common\Maths">
       <UniqueIdentifier>{369bb958-1dd3-48f0-9151-835e7d12248d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{c986c0e1-a21e-4222-9362-02305f66c831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animator">
+      <UniqueIdentifier>{2af5b19b-c293-4b4b-b82f-106019827265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Resource\Animation">
+      <UniqueIdentifier>{d0b94a87-555f-4949-995d-c8c521eb7977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Entity">
+      <UniqueIdentifier>{02f37234-5b08-4c5f-9bde-8ec89b87f375}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

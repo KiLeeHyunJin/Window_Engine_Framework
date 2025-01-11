@@ -8,7 +8,7 @@ namespace Framework
 {
 	CGameObject::CGameObject()
 	{
-		m_vecComponent.resize((int)Enums::eComponentType::Size);
+		m_vecComponents.resize((int)Enums::eComponentType::Size);
 		AddTransform();
 	}
 
@@ -18,7 +18,7 @@ namespace Framework
 
 	void CGameObject::Initialize()
 	{
-		for (CComponent* pCom : m_vecComponent)
+		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
@@ -29,7 +29,7 @@ namespace Framework
 
 	void CGameObject::Tick()
 	{
-		for (CComponent* pCom : m_vecComponent)
+		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
@@ -40,7 +40,7 @@ namespace Framework
 
 	void CGameObject::LastTick()
 	{
-		for (CComponent* pCom : m_vecComponent)
+		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
@@ -52,7 +52,7 @@ namespace Framework
 	
 	void CGameObject::Render(HDC hdc) const
 	{
-		for (CComponent* pCom : m_vecComponent)
+		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
@@ -62,7 +62,7 @@ namespace Framework
 	}
 	void CGameObject::Release()
 	{
-		for (CComponent* pCom : m_vecComponent)
+		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{

@@ -5,6 +5,7 @@
 namespace Framework
 {
 	class CApplication;
+	class CRenderManager;
 	class CScene;
 	class CSceneManager
 	{
@@ -27,6 +28,7 @@ namespace Framework
 		static CScene* LoadScene(const std::wstring& name);
 		static CScene* GetCurrentScene() { return m_pCurrentScene; }
 		friend CApplication;
+		friend CRenderManager;
 	private:
 		static void Initialize();
 		static void Release();
