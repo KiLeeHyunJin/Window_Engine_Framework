@@ -17,6 +17,9 @@ namespace Framework::Enums
 	{
 		None,
 		BackGround,
+		Character,
+
+		Particle,
 
 		Size = 16,
 	};

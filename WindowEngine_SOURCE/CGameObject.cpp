@@ -67,8 +67,10 @@ namespace Framework
 			if (pCom != nullptr)
 			{
 				pCom->Release();
+				delete pCom;
 			}
 		}
+		m_vecComponents.clear();
 	}
 
 	void CGameObject::AddTransform()

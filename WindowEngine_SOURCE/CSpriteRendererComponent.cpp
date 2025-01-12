@@ -35,30 +35,46 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	if (m_pTexture == nullptr)
 		return;
 
-	const CTransformComponent* tr = GetOwner()->GetComponent<CTransformComponent>();
-	const Maths::Vector2 trPos  = tr->GetPos();
-	const Maths::Vector2 pos = Renderer::mainCamera->CaluatePosition(trPos);
+	const CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
+	const Maths::Vector2 trPos  = pTr->GetPos();
+	const Vector2 scale = pTr->GetScale();
+	const float rot = pTr->GetRot();
+
+	Maths::Vector2 pos = Renderer::mainCamera->CaluatePosition(trPos);
 
 	const CTexture::eTextureType textureType = m_pTexture->GetTextureType();
 	const UINT imgWidth = m_pTexture->GetWidth();
 	const UINT imgHeight = m_pTexture->GetHeight();
+
+	pos.x -= imgWidth * 0.5f;
+	pos.y -= imgHeight * 0.5f;
 
 	if (textureType == CTexture::eTextureType::Bmp)
 	{
 		TransparentBlt(
 			hdc, 
 			(INT)pos.x, (INT)pos.y,
-			(INT)(imgWidth * m_vecScale.x), (INT)(imgHeight * m_vecScale.y),
+			(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y),
 			m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight, RGB(255,0,255));
 	}
 	else if (textureType == CTexture::eTextureType::Png)
 	{
 		Gdiplus::Graphics graphics(hdc);
+		Gdiplus::ImageAttributes imgAtt = {};
+
+		graphics.TranslateTransform(pos.x, pos.y);
+		graphics.RotateTransform(rot);
+		graphics.TranslateTransform(-pos.x, -pos.y);
+		//imgAtt.SetColorKey();
 		graphics.DrawImage(
 			m_pTexture->GetImage(), 
 			Gdiplus::Rect(
 				(INT)pos.x, (INT)pos.y,
-				(INT)(imgWidth * m_vecScale.x), (INT)(imgHeight * m_vecScale.y)));
+				(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y)),
+			0, 0,
+			imgWidth, imgHeight,
+			Gdiplus::UnitPixel,
+			nullptr); //&imgAtt;
 	}
 
 	return;

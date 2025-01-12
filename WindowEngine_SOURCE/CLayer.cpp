@@ -25,7 +25,10 @@ namespace Framework
 		for (CGameObject* pObj : m_listGameObject)
 		{
 			pObj->Release();
+			delete pObj;
+			pObj = nullptr;
 		}
+		m_listGameObject.clear();
 	}
 
 	void CLayer::Tick()

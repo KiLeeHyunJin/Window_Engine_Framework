@@ -4,6 +4,7 @@
 #include "CTimeManager.h"
 #include "CSceneManager.h"
 #include "CRenderManager.h"
+#include "CResourceManager.h"
 
 #include "CRenderer.h"
 
@@ -29,6 +30,7 @@ namespace Framework
 	void CApplication::Release()
 	{
 		SCENE::Release();
+		RESOURCE::Release();
 	}
 
 	void CApplication::Run()

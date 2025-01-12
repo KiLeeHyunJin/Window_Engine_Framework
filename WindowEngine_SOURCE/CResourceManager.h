@@ -34,9 +34,23 @@ namespace Framework
 			return pResource;
 		}
 
+		friend class CApplication;
 	private:
+		static void Release()
+		{
+			for (auto& pair : m_mapResoucres)
+			{
+				delete pair.second;
+				pair.second = nullptr;
+			}
+			m_mapResoucres.clear();
+		}
+
 		static std::map<std::wstring, Resource::CResource*> m_mapResoucres;
 	};
+
+#define RESOURCE CResourceManager
+
 }
 
 

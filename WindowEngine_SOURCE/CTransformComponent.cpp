@@ -1,7 +1,8 @@
 #include "CTransformComponent.h"
 
 Framework::CTransformComponent::CTransformComponent():
-	CComponent(Enums::eComponentType::Transform)
+	CComponent(Enums::eComponentType::Transform),
+	m_fRot(0), m_vecScale(Maths::Vector2::One), m_vecPos(Maths::Vector2::Zero)
 {
 }
 

@@ -2,12 +2,13 @@
 #include "CResource.h"
 #include "CTexture.h"
 
-namespace Framework::Resource
+
+namespace Framework
 {
     using namespace Maths;
+    using namespace Resource;
 
-    class CAnimator;
-    class CTexture;
+    class CAnimatorComponent;
 
     class CAnimation :
         public CResource
@@ -38,16 +39,20 @@ namespace Framework::Resource
         void Tick();
         void Render(HDC hdc);
 
-        void CreateAnimation(const std::wstring& name, Resource::CTexture* spriteSheet,
+        void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
             Vector2 leftTop, Vector2 size, Vector2 offset,
             UINT spriteLength, float duration);
 
         bool IsCompleted() const { return m_bCompleted; }
-        void SetOwner(CAnimator* pAnimator) { m_pOwner = pAnimator; }
+        void SetOwner(CAnimatorComponent* pAnimator) { m_pOwner = pAnimator; }
 
     private:
-        CAnimator* m_pOwner;
+        void RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite sprite);
+        void RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite sprite);
+
+        CAnimatorComponent* m_pOwner;
         CTexture* m_pTexture;
+        void (CAnimation::*RenderFunc[(int)CTexture::eTextureType::None])(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite sprite);
 
         std::vector<Sprite> m_vecSprites;
         int m_iIndex;

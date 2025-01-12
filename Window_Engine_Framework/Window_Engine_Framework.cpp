@@ -74,6 +74,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
     Gdiplus::GdiplusShutdown(g_pToken);
+    application.Release();
 
     return (int) msg.wParam;
 }

@@ -16,6 +16,7 @@ namespace Framework
 		{
 			delete scenePair.second;
 		}
+		m_mapScene.clear();
 	}
 
 	void CSceneManager::Initialize()
@@ -40,10 +41,14 @@ namespace Framework
 
 	void CSceneManager::Release()
 	{
-		for (const std::pair<std::wstring, CScene*>& scenePair : m_mapScene)
+		for (auto& scenePair : m_mapScene)
 		{
+			scenePair.second->OnExit();
 			scenePair.second->SceneRelease();
+			delete scenePair.second;
+			scenePair.second = nullptr;
 		}
+		m_mapScene.clear();
 	}
 	CScene* CSceneManager::LoadScene(const std::wstring& name)
 	{

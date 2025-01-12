@@ -1,13 +1,11 @@
 #pragma once
 #include "CComponent.h"
 #include "CAnimation.h"
+using namespace Framework::Maths;
+using namespace Framework::Resource;
 
 namespace Framework
 {
-	using namespace Maths;
-	using namespace Resource;
-
-	class Resource::CAnimation;
 
 	class CAnimatorComponent :
 public CComponent
@@ -22,7 +20,7 @@ public CComponent
 
 		void Render(HDC hdc)override;
 
-		void CreateAnimation(const std::wstring& name, Resource::CTexture* spriteSheet, 
+		void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
 			Vector2 leftTop, Vector2 size, Vector2 offset,
 			UINT spriteLength, float duration);
 
@@ -32,7 +30,7 @@ public CComponent
 
 	private:
 		CAnimation* m_pCurrentAnimation;
-		std::map<std::wstring, CAnimation> m_mapAnimations;
+		std::map<std::wstring, CAnimation*> m_mapAnimations;
 		bool m_bLoop;
 	};
 

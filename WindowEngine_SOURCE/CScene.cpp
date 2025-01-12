@@ -16,6 +16,11 @@ namespace Framework
 
 	CScene::~CScene()
 	{
+		for (size_t i = 0; i < m_vecLayer.size(); i++)
+		{
+			delete m_vecLayer[i];
+		}
+		m_vecLayer.clear();
 	}
 	void CScene::SceneInitialize()
 	{
