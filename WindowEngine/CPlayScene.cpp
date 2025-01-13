@@ -1,17 +1,20 @@
 #include "CPlayScene.h"
-#include "CGameObject.h"
 #include "..\\WindowEngine_SOURCE\\CObject.h"
 
 #include "CInputManager.h"
 #include "CSceneManager.h"
+#include "CResourceManager.h"
 
 #include "CTransformComponent.h"
 #include "CSpriteRendererComponent.h"
 #include "CCameraComponent.h"
+#include "CAnimatorComponent.h"
+
+#include "CGameObject.h"
+#include "CRenderer.h"
 
 #include "CTexture.h"
 #include "CPlayerInput.h"
-#include "CRenderer.h"
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -24,8 +27,11 @@ Framework::CPlayScene::~CPlayScene()
 void Framework::CPlayScene::Initialize()
 {
 	CGameObject* pObj = Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround);
-	pObj->AddComponent<CTransformComponent>();
-	pObj->AddComponent<CSpriteRendererComponent>()->SetTexture(L"Room");
+	CTransformComponent* pTr = pObj->AddComponent<CTransformComponent>();
+	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
+	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
+	pAnim->CreateAnimation(L"Room", pTexture,Vector2(0,0), Vector2(50,50), Vector2(0,0), 5, 0.2f );
+	pAnim->PlayAnimation(L"Room", true);
 
 	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None);
 	pCameraObj->AddComponent<CPlayerInput>();
@@ -67,5 +73,4 @@ void Framework::CPlayScene::OnEnter()
 
 void Framework::CPlayScene::OnExit()
 {
-	//obj->GetComponent<CTransform>()->SetPos(Vector2(0, 0));
 }

@@ -32,6 +32,9 @@ public CComponent
 		CAnimation* m_pCurrentAnimation;
 		std::map<std::wstring, CAnimation*> m_mapAnimations;
 		bool m_bLoop;
+
+		// CComponent을(를) 통해 상속됨
+		void Release() override;
 	};
 
 

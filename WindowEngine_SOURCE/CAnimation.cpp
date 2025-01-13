@@ -80,7 +80,16 @@ namespace Framework
 
 		pos.x -= sprite.size.x * 0.5f;
 		pos.y -= sprite.size.y * 0.5f;
-
+		//auto func = RenderFunc[(int)textureType];
+		//func;
+		if (textureType == CTexture::eTextureType::Bmp)
+		{
+			RenderBMP(hdc, rot, pos, scale, sprite);
+		}
+		else if (textureType == CTexture::eTextureType::Png)
+		{
+			RenderPNG(hdc, rot, pos, scale, sprite);
+		}
 		//(RenderFunc[(int)textureType](hdc, rot, pos, scale, sprite));//(hdc, rot, pos, scale, sprite);
 		
 	}
@@ -122,14 +131,14 @@ namespace Framework
 
 	void  CAnimation::RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite sprite)
 	{
-		Gdiplus::ImageAttributes imgAtt = {};
-		imgAtt.SetColorKey(Gdiplus::Color(100, 100, 100), Gdiplus::Color(255, 255, 255));
+		//Gdiplus::ImageAttributes imgAtt = {};
+		//imgAtt.SetColorKey(Gdiplus::Color(100, 100, 100), Gdiplus::Color(255, 255, 255));
 
 		Gdiplus::Graphics graphics(hdc);
 
-		graphics.TranslateTransform(pos.x, pos.y);
-		graphics.RotateTransform(rot);
-		graphics.TranslateTransform(-pos.x, -pos.y);
+		//graphics.TranslateTransform(pos.x, pos.y);
+		//graphics.RotateTransform(rot);
+		//graphics.TranslateTransform(-pos.x, -pos.y);
 
 		graphics.DrawImage(m_pTexture->GetImage(),
 			Gdiplus::Rect(

@@ -17,15 +17,15 @@ namespace Framework
 	int CRenderManager::m_iScreenWidth = 0; //화면 해상도
 	int CRenderManager::m_iScreenHeight = 0;
 
-	int CRenderManager::m_iCurrentBufferBitmapWidth = 0;
-	int CRenderManager::m_iCurrentBufferBitmapHeight = 0;
+	int CRenderManager::m_iCurrentBufferBitmapWidth		= 0;
+	int CRenderManager::m_iCurrentBufferBitmapHeight	= 0;
 
 
 	void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu)
 	{
 		CRenderManager::AdjustWindow(hWnd, width, height, xPos, yPos, winStyle, menu);
 		m_BackHDC = CreateCompatibleDC(m_hDC);
-
+		ChangeScreenSize(false);
 		CreateBackBuffer(width, height);
 	}
 	void CRenderManager::Release()
@@ -100,9 +100,8 @@ namespace Framework
 
 	void CRenderManager::CreateBackBuffer(int width, int height)
 	{
-		HBITMAP newBmpBuffer = CreateCompatibleBitmap(m_hDC, width, height);
-		HBITMAP oldBitmap = (HBITMAP)SelectObject(m_BackHDC, newBmpBuffer);
+		m_BmpBuffer = CreateCompatibleBitmap(m_hDC, width, height);
+		HBITMAP oldBitmap = (HBITMAP)SelectObject(m_BackHDC, m_BmpBuffer);
 		DeleteObject(oldBitmap);
-		m_BmpBuffer = newBmpBuffer;
 	}
 }

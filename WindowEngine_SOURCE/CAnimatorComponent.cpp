@@ -82,4 +82,13 @@ namespace Framework
 		}
 	}
 
+	void CAnimatorComponent::Release()
+	{
+		for (const auto& pair : m_mapAnimations)
+		{
+			delete pair.second;
+		}
+		m_mapAnimations.clear();
+	}
+
 }
