@@ -20,13 +20,14 @@ namespace Framework
 	int CRenderManager::m_iCurrentBufferBitmapWidth		= 0;
 	int CRenderManager::m_iCurrentBufferBitmapHeight	= 0;
 
+	bool CRenderManager::m_bScreenState = false;
 
-	void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu)
+	void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
 		CRenderManager::AdjustWindow(hWnd, width, height, xPos, yPos, winStyle, menu);
 		m_BackHDC = CreateCompatibleDC(m_hDC);
-		ChangeScreenSize(false);
-		CreateBackBuffer(width, height);
+		//CreateBackBuffer(width, height);
+		ChangeScreenSize(screen);
 	}
 	void CRenderManager::Release()
 	{
@@ -60,17 +61,18 @@ namespace Framework
 		m_iWindowWidth = width;
 		m_iWindowHeight = height;
 
+		m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+		m_iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
+
 		RECT rect = { 0, 0, width, height };
 		AdjustWindowRect(&rect, winStyle, false);
 		SetWindowPos(m_hWnd, nullptr, xPos, yPos, ((int)width), ((int)height), 0);
 		ShowWindow(m_hWnd, true);
-
-		m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-		m_iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 	}
 
 	void CRenderManager::ChangeScreenSize(bool maximumScale)
 	{
+		m_bScreenState = maximumScale;
 		int xPos, yPos;
 		if (maximumScale)
 		{
@@ -93,9 +95,9 @@ namespace Framework
 			xPos, yPos,
 			m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,
 			0);
-		Renderer::mainCamera->SetResolution(Maths::Vector2(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight));
-
 		CreateBackBuffer(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight);
+
+		Renderer::mainCamera->SetResolution(Maths::Vector2(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight));
 	}
 
 	void CRenderManager::CreateBackBuffer(int width, int height)

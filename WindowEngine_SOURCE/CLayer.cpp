@@ -26,7 +26,6 @@ namespace Framework
 		{
 			pObj->Release();
 			delete pObj;
-			pObj = nullptr;
 		}
 		m_listGameObject.clear();
 	}

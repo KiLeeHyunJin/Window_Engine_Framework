@@ -12,12 +12,12 @@ namespace Framework::Object
 	template <typename T>
 	static T* Instantiate(Enums::eLayerType layerType)
 	{
-		T* pGameObject = new T();
 		CScene* pCurScene = CSceneManager::GetCurrentScene();
 		if (pCurScene == nullptr)
 		{
 			return nullptr;
 		}
+		T* pGameObject = new T();
 		pCurScene->AddGameObject(pGameObject, layerType);
 		return pGameObject;
 	};

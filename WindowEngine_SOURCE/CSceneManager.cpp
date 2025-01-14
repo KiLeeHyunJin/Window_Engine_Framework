@@ -12,11 +12,6 @@ namespace Framework
 	}
 	CSceneManager::~CSceneManager()
 	{
-		for (const std::pair<std::wstring, CScene*>& scenePair : m_mapScene)
-		{
-			delete scenePair.second;
-		}
-		m_mapScene.clear();
 	}
 
 	void CSceneManager::Initialize()
@@ -43,13 +38,14 @@ namespace Framework
 	{
 		for (auto& scenePair : m_mapScene)
 		{
-			scenePair.second->OnExit();
+			//scenePair.second->OnExit();
 			scenePair.second->SceneRelease();
 			delete scenePair.second;
-			scenePair.second = nullptr;
 		}
 		m_mapScene.clear();
+		m_pCurrentScene = nullptr;
 	}
+
 	CScene* CSceneManager::LoadScene(const std::wstring& name)
 	{
 		std::map<std::wstring, CScene*>::iterator iter = m_mapScene.find(name);

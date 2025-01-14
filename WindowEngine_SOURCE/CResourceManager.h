@@ -1,7 +1,7 @@
 #pragma once
 #include "CResource.h"
 
-namespace Framework
+namespace Framework::Resource
 {
 	class CResourceManager
 	{
@@ -38,10 +38,9 @@ namespace Framework
 	private:
 		static void Release()
 		{
-			for (auto& pair : m_mapResoucres)
+			for (const auto& pair : m_mapResoucres)
 			{
 				delete pair.second;
-				pair.second = nullptr;
 			}
 			m_mapResoucres.clear();
 		}

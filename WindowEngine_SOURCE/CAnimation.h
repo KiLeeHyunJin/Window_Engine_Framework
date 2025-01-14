@@ -47,18 +47,22 @@ namespace Framework
         void SetOwner(CAnimatorComponent* pAnimator) { m_pOwner = pAnimator; }
 
     private:
-        void RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite sprite);
-        void RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite sprite);
+        void RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const;
+        void RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const;
+
+        void (CAnimation::* RenderFunc[(int)Resource::CTexture::eTextureType::None])
+            (HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite)  const;
 
         CAnimatorComponent* m_pOwner;
         CTexture* m_pTexture;
-        void (CAnimation::*RenderFunc[(int)CTexture::eTextureType::None])(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite sprite);
-
         std::vector<Sprite> m_vecSprites;
+        
+        //bool m_bLoop;
+        bool m_bCompleted;
+
         int m_iIndex;
         float m_fTime;
-        bool m_bLoop;
-        bool m_bCompleted;
+
     };
 
 }

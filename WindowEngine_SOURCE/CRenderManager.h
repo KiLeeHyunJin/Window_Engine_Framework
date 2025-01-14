@@ -9,7 +9,7 @@ namespace Framework
 	{
 		friend CApplication;
 	private:
-		static void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
+		static void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen);
 		static void Release();
 
 		static void Render();
@@ -38,6 +38,8 @@ namespace Framework
 
 		static int m_iCurrentBufferBitmapWidth;
 		static int m_iCurrentBufferBitmapHeight;
+
+		static bool m_bScreenState;
 	};
 #define RENDER CRenderManager;
 }

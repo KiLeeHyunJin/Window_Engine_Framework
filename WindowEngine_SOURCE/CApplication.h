@@ -12,7 +12,7 @@ namespace Framework
 		void Run();
 		void ChangeScreenSize(bool maximumScale);
 
-		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
+		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen = false);
 		void Release();
 		Maths::Vector2 GetResolution() const 
 		{ 
@@ -20,7 +20,9 @@ namespace Framework
 				CRenderManager::m_iCurrentBufferBitmapWidth, 
 				CRenderManager::m_iCurrentBufferBitmapHeight); 
 		}
-		HDC GetHDC() const { return CRenderManager::GetHDC(); }
+		bool GetScreenState()	{ return CRenderManager::m_bScreenState; };
+		HDC GetHDC() const		{ return CRenderManager::GetHDC(); }
+		HWND GetHWND() const	{ return CRenderManager::m_hWnd; }
 	private:
 		void Tick();
 		void LastTick();

@@ -28,7 +28,6 @@ Framework::CApplication application;
 ULONG_PTR g_pToken;
 Gdiplus::GdiplusStartupInput gpsi;
 bool processState;  // 게임 진행 중이면 true 종료면 false
-bool scaleMaximum;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -40,6 +39,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 #pragma region  Window_Process_Init
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);         //메모리 누수 체크
+    //_CrtSetBreakAlloc(499);
     setlocale(LC_ALL, "Korean");                                    //지역 설정
 
     // 전역 문자열을 초기화합니다.
@@ -146,21 +146,22 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        hInstance,
        nullptr);
 
-   scaleMaximum = false;
-
    if (!hWnd)   {    return FALSE;   }
    Gdiplus::GdiplusStartup(&g_pToken, &gpsi, NULL);
+
    Framework::LoadResource();
    Framework::LoadScenes();
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
+
    application.Initialize(
        hWnd, 
        WINSIZEX , WINSIZEY, 
        (screenScaleX - WINSIZEX) >> 1,
        (screenScaleY - WINSIZEY) >> 1,
-       myStyle, false
+       myStyle, false, 
+       false
    );
 
    return TRUE;
@@ -196,8 +197,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case ID_CHANGESCALE:
             {
-                scaleMaximum = !scaleMaximum;
-                application.ChangeScreenSize(scaleMaximum);
+                bool screenState = application.GetScreenState() == false; // 스크린 상태 역전
+                application.ChangeScreenSize(screenState);
             }
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);

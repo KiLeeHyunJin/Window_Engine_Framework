@@ -1,9 +1,12 @@
 #include "CInputManager.h"
+#include "CApplication.h"
+
+extern Framework::CApplication application;
 
 namespace Framework
 {
 	std::vector<CInputManager::Key> CInputManager::m_vecKeys = {};
-
+	Maths::Vector2 CInputManager::m_vecMousePos = Maths::Vector2::One;
 	int ASCII[] =
 	{
 		'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
@@ -51,16 +54,13 @@ namespace Framework
 
 	void CInputManager::Tick()
 	{
-		for (Key& key : m_vecKeys)
+		if(GetFocus())
 		{
-			if (IsKeyDown(key.keyCode))
-			{
-				UpdateKeyDown(key);
-			}
-			else
-			{
-				UpdateKeyUp(key);
-			}
+			UpdateKey();
+		}
+		else
+		{
+			ClearKey();
 		}
 	}
 
@@ -92,6 +92,47 @@ namespace Framework
 		else
 		{
 			key.state = eKeyState::None;
+		}
+	}
+
+	void CInputManager::UpdateCursorPosition()
+	{
+		POINT point = {};
+		GetCursorPos(&point);
+		ScreenToClient(application.GetHWND(), &point);
+		m_vecMousePos = Maths::Vector2(point.x, point.y);
+	}
+
+	void CInputManager::UpdateKey()
+	{
+		for (Key& key : m_vecKeys)
+		{
+			if (IsKeyDown(key.keyCode))
+			{
+				UpdateKeyDown(key);
+			}
+			else
+			{
+				UpdateKeyUp(key);
+			}
+		}
+		UpdateCursorPosition();
+	}
+
+	void CInputManager::ClearKey()
+	{
+		for (Key& key : m_vecKeys)
+		{
+			if (key.state == eKeyState::Down || key.state == eKeyState::Pressed)
+			{
+				key.state = eKeyState::Up;
+				key.bPressed = false;
+			}
+			else if (key.state == eKeyState::Up)
+			{
+				key.state = eKeyState::None;
+				key.bPressed = false;
+			}
 		}
 	}
 

@@ -16,7 +16,12 @@ namespace Framework
 		template<typename T>
 		T* AddComponent()
 		{
-			T* com = new T;
+			
+			T* com = GetComponent<T>();
+			if (com != nullptr)
+				return com;
+			com = new T;
+			//new T;
 			CComponent* pCom = static_cast<CComponent*>(com);
 			pCom->Initialize();
 			pCom->SetOwner(this);

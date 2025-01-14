@@ -11,6 +11,21 @@ namespace Framework
 public CComponent
 	{
 	public:
+		struct Event
+		{
+			void operator=(std::function<void()> func)
+			{	mEvent = std::move(func);	}
+			void operator()()
+			{	if (mEvent)	{	mEvent;	}	}
+			std::function<void()> mEvent;
+		};
+		struct Events
+		{
+			Event m_StartEvent;
+			Event m_CompleteEvent;
+			Event m_EndEvent;
+		};
+
 		CAnimatorComponent();
 		virtual ~CAnimatorComponent();
 
@@ -27,14 +42,24 @@ public CComponent
 		CAnimation* FindAnimation(const std::wstring& name);
 		void PlayAnimation(const std::wstring& name, bool loop = true);
 
+		bool IsCompletedAnimation() { return m_pCurrentAnimation->IsCompleted(); }
 
+		std::function<void()>& GetStartEvent(const std::wstring& name);
+		std::function<void()>& GetCompleteEvent(const std::wstring& name);
+		std::function<void()>& GetEndEvent(const std::wstring& name);
+
+		CAnimatorComponent::Events* FindEvents(const std::wstring& name);
 	private:
-		CAnimation* m_pCurrentAnimation;
-		std::map<std::wstring, CAnimation*> m_mapAnimations;
-		bool m_bLoop;
-
+		void EndAnimation();
+		void StartAnimation(CAnimation* const  pAnim);
 		// CComponent을(를) 통해 상속됨
 		void Release() override;
+
+		CAnimation* m_pCurrentAnimation;
+		std::map<std::wstring, CAnimation*> m_mapAnimations;
+		std::map<std::wstring, Events*> m_mapEvents;
+		
+		bool m_bLoop;
 	};
 
 

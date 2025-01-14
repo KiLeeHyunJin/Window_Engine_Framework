@@ -18,9 +18,9 @@ namespace Framework
 	{
 	}
 
-	void CApplication::Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu)
+	void CApplication::Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
-		CRenderManager::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu);
+		CRenderManager::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
 
 		INPUT::Initialize();
 		TIME::Initialize();
@@ -30,7 +30,8 @@ namespace Framework
 	void CApplication::Release()
 	{
 		SCENE::Release();
-		RESOURCE::Release();
+		Resource::RESOURCE::Release();
+		CRenderManager::Release();
 	}
 
 	void CApplication::Run()

@@ -45,6 +45,7 @@ namespace Framework
 		static bool GetKeyDown(eKeyCode key)	{ return m_vecKeys[(UINT)key].state == eKeyState::Down;		}
 		static bool GetKeyUp(eKeyCode key)		{ return m_vecKeys[(UINT)key].state == eKeyState::Up;		}
 		static bool GetKeyPressed(eKeyCode key) { return m_vecKeys[(UINT)key].state == eKeyState::Pressed;	}
+		static Maths::Vector2 GetMousePosition() { return m_vecMousePos; }
 
 		friend CApplication;
 	private:
@@ -54,6 +55,12 @@ namespace Framework
 		static bool IsKeyDown(eKeyCode key);
 		static void UpdateKeyDown(Key& key);
 		static void UpdateKeyUp(Key& key);
+		static void UpdateCursorPosition();
+
+		static void UpdateKey();
+		static void ClearKey();
+
+		static Maths::Vector2 m_vecMousePos;
 
 		static std::vector<Key> m_vecKeys;
 	};

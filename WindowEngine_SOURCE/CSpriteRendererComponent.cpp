@@ -85,8 +85,6 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	HBRUSH bluBrush = CreateSolidBrush(RGB(255, 0, 255));
 	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, (HGDIOBJ)bluBrush);
 
-
-
 	Rectangle(hdc,
 		(INT)(pos.x - 10), (INT)(pos.y - 10),
 		(INT)(pos.x + 10), (INT)(pos.y + 10));

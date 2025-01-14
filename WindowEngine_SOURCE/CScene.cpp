@@ -2,6 +2,8 @@
 #include "CGameObject.h"
 #include "Enums.h"
 
+#include "CInputManager.h"
+
 namespace Framework
 {
 	CScene::CScene()
@@ -22,6 +24,7 @@ namespace Framework
 		}
 		m_vecLayer.clear();
 	}
+
 	void CScene::SceneInitialize()
 	{
 		for (CLayer* pLayer : m_vecLayer)
@@ -61,6 +64,12 @@ namespace Framework
 			pLayer->Render(hdc);
 		}
 		Render(hdc);
+
+
+		Maths::Vector2 mousePos = CInputManager::GetMousePosition();
+		std::wstring pointStr = L"X : " + std::to_wstring((int)mousePos.x) + L", Y : " + std::to_wstring((int)mousePos.y);
+		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
+		TextOut(hdc, mousePos.x + 10, mousePos.y - 15, pointStr.c_str(), lenPos);
 	}
 	
 	void CScene::AddGameObject(CGameObject* pGameObject, Enums::eLayerType layer)
