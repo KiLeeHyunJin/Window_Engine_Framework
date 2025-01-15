@@ -34,10 +34,10 @@ void Framework::CTitleScene::Tick()
 
 void Framework::CTitleScene::LastTick()
 {
-	/*if (INPUT::GetKeyDown(eKeyCode::A))
+	if (INPUT::GetKeyDown(eKeyCode::A))
 	{
 		CSceneManager::LoadScene(L"PlayScene");
-	}*/
+	}
 }
 
 void Framework::CTitleScene::Render(HDC hdc)

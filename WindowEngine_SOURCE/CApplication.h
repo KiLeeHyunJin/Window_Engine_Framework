@@ -26,7 +26,7 @@ namespace Framework
 	private:
 		void Tick();
 		void LastTick();
-
+		void Destroy();
 		void Render();
 	};
 

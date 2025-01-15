@@ -6,7 +6,7 @@
 
 namespace Framework
 {
-	CGameObject::CGameObject()
+	CGameObject::CGameObject() : m_eState(eState::Played)
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size);
 		AddTransform();
@@ -25,6 +25,11 @@ namespace Framework
 				pCom->Initialize();
 			}
 		}
+	}
+
+	void CGameObject::Dead()
+	{
+		m_eState = eState::Dead;
 	}
 
 	void CGameObject::Tick()

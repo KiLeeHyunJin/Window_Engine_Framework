@@ -21,10 +21,12 @@ namespace Framework
 		void Render(HDC hdc);
 
 		void AddGameObject(CGameObject* pGameObject);
-
+		void Destroy();
 	private:
+		void RemoveGameObject(CGameObject* pGameObject);
 		Enums::eLayerType m_eLayer;
 		std::list<CGameObject*> m_listGameObject;
+		std::list<CGameObject*> m_listRemoveGameObject;
 	};
 }
 

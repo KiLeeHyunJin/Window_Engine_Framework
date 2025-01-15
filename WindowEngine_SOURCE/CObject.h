@@ -22,5 +22,9 @@ namespace Framework::Object
 		return pGameObject;
 	};
 
+	static void Destroy(CGameObject* pObj)
+	{
+		pObj->Dead();
+	}
 }
 

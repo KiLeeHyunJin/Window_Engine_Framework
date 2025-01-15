@@ -25,19 +25,20 @@ namespace Framework
 	}
 	void CCameraComponent::Tick()
 	{
-		if (m_pTarget != nullptr)
-		{
-			CTransformComponent* pTr = m_pTarget->GetComponent<CTransformComponent>();
-			m_vecLookPosition = pTr->GetPos();
-		}
-		CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
+		CGameObject* pTarget = 
+			m_pTarget != nullptr ? 
+			m_pTarget : GetOwner();
+
+		CTransformComponent* pTr = pTarget->GetComponent<CTransformComponent>();
 		m_vecLookPosition = pTr->GetPos();
 		m_vecDistance = m_vecLookPosition - (m_vecDistance * 0.5f);
 	}
+	 
 	void CCameraComponent::LastTick()
 	{
 
 	}
+
 	void CCameraComponent::Render(HDC hdc)
 	{
 	}

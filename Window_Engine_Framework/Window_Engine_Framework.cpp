@@ -39,7 +39,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 #pragma region  Window_Process_Init
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);         //메모리 누수 체크
-    //_CrtSetBreakAlloc(499);
+    //_CrtSetBreakAlloc(499);  //메모리 할당을 디버그하는 데 사용(해당 번째 메모리 할당하때 중단되는것 같음)
     setlocale(LC_ALL, "Korean");                                    //지역 설정
 
     // 전역 문자열을 초기화합니다.

@@ -57,6 +57,15 @@ namespace Framework
 		}
 		LastTick();
 	}
+
+	void CScene::SceneDestroy()
+	{
+		for (CLayer* pLayer : m_vecLayer)
+		{
+			pLayer->Destroy();
+		}
+	}
+
 	void CScene::SceneRender(HDC hdc)
 	{
 		for (CLayer* pLayer : m_vecLayer)

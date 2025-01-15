@@ -29,6 +29,11 @@ namespace Framework
 		m_pCurrentScene->SceneLastTick();
 	}
 
+	void CSceneManager::Destroy()
+	{
+		m_pCurrentScene->SceneDestroy();
+	}
+
 	void CSceneManager::Render(HDC hDC)
 	{
 		m_pCurrentScene->SceneRender(hDC);

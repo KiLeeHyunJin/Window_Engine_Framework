@@ -5,6 +5,7 @@
 
 #include "CTransformComponent.h"
 #include "CGameObject.h"
+#include "CObject.h"
 namespace Framework
 {
 	CPlayerInput::CPlayerInput()
@@ -22,7 +23,12 @@ namespace Framework
 	void CPlayerInput::Tick()
 	{
 		float speed = 200;
-
+		static float time = 0; 
+		time += DELTATIME;
+		if (time > 6)
+		{
+			Object::Destroy(GetOwner());
+		}
 		CTransformComponent* tr = GetOwner()->GetComponent<CTransformComponent>();
 		float x = tr->GetX();
 		float y = tr->GetY();

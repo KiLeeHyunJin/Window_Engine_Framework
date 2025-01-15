@@ -24,6 +24,8 @@ namespace Framework
 		virtual void Tick()				= 0;
 		virtual void LastTick()			= 0;
 
+
+
 		virtual void Render(HDC hdc)	= 0;
 
 		virtual void OnEnter()			= 0;
@@ -37,6 +39,8 @@ namespace Framework
 		void SceneRelease();
 		void SceneTick();
 		void SceneLastTick();
+		void SceneDestroy();
+
 		void SceneRender(HDC hdc);
 
 		//std::vector<CGameObject*> m_vecGameObject;

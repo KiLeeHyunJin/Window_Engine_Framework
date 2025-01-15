@@ -27,7 +27,7 @@ Framework::CPlayScene::~CPlayScene()
 void Framework::CPlayScene::Initialize()
 {
 	CGameObject* pObj = Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround);
-	CTransformComponent* pTr = pObj->GetComponent<CTransformComponent>();
+	CTransformComponent* pTr = pObj->AddComponent<CTransformComponent>();
 	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
 	pAnim->CreateAnimation(L"Room", pTexture,Vector2(0,0), Vector2(50,50), Vector2(0,0), 5, 0.2f );

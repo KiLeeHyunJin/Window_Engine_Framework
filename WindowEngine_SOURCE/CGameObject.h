@@ -2,6 +2,7 @@
 #include "CommonInclude.h"
 #include "CEntity.h"
 #include "CComponent.h"
+//#include "CObject.h"
 
 namespace Framework
 {
@@ -10,18 +11,24 @@ namespace Framework
 	class CGameObject : public CEntity
 	{
 	public:
+		enum class eState
+		{
+			Played,
+			Paused,
+			Dead,
+			End
+		};
+
 		CGameObject();
 		virtual ~CGameObject();
 
 		template<typename T>
 		T* AddComponent()
 		{
-			
 			T* com = GetComponent<T>();
 			if (com != nullptr)
 				return com;
 			com = new T;
-			//new T;
 			CComponent* pCom = static_cast<CComponent*>(com);
 			pCom->Initialize();
 			pCom->SetOwner(this);
@@ -44,6 +51,11 @@ namespace Framework
 			return nullptr;
 		}
 
+		void SetActive(bool power) { m_eState = power ? eState::Played : eState::Paused; }
+		eState GetActive() { return m_eState; }
+		//friend void Object::Destroy(CGameObject* pObj);
+		void Dead();
+
 		friend CLayer;
 	private:
 		void Initialize();
@@ -53,7 +65,9 @@ namespace Framework
 		void Release();
 
 		void AddTransform();
+
 		std::vector<CComponent*> m_vecComponents;
+		eState m_eState;
 	};
 }
 

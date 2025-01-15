@@ -43,7 +43,7 @@ namespace Framework
 
 		static void Tick();
 		static void LastTick();
-
+		static void Destroy();
 		static void Render(HDC hDC);
 
 		static std::map<std::wstring, CScene*> m_mapScene;

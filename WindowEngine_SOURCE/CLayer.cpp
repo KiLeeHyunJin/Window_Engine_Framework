@@ -4,7 +4,9 @@
 namespace Framework
 {
 	CLayer::CLayer(Enums::eLayerType layer) :
-		m_listGameObject({}), m_eLayer(layer)
+		m_listGameObject({}), 
+		m_listRemoveGameObject({}),
+		m_eLayer(layer)
 	{
 	}
 
@@ -32,26 +34,82 @@ namespace Framework
 
 	void CLayer::Tick()
 	{
-		for (CGameObject* pObj : m_listGameObject)
+		for (auto iter = m_listGameObject.cbegin();
+			iter != m_listGameObject.cend();
+			iter++)
 		{
-			pObj->Tick();
+			CGameObject::eState state = (*iter)->GetActive();
+			if (state == CGameObject::eState::Played)
+			{
+				(*iter)->Tick();
+			}
 		}
 	}
 
 	void CLayer::LastTick()
 	{
-		for (CGameObject* pObj : m_listGameObject)
+		for (auto iter = m_listGameObject.cbegin();
+			iter != m_listGameObject.cend();
+			)
 		{
-			pObj->LastTick();
+			CGameObject* pObj = (*iter);
+			CGameObject::eState state = pObj->GetActive();
+
+			if (state == CGameObject::eState::Played)
+			{
+				(*iter)->LastTick();
+				iter++;
+			}
+			else if (state == CGameObject::eState::Dead)
+			{
+				m_listRemoveGameObject.push_back(pObj);
+				iter = m_listGameObject.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
 		}
 	}
 
 	void CLayer::Render(HDC hdc)
 	{
-		for (CGameObject* pObj : m_listGameObject)
+		for (auto iter = m_listGameObject.cbegin();
+			iter != m_listGameObject.cend();
+			iter++)
 		{
-			pObj->Render(hdc);
+			CGameObject::eState state = (*iter)->GetActive();
+			if (state == CGameObject::eState::Played)
+			{
+				(*iter)->Render(hdc);;
+			}
 		}
+	}
+
+	void CLayer::Destroy()
+	{
+		for (auto iter = m_listRemoveGameObject.cbegin();
+			iter != m_listRemoveGameObject.cend();)
+		{
+			CGameObject::eState state = (*iter)->GetActive();
+			if (state == CGameObject::eState::Dead)
+			{
+				CGameObject* eraseObj = (*iter);
+				iter = m_listRemoveGameObject.erase(iter);
+
+				RemoveGameObject(eraseObj);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+	}
+
+	void CLayer::RemoveGameObject(CGameObject* pGameObject)
+	{
+		pGameObject->Release();
+		delete pGameObject;
 	}
 
 	void CLayer::AddGameObject(CGameObject* pGameObject)

@@ -39,6 +39,7 @@ namespace Framework
 		Tick();
 		LastTick();
 		Render();
+		Destroy();
 	}
 
 	void CApplication::Tick()
@@ -56,6 +57,11 @@ namespace Framework
 	void CApplication::Render()
 	{
 		CRenderManager::Render();
+	}
+
+	void CApplication::Destroy()
+	{
+		CSceneManager::Destroy();
 	}
 
 	void CApplication::ChangeScreenSize(bool maximumScale)
