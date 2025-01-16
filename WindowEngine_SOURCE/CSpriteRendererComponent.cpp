@@ -51,11 +51,29 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 
 	if (textureType == CTexture::eTextureType::Bmp)
 	{
-		TransparentBlt(
-			hdc, 
-			(INT)pos.x, (INT)pos.y,
-			(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y),
-			m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight, RGB(255,0,255));
+		if (m_pTexture->GetAlpha())
+		{
+			BLENDFUNCTION func = {};
+			func.BlendOp = AC_SRC_OVER;
+			func.BlendFlags = 0;
+			func.AlphaFormat = AC_SRC_ALPHA;
+			func.SourceConstantAlpha = 255;
+
+			AlphaBlend(
+				hdc,
+				(INT)pos.x, (INT)pos.y,
+				(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y),
+				m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight,
+				func);
+		}
+		else
+		{
+			TransparentBlt(
+				hdc,
+				(INT)pos.x, (INT)pos.y,
+				(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y),
+				m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight, RGB(255, 0, 255));
+		}
 	}
 	else if (textureType == CTexture::eTextureType::Png)
 	{

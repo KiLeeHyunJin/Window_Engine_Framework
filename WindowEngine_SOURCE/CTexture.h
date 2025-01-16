@@ -12,16 +12,22 @@ namespace Framework::Resource
 			Png,
 			None,
 		};
+
+		static CTexture* Create(std::wstring name, UINT width, UINT height);
+
 		CTexture();
 		virtual ~CTexture();
 		HRESULT Load(const std::wstring& wstrPath) override;
-		UINT	GetWidth() { return m_uiWidth; }
+		UINT	GetWidth()	{ return m_uiWidth; }
 		UINT	GetHeight() { return m_uiWidth; }
-		HDC		GetHDC() { return m_hdc; }
+		bool	GetAlpha()	{ return m_bAlpha; }
+
+		HDC		GetHDC()	{ return m_hdc; }
 		eTextureType	GetTextureType() { return m_eTextureType; }
 		Gdiplus::Image* GetImage() { return m_pImg; }
 	private:
-
+		void SetWidth(UINT width) { m_uiWidth = width; }
+		void SetHeight(UINT height) { m_uiHeight = height; }
 		Gdiplus::Image* m_pImg;
 		HBITMAP m_hBmp;
 		HDC m_hdc;
@@ -29,6 +35,8 @@ namespace Framework::Resource
 		UINT m_uiWidth;
 		UINT m_uiHeight;
 		eTextureType m_eTextureType;
+
+		bool m_bAlpha;
 		// CResource을(를) 통해 상속됨
 	};
 

@@ -34,6 +34,20 @@ namespace Framework::Resource
 			return pResource;
 		}
 
+		static void Insert(const std::wstring& key,  CResource* pResource)
+		{
+			if (pResource == nullptr)
+			{
+				return;
+			}
+			auto iter = m_mapResoucres.find(key);
+			if (iter != m_mapResoucres.end())
+			{
+				return;
+			}
+			m_mapResoucres.insert(std::make_pair(key, pResource));
+		}
+
 		friend class CApplication;
 	private:
 		static void Release()

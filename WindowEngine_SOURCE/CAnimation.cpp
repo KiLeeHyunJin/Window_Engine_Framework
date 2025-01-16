@@ -93,21 +93,37 @@ namespace Framework
 
 	void  CAnimation::RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const
 	{
-		BLENDFUNCTION func = {};
-		func.BlendOp = AC_SRC_OVER;
-		func.BlendFlags = 0;
-		func.AlphaFormat = AC_SRC_ALPHA;
-		func.SourceConstantAlpha = 255;
-
 		HDC imgHdc = m_pTexture->GetHDC();
 
-		AlphaBlend(hdc,
-			pos.x, pos.y,
-			sprite.size.x * scale.x, sprite.size.y * scale.y,
-			imgHdc,
-			sprite.leftTop.x, sprite.leftTop.y,
-			sprite.size.x, sprite.size.y,
-			func);
+		pos.x += sprite.offset.x;
+		pos.y += sprite.offset.y;
+
+		if (m_pTexture->GetAlpha())
+		{
+			BLENDFUNCTION func = {};
+			func.BlendOp = AC_SRC_OVER;
+			func.BlendFlags = 0;
+			func.AlphaFormat = AC_SRC_ALPHA;
+			func.SourceConstantAlpha = 255;
+
+			AlphaBlend(hdc,
+				pos.x , pos.y,
+				sprite.size.x * scale.x, sprite.size.y * scale.y,
+				imgHdc,
+				sprite.leftTop.x, sprite.leftTop.y,
+				sprite.size.x, sprite.size.y,
+				func);
+		}
+		else
+		{
+			TransparentBlt(hdc,
+				pos.x, pos.y,
+				sprite.size.x * scale.x, sprite.size.y * scale.y,
+				imgHdc,
+				sprite.leftTop.x, sprite.leftTop.y,
+				sprite.size.x, sprite.size.y,
+				RGB(255, 0, 255));
+		}
 	}
 
 	void  CAnimation::RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const

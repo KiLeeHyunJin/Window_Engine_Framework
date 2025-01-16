@@ -12,6 +12,7 @@ namespace Framework
 
 	CLayer::~CLayer()
 	{
+
 	}
 
 	void CLayer::Initialize()
@@ -58,17 +59,15 @@ namespace Framework
 			if (state == CGameObject::eState::Played)
 			{
 				(*iter)->LastTick();
-				iter++;
 			}
 			else if (state == CGameObject::eState::Dead)
 			{
 				m_listRemoveGameObject.push_back(pObj);
 				iter = m_listGameObject.erase(iter);
+				continue;
 			}
-			else
-			{
-				iter++;
-			}
+
+			iter++;
 		}
 	}
 

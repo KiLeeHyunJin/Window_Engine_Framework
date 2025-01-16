@@ -1,16 +1,45 @@
 #include "CTexture.h"
 #include "CApplication.h"
+#include "CResourceManager.h"
 
 extern Framework::CApplication application;
 
 namespace Framework::Resource
 {
+	CTexture* CTexture::Create(std::wstring name, UINT width, UINT height)
+	{
+		CTexture* pTexture = CResourceManager::Find<CTexture>(name);
+		if (pTexture != nullptr)
+		{
+			return pTexture;
+		}
+		pTexture = new CTexture();
+		pTexture->SetName(name);
+		pTexture->SetHeight(height);
+		pTexture->SetWidth(width);
+
+		HDC hdc = application.GetHDC();
+		HWND hwnd = application.GetHWND();
+
+		pTexture->m_hBmp = CreateCompatibleBitmap(hdc, width, height);
+		pTexture->m_hdc = CreateCompatibleDC(hdc);
+
+		HBITMAP oldBitmap = (HBITMAP)SelectObject(hdc, pTexture->m_hBmp);
+		DeleteObject(oldBitmap);
+
+		CResourceManager::Insert(name, pTexture);
+		return pTexture;
+	}
+
 	CTexture::CTexture() :
 		CResource(Enums::eResourceType::Texture),
 		m_uiHeight(0), m_uiWidth(0),
-		m_hBmp(0),m_hdc(0), m_pImg(nullptr)
+		m_hBmp(0),m_hdc(0), m_pImg(nullptr),
+		m_bAlpha(false)
 	{
 	}
+
+
 	CTexture::~CTexture()
 	{
 	}
@@ -42,7 +71,7 @@ namespace Framework::Resource
 			GetObject(m_hBmp, sizeof(BITMAP), &info);
 			m_uiHeight	= info.bmHeight;
 			m_uiWidth	= info.bmWidth;
-
+			m_bAlpha	= info.bmBitsPixel == 32;
 			HDC mainDC = application.GetHDC();
 			m_hdc = CreateCompatibleDC(mainDC);
 			HBITMAP oldBmp = (HBITMAP)SelectObject(m_hdc, m_hBmp);

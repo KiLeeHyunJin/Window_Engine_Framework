@@ -1,5 +1,6 @@
 #pragma once
 #include "CAnimatorComponent.h"
+#include "CResourceManager.h"
 
 namespace Framework
 {
@@ -65,6 +66,42 @@ namespace Framework
 		pAnim->CreateAnimation(name, spriteSheet, leftTop, size, offset, spriteLength, duration);
 		pAnim->SetOwner(this);
 		m_mapAnimations.insert(std::make_pair(name,pAnim));
+	}
+
+	void CAnimatorComponent::CreateAnimationByFolder(const std::wstring& name, const std::wstring& path, Vector2 offset, float duration)
+	{
+		CAnimation* pAnim = nullptr;
+		pAnim = FindAnimation(name);
+		if (pAnim != nullptr)
+		{
+			return;
+		}
+		int fileCount = 0;
+		std::filesystem::path fs(path);
+		std::vector<Resource::CTexture*> vecImgs = {};
+		for (auto& p : std::filesystem::recursive_directory_iterator(fs))
+		{
+			std::wstring fileName = p.path().filename();
+			std::wstring fullName = p.path();
+			fileCount++;
+
+			CTexture* pTexture = CResourceManager::Load<CTexture>(fileName, fullName);
+			vecImgs.push_back(pTexture);
+		}
+
+		const UINT imgWidth		= vecImgs[0]->GetWidth();
+		const UINT imgHeigth	= vecImgs[0]->GetHeight();
+		
+		CTexture* spriteSheet	= CTexture::Create(name , imgWidth * fileCount, imgHeigth);
+
+		for (size_t i = 0; i < vecImgs.size(); i++)
+		{
+			BitBlt(spriteSheet->GetHDC(), i * imgWidth, 0, 
+				vecImgs[i]->GetWidth(), vecImgs[i]->GetHeight(), 
+				vecImgs[0]->GetHDC(), 0, 0, SRCCOPY);
+
+		}
+		CreateAnimation(name, spriteSheet, Vector2::Zero, Vector2(imgWidth, imgHeigth), offset, fileCount, duration);
 	}
 
 	CAnimation* CAnimatorComponent::FindAnimation(const std::wstring& name)
