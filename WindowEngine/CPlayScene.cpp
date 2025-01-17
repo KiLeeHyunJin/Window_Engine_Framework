@@ -30,7 +30,7 @@ void Framework::CPlayScene::Initialize()
 	CTransformComponent* pTr = pObj->AddComponent<CTransformComponent>();
 	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	pAnim->CreateAnimation(L"Room", pTexture,Vector2(0,0), Vector2(50,50), Vector2(0,0), 5, 0.2f );
+	pAnim->CreateAnimation(L"Room", pTexture,Vector2::Zero, Vector2(50,50), Vector2::Zero, 5, 0.2f );
 	pAnim->PlayAnimation(L"Room", true);
 
 	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None);

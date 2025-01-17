@@ -6,6 +6,8 @@
 
 namespace Framework
 {
+	class CAnimatorComponent;
+
 	class CComponent;
 	class CLayer;
 	class CGameObject : public CEntity
@@ -25,30 +27,30 @@ namespace Framework
 		template<typename T>
 		T* AddComponent()
 		{
-			T* com = GetComponent<T>();
-			if (com != nullptr)
-				return com;
-			com = new T;
-			CComponent* pCom = static_cast<CComponent*>(com);
+			T* getCom = GetComponent<T>();
+			if (getCom != nullptr)
+			{
+				return getCom;
+			}
+			T* newCom = new T;
+			CComponent* const pCom = static_cast<CComponent*>(newCom);
+
 			pCom->Initialize();
 			pCom->SetOwner(this);
-			Enums::eComponentType componentType = pCom->GetComponentType();
+
+			const Enums::eComponentType componentType = pCom->GetComponentType();
 			m_vecComponents[(int)componentType] = pCom;
-			return com;
+			return newCom;
 		}
 
 		template<typename T>
 		T* GetComponent()
 		{
-			for (CComponent* pCom: m_vecComponents)
-			{
-				T* com = dynamic_cast<T*>(pCom);
-				if (com != nullptr)
-				{
-					return com;
-				}
-			}
-			return nullptr;
+			const T def{};
+			const Enums::eComponentType componentType = def.GetComponentType();
+			CComponent* pCom = m_vecComponents[(int)componentType];
+			T* getCom = dynamic_cast<T*>(pCom);
+			return getCom;
 		}
 
 		void SetActive(bool power) { m_eState = power ? eState::Played : eState::Paused; }

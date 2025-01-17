@@ -17,8 +17,8 @@ namespace Framework
 		Maths::Vector2 GetResolution() const 
 		{ 
 			return  Maths::Vector2(
-				CRenderManager::m_iCurrentBufferBitmapWidth, 
-				CRenderManager::m_iCurrentBufferBitmapHeight); 
+				(float)CRenderManager::m_iCurrentBufferBitmapWidth, 
+				(float)CRenderManager::m_iCurrentBufferBitmapHeight); 
 		}
 		bool GetScreenState()	{ return CRenderManager::m_bScreenState; };
 		HDC GetHDC() const		{ return CRenderManager::GetHDC(); }
