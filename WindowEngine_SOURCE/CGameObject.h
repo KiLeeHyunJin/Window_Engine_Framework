@@ -53,8 +53,8 @@ namespace Framework
 			return getCom;
 		}
 
-		void SetActive(bool power) { m_eState = power ? eState::Played : eState::Paused; }
-		eState GetActive() { return m_eState; }
+		void SetActive(bool power)	{ m_eState = power ? eState::Played : eState::Paused; }
+		eState GetActive()			{ return m_eState; }
 		//friend void Object::Destroy(CGameObject* pObj);
 		void Dead();
 
