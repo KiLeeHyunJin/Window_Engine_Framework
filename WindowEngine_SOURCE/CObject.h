@@ -10,7 +10,7 @@
 namespace Framework::Object
 {
 	template <typename T>
-	static T* Instantiate(Enums::eLayerType layerType)
+	static T* Instantiate(Enums::eLayerType layerType, std::wstring name)
 	{
 		CScene* pCurScene = CSceneManager::GetCurrentScene();
 		if (pCurScene == nullptr)
@@ -19,6 +19,7 @@ namespace Framework::Object
 		}
 		T* pGameObject = new T();
 		pCurScene->AddGameObject(pGameObject, layerType);
+		pGameObject->SetName(name);
 		return pGameObject;
 	};
 

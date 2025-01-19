@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 #include <cmath>
 
 namespace Framework::Maths
@@ -57,18 +57,24 @@ namespace Framework::Maths
 			this->y = y;
 		}
 
-		Vector2 operator - ( Vector2& other)
+		Vector2 operator - (Vector2 other)
 		{
 			return Vector2(x - other.x, y - other.y);
 		}
-		Vector2 operator + (Vector2& other)
+
+		Vector2 operator + (Vector2 other)
 		{
 			return Vector2(x + other.x, y + other.y);
 		}
 
-		Vector2 operator * (Vector2& other)
+		Vector2 operator * (Vector2 other)
 		{
 			return Vector2(x * other.x, y * other.y);
+		}
+
+		Vector2 operator / (Vector2 other)
+		{
+			return Vector2(x / other.x, y / other.y);
 		}
 
 		void operator += (Vector2& other)

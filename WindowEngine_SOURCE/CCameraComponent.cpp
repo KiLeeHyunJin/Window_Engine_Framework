@@ -9,9 +9,8 @@ namespace Framework
 {
 	CCameraComponent::CCameraComponent():
 		CComponent(Enums::eComponentType::Camera),
-		m_pTarget(nullptr)
+		m_pTarget(nullptr), m_vecResolution(Maths::Vector2::Zero)
 	{
-		m_vecResolution = application.GetResolution();
 	}
 	CCameraComponent::~CCameraComponent()
 	{
@@ -19,6 +18,7 @@ namespace Framework
 
 	void CCameraComponent::Initialize()
 	{
+		SetResolution(application.GetResolution());
 	}
 	void CCameraComponent::Release()
 	{

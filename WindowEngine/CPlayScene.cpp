@@ -26,19 +26,21 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
-	CGameObject* pObj = Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround);
+	CGameObject* pObj = Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround, L"pObj");
 	CTransformComponent* pTr = pObj->AddComponent<CTransformComponent>();
-	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
+
+	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
+	//pObj->AddComponent<CPlayerInput>();
 	pAnim->CreateAnimation(L"Room", pTexture,Vector2::Zero, Vector2(50,50), Vector2::Zero, 5, 0.2f );
 	pAnim->PlayAnimation(L"Room", true);
 
-	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None);
+	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None, L"Cam");
 	pCameraObj->AddComponent<CPlayerInput>();
 	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
 	
 	Renderer::mainCamera = pCamera;
-	pCamera->SetTarget(pObj);
+	//pCamera->SetTarget(pObj);
 
 	//pSr->ImageLoad(L"Resources\\Room.png");
 }

@@ -27,29 +27,28 @@ namespace Framework
 		time += DELTATIME;
 		if (time > 6)
 		{
-			Object::Destroy(GetOwner());
+			//Object::Destroy(GetOwner());
 		}
 		CTransformComponent* tr = GetOwner()->GetComponent<CTransformComponent>();
-		float x = tr->GetX();
-		float y = tr->GetY();
+		Maths::Vector2 pos = tr->GetPos();
 		if (INPUT::GetKeyPressed(eKeyCode::Left))
 		{
-			x -= speed * DELTATIME;
+			pos.x -= speed * DELTATIME;
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Right))
 		{
-			x += speed * DELTATIME;
+			pos.x += speed * DELTATIME;
 
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Up))
 		{
-			y -= speed * DELTATIME;
+			pos.y -= speed * DELTATIME;
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Down))
 		{
-			y += speed * DELTATIME;
+			pos.y += speed * DELTATIME;
 		}
-		tr->SetPos(Maths::Vector2(x, y));
+		tr->SetPos(pos);
 	}
 	void CPlayerInput::LastTick()
 	{

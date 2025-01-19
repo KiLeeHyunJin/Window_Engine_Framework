@@ -39,7 +39,14 @@ namespace Framework
 			pCom->SetOwner(this);
 
 			const Enums::eComponentType componentType = pCom->GetComponentType();
-			m_vecComponents[(int)componentType] = pCom;
+			if (componentType == Enums::eComponentType::Custom)
+			{
+				m_listCustomComponents.push_back(pCom);
+			}
+			else
+			{
+				m_vecComponents[(int)componentType] = pCom;
+			}
 			return newCom;
 		}
 
@@ -48,9 +55,53 @@ namespace Framework
 		{
 			const T def{};
 			const Enums::eComponentType componentType = def.GetComponentType();
-			CComponent* pCom = m_vecComponents[(int)componentType];
-			T* getCom = dynamic_cast<T*>(pCom);
-			return getCom;
+			if (componentType == Enums::eComponentType::Custom)
+			{
+				for (CComponent* pCom : m_listCustomComponents)
+				{
+					T* getCom = dynamic_cast<T*>(pCom);
+					if (getCom != nullptr)
+					{
+						return getCom;
+					}
+				}
+				return nullptr;
+			}
+			else
+			{
+				CComponent* pCom = m_vecComponents[(int)componentType];
+				T* getCom = dynamic_cast<T*>(pCom);
+				return getCom;
+			}
+
+		}
+
+		template<typename T>
+		void RemoveComponent()
+		{
+			const T def{};
+			const Enums::eComponentType componentType = def.GetComponentType();
+			if (componentType == Enums::eComponentType::Custom)
+			{
+				for (std::list<CComponent*>::const_iterator iter = m_listCustomComponents.cbegin(); iter != m_listCustomComponents.cend(); iter++)
+				{
+					T* getCom = dynamic_cast<T*>(iter);
+					if (getCom != nullptr)
+					{
+						m_listCustomComponents.erase(iter);
+						delete getCom;
+					}
+				}
+			}
+			else
+			{
+				CComponent* pCom = m_vecComponents[(int)componentType];
+				if (pCom != nullptr)
+				{
+					m_vecComponents[(int)componentType] = nullptr;
+					delete pCom;
+				}
+			}
 		}
 
 		void SetActive(bool power)	{ m_eState = power ? eState::Played : eState::Paused; }
@@ -69,6 +120,7 @@ namespace Framework
 		void AddTransform();
 
 		std::vector<CComponent*> m_vecComponents;
+		std::list<CComponent*> m_listCustomComponents;
 		eState m_eState;
 	};
 }

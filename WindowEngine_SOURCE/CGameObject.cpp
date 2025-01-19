@@ -25,6 +25,10 @@ namespace Framework
 				pCom->Initialize();
 			}
 		}
+		for (CComponent* pCom : m_listCustomComponents)
+		{
+			pCom->Initialize();
+		}
 	}
 
 	void CGameObject::Dead()
@@ -41,6 +45,10 @@ namespace Framework
 				pCom->Tick();
 			}
 		}
+		for (CComponent* pCom : m_listCustomComponents) 
+		{
+			pCom->Tick();
+		}
 	}
 
 	void CGameObject::LastTick()
@@ -52,7 +60,10 @@ namespace Framework
 				pCom->LastTick();
 			}
 		}
-
+		for (CComponent* pCom : m_listCustomComponents)
+		{
+			pCom->LastTick();
+		}
 	}
 	
 	void CGameObject::Render(HDC hdc) const
@@ -63,6 +74,10 @@ namespace Framework
 			{
 				pCom->Render(hdc);
 			}
+		}
+		for (CComponent* pCom : m_listCustomComponents)
+		{
+			pCom->Render(hdc);
 		}
 	}
 	void CGameObject::Release()
@@ -75,6 +90,12 @@ namespace Framework
 				delete pCom;
 			}
 		}
+		for (CComponent* pCom : m_listCustomComponents)
+		{
+			pCom->Release();
+			delete pCom;
+		}
+		m_vecComponents.clear();
 		m_vecComponents.clear();
 	}
 
