@@ -12,7 +12,7 @@ namespace Framework
 		CTimeManager();
 		virtual ~CTimeManager();
 
-		static float DeltaTime() { return m_fDeltaTime; }
+		__forceinline static float DeltaTime() { return m_fDeltaTime; }
 
 		friend CApplication;
 		friend CRenderManager;

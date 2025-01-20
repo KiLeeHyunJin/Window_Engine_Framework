@@ -18,13 +18,21 @@ namespace Framework::Resource
 		pTexture->SetHeight(height);
 		pTexture->SetWidth(width);
 
-		HDC hdc = application.GetHDC();
-		HWND hwnd = application.GetHWND();
+		const HDC hdc = application.GetHDC();
+		//HWND hwnd = application.GetHWND();
 
-		pTexture->m_hBmp = CreateCompatibleBitmap(hdc, width, height);
-		pTexture->m_hdc = CreateCompatibleDC(hdc);
+		pTexture->m_hBmp	= CreateCompatibleBitmap(hdc, width, height);
+		pTexture->m_hdc		= CreateCompatibleDC(hdc);
 
-		HBITMAP oldBitmap = (HBITMAP)SelectObject(hdc, pTexture->m_hBmp);
+		HBITMAP oldBitmap = (HBITMAP)SelectObject(pTexture->m_hdc, pTexture->m_hBmp);
+
+		///24bit¶ó ¹» ÇØµµ Èò»öÀÓ
+		//HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		//HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, transparentBrush);
+
+		//Rectangle(pTexture->m_hdc, -1, -1, pTexture->GetWidth(), pTexture->GetHeight());
+
+		//transparentBrush = (HBRUSH)SelectObject(pTexture->m_hdc, oldBrush);
 		DeleteObject(oldBitmap);
 
 		CResourceManager::Insert(name, pTexture);
@@ -34,8 +42,8 @@ namespace Framework::Resource
 	CTexture::CTexture() :
 		CResource(Enums::eResourceType::Texture),
 		m_uiHeight(0), m_uiWidth(0),
-		m_hBmp(0),m_hdc(0), m_pImg(nullptr),
-		m_bAlpha(false)
+		m_hBmp(0),m_hdc(0), 
+		m_pImg(nullptr), m_bAlpha(false)
 	{
 	}
 

@@ -43,15 +43,15 @@ namespace Framework
             Vector2 leftTop, Vector2 size, Vector2 offset,
             UINT spriteLength, float duration);
 
-        bool IsCompleted() const { return m_bCompleted; }
+        inline bool IsCompleted() const { return m_bCompleted; }
         void SetOwner(CAnimatorComponent* pAnimator) { m_pOwner = pAnimator; }
 
     private:
-        void RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const;
-        void RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const;
+        void RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale,const Sprite& sprite) const;
+        void RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale,const Sprite& sprite) const;
 
         void (CAnimation::* RenderFunc[(int)Resource::CTexture::eTextureType::None])
-            (HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite)  const;
+            (HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, const Sprite& sprite)  const;
 
         CAnimatorComponent* m_pOwner;
         CTexture* m_pTexture;

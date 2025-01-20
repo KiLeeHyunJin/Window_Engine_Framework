@@ -18,15 +18,16 @@ namespace Framework::Resource
 		CTexture();
 		virtual ~CTexture();
 		HRESULT Load(const std::wstring& wstrPath) override;
-		UINT	GetWidth()	{ return m_uiWidth; }
-		UINT	GetHeight() { return m_uiWidth; }
-		bool	GetAlpha()	{ return m_bAlpha; }
+		UINT	GetWidth()					{ return m_uiWidth;		}
+		UINT	GetHeight()					{ return m_uiWidth;		}
+		bool	GetAlpha()					{ return m_bAlpha;		}
 
-		HDC		GetHDC()	{ return m_hdc; }
-		eTextureType	GetTextureType() { return m_eTextureType; }
-		Gdiplus::Image* GetImage() { return m_pImg; }
+		HDC		GetHDC()					{ return m_hdc;			}
+		eTextureType	GetTextureType()	{ return m_eTextureType; }
+		Gdiplus::Image* GetImage()			{ return m_pImg;		}
+
 	private:
-		void SetWidth(UINT width) { m_uiWidth = width; }
+		void SetWidth(UINT width)	{ m_uiWidth = width; }
 		void SetHeight(UINT height) { m_uiHeight = height; }
 		Gdiplus::Image* m_pImg;
 		HBITMAP m_hBmp;

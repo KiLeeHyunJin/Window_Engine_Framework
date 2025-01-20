@@ -26,7 +26,7 @@ namespace Framework
 		}
 
 		static CScene* LoadScene(const std::wstring& name);
-		static CScene* GetCurrentScene() { return m_pCurrentScene; }
+		inline static CScene* GetCurrentScene() { return m_pCurrentScene; }
 
 
 		//static CSceneManager* GetInstance()

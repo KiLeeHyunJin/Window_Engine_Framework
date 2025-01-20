@@ -64,6 +64,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp">
       <Filter>Asset\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CColliderComponent.cpp">
+      <Filter>Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CBoxColliderComponent.cpp">
+      <Filter>Component\Collider\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.cpp">
+      <Filter>Component\Collider\Circle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -141,6 +150,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h">
       <Filter>Asset\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CColliderComponent.h">
+      <Filter>Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CBoxColliderComponent.h">
+      <Filter>Component\Collider\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.h">
+      <Filter>Component\Collider\Circle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Manager">
@@ -196,6 +214,15 @@
     </Filter>
     <Filter Include="Asset\Entity">
       <UniqueIdentifier>{02f37234-5b08-4c5f-9bde-8ec89b87f375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider">
+      <UniqueIdentifier>{35fb4347-1517-4511-b561-05378f5f9138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\Box">
+      <UniqueIdentifier>{60fd75ed-6e3d-409d-97d9-0e0d36270ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\Circle">
+      <UniqueIdentifier>{55549cf3-dae8-4175-97f6-3370ed7d68ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

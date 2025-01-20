@@ -24,6 +24,8 @@ namespace Framework
 		CGameObject();
 		virtual ~CGameObject();
 
+#pragma region  Component Template
+
 		template<typename T>
 		T* AddComponent()
 		{
@@ -77,35 +79,42 @@ namespace Framework
 		}
 
 		template<typename T>
-		void RemoveComponent()
+		bool RemoveComponent()
 		{
 			const T def{};
 			const Enums::eComponentType componentType = def.GetComponentType();
 			if (componentType == Enums::eComponentType::Custom)
 			{
-				for (std::list<CComponent*>::const_iterator iter = m_listCustomComponents.cbegin(); iter != m_listCustomComponents.cend(); iter++)
+				for(auto iter = m_listCustomComponents.cbegin(); 
+						 iter != m_listCustomComponents.cend();
+						 iter++)
 				{
 					T* getCom = dynamic_cast<T*>(iter);
 					if (getCom != nullptr)
 					{
 						m_listCustomComponents.erase(iter);
 						delete getCom;
+						return true;
 					}
 				}
 			}
-			else
+			else if (componentType != Enums::eComponentType::Transform)
 			{
 				CComponent* pCom = m_vecComponents[(int)componentType];
 				if (pCom != nullptr)
 				{
 					m_vecComponents[(int)componentType] = nullptr;
 					delete pCom;
+					return true;
 				}
 			}
+			return false;
 		}
 
-		void SetActive(bool power)	{ m_eState = power ? eState::Played : eState::Paused; }
-		eState GetActive()			{ return m_eState; }
+#pragma endregion Component Template
+
+		inline void SetActive(bool power)	{ m_eState = power ? eState::Played : eState::Paused; }
+		inline eState GetActive()	{ return m_eState; }
 		//friend void Object::Destroy(CGameObject* pObj);
 		void Dead();
 

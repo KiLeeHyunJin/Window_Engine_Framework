@@ -22,7 +22,7 @@ namespace Framework
 
 		static void CreateBackBuffer(int width, int height);
 
-		static HDC GetHDC() { return m_hDC; }
+		inline static HDC GetHDC() { return m_hDC; }
 
 		static HWND m_hWnd;
 		static HDC m_hDC;

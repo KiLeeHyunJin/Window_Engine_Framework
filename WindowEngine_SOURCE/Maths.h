@@ -5,6 +5,8 @@ namespace Framework::Maths
 {
 #define PI 3.142592f
 
+	inline static float RadianToDegree(float radian) { return (radian * (180 / PI)); }
+
 	struct Vector2
 	{
 		static Vector2 Rotate(Vector2 v, float degree) // 행렬 회전
@@ -34,7 +36,7 @@ namespace Framework::Maths
 		/// </summary>
 		static float Cross(Vector2& v1, Vector2& v2)
 		{
-			return (v1.x * v2.x) - (v1.y * v2.y);
+			return (v1.x * v2.x) - (v1.y * v2.y);	
 		}
 
 
@@ -49,12 +51,11 @@ namespace Framework::Maths
 		float x;
 		float y;
 
-		Vector2():x(0), y(0)
+		Vector2():x(0), y(0), isNormalize(false)
 		{	}
-		Vector2(float x, float y)
-		{
-			this->x = x;
-			this->y = y;
+		Vector2(float x, float y) : x(x), y(y)
+		{	
+			isNormalize = (x + y) == 1.0f;
 		}
 
 		Vector2 operator - (Vector2 other)
@@ -143,23 +144,33 @@ namespace Framework::Maths
 		}
 
 		/// <summary>
-		/// 정규화
+		/// 정규화 변환(방향벡터로 변환)
 		/// </summary>
 		Vector2 Normalize()
 		{
+			if (isNormalize)
+			{
+				return *this;
+			}
+
 			const float len = Length();
 			x /= len;
 			y /= len;
+			isNormalize = true;
 			return *this;
 		}
 
 		/// <summary>
-		/// 정규화 값 생성
+		/// 정규화 값 생성 (방향 벡터 생성)
 		/// </summary>
 		Vector2 Normalized() const
 		{
+			if (isNormalize)
+			{
+				return Vector2(x, y);
+			}
 			const float len = Length();
-			if (len == 0)
+			if (len == 0.0f)
 			{
 				return Vector2::Zero;
 			}
@@ -168,7 +179,8 @@ namespace Framework::Maths
 			return Vector2(x, y);
 		}
 	
-
+		private:
+			bool isNormalize;
 	};
 	template<typename T>
 	T Abs(T other)

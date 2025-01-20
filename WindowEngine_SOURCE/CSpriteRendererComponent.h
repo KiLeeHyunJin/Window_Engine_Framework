@@ -11,7 +11,7 @@ namespace Framework
 		public CComponent
 	{
 	public:
-		void SetTexture(const std::wstring& wstrResourceKey)
+		inline void SetTexture(const std::wstring& wstrResourceKey)
 		{
 			m_pTexture = Framework::CResourceManager::Find<CTexture>(wstrResourceKey);
 		};

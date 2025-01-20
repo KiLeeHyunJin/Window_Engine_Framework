@@ -8,7 +8,7 @@
 #include "CCameraComponent.h"
 
 #include "CTimeManager.h"
-
+#include "CInputManager.h"
 
 namespace Framework
 {
@@ -72,31 +72,40 @@ namespace Framework
 		CGameObject* pObj = m_pOwner->GetOwner();
 		CTransformComponent* pTr = pObj->GetComponent<CTransformComponent>();
 
-		Vector2 pos = pTr->GetPos();
+		Vector2 originPos = pTr->GetPos();
+		Vector2 pos = originPos;
+
 		const Vector2 scale = pTr->GetScale();
 		const float rot = pTr->GetRot();
 
 		if (Renderer::mainCamera)
 		{
 			pos = Renderer::mainCamera->CaluatePosition(pos);
+			originPos = Renderer::mainCamera->CaluatePosition(originPos);
 		}
-		Sprite sprite = m_vecSprites[m_iIndex];
+		const Sprite sprite = m_vecSprites[m_iIndex];
 
 		pos.x -= sprite.size.x * 0.5f;
 		pos.y -= sprite.size.y * 0.5f;
 
-		int idx = (int)m_pTexture->GetTextureType();
+		pos.x += sprite.offset.x;
+		pos.y += sprite.offset.y;
+
+		const int idx = (int)m_pTexture->GetTextureType();
 		(this->*RenderFunc[idx])(hdc, rot, pos, scale, sprite);
+
+		Rectangle(hdc, originPos.x - 2, originPos.y - 2, originPos.x + 2, originPos.y + 2);
+
+		std::wstring pointStr = L"X : " + std::to_wstring((int)originPos.x) + L", Y : " + std::to_wstring((int)originPos.y);
+		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
+		TextOut(hdc, originPos.x + 10, originPos.y - 15, pointStr.c_str(), lenPos);
 	}
 
 
 
-	void  CAnimation::RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const
+	void  CAnimation::RenderBMP(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, const Sprite& sprite) const
 	{
 		HDC imgHdc = m_pTexture->GetHDC();
-
-		pos.x += sprite.offset.x;
-		pos.y += sprite.offset.y;
 
 		if (m_pTexture->GetAlpha())
 		{
@@ -126,7 +135,7 @@ namespace Framework
 		}
 	}
 
-	void  CAnimation::RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, Sprite& sprite) const
+	void  CAnimation::RenderPNG(HDC hdc, float rot, Maths::Vector2 pos, Maths::Vector2 scale, const Sprite& sprite) const
 	{
 		//Gdiplus::ImageAttributes imgAtt = {};
 		//imgAtt.SetColorKey(Gdiplus::Color(100, 100, 100), Gdiplus::Color(255, 255, 255));
@@ -137,12 +146,14 @@ namespace Framework
 		graphics.RotateTransform(rot);
 		graphics.TranslateTransform(-pos.x, -pos.y);
 
+		Maths::Vector2 vecSize(sprite.size.x * scale.x, sprite.size.y * scale.y);
+
 		graphics.DrawImage(m_pTexture->GetImage(),
 			Gdiplus::Rect(
 				(INT)pos.x, (INT)pos.y,
-				(INT)sprite.size.x * scale.x, sprite.size.y * scale.y),
+				(INT)vecSize.x, vecSize.y),
 			sprite.leftTop.x, sprite.leftTop.y,
-			sprite.size.x, sprite.size.y,
+				vecSize.x, vecSize.y,
 			Gdiplus::UnitPixel,
 			nullptr);
 	}

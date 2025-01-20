@@ -42,10 +42,10 @@ namespace Framework
 		};
 
 
-		static bool GetKeyDown(eKeyCode key)	{ return m_vecKeys[(UINT)key].state == eKeyState::Down;		}
-		static bool GetKeyUp(eKeyCode key)		{ return m_vecKeys[(UINT)key].state == eKeyState::Up;		}
-		static bool GetKeyPressed(eKeyCode key) { return m_vecKeys[(UINT)key].state == eKeyState::Pressed;	}
-		static Maths::Vector2 GetMousePosition() { return m_vecMousePos; }
+		__forceinline static bool GetKeyDown(eKeyCode key)		{ return m_vecKeys[(UINT)key].state == eKeyState::Down;		}
+		__forceinline static bool GetKeyUp(eKeyCode key)		{ return m_vecKeys[(UINT)key].state == eKeyState::Up;		}
+		__forceinline static bool GetKeyPressed(eKeyCode key)	{ return m_vecKeys[(UINT)key].state == eKeyState::Pressed;	}
+		__forceinline static Maths::Vector2 GetMousePosition()	{ return m_vecMousePos; }
 
 		friend CApplication;
 	private:

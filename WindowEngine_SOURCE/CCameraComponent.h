@@ -11,10 +11,10 @@ namespace Framework
 		public CComponent
 	{
 	public :
-		Maths::Vector2 CaluatePosition(Vector2 pos) { return pos - m_vecDistance; }
+		__forceinline Maths::Vector2 CaluatePosition(Vector2 pos)		{ return pos - m_vecDistance; }
 
-		void SetTarget(CGameObject* pTarget) { m_pTarget = pTarget; }
-		void SetResolution(Maths::Vector2 resolution) { m_vecResolution = resolution; }
+		inline void SetTarget(CGameObject* pTarget)						{ m_pTarget = pTarget; }
+		inline void SetResolution(Maths::Vector2 resolution)			{ m_vecResolution = resolution; }
 
 		friend CGameObject;
 	private :

@@ -6,7 +6,7 @@ using namespace Framework::Resource;
 
 namespace Framework
 {
-
+	class CGameObject;
 	class CAnimatorComponent :
 public CComponent
 	{
@@ -26,31 +26,38 @@ public CComponent
 			Event m_EndEvent;
 		};
 
-		CAnimatorComponent();
-		virtual ~CAnimatorComponent();
 
-		void Initialize() override;
-		void Tick() override;
-		void LastTick()override;
 
-		void Render(HDC hdc)override;
+
 
 		void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
 			Vector2 leftTop, Vector2 size, Vector2 offset,
 			UINT spriteLength, float duration);
+
 		void CreateAnimationByFolder(const std::wstring& name, const std::wstring& path, Vector2 offset, float duration);
 
 		CAnimation* FindAnimation(const std::wstring& name);
 		void PlayAnimation(const std::wstring& name, bool loop = true);
 
-		bool IsCompletedAnimation() { return m_pCurrentAnimation->IsCompleted(); }
+		inline bool IsCompletedAnimation() { return m_pCurrentAnimation->IsCompleted(); }
 
 		std::function<void()>& GetStartEvent(const std::wstring& name);
 		std::function<void()>& GetCompleteEvent(const std::wstring& name);
 		std::function<void()>& GetEndEvent(const std::wstring& name);
 
 		CAnimatorComponent::Events* FindEvents(const std::wstring& name);
+
+		friend CGameObject;
 	private:
+		CAnimatorComponent();
+		virtual ~CAnimatorComponent();
+
+		void Initialize()	override;
+		void Tick()			override;
+		void LastTick()		override;
+
+		void Render(HDC hdc)override;
+
 		void EndAnimation();
 		void StartAnimation(CAnimation* const  pAnim);
 		// CComponent을(를) 통해 상속됨
