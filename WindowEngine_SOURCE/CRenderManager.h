@@ -7,8 +7,14 @@ namespace Framework
 
 	class CRenderManager
 	{
+	public:
+		static void DrawRectangle(UINT left, UINT top, UINT right, UINT bottom);
+		static void DrawEllipse(UINT left, UINT top, UINT right, UINT bottom);
+
 		friend CApplication;
 	private:
+		CRenderManager();
+		~CRenderManager();
 		static void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen);
 		static void Release();
 
@@ -41,6 +47,6 @@ namespace Framework
 
 		static bool m_bScreenState;
 	};
-#define RENDER CRenderManager;
+#define RENDER CRenderManager
 }
 

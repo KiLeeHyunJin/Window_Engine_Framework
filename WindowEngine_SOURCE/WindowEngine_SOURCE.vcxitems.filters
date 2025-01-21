@@ -2,13 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CInputManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTimeManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp">
       <Filter>Asset\GameObject</Filter>
@@ -32,7 +32,7 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCustomComponent.cpp">
       <Filter>Component\Custom</Filter>
@@ -47,7 +47,7 @@
       <Filter>Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderManager.cpp">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp">
       <Filter>Common\Maths</Filter>
@@ -73,16 +73,19 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.cpp">
       <Filter>Component\Collider\Circle</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
+      <Filter>Core\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTimeManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
       <Filter>Asset\GameObject</Filter>
@@ -118,7 +121,7 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCustomComponent.h">
       <Filter>Component\Custom</Filter>
@@ -133,7 +136,7 @@
       <Filter>Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderManager.h">
-      <Filter>Manager</Filter>
+      <Filter>Core\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
       <Filter>Common\Maths</Filter>
@@ -159,11 +162,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.h">
       <Filter>Component\Collider\Circle</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
+      <Filter>Core\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{c27cb48a-7f4e-4e7c-ad0f-c408f53feef3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{23761ff3-6959-47bb-a5f3-7cf1a71f9afe}</UniqueIdentifier>
     </Filter>
@@ -223,6 +226,9 @@
     </Filter>
     <Filter Include="Component\Collider\Circle">
       <UniqueIdentifier>{55549cf3-dae8-4175-97f6-3370ed7d68ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager">
+      <UniqueIdentifier>{c27cb48a-7f4e-4e7c-ad0f-c408f53feef3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

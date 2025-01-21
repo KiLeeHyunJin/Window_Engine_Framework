@@ -9,6 +9,16 @@ namespace Framework
 	CCustomComponent::~CCustomComponent()
 	{
 	}
+	void CCustomComponent::OnCollisionEnter(CColliderComponent* other)
+	{
+
+	}
+	void CCustomComponent::OnCollisionStay(CColliderComponent* other)
+	{
+	}
+	void CCustomComponent::OnCollisionExit(CColliderComponent* other)
+	{
+	}
 	void CCustomComponent::Initialize()
 	{
 	}

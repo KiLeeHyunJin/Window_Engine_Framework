@@ -21,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CCameraComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CColliderComponent.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h" />
@@ -51,6 +52,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CCameraComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CColliderComponent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />

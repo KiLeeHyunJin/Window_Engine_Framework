@@ -5,6 +5,7 @@
 #include "CSceneManager.h"
 #include "CRenderManager.h"
 #include "CResourceManager.h"
+#include "CCollisionManager.h"
 
 #include "CRenderer.h"
 
@@ -25,13 +26,15 @@ namespace Framework
 		INPUT::Initialize();
 		TIME::Initialize();
 		SCENE::Initialize();
+		COLLISION::Initialize();
 	}
 
 	void CApplication::Release()
 	{
 		SCENE::Release();
 		Resource::RESOURCE::Release();
-		CRenderManager::Release();
+		RENDER::Release();
+		COLLISION::Release();
 	}
 
 	void CApplication::Run()
@@ -47,6 +50,7 @@ namespace Framework
 		INPUT::Tick();
 		TIME::Tick();
 		SCENE::Tick();
+		COLLISION::Tick();
 	}
 
 	void CApplication::LastTick()
@@ -56,17 +60,17 @@ namespace Framework
 
 	void CApplication::Render()
 	{
-		CRenderManager::Render();
+		RENDER::Render();
 	}
 
 	void CApplication::Destroy()
 	{
-		CSceneManager::Destroy();
+		SCENE::Destroy();
 	}
 
 	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
-		CRenderManager::ChangeScreenSize(maximumScale);
+		RENDER::ChangeScreenSize(maximumScale);
 	}
 
 }

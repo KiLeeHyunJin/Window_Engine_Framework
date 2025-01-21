@@ -113,8 +113,14 @@ namespace Framework
 
 #pragma endregion Component Template
 
-		inline void SetActive(bool power)	{ m_eState = power ? eState::Played : eState::Paused; }
-		inline eState GetActive()	{ return m_eState; }
+		inline void SetActive(bool power) { m_eState = power ? eState::Played : eState::Paused; }
+
+		inline eState GetState()	const { return m_eState; }
+		inline bool GetActive()		const { return m_eState == eState::Played; }
+		inline bool GetDead()		const { return m_eState == eState::Dead; }
+
+
+
 		//friend void Object::Destroy(CGameObject* pObj);
 		void Dead();
 

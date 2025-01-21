@@ -8,6 +8,7 @@ namespace Framework
 	//class CApplication;
 	class CGameObject;
 	class CSceneManager;
+	class CCollisionManager;
 
 	class CScene : public CEntity
 	{
@@ -33,6 +34,8 @@ namespace Framework
 
 
 		friend CSceneManager;
+		friend CCollisionManager;
+
 	private:
 
 		void SceneInitialize();
@@ -42,7 +45,7 @@ namespace Framework
 		void SceneDestroy();
 
 		void SceneRender(HDC hdc);
-
+		const CLayer* GetLayer(Enums::eLayerType layer) const { return m_vecLayer[(UINT)layer]; }
 		//std::vector<CGameObject*> m_vecGameObject;
 		std::vector<CLayer*> m_vecLayer;
 	};

@@ -94,11 +94,11 @@ namespace Framework
 		const int idx = (int)m_pTexture->GetTextureType();
 		(this->*RenderFunc[idx])(hdc, rot, pos, scale, sprite);
 
-		Rectangle(hdc, originPos.x - 2, originPos.y - 2, originPos.x + 2, originPos.y + 2);
+		Rectangle(hdc, (UINT)(originPos.x - 2), (UINT)(originPos.y - 2), (UINT)(originPos.x + 2), (UINT)(originPos.y + 2));
 
 		std::wstring pointStr = L"X : " + std::to_wstring((int)originPos.x) + L", Y : " + std::to_wstring((int)originPos.y);
 		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, originPos.x + 10, originPos.y - 15, pointStr.c_str(), lenPos);
+		TextOut(hdc, (UINT)(originPos.x + 10), (UINT)(originPos.y - 15), pointStr.c_str(), lenPos);
 	}
 
 
@@ -116,21 +116,21 @@ namespace Framework
 			func.SourceConstantAlpha = 255;
 
 			AlphaBlend(hdc,
-				pos.x , pos.y,
-				sprite.size.x * scale.x, sprite.size.y * scale.y,
+				(UINT)pos.x , (UINT)pos.y,
+				(UINT)(sprite.size.x * scale.x), (UINT)(sprite.size.y * scale.y),
 				imgHdc,
-				sprite.leftTop.x, sprite.leftTop.y,
-				sprite.size.x, sprite.size.y,
+				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
+				(UINT)sprite.size.x, (UINT)sprite.size.y,
 				func);
 		}
 		else
 		{
 			TransparentBlt(hdc,
-				pos.x, pos.y,
-				sprite.size.x * scale.x, sprite.size.y * scale.y,
+				(UINT)pos.x, (UINT)pos.y,
+				(UINT)(sprite.size.x * scale.x), (UINT)(sprite.size.y * scale.y),
 				imgHdc,
-				sprite.leftTop.x, sprite.leftTop.y,
-				sprite.size.x, sprite.size.y,
+				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
+				(UINT)sprite.size.x, (UINT)sprite.size.y,
 				RGB(255, 0, 255));
 		}
 	}
@@ -150,10 +150,10 @@ namespace Framework
 
 		graphics.DrawImage(m_pTexture->GetImage(),
 			Gdiplus::Rect(
-				(INT)pos.x, (INT)pos.y,
-				(INT)vecSize.x, vecSize.y),
-			sprite.leftTop.x, sprite.leftTop.y,
-				vecSize.x, vecSize.y,
+				(UINT)pos.x, (UINT)pos.y,
+				(UINT)vecSize.x, (UINT)vecSize.y),
+			(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
+			(UINT)vecSize.x, (UINT)vecSize.y,
 			Gdiplus::UnitPixel,
 			nullptr);
 	}

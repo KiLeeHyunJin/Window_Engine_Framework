@@ -39,7 +39,7 @@ namespace Framework
 			iter != m_listGameObject.cend();
 			iter++)
 		{
-			CGameObject::eState state = (*iter)->GetActive();
+			CGameObject::eState state = (*iter)->GetState();
 			if (state == CGameObject::eState::Played)
 			{
 				(*iter)->Tick();
@@ -54,7 +54,7 @@ namespace Framework
 			)
 		{
 			CGameObject* pObj = (*iter);
-			CGameObject::eState state = pObj->GetActive();
+			CGameObject::eState state = pObj->GetState();
 
 			if (state == CGameObject::eState::Played)
 			{
@@ -77,7 +77,7 @@ namespace Framework
 			iter != m_listGameObject.cend();
 			iter++)
 		{
-			CGameObject::eState state = (*iter)->GetActive();
+			CGameObject::eState state = (*iter)->GetState();
 			if (state == CGameObject::eState::Played)
 			{
 				(*iter)->Render(hdc);;
@@ -90,7 +90,7 @@ namespace Framework
 		for (auto iter = m_listRemoveGameObject.cbegin();
 			iter != m_listRemoveGameObject.cend();)
 		{
-			CGameObject::eState state = (*iter)->GetActive();
+			CGameObject::eState state = (*iter)->GetState();
 			if (state == CGameObject::eState::Dead)
 			{
 				CGameObject* eraseObj = (*iter);

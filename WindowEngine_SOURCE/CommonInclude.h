@@ -9,6 +9,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include <cassert>
+#include <bitset>
 #pragma endregion
 
 

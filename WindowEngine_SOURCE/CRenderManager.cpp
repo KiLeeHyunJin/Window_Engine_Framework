@@ -1,20 +1,21 @@
 #include "CRenderManager.h"
 #include "CTimeManager.h"
 #include "CSceneManager.h"
+#include "CCollisionManager.h"
 #include "CRenderer.h"
 
 namespace Framework
 {
-	HWND CRenderManager::m_hWnd = nullptr;
-	HDC CRenderManager::m_hDC = nullptr;
+	HWND CRenderManager::m_hWnd			= nullptr;
+	HDC CRenderManager::m_hDC			= nullptr;
 
-	HDC CRenderManager::m_BackHDC = nullptr;
+	HDC CRenderManager::m_BackHDC		= nullptr;
 	HBITMAP CRenderManager::m_BmpBuffer = nullptr;
 
-	int CRenderManager::m_iWindowWidth = 0;	//창모드 사이즈
+	int CRenderManager::m_iWindowWidth	= 0;	//창모드 사이즈
 	int CRenderManager::m_iWindowHeight = 0;
 
-	int CRenderManager::m_iScreenWidth = 0; //화면 해상도
+	int CRenderManager::m_iScreenWidth	= 0; //화면 해상도
 	int CRenderManager::m_iScreenHeight = 0;
 
 	int CRenderManager::m_iCurrentBufferBitmapWidth		= 0;
@@ -22,11 +23,24 @@ namespace Framework
 
 	bool CRenderManager::m_bScreenState = false;
 
+
+	CRenderManager::CRenderManager()
+	{}
+	CRenderManager::~CRenderManager()
+	{}
+
+	void CRenderManager::DrawRectangle(UINT left, UINT top, UINT right, UINT bottom)
+	{
+	}
+	void CRenderManager::DrawEllipse(UINT left, UINT top, UINT right, UINT bottom)
+	{
+
+	}
+
 	void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
 		CRenderManager::AdjustWindow(hWnd, width, height, xPos, yPos, winStyle, menu);
 		m_BackHDC = CreateCompatibleDC(m_hDC);
-		//CreateBackBuffer(width, height);
 		ChangeScreenSize(screen);
 	}
 	void CRenderManager::Release()
@@ -38,6 +52,7 @@ namespace Framework
 		BeginDraw();
 		SCENE::Render(m_BackHDC);
 		TIME::Render(m_BackHDC);
+		COLLISION::Render(m_BackHDC);
 		EndDraw();
 	}
 
