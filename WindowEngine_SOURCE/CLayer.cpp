@@ -40,7 +40,7 @@ namespace Framework
 			iter++)
 		{
 			CGameObject::eState state = (*iter)->GetState();
-			if (state == CGameObject::eState::Played)
+			if (state == CGameObject::eState::Enable)
 			{
 				(*iter)->Tick();
 			}
@@ -56,11 +56,11 @@ namespace Framework
 			CGameObject* pObj = (*iter);
 			CGameObject::eState state = pObj->GetState();
 
-			if (state == CGameObject::eState::Played)
+			if (state == CGameObject::eState::Enable)
 			{
 				(*iter)->LastTick();
 			}
-			else if (state == CGameObject::eState::Dead)
+			else if (state == CGameObject::eState::Destory)
 			{
 				m_listRemoveGameObject.push_back(pObj);
 				iter = m_listGameObject.erase(iter);
@@ -78,7 +78,7 @@ namespace Framework
 			iter++)
 		{
 			CGameObject::eState state = (*iter)->GetState();
-			if (state == CGameObject::eState::Played)
+			if (state == CGameObject::eState::Enable)
 			{
 				(*iter)->Render(hdc);;
 			}
@@ -87,21 +87,15 @@ namespace Framework
 
 	void CLayer::Destroy()
 	{
+		//std::erase_if(m_listRemoveGameObject,[](CGameObject* pObj){return pObj->GetDead()});
+
 		for (auto iter = m_listRemoveGameObject.cbegin();
 			iter != m_listRemoveGameObject.cend();)
 		{
-			CGameObject::eState state = (*iter)->GetState();
-			if (state == CGameObject::eState::Dead)
-			{
-				CGameObject* eraseObj = (*iter);
-				iter = m_listRemoveGameObject.erase(iter);
+			CGameObject* eraseObj = (*iter);
+			iter = m_listRemoveGameObject.erase(iter);
 
-				RemoveGameObject(eraseObj);
-			}
-			else
-			{
-				iter++;
-			}
+			RemoveGameObject(eraseObj);
 		}
 	}
 
@@ -116,5 +110,13 @@ namespace Framework
 		m_listGameObject.push_back(pGameObject);
 	}
 
+	void CLayer::EraseGameObject(CGameObject* pGameObject)
+	{
+		std::erase_if(m_listGameObject, 
+			[=](CGameObject* pObj) 
+			{
+				return pObj == pGameObject;
+			});
+	}
 }
 

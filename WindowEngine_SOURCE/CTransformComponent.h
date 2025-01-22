@@ -11,8 +11,8 @@ namespace Framework
         __forceinline float GetY() const            { return m_vecPos.y; }
 
         __forceinline float GetRot()                const { return m_fRot; }
-        inline Maths::Vector2 GetPos()              const { return m_vecPos; }
-        inline Maths::Vector2 GetScale()            const { return m_vecScale; }
+        __forceinline Maths::Vector2 GetPos()       const { return m_vecPos; }
+        __forceinline Maths::Vector2 GetScale()     const { return m_vecScale; }
 
         inline void SetRot(float rot)              { m_fRot = rot; }
         inline void SetPos(Maths::Vector2 pos)     { m_vecPos = pos; }

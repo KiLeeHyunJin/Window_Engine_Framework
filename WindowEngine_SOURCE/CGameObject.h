@@ -15,13 +15,12 @@ namespace Framework
 	public:
 		enum class eState
 		{
-			Played,
-			Paused,
-			Dead,
-			End
+			Enable,
+			Disable,
+			Destory
 		};
 
-		CGameObject();
+		CGameObject(Enums::eLayerType layerType);
 		virtual ~CGameObject();
 
 #pragma region  Component Template
@@ -113,12 +112,13 @@ namespace Framework
 
 #pragma endregion Component Template
 
-		inline void SetActive(bool power) { m_eState = power ? eState::Played : eState::Paused; }
+		inline void SetActive(bool power) { m_eState = power ? eState::Enable : eState::Disable; }
+		inline void SetLayerType(Enums::eLayerType layerType) { m_eLayerType = layerType; }
 
-		inline eState GetState()	const { return m_eState; }
-		inline bool GetActive()		const { return m_eState == eState::Played; }
-		inline bool GetDead()		const { return m_eState == eState::Dead; }
-
+		inline const eState GetState()	const { return m_eState; }
+		inline const bool GetActive()	const { return m_eState == eState::Enable; }
+		inline const bool GetDead()		const { return m_eState == eState::Destory; }
+		inline const Enums::eLayerType GetLayerType() const { return m_eLayerType; }
 
 
 		//friend void Object::Destroy(CGameObject* pObj);
@@ -136,6 +136,8 @@ namespace Framework
 
 		std::vector<CComponent*> m_vecComponents;
 		std::list<CComponent*> m_listCustomComponents;
+
+		Enums::eLayerType m_eLayerType;
 		eState m_eState;
 	};
 }

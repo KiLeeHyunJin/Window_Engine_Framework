@@ -29,6 +29,7 @@ namespace Framework
 
 		void AddGameObject(CGameObject* pGameObject);
 		void RemoveGameObject(CGameObject* pGameObject);
+		void EraseGameObject(CGameObject* pGameObject);
 
 		const std::list<CGameObject*> GetGameObject() const { return m_listGameObject; }
 

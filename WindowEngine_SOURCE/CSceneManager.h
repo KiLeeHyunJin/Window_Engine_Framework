@@ -7,6 +7,7 @@ namespace Framework
 	class CApplication;
 	class CRenderManager;
 	class CScene;
+
 	class CSceneManager
 	{
 	public:
@@ -26,14 +27,9 @@ namespace Framework
 		}
 
 		static CScene* LoadScene(const std::wstring& name);
-		inline static CScene* GetCurrentScene() { return m_pCurrentScene; }
 
-
-		//static CSceneManager* GetInstance()
-		//{
-		//	static CSceneManager*  instance = new CSceneManager();
-		//	return instance;
-		//}
+		inline static CScene* GetCurrentScene()		{ return m_pCurrentScene; }
+		inline static CScene* GetDontDestoryScene() { return m_pDontDestroyScene; }
 
 		friend CApplication;
 		friend CRenderManager;
@@ -46,8 +42,11 @@ namespace Framework
 		static void Destroy();
 		static void Render(HDC hDC);
 
+		static CScene* FindScene(const std::wstring& name);
+
 		static std::map<std::wstring, CScene*> m_mapScene;
 		static CScene* m_pCurrentScene;
+		static CScene* m_pDontDestroyScene;
 	};
 	
 #define SCENE CSceneManager

@@ -28,8 +28,6 @@ public CComponent
 
 
 
-
-
 		void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
 			Vector2 leftTop, Vector2 size, Vector2 offset,
 			UINT spriteLength, float duration);

@@ -8,8 +8,8 @@ namespace Framework
         public CEntity
     {
     public :
-        CGameObject* GetOwner()       const { return m_pOwner; }
-        Enums::eComponentType GetComponentType() const { return m_eComponentType; }
+        __forceinline CGameObject* GetOwner()       const { return m_pOwner; }
+        __forceinline Enums::eComponentType GetComponentType() const { return m_eComponentType; }
 
         friend CGameObject;
     protected:
@@ -25,7 +25,7 @@ namespace Framework
 
         virtual void Render(HDC hdc) = 0;
 
-        void SetOwner(CGameObject* pOwner) { m_pOwner = pOwner; }
+        __inline void SetOwner(CGameObject* pOwner) { m_pOwner = pOwner; }
 
         Enums::eComponentType m_eComponentType;
         CGameObject* m_pOwner;

@@ -13,7 +13,8 @@ namespace Framework
 	class CScene : public CEntity
 	{
 	public:
-		void AddGameObject(CGameObject* pGameObject, Enums::eLayerType layer);
+		void AddGameObject(CGameObject* pGameObject);
+		void EraseGameObject(CGameObject* pGameObject);
 
 	protected:
 		CScene();

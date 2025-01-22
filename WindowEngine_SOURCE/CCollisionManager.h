@@ -26,7 +26,6 @@ namespace Framework
 	{
 	public:
 		static void SetCollisionLayerState(Enums::eLayerType left, Enums::eLayerType right, bool enable);
-		static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 
 		friend CApplication;
 		friend CRenderManager;
@@ -41,6 +40,8 @@ namespace Framework
 		static void LastTick();
 
 		static void Render(HDC hdc);
+
+		static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 
 		static void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
 		static void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);

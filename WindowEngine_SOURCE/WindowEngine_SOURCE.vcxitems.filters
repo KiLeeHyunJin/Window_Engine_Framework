@@ -76,6 +76,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
       <Filter>Core\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp">
+      <Filter>Asset\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
       <Filter>Core\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h">
+      <Filter>Asset\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

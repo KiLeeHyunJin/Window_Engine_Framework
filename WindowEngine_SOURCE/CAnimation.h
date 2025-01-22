@@ -62,7 +62,6 @@ namespace Framework
 
         int m_iIndex;
         float m_fTime;
-
     };
 
 }

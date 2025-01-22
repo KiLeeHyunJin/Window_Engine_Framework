@@ -17,8 +17,8 @@ namespace Framework::Object
 		{
 			return nullptr;
 		}
-		T* pGameObject = new T();
-		pCurScene->AddGameObject(pGameObject, layerType);
+		T* pGameObject = new T(layerType);
+		pCurScene->AddGameObject(pGameObject);
 		pGameObject->SetName(name);
 		return pGameObject;
 	};
@@ -26,6 +26,14 @@ namespace Framework::Object
 	static void Destroy(CGameObject* pObj)
 	{
 		pObj->Dead();
+	}
+
+	static void DontDestoryOnLoad(CGameObject* pGameObject)
+	{
+		CScene* pCurScene = CSceneManager::GetCurrentScene();
+		pCurScene->EraseGameObject(pGameObject);
+		CScene*  pDonDestoryScene = CSceneManager::GetDontDestoryScene();
+		pDonDestoryScene->AddGameObject(pGameObject);
 	}
 }
 

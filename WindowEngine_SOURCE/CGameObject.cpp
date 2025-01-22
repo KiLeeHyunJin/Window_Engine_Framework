@@ -6,7 +6,7 @@
 
 namespace Framework
 {
-	CGameObject::CGameObject() : m_eState(eState::Played)
+	CGameObject::CGameObject(Enums::eLayerType layerType) : m_eState(eState::Enable), m_eLayerType(layerType)
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size);
 		AddTransform();
@@ -33,7 +33,7 @@ namespace Framework
 
 	void CGameObject::Dead()
 	{
-		m_eState = eState::Dead;
+		m_eState = eState::Destory;
 	}
 
 	void CGameObject::Tick()

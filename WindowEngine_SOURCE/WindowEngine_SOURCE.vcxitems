@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CColliderComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
@@ -54,6 +55,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CColliderComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderManager.cpp" />

@@ -81,8 +81,15 @@ namespace Framework
 		TextOut(hdc, (UINT)mousePos.x + 10, (UINT)mousePos.y - 15, pointStr.c_str(), lenPos);
 	}
 	
-	void CScene::AddGameObject(CGameObject* pGameObject, Enums::eLayerType layer)
+	void CScene::AddGameObject(CGameObject* pGameObject)
 	{
+		Enums::eLayerType layer = pGameObject->GetLayerType();
 		m_vecLayer[(int)layer]->AddGameObject(pGameObject);
+	}
+
+	void CScene::EraseGameObject(CGameObject* pGameObject)
+	{
+		const Enums::eLayerType objectLayer = pGameObject->GetLayerType();
+		m_vecLayer[(UINT)objectLayer]->EraseGameObject(pGameObject);
 	}
 }
