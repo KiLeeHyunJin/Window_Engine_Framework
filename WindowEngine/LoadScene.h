@@ -8,14 +8,20 @@
 
 namespace Framework
 {
-	void LoadScenes()
+	void CreateScenes()
 	{
 		CSceneManager::CreateScene<CPlayScene>(L"PlayScene");
 		CSceneManager::CreateScene<CTitleScene>(L"TitleScene");
-		CSceneManager::CreateScene<CDontDestroyOnLoad>(L"DontDestroyOnLoad");
-		//CSceneManager::CreateScene(L"PlayeScene", new CPlayeScene); //씬은 씬매니저가 생성하게하자
+	}
+
+
+	void LoadScene()
+	{
+		CreateScenes();
 
 		CSceneManager::LoadScene(L"TitleScene");
 	}
+
+
 
 }

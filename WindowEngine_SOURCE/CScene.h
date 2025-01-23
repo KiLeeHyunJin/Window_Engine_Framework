@@ -26,8 +26,6 @@ namespace Framework
 		virtual void Tick()				= 0;
 		virtual void LastTick()			= 0;
 
-
-
 		virtual void Render(HDC hdc)	= 0;
 
 		virtual void OnEnter()			= 0;
@@ -36,16 +34,16 @@ namespace Framework
 
 		friend CSceneManager;
 		friend CCollisionManager;
-
 	private:
-
 		void SceneInitialize();
 		void SceneRelease();
+
 		void SceneTick();
 		void SceneLastTick();
-		void SceneDestroy();
 
+		void SceneDestroy();
 		void SceneRender(HDC hdc);
+
 		const CLayer* GetLayer(Enums::eLayerType layer) const { return m_vecLayer[(UINT)layer]; }
 		//std::vector<CGameObject*> m_vecGameObject;
 		std::vector<CLayer*> m_vecLayer;

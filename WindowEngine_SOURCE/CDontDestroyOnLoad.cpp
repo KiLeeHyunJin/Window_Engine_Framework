@@ -1,4 +1,5 @@
 #include "CDontDestroyOnLoad.h"
+#include "CSceneManager.h"
 
 namespace Framework
 {

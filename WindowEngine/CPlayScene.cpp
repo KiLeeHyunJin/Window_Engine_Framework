@@ -38,6 +38,8 @@ void Framework::CPlayScene::Initialize()
 	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None, L"Cam");
 	pCameraObj->AddComponent<CPlayerInput>();
 	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
+
+	Object::DontDestoryOnLoad(pCameraObj);
 	
 	Renderer::mainCamera = pCamera;
 	//pCamera->SetTarget(pObj);

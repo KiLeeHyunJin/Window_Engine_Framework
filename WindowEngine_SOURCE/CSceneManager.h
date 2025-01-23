@@ -15,15 +15,20 @@ namespace Framework
 		virtual ~CSceneManager();
 
 		template<typename T>
-		static CScene* CreateScene(const std::wstring& name )
+		static CScene* CreateScene(const std::wstring& name )//씬은 씬매니저가 생성하게하자
 		{
+			CScene* pScene = nullptr;//FindScene(name);
+			//if (scene != nullptr)
+			//{
+			//	return scene;
+			//}
 			T* createScene = new T();
-			CScene* scene = static_cast<CScene*>(createScene);
-			m_pCurrentScene = scene;
-			scene->SetName(name);
-			scene->Initialize();
-			m_mapScene.insert(make_pair(name, scene));
-			return scene;
+			pScene = static_cast<CScene*>(createScene);
+			m_pCurrentScene = pScene;
+			m_pCurrentScene->SetName(name);
+			m_pCurrentScene->Initialize();
+			m_mapScene.insert(make_pair(name, pScene));
+			return pScene;
 		}
 
 		static CScene* LoadScene(const std::wstring& name);
@@ -41,6 +46,8 @@ namespace Framework
 		static void LastTick();
 		static void Destroy();
 		static void Render(HDC hDC);
+
+		static void CreateDontDestoryScene();
 
 		static CScene* FindScene(const std::wstring& name);
 

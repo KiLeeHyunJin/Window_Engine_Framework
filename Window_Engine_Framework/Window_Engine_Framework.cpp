@@ -149,9 +149,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    if (!hWnd)   {    return FALSE;   }
    Gdiplus::GdiplusStartup(&g_pToken, &gpsi, NULL);
 
-   Framework::LoadResource();
-   Framework::LoadScenes();
-
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -163,6 +160,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        myStyle, false, 
        false
    );
+
+   Framework::LoadResource();
+   Framework::LoadScene();
 
    return TRUE;
 }

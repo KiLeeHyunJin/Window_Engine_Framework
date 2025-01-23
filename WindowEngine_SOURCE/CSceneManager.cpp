@@ -11,6 +11,7 @@ namespace Framework
 
 	CSceneManager::CSceneManager()
 	{
+
 	}
 	CSceneManager::~CSceneManager()
 	{
@@ -18,7 +19,7 @@ namespace Framework
 
 	void CSceneManager::Initialize()
 	{
-		m_pDontDestroyScene = FindScene(L"DontDestroyOnLoad");
+		m_pDontDestroyScene = CreateScene<CDontDestroyOnLoad>(L"DontDestroyOnLoad");
 		m_pCurrentScene->SceneInitialize();
 	}
 

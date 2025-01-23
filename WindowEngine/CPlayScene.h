@@ -8,8 +8,6 @@ namespace Framework
 	class CPlayScene :
 		public CScene
 	{
-	public:
-
 		friend CSceneManager;
 	private:
 		CPlayScene();

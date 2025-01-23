@@ -9,12 +9,11 @@ namespace Framework
     class CTitleScene :
         public CScene
     {
-    public:
-
         friend CSceneManager;
     private:
         CTitleScene();
         virtual ~CTitleScene();
+
         void Initialize()		override;
         void Tick()				override;
         void LastTick()			override;
