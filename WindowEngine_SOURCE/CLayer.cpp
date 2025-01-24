@@ -71,7 +71,7 @@ namespace Framework
 		}
 	}
 
-	void CLayer::Render(HDC hdc)
+	void CLayer::Render(HDC hdc) const
 	{
 		for (auto iter = m_listGameObject.cbegin();
 			iter != m_listGameObject.cend();

@@ -1,6 +1,7 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CDontDestroyOnLoad.h"
+#include "CCollisionManager.h"
 
 namespace Framework
 {
@@ -43,8 +44,14 @@ namespace Framework
 
 	void CSceneManager::Render(HDC hDC)
 	{
-		m_pCurrentScene->SceneRender(hDC);
-		m_pDontDestroyScene->SceneRender(hDC);
+		for (UINT i = (UINT)Enums::eLayerType::None; i < (UINT)Enums::eLayerType::Size; i++)
+		{
+			const CLayer* pCurrentLayer = m_pCurrentScene->GetLayer((Enums::eLayerType)i);
+			const CLayer* pDontDestroyLayer = m_pDontDestroyScene->GetLayer((Enums::eLayerType)i);
+
+			pCurrentLayer->Render(hDC);
+			pDontDestroyLayer->Render(hDC);
+		}
 	}
 
 	void CSceneManager::Release()
@@ -56,8 +63,18 @@ namespace Framework
 			delete scenePair.second;
 		}
 		m_mapScene.clear();
+
 		m_pCurrentScene = nullptr;
 		m_pDontDestroyScene = nullptr;
+	}
+
+	std::list<CGameObject*> CSceneManager::GetGameObject(Enums::eLayerType layer)
+	{
+		std::list<CGameObject*> gameObjects = m_pCurrentScene->GetLayer(layer)->GetGameObject();
+		std::list<CGameObject*> dontDestoryGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
+
+		gameObjects.insert(dontDestoryGameObjects.cbegin(), dontDestoryGameObjects.begin(), dontDestoryGameObjects.end());
+		return gameObjects;
 	}
 
 	CScene* CSceneManager::LoadScene(const std::wstring& name)
@@ -68,6 +85,7 @@ namespace Framework
 			if (m_pCurrentScene != nullptr)
 			{
 				m_pCurrentScene->OnExit();
+				CCollisionManager::Clear();
 			}
 			m_pCurrentScene = pScene;
 			m_pCurrentScene->OnEnter();

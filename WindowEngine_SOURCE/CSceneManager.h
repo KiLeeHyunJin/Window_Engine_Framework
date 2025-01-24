@@ -35,6 +35,8 @@ namespace Framework
 
 		inline static CScene* GetCurrentScene()		{ return m_pCurrentScene; }
 		inline static CScene* GetDontDestoryScene() { return m_pDontDestroyScene; }
+		static std::list<CGameObject*> GetGameObject(Enums::eLayerType layer);
+
 
 		friend CApplication;
 		friend CRenderManager;
@@ -46,8 +48,6 @@ namespace Framework
 		static void LastTick();
 		static void Destroy();
 		static void Render(HDC hDC);
-
-		static void CreateDontDestoryScene();
 
 		static CScene* FindScene(const std::wstring& name);
 

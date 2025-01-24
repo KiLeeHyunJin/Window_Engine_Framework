@@ -41,7 +41,7 @@ void Framework::CPlayScene::Initialize()
 
 	Object::DontDestoryOnLoad(pCameraObj);
 	
-	Renderer::mainCamera = pCamera;
+	Renderer::CRenderer::SetMainCamera(pCamera);
 	//pCamera->SetTarget(pObj);
 
 	//pSr->ImageLoad(L"Resources\\Room.png");

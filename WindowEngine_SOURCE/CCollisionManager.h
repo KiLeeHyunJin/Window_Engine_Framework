@@ -7,6 +7,7 @@ namespace Framework
 	class CRenderManager;
 	class CScene;
 	class CColliderComponent;
+	class CSceneManager;
 
 	union CollisionID
 	{
@@ -29,6 +30,7 @@ namespace Framework
 
 		friend CApplication;
 		friend CRenderManager;
+		friend CSceneManager;
 	private:
 		CCollisionManager();
 		virtual ~CCollisionManager();
@@ -40,6 +42,12 @@ namespace Framework
 		static void LastTick();
 
 		static void Render(HDC hdc);
+
+		static void Clear() 
+		{ 
+			m_unmapCollisions.clear(); 
+			m_bsCollisionCheck->reset(); 
+		}
 
 		static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 

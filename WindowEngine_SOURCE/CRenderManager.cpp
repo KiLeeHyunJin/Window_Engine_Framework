@@ -112,7 +112,8 @@ namespace Framework
 			0);
 		CreateBackBuffer(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight);
 
-		Renderer::mainCamera->SetResolution(Maths::Vector2(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight));
+		Maths::Vector2 resolution(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight);
+		Renderer::CRenderer::SetResolution(resolution);
 	}
 
 	void CRenderManager::CreateBackBuffer(int width, int height)

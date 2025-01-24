@@ -40,7 +40,9 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	const Vector2 scale = pTr->GetScale();
 	const float rot = pTr->GetRot();
 
-	Maths::Vector2 pos = Renderer::mainCamera->CaluatePosition(trPos);
+	CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
+
+	Maths::Vector2 pos = mainCam->CaluatePosition(trPos);
 
 	const CTexture::eTextureType textureType = m_pTexture->GetTextureType();
 	const UINT imgWidth = m_pTexture->GetWidth();

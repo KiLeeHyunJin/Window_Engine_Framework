@@ -36,8 +36,6 @@ namespace Framework
 		m_bsCollisionCheck[row][col] = enable;
 	}
 
-
-
 	void CCollisionManager::Initialize()
 	{
 	}
@@ -72,11 +70,8 @@ namespace Framework
 
 	void CCollisionManager::CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right)
 	{
-		const CLayer* leftLayer = pScene->GetLayer(left);
-		const CLayer* rightLayer = pScene->GetLayer(right);
-
-		const std::list<CGameObject*>& lefts = leftLayer->GetGameObject();
-		const std::list<CGameObject*>& rights = rightLayer->GetGameObject();
+		const std::list<CGameObject*>& lefts = CSceneManager::GetGameObject(left);
+		const std::list<CGameObject*>& rights = CSceneManager::GetGameObject(right);
 
 		for (CGameObject* leftObj : lefts)
 		{
@@ -157,6 +152,25 @@ namespace Framework
 
 	}
 
+	const bool CCollisionManager::Intersect(const CColliderComponent* left, const CColliderComponent* right)
+	{
+		const CColliderComponent::eColliderType leftType = left->GetColliderType();
+		const CColliderComponent::eColliderType rightType = right->GetColliderType();
+
+		if (leftType == CColliderComponent::eColliderType::Box &&
+			rightType == CColliderComponent::eColliderType::Box)
+		{
+			return BoxCollisionStateUpdate(left, right);
+		}
+		else if (leftType == CColliderComponent::eColliderType::Circle &&
+			rightType == CColliderComponent::eColliderType::Circle)
+		{
+			return CircleCollisionStateUpdate(left, right);
+		}
+		return false;
+	}
+
+
 	bool CCollisionManager::BoxCollisionStateUpdate(const CColliderComponent* left,const CColliderComponent* right)
 	{
 		const CTransformComponent* leftTr = left->GetOwner()->GetComponent<CTransformComponent>();
@@ -199,24 +213,7 @@ namespace Framework
 		return false;
 	}
 
-	const bool CCollisionManager::Intersect(const CColliderComponent* left, const CColliderComponent* right)
-	{
-		const CColliderComponent::eColliderType leftType = left->GetColliderType();
-		const CColliderComponent::eColliderType rightType = right->GetColliderType();
 
-		if (leftType == CColliderComponent::eColliderType::Box &&
-			rightType == CColliderComponent::eColliderType::Box)
-		{
-			return BoxCollisionStateUpdate(left, right);
-		}
-		else if (leftType == CColliderComponent::eColliderType::Circle &&
-			rightType == CColliderComponent::eColliderType::Circle)
-		{
-			return CircleCollisionStateUpdate(left, right);
-		}
-		return false;
-
-	}
 
 
 }

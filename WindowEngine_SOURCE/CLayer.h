@@ -6,7 +6,9 @@
 namespace Framework
 {
 	class CCollisionManager;
+	class CSceneManager;
 	class CScene;
+
 	class CLayer :
 		public CEntity
 	{
@@ -15,6 +17,7 @@ namespace Framework
 
 		friend CScene;
 		friend CCollisionManager;
+		friend CSceneManager;
 	private:
 		CLayer(Enums::eLayerType layer);
 		virtual ~CLayer();
@@ -25,7 +28,7 @@ namespace Framework
 		void Tick();
 		void LastTick();
 
-		void Render(HDC hdc);
+		void Render(HDC hdc) const;
 
 		void AddGameObject(CGameObject* pGameObject);
 		void RemoveGameObject(CGameObject* pGameObject);

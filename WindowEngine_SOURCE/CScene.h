@@ -8,7 +8,7 @@ namespace Framework
 	//class CApplication;
 	class CGameObject;
 	class CSceneManager;
-	class CCollisionManager;
+	//class CCollisionManager;
 
 	class CScene : public CEntity
 	{
@@ -33,7 +33,7 @@ namespace Framework
 
 
 		friend CSceneManager;
-		friend CCollisionManager;
+		//friend CCollisionManager;
 	private:
 		void SceneInitialize();
 		void SceneRelease();

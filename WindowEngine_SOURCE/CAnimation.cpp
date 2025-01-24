@@ -78,10 +78,11 @@ namespace Framework
 		const Vector2 scale = pTr->GetScale();
 		const float rot = pTr->GetRot();
 
-		if (Renderer::mainCamera)
+		CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
+		if (mainCam != nullptr)
 		{
-			pos = Renderer::mainCamera->CaluatePosition(pos);
-			originPos = Renderer::mainCamera->CaluatePosition(originPos);
+			pos = mainCam->CaluatePosition(pos);
+			originPos = mainCam->CaluatePosition(originPos);
 		}
 		const Sprite sprite = m_vecSprites[m_iIndex];
 

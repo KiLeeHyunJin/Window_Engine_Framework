@@ -31,9 +31,10 @@ namespace Framework
 		CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
 		Maths::Vector2 pos = pTr->GetPos();
 
-		if (Renderer::mainCamera)
+		CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
+		if (mainCam != nullptr)
 		{
-			pos = Renderer::mainCamera->CaluatePosition(pos);
+			pos = mainCam->CaluatePosition(pos);
 		}
 
 		Maths::Vector2 offset = GetOffset();
@@ -44,9 +45,9 @@ namespace Framework
 		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
 		Ellipse(hdc, 
-			pos.x + offset.x, pos.y + offset.y,
-			pos.x + offset.x + GetSize().x + 100,
-			pos.y + offset.y + GetSize().y + 100);
+			(UINT)(pos.x + offset.x), (UINT)(pos.y + offset.y),
+			(UINT)(pos.x + offset.x + GetSize().x + 100),
+			(UINT)(pos.y + offset.y + GetSize().y + 100));
 
 		SelectObject(hdc, oldBrush);
 		pen = (HPEN)SelectObject(hdc, oldPen);
