@@ -34,7 +34,7 @@ namespace Framework
 
 	void CBoxColliderComponent::Render(HDC hdc)
 	{
-		CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
+		CTransformComponent* pTr = GetOwner()->GetTransformComponent();
 		Maths::Vector2 pos = pTr->GetPos() + m_vecOffset;
 		Maths::Vector2 offsetPos = pos + m_vecOffset;
 

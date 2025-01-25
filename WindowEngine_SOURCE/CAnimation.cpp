@@ -70,7 +70,7 @@ namespace Framework
 		}
 
 		CGameObject* pObj = m_pOwner->GetOwner();
-		CTransformComponent* pTr = pObj->GetComponent<CTransformComponent>();
+		CTransformComponent* pTr = pObj->GetTransformComponent();
 
 		Vector2 originPos = pTr->GetPos();
 		Vector2 pos = originPos;

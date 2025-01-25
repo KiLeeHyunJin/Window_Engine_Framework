@@ -29,7 +29,7 @@ namespace Framework
 			m_pTarget != nullptr ? 
 			m_pTarget : GetOwner();
 
-		CTransformComponent* pTr = pTarget->GetComponent<CTransformComponent>();
+		CTransformComponent* pTr = pTarget->GetTransformComponent();
 		m_vecLookPosition = pTr->GetPos();
 		m_vecDistance = m_vecLookPosition - (m_vecDistance * 0.5f);
 	}

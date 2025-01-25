@@ -7,7 +7,7 @@
 namespace Framework
 {
 	class CAnimatorComponent;
-
+	class CTransformComponent;
 	class CComponent;
 	class CLayer;
 	class CGameObject : public CEntity
@@ -24,6 +24,8 @@ namespace Framework
 		virtual ~CGameObject();
 
 #pragma region  Component Template
+
+		__forceinline CTransformComponent* GetTransformComponent() const { return m_pTransformComponent; }
 
 		template<typename T>
 		T* AddComponent()
@@ -136,7 +138,7 @@ namespace Framework
 
 		std::vector<CComponent*> m_vecComponents;
 		std::list<CComponent*> m_listCustomComponents;
-
+		CTransformComponent* m_pTransformComponent;
 		Enums::eLayerType m_eLayerType;
 		eState m_eState;
 	};

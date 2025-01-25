@@ -6,7 +6,7 @@
 
 namespace Framework
 {
-	CGameObject::CGameObject(Enums::eLayerType layerType) : m_eState(eState::Enable), m_eLayerType(layerType)
+	CGameObject::CGameObject(Enums::eLayerType layerType) : m_eState(eState::Enable), m_eLayerType(layerType), m_pTransformComponent(nullptr)
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size);
 		AddTransform();
@@ -101,6 +101,9 @@ namespace Framework
 
 	void CGameObject::AddTransform()
 	{
-		AddComponent<CTransformComponent>();
+		if (m_pTransformComponent == nullptr)
+		{
+			m_pTransformComponent = AddComponent<CTransformComponent>();
+		}
 	}
 }

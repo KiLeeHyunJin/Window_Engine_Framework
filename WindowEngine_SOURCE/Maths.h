@@ -63,6 +63,11 @@ namespace Framework::Maths
 			return Vector2(x - other.x, y - other.y);
 		}
 
+		Vector2 operator - ()
+		{
+			return Vector2(-x , -y);
+		}
+
 		Vector2 operator + (Vector2 other)
 		{
 			return Vector2(x + other.x, y + other.y);
@@ -78,13 +83,18 @@ namespace Framework::Maths
 			return Vector2(x / other.x, y / other.y);
 		}
 
-		void operator += (Vector2& other)
+		bool operator == (Vector2 other)
+		{
+			return (x && other.x) && (y * other.y);
+		}
+
+		void operator += (Vector2 other)
 		{
 			x += other.x;
 			y += other.y;
 		}
 
-		void operator -= (Vector2& other)
+		void operator -= (Vector2 other)
 		{
 			x -= other.x;
 			y -= other.y;
