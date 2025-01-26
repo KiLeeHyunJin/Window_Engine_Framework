@@ -10,6 +10,31 @@ namespace Framework
 		public CComponent
 	{
 	public:
+		/// <summary>
+		/// 질량을 설정
+		/// </summary>
+		void SetMass(float mass) { m_fMass = mass; }
+		/// <summary>
+		/// 가해지는 힘을 설정
+		/// </summary>
+		void SetForce(Maths::Vector2 force) { m_vecForce = force; }
+		/// <summary>
+		/// 중력을 재설정
+		/// </summary>
+		void SetGravity(Maths::Vector2 gravity) { m_vecGravity = gravity; }
+		/// <summary>
+		/// 속력을 재설정
+		/// </summary>
+		void SetVelocity(Maths::Vector2 velocity) { m_vecVelocity = velocity; }
+		void SetGround(bool isGround) { m_bGround = isGround; }
+		/// <summary>
+		/// 가해지는 힘을 추가
+		/// </summary>
+		void SetAddForce(Maths::Vector2 addForce) { m_vecForce += addForce; }
+
+
+		Maths::Vector2 GetVelocity() const { return m_vecVelocity; }
+
 
 		friend CGameObject;
 	private:
@@ -47,6 +72,11 @@ namespace Framework
 		/// 가속도
 		/// </summary>
 		Maths::Vector2 m_vecAccelation;
+
+		Maths::Vector2 m_vecLimitVelocity;
+		Maths::Vector2 m_vecLimitGravity;
+
+		bool m_bGround;
 
 	};
 

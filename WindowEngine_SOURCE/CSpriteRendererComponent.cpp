@@ -48,8 +48,8 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	const UINT imgWidth = m_pTexture->GetWidth();
 	const UINT imgHeight = m_pTexture->GetHeight();
 
-	pos.x -= imgWidth * 0.5f;
-	pos.y -= imgHeight * 0.5f;
+	pos.SetX(pos.GetX() + (imgWidth * -0.5f));
+	pos.SetY(pos.GetY() + (imgHeight * -0.5f));
 
 	if (textureType == CTexture::eTextureType::Bmp)
 	{
@@ -63,8 +63,8 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 
 			AlphaBlend(
 				hdc,
-				(INT)pos.x, (INT)pos.y,
-				(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y),
+				(INT)pos.GetX(), (INT)pos.GetY(),
+				(INT)(imgWidth * m_vecScale.GetX() * scale.GetX()), (INT)(imgHeight * m_vecScale.GetY() * scale.GetY()),
 				m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight,
 				func);
 		}
@@ -72,8 +72,8 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 		{
 			TransparentBlt(
 				hdc,
-				(INT)pos.x, (INT)pos.y,
-				(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y),
+				(INT)pos.GetX(), (INT)pos.GetY(),
+				(INT)(imgWidth * m_vecScale.GetX() * scale.GetX()), (INT)(imgHeight * m_vecScale.GetY() * scale.GetY()),
 				m_pTexture->GetHDC(), 0, 0, imgWidth, imgHeight, RGB(255, 0, 255));
 		}
 	}
@@ -82,15 +82,15 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 		Gdiplus::Graphics graphics(hdc);
 		Gdiplus::ImageAttributes imgAtt = {};
 
-		graphics.TranslateTransform(pos.x, pos.y);
+		graphics.TranslateTransform(pos.GetX(), pos.GetY());
 		graphics.RotateTransform(rot);
-		graphics.TranslateTransform(-pos.x, -pos.y);
+		graphics.TranslateTransform(-pos.GetX(), -pos.GetY());
 		//imgAtt.SetColorKey();
 		graphics.DrawImage(
 			m_pTexture->GetImage(), 
 			Gdiplus::Rect(
-				(INT)pos.x, (INT)pos.y,
-				(INT)(imgWidth * m_vecScale.x * scale.x), (INT)(imgHeight * m_vecScale.y * scale.y)),
+				(INT)pos.GetX(), (INT)pos.GetY(),
+				(INT)(imgWidth * m_vecScale.GetX() * scale.GetX()), (INT)(imgHeight * m_vecScale.GetY() * scale.GetY())),
 			0, 0,
 			imgWidth, imgHeight,
 			Gdiplus::UnitPixel,
@@ -106,8 +106,8 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, (HGDIOBJ)bluBrush);
 
 	Rectangle(hdc,
-		(INT)(pos.x - 10), (INT)(pos.y - 10),
-		(INT)(pos.x + 10), (INT)(pos.y + 10));
+		(INT)(pos.GetX() - 10), (INT)(pos.GetY() - 10),
+		(INT)(pos.GetX() + 10), (INT)(pos.GetY() + 10));
 	
 	SelectObject(hdc, (HGDIOBJ)oldPen);
 	DeleteObject(redPen);

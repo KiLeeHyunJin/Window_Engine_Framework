@@ -33,20 +33,19 @@ namespace Framework
 		Maths::Vector2 pos = tr->GetPos();
 		if (INPUT::GetKeyPressed(eKeyCode::Left))
 		{
-			pos.x -= speed * DELTATIME;
+			pos.AddX(-speed * DELTATIME);
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Right))
 		{
-			pos.x += speed * DELTATIME;
-
+			pos.AddX(speed * DELTATIME);
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Up))
 		{
-			pos.y -= speed * DELTATIME;
+			pos.AddY(-speed * DELTATIME);
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Down))
 		{
-			pos.y += speed * DELTATIME;
+			pos.AddY(speed * DELTATIME);
 		}
 		tr->SetPos(pos);
 	}

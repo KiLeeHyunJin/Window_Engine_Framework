@@ -76,9 +76,9 @@ namespace Framework
 
 
 		Maths::Vector2 mousePos = CInputManager::GetMousePosition();
-		std::wstring pointStr = L"X : " + std::to_wstring((UINT)mousePos.x) + L", Y : " + std::to_wstring((UINT)mousePos.y);
+		std::wstring pointStr = L"X : " + std::to_wstring((UINT)mousePos.GetX()) + L", Y : " + std::to_wstring((UINT)mousePos.GetY());
 		UINT lenPos = (UINT)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)mousePos.x + 10, (UINT)mousePos.y - 15, pointStr.c_str(), lenPos);
+		TextOut(hdc, (UINT)mousePos.GetX() + 10, (UINT)mousePos.GetY() - 15, pointStr.c_str(), lenPos);
 	}
 	
 	void CScene::AddGameObject(CGameObject* pGameObject)

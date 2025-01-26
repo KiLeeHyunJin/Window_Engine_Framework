@@ -7,8 +7,8 @@ namespace Framework
         public CComponent
     {
     public :
-        __forceinline float GetX() const            { return m_vecPos.x; }
-        __forceinline float GetY() const            { return m_vecPos.y; }
+        __forceinline float GetX() const            { return m_vecPos.GetX(); }
+        __forceinline float GetY() const            { return m_vecPos.GetY(); }
 
         __forceinline float GetRot()                const { return m_fRot; }
         __forceinline Maths::Vector2 GetPos()       const { return m_vecPos; }

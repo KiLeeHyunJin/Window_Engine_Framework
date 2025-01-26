@@ -86,20 +86,20 @@ namespace Framework
 		}
 		const Sprite sprite = m_vecSprites[m_iIndex];
 
-		pos.x -= sprite.size.x * 0.5f;
-		pos.y -= sprite.size.y * 0.5f;
+		pos.AddX(sprite.size.GetX() * -0.5f);
+		pos.AddY(sprite.size.GetY() * -0.5f);
 
-		pos.x += sprite.offset.x;
-		pos.y += sprite.offset.y;
+		pos.AddX(sprite.offset.GetX());
+		pos.AddY(sprite.offset.GetY());
 
 		const int idx = (int)m_pTexture->GetTextureType();
 		(this->*RenderFunc[idx])(hdc, rot, pos, scale, sprite);
 
-		Rectangle(hdc, (UINT)(originPos.x - 2), (UINT)(originPos.y - 2), (UINT)(originPos.x + 2), (UINT)(originPos.y + 2));
+		Rectangle(hdc, (UINT)(originPos.GetX() - 2), (UINT)(originPos.GetY() - 2), (UINT)(originPos.GetX() + 2), (UINT)(originPos.GetY() + 2));
 
-		std::wstring pointStr = L"X : " + std::to_wstring((int)originPos.x) + L", Y : " + std::to_wstring((int)originPos.y);
+		std::wstring pointStr = L"X : " + std::to_wstring((int)originPos.GetX()) + L", Y : " + std::to_wstring((int)originPos.GetY());
 		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)(originPos.x + 10), (UINT)(originPos.y - 15), pointStr.c_str(), lenPos);
+		TextOut(hdc, (UINT)(originPos.GetX() + 10), (UINT)(originPos.GetY() - 15), pointStr.c_str(), lenPos);
 	}
 
 
@@ -117,21 +117,21 @@ namespace Framework
 			func.SourceConstantAlpha = 255;
 
 			AlphaBlend(hdc,
-				(UINT)pos.x , (UINT)pos.y,
-				(UINT)(sprite.size.x * scale.x), (UINT)(sprite.size.y * scale.y),
+				(UINT)pos.GetX() , (UINT)pos.GetY(),
+				(UINT)(sprite.size.GetX() * scale.GetX()), (UINT)(sprite.size.GetY() * scale.GetY()),
 				imgHdc,
-				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
-				(UINT)sprite.size.x, (UINT)sprite.size.y,
+				(UINT)sprite.leftTop.GetX(), (UINT)sprite.leftTop.GetY(),
+				(UINT)sprite.size.GetX(), (UINT)sprite.size.GetY(),
 				func);
 		}
 		else
 		{
 			TransparentBlt(hdc,
-				(UINT)pos.x, (UINT)pos.y,
-				(UINT)(sprite.size.x * scale.x), (UINT)(sprite.size.y * scale.y),
+				(UINT)pos.GetX(), (UINT)pos.GetY(),
+				(UINT)(sprite.size.GetX() * scale.GetX()), (UINT)(sprite.size.GetY() * scale.GetY()),
 				imgHdc,
-				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
-				(UINT)sprite.size.x, (UINT)sprite.size.y,
+				(UINT)sprite.leftTop.GetX(), (UINT)sprite.leftTop.GetY(),
+				(UINT)sprite.size.GetX(), (UINT)sprite.size.GetY(),
 				RGB(255, 0, 255));
 		}
 	}
@@ -143,18 +143,18 @@ namespace Framework
 
 		Gdiplus::Graphics graphics(hdc);
 
-		graphics.TranslateTransform(pos.x, pos.y);
+		graphics.TranslateTransform(pos.GetX(), pos.GetY());
 		graphics.RotateTransform(rot);
-		graphics.TranslateTransform(-pos.x, -pos.y);
+		graphics.TranslateTransform(-pos.GetX(), -pos.GetY());
 
-		Maths::Vector2 vecSize(sprite.size.x * scale.x, sprite.size.y * scale.y);
+		Maths::Vector2 vecSize(sprite.size.GetX() * scale.GetX(), sprite.size.GetY() * scale.GetY());
 
 		graphics.DrawImage(m_pTexture->GetImage(),
 			Gdiplus::Rect(
-				(UINT)pos.x, (UINT)pos.y,
-				(UINT)vecSize.x, (UINT)vecSize.y),
-			(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
-			(UINT)vecSize.x, (UINT)vecSize.y,
+				(UINT)pos.GetX(), (UINT)pos.GetY(),
+				(UINT)vecSize.GetX(), (UINT)vecSize.GetY()),
+			(UINT)sprite.leftTop.GetX(), (UINT)sprite.leftTop.GetY(),
+			(UINT)vecSize.GetX(), (UINT)vecSize.GetY(),
 			Gdiplus::UnitPixel,
 			nullptr);
 	}
@@ -166,7 +166,7 @@ namespace Framework
 		for (UINT i = 0; i < spriteLength; i++)
 		{
 			Sprite sprite	= {};
-			sprite.leftTop	= Vector2(leftTop.x + (size.x * i), leftTop.y);
+			sprite.leftTop	= Vector2(leftTop.GetX() + (size.GetX() * i), leftTop.GetY());
 			sprite.size		= size;
 			sprite.offset	= offset;
 			sprite.duration = duration;

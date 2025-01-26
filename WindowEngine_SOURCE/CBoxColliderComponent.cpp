@@ -44,7 +44,7 @@ namespace Framework
 		HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
 		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
-		Rectangle(hdc, (UINT)offsetPos.x , (UINT)offsetPos.y, (UINT)offsetPos.x, (UINT)offsetPos.y);
+		Rectangle(hdc, (UINT)offsetPos.GetX() , (UINT)offsetPos.GetY(), (UINT)offsetPos.GetX(), (UINT)offsetPos.GetY());
 
 		transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
 		pen = (HPEN)SelectObject(hdc, oldPen);

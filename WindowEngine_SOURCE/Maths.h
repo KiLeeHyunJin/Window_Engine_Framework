@@ -30,7 +30,21 @@ namespace Framework::Maths
 		{
 			return (v1.x * v2.x) + (v1.y * v2.y);
 		}
+		
+		static float Dot(const Vector2& v1, const Vector2& v2)
+		{
+			return (v1.x * v2.x) + (v1.y * v2.y);
+		}
 
+		static float Dot(Vector2& v1, const Vector2& v2)
+		{
+			return (v1.x * v2.x) + (v1.y * v2.y);
+		}
+
+		static float Dot(const Vector2& v1, Vector2& v2)
+		{
+			return (v1.x * v2.x) + (v1.y * v2.y);
+		}
 		/// <summary>
 		/// 외적(수직인 벡터)
 		/// </summary>
@@ -48,14 +62,37 @@ namespace Framework::Maths
 		static Vector2 Up;
 		static Vector2 Down;
 
-		float x;
-		float y;
+		__forceinline void SetX(float x)
+		{ 
+			this->x = x; 
+			if (isNormalize)	{	isNormalize = false;	}
+		}
+		__forceinline void SetY(float y)
+		{
+			this->y = y;
+			if (isNormalize)	{	isNormalize = false;	}
+		}
 
-		Vector2():x(0), y(0), isNormalize(false)
-		{	}
+		__forceinline void AddX(float x)
+		{
+			this->x += x;
+			if (isNormalize)	{	isNormalize = false;	}
+		}
+
+		__forceinline void AddY(float y)
+		{
+			this->y += y;
+			if (isNormalize)	{	isNormalize = false;	}
+		}
+
+		__forceinline float GetX() const	{	return x;	}
+		__forceinline float GetY() const	{	return y;	}
+
+
+		Vector2():x(0), y(0), isNormalize(false)	{	}
 		Vector2(float x, float y) : x(x), y(y)
 		{	
-			isNormalize = (x + y) == 1.0f;
+			isNormalize = ((x + y) == 1.0f);
 		}
 
 		Vector2 operator - (Vector2 other)
@@ -111,10 +148,18 @@ namespace Framework::Maths
 		{
 			return Vector2(x / other, y / other);
 		}
+
 		template<typename T>
 		Vector2 operator * (T other)
 		{
 			return Vector2(x * other, y * other);
+		}
+
+		template<typename T>
+		Vector2 operator * (T other) const
+		{
+			Vector2 copy = Vector2(x * other, y * other);
+			return copy;
 		}
 
 		template<typename T>
@@ -191,6 +236,8 @@ namespace Framework::Maths
 	
 		private:
 			bool isNormalize;
+			float x;
+			float y;
 	};
 	template<typename T>
 	T Abs(T other)

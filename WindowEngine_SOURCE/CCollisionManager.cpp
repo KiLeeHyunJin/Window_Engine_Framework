@@ -182,8 +182,8 @@ namespace Framework
 		const Maths::Vector2 leftSize = left->GetSize() * 100;
 		const Maths::Vector2 rightSize = right->GetSize() * 100;
 
-		if (Maths::Abs(leftPos.x - rightPos.x) < Maths::Abs((leftSize.x + rightSize.x) * 0.5f) &&
-			Maths::Abs(leftPos.y - rightPos.y) < Maths::Abs((leftSize.y + rightSize.y) * 0.5f))
+		if (Maths::Abs(leftPos.GetX() - rightPos.GetX()) < Maths::Abs((leftSize.GetX() + rightSize.GetX()) * 0.5f) &&
+			Maths::Abs(leftPos.GetY() - rightPos.GetY()) < Maths::Abs((leftSize.GetY() + rightSize.GetY()) * 0.5f))
 		{
 			return true;
 		}
@@ -204,9 +204,9 @@ namespace Framework
 		const Maths::Vector2 leftCirclePos	= leftPos  + (leftSize * 0.5f);
 		const Maths::Vector2 rightCirclePos = rightPos + (rightSize * 0.5f);
 
-		const float lenght = (Maths::Vector2(leftCirclePos.x + rightCirclePos.x, leftCirclePos.y + rightCirclePos.y)).Length();
+		const float lenght = (Maths::Vector2(leftCirclePos.GetX() + rightCirclePos.GetX(), leftCirclePos.GetY() + rightCirclePos.GetY())).Length();
 
-		if (lenght <= (leftSize.x + rightSize.x) * 0.5f)
+		if (lenght <= (leftSize.GetX() + rightSize.GetX()) * 0.5f)
 		{
 			return true;
 		}
