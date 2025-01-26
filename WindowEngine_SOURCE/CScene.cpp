@@ -75,10 +75,14 @@ namespace Framework
 		Render(hdc);
 
 
-		Maths::Vector2 mousePos = CInputManager::GetMousePosition();
-		std::wstring pointStr = L"X : " + std::to_wstring((UINT)mousePos.GetX()) + L", Y : " + std::to_wstring((UINT)mousePos.GetY());
+		const Maths::Vector2 mousePos = CInputManager::GetMousePosition();
+		
+		const UINT mouseXPos = (UINT)mousePos.GetX();
+		const UINT mouseYPos = (UINT)mousePos.GetY();
+
+		std::wstring pointStr = L"X : " + std::to_wstring(mouseXPos) + L", Y : " + std::to_wstring(mouseYPos);
 		UINT lenPos = (UINT)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)mousePos.GetX() + 10, (UINT)mousePos.GetY() - 15, pointStr.c_str(), lenPos);
+		TextOut(hdc, mouseXPos + 10, mouseYPos - 15, pointStr.c_str(), lenPos);
 	}
 	
 	void CScene::AddGameObject(CGameObject* pGameObject)

@@ -9,6 +9,8 @@ namespace Framework::Maths
 
 	struct Vector2
 	{
+
+#pragma region  Static
 		static Vector2 Rotate(Vector2 v, float degree) // 행렬 회전
 		{
 			v.Normalize();
@@ -30,7 +32,7 @@ namespace Framework::Maths
 		{
 			return (v1.x * v2.x) + (v1.y * v2.y);
 		}
-		
+
 		static float Dot(const Vector2& v1, const Vector2& v2)
 		{
 			return (v1.x * v2.x) + (v1.y * v2.y);
@@ -50,7 +52,7 @@ namespace Framework::Maths
 		/// </summary>
 		static float Cross(Vector2& v1, Vector2& v2)
 		{
-			return (v1.x * v2.x) - (v1.y * v2.y);	
+			return (v1.x * v2.x) - (v1.y * v2.y);
 		}
 
 
@@ -61,33 +63,48 @@ namespace Framework::Maths
 		static Vector2 Left;
 		static Vector2 Up;
 		static Vector2 Down;
+#pragma endregion
+
 
 		__forceinline void SetX(float x)
 		{ 
 			this->x = x; 
-			if (isNormalize)	{	isNormalize = false;	}
+			NormalizeFalse();
 		}
 		__forceinline void SetY(float y)
 		{
 			this->y = y;
-			if (isNormalize)	{	isNormalize = false;	}
+			NormalizeFalse();
+		}
+
+		__forceinline void Set(Vector2 other)
+		{
+			this->x = other.GetX();
+			this->y = other.GetY();
+			NormalizeFalse();
 		}
 
 		__forceinline void AddX(float x)
 		{
 			this->x += x;
-			if (isNormalize)	{	isNormalize = false;	}
+			NormalizeFalse();
 		}
 
 		__forceinline void AddY(float y)
 		{
 			this->y += y;
-			if (isNormalize)	{	isNormalize = false;	}
+			NormalizeFalse();
+		}
+
+		__forceinline float Add(Vector2 other)
+		{
+			x += other.GetX();
+			y += other.GetY();
+			NormalizeFalse();
 		}
 
 		__forceinline float GetX() const	{	return x;	}
 		__forceinline float GetY() const	{	return y;	}
-
 
 		Vector2():x(0), y(0), isNormalize(false)	{	}
 		Vector2(float x, float y) : x(x), y(y)
@@ -235,6 +252,8 @@ namespace Framework::Maths
 		}
 	
 		private:
+			__forceinline void NormalizeFalse() { if (isNormalize) isNormalize = false; }
+
 			bool isNormalize;
 			float x;
 			float y;

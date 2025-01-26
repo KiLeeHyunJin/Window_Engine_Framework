@@ -102,8 +102,8 @@ namespace Framework
 			m_iCurrentBufferBitmapWidth = m_iWindowWidth;
 			m_iCurrentBufferBitmapHeight = m_iWindowHeight;
 
-			xPos = (m_iScreenWidth - m_iWindowWidth) >> 1;
-			yPos = (m_iScreenHeight - m_iWindowHeight) >> 1;
+			xPos = (m_iScreenWidth - m_iWindowWidth)	>> 1;
+			yPos = (m_iScreenHeight - m_iWindowHeight)	>> 1;
 		}
 
 		SetWindowPos(m_hWnd, NULL,

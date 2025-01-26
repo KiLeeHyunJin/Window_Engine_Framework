@@ -66,7 +66,7 @@ namespace Framework
 
 			if (m_vecVelocity.SqrLength() <= friction.SqrLength()) //속도가 마찰력보다 작거나 크면 정지
 			{
-				m_vecVelocity = Maths::Vector2::Zero;
+				m_vecVelocity.Clear();
 			}
 			else
 			{
