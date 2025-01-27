@@ -9,6 +9,9 @@
 #include "CSpriteRendererComponent.h"
 #include "CCameraComponent.h"
 #include "CAnimatorComponent.h"
+#include "CBoxColliderComponent.h"
+#include "CRigidbodyComponent.h"
+
 
 #include "CGameObject.h"
 #include "CRenderer.h"
@@ -26,17 +29,26 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
-	CGameObject* pObj = Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround, L"pObj");
-	CTransformComponent* pTr = pObj->AddComponent<CTransformComponent>();
-	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-
 	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
-	//pObj->AddComponent<CPlayerInput>();
-	pAnim->CreateAnimation(L"Room", pTexture,Vector2::Zero, Vector2(50,50), Vector2::Zero, 5, 0.2f );
+
+
+	CGameObject* pObj = Object::Instantiate<CPlayerInput>(Enums::eLayerType::BackGround, L"pObj")->GetOwner();
+	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
+	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
+	pRigid->SetGround(true);
+
+	CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
+	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
+
+	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
+	pAnim->CreateAnimation(L"Room", pTexture, Vector2::Zero, Vector2(50, 50), Vector2::Zero, 5, 0.2f);
 	pAnim->PlayAnimation(L"Room", true);
 
-	CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None, L"Cam");
-	pCameraObj->AddComponent<CPlayerInput>();
+	//pObj->AddComponent<CPlayerInput>();
+
+
+	CGameObject* pCameraObj = Object::Instantiate(Enums::eLayerType::None, L"Cam");
+	
 	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
 
 	Object::DontDestoryOnLoad(pCameraObj);

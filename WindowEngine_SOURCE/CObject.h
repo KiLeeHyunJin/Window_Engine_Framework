@@ -17,7 +17,22 @@ namespace Framework::Object
 		{
 			return nullptr;
 		}
-		T* pGameObject = new T(layerType);
+		CGameObject* pGameObject = new CGameObject(layerType);
+		pCurScene->AddGameObject(pGameObject);
+		pGameObject->SetName(name);
+
+		T* pComponent = pGameObject->AddComponent<T>();
+		return pComponent;
+	};
+
+	static CGameObject* Instantiate(Enums::eLayerType layerType, std::wstring name)
+	{
+		CScene* pCurScene = CSceneManager::GetCurrentScene();
+		if (pCurScene == nullptr)
+		{
+			return nullptr;
+		}
+		CGameObject* pGameObject = new CGameObject(layerType);
 		pCurScene->AddGameObject(pGameObject);
 		pGameObject->SetName(name);
 		return pGameObject;

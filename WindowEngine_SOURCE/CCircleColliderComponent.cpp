@@ -39,11 +39,11 @@ namespace Framework
 
 		const Maths::Vector2 offset = GetOffset();
 
-		const UINT posX = pos.GetX() + offset.GetX();
-		const UINT posY = pos.GetY() + offset.GetY();
+		const UINT posX = pos.x + offset.x;
+		const UINT posY = pos.y + offset.y;
 
-		const float sizeX = m_vecSize.GetX() * 0.5f;
-		const float sizeY = m_vecSize.GetY() * 0.5f;
+		const float sizeX = m_vecSize.x * 0.5f;
+		const float sizeY = m_vecSize.y * 0.5f;
 
 
 		HBRUSH transPanrentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);

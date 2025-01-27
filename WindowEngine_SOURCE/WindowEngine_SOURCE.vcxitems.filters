@@ -79,6 +79,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp">
       <Filter>Asset\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.cpp">
+      <Filter>Component\Rigidbody</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -171,6 +174,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h">
       <Filter>Asset\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.h">
+      <Filter>Component\Rigidbody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Component">
@@ -235,6 +241,9 @@
     </Filter>
     <Filter Include="Core\Manager">
       <UniqueIdentifier>{c27cb48a-7f4e-4e7c-ad0f-c408f53feef3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Rigidbody">
+      <UniqueIdentifier>{3454a006-08ea-423e-9df4-59ab6218c72d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

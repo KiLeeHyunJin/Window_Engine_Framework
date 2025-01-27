@@ -72,8 +72,10 @@ namespace Framework
 		CGameObject* pObj = m_pOwner->GetOwner();
 		CTransformComponent* pTr = pObj->GetComponent<CTransformComponent>();
 
-		Vector2 originPos = pTr->GetPos();
-		Vector2 pos = originPos;
+		//Vector2 originPos =;
+		const Sprite sprite = m_vecSprites[m_iIndex];
+
+		Vector2 pos = pTr->GetPos() + sprite.offset;
 
 		const Vector2 scale = pTr->GetScale();
 		const float rot = pTr->GetRot();
@@ -82,24 +84,20 @@ namespace Framework
 		if (mainCam != nullptr)
 		{
 			pos = mainCam->CaluatePosition(pos);
-			originPos = mainCam->CaluatePosition(originPos);
+			//originPos = mainCam->CaluatePosition(originPos);
 		}
-		const Sprite sprite = m_vecSprites[m_iIndex];
 
-		pos.AddX(sprite.size.GetX() * -0.5f);
-		pos.AddY(sprite.size.GetY() * -0.5f);
-
-		pos.AddX(sprite.offset.GetX());
-		pos.AddY(sprite.offset.GetY());
+		const float sizeX = (sprite.size.x * -0.5f);
+		const float sizeY = (sprite.size.y * -0.5f);
 
 		const int idx = (int)m_pTexture->GetTextureType();
 		(this->*RenderFunc[idx])(hdc, rot, pos, scale, sprite);
 
-		Rectangle(hdc, (UINT)(originPos.GetX() - 2), (UINT)(originPos.GetY() - 2), (UINT)(originPos.GetX() + 2), (UINT)(originPos.GetY() + 2));
+		Rectangle(hdc, (UINT)(pos.x - sizeX), (UINT)(pos.y - sizeY), (UINT)(pos.x + sizeX), (UINT)(pos.y + sizeY));
 
-		std::wstring pointStr = L"X : " + std::to_wstring((int)originPos.GetX()) + L", Y : " + std::to_wstring((int)originPos.GetY());
+		std::wstring pointStr = L"X : " + std::to_wstring((int)pos.x) + L", Y : " + std::to_wstring((int)pos.y);
 		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)(originPos.GetX() + 10), (UINT)(originPos.GetY() - 15), pointStr.c_str(), lenPos);
+		TextOut(hdc, (UINT)(pos.x + 10), (UINT)(pos.y - 15), pointStr.c_str(), lenPos);
 	}
 
 
@@ -117,21 +115,21 @@ namespace Framework
 			func.SourceConstantAlpha = 255;
 
 			AlphaBlend(hdc,
-				(UINT)pos.GetX() , (UINT)pos.GetY(),
-				(UINT)(sprite.size.GetX() * scale.GetX()), (UINT)(sprite.size.GetY() * scale.GetY()),
+				(UINT)pos.x , (UINT)pos.y,
+				(UINT)(sprite.size.x * scale.x), (UINT)(sprite.size.y * scale.y),
 				imgHdc,
-				(UINT)sprite.leftTop.GetX(), (UINT)sprite.leftTop.GetY(),
-				(UINT)sprite.size.GetX(), (UINT)sprite.size.GetY(),
+				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
+				(UINT)sprite.size.x, (UINT)sprite.size.y,
 				func);
 		}
 		else
 		{
 			TransparentBlt(hdc,
-				(UINT)pos.GetX(), (UINT)pos.GetY(),
-				(UINT)(sprite.size.GetX() * scale.GetX()), (UINT)(sprite.size.GetY() * scale.GetY()),
+				(UINT)pos.x, (UINT)pos.y,
+				(UINT)(sprite.size.x * scale.x), (UINT)(sprite.size.y * scale.y),
 				imgHdc,
-				(UINT)sprite.leftTop.GetX(), (UINT)sprite.leftTop.GetY(),
-				(UINT)sprite.size.GetX(), (UINT)sprite.size.GetY(),
+				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
+				(UINT)sprite.size.x, (UINT)sprite.size.y,
 				RGB(255, 0, 255));
 		}
 	}
@@ -143,18 +141,18 @@ namespace Framework
 
 		Gdiplus::Graphics graphics(hdc);
 
-		graphics.TranslateTransform(pos.GetX(), pos.GetY());
+		graphics.TranslateTransform(pos.x, pos.y);
 		graphics.RotateTransform(rot);
-		graphics.TranslateTransform(-pos.GetX(), -pos.GetY());
+		graphics.TranslateTransform(-pos.x, -pos.y);
 
-		Maths::Vector2 vecSize(sprite.size.GetX() * scale.GetX(), sprite.size.GetY() * scale.GetY());
+		Maths::Vector2 vecSize(sprite.size.x * scale.x, sprite.size.y * scale.y);
 
 		graphics.DrawImage(m_pTexture->GetImage(),
 			Gdiplus::Rect(
-				(UINT)pos.GetX(), (UINT)pos.GetY(),
-				(UINT)vecSize.GetX(), (UINT)vecSize.GetY()),
-			(UINT)sprite.leftTop.GetX(), (UINT)sprite.leftTop.GetY(),
-			(UINT)vecSize.GetX(), (UINT)vecSize.GetY(),
+				(UINT)pos.x - (vecSize.x * 0.5f), (UINT)pos.y - (vecSize.y * 0.5f),
+				(UINT)vecSize.x, (UINT)vecSize.y),
+			(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
+			(UINT)vecSize.x, (UINT)vecSize.y,
 			Gdiplus::UnitPixel,
 			nullptr);
 	}
@@ -166,7 +164,7 @@ namespace Framework
 		for (UINT i = 0; i < spriteLength; i++)
 		{
 			Sprite sprite	= {};
-			sprite.leftTop	= Vector2(leftTop.GetX() + (size.GetX() * i), leftTop.GetY());
+			sprite.leftTop	= Vector2(leftTop.x + (size.x * i), leftTop.y);
 			sprite.size		= size;
 			sprite.offset	= offset;
 			sprite.duration = duration;

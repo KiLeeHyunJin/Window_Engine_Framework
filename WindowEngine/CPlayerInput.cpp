@@ -4,6 +4,8 @@
 #include "..\\WindowEngine_SOURCE\\CInputManager.h"
 
 #include "CTransformComponent.h"
+#include "CRigidbodyComponent.h"
+
 #include "CGameObject.h"
 #include "CObject.h"
 namespace Framework
@@ -22,32 +24,32 @@ namespace Framework
 	}
 	void CPlayerInput::Tick()
 	{
-		float speed = 200;
-		static float time = 0; 
-		time += DELTATIME;
-		if (time > 6)
-		{
-			//Object::Destroy(GetOwner());
-		}
-		CTransformComponent* tr = GetOwner()->GetComponent<CTransformComponent>();
-		Maths::Vector2 pos = tr->GetPos();
+		const float speed = 200;
+		const float tickTime = TIME::DeltaTime();
+		const float movePower = speed * tickTime;
+
+		CRigidbodyComponent* rigid = GetOwner()->GetComponent<CRigidbodyComponent>();
+		Maths::Vector2 addForceDir;
+
 		if (INPUT::GetKeyPressed(eKeyCode::Left))
 		{
-			pos.AddX(-speed * DELTATIME);
+			addForceDir += Maths::Vector2::Left;
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Right))
 		{
-			pos.AddX(speed * DELTATIME);
+			addForceDir += Maths::Vector2::Right;
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Up))
 		{
-			pos.AddY(-speed * DELTATIME);
+			addForceDir += Maths::Vector2::Up;
 		}
 		if (INPUT::GetKeyPressed(eKeyCode::Down))
 		{
-			pos.AddY(speed * DELTATIME);
+			addForceDir += Maths::Vector2::Down;
 		}
-		tr->SetPos(pos);
+		rigid->SetVelocity(addForceDir.Normalized() * movePower);
+
+		//tr->SetPos(pos);
 	}
 	void CPlayerInput::LastTick()
 	{

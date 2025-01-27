@@ -5,13 +5,14 @@ namespace Framework::Enums
 	enum class eComponentType
 	{
 		Transform,
-		Collider,
 		
 		Custom,
 
 		SpriteRenderer,
 		Animator,
 		Camera,
+		Collider,
+		Rigidbody,
 
 		Size,
 	};

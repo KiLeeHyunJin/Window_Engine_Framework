@@ -65,56 +65,17 @@ namespace Framework::Maths
 		static Vector2 Down;
 #pragma endregion
 
-
-		__forceinline void SetX(float x)
-		{ 
-			this->x = x; 
-			NormalizeFalse();
-		}
-		__forceinline void SetY(float y)
-		{
-			this->y = y;
-			NormalizeFalse();
-		}
-
-		__forceinline void Set(Vector2 other)
-		{
-			this->x = other.GetX();
-			this->y = other.GetY();
-			NormalizeFalse();
-		}
-
-		__forceinline void AddX(float x)
-		{
-			this->x += x;
-			NormalizeFalse();
-		}
-
-		__forceinline void AddY(float y)
-		{
-			this->y += y;
-			NormalizeFalse();
-		}
-
-		__forceinline float Add(Vector2 other)
-		{
-			x += other.GetX();
-			y += other.GetY();
-			NormalizeFalse();
-		}
-
-		__forceinline float GetX() const	{	return x;	}
-		__forceinline float GetY() const	{	return y;	}
-
-		Vector2():x(0), y(0), isNormalize(false)	{	}
+		Vector2():x(0), y(0){	}
 		Vector2(float x, float y) : x(x), y(y)
-		{	
-			isNormalize = ((x + y) == 1.0f);
-		}
+		{}
 
 		Vector2 operator - (Vector2 other)
 		{
 			return Vector2(x - other.x, y - other.y);
+		}		
+		Vector2 operator - ()
+		{
+			return Vector2(-x, -y);
 		}
 
 		Vector2 operator + (Vector2 other)
@@ -132,19 +93,26 @@ namespace Framework::Maths
 			return Vector2(x / other.x, y / other.y);
 		}
 
-		void operator += (Vector2& other)
+		bool operator == (Vector2& other)
+		{
+			bool xState = this->x == other.x;
+			bool yState = this->y == other.y;
+			return xState && yState;
+		}
+
+		void operator += (Vector2 other)
 		{
 			x += other.x;
 			y += other.y;
 		}
 
-		void operator -= (Vector2& other)
+		void operator -= (Vector2 other)
 		{
 			x -= other.x;
 			y -= other.y;
 		}
 
-		void operator *= (Vector2& other)
+		void operator *= (Vector2 other)
 		{
 			x *= other.x; 
 			y *= other.y;
@@ -210,15 +178,13 @@ namespace Framework::Maths
 		/// </summary>
 		Vector2 Normalize()
 		{
-			if (isNormalize)
-			{
-				return *this;
-			}
-
 			const float len = Length();
-			x /= len;
-			y /= len;
-			isNormalize = true;
+			if (len != 0.0f)
+			{
+				x /= len;
+				y /= len;
+				
+			}
 			return *this;
 		}
 
@@ -227,10 +193,6 @@ namespace Framework::Maths
 		/// </summary>
 		Vector2 Normalized() const
 		{
-			if (isNormalize)
-			{
-				return Vector2(x, y);
-			}
 			const float len = Length();
 			if (len == 0.0f)
 			{
@@ -240,11 +202,6 @@ namespace Framework::Maths
 			const float y = this->y / len;
 			return Vector2(x, y);
 		}
-	
-		private:
-			__forceinline void NormalizeFalse() { if (isNormalize) isNormalize = false; }
-
-			bool isNormalize;
 			float x;
 			float y;
 	};

@@ -7,7 +7,7 @@
 namespace Framework
 {
 	class CAnimatorComponent;
-
+	class CTransformComponent;
 	class CComponent;
 	class CLayer;
 	class CGameObject : public CEntity
@@ -22,7 +22,7 @@ namespace Framework
 
 		CGameObject(Enums::eLayerType layerType);
 		virtual ~CGameObject();
-
+		CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
 
 		template<typename T>
@@ -34,7 +34,7 @@ namespace Framework
 				return getCom;
 			}
 			T* newCom = new T;
-			CComponent* const pCom = static_cast<CComponent*>(newCom);
+			CComponent* pCom = static_cast<CComponent*>(newCom);
 
 			pCom->Initialize();
 			pCom->SetOwner(this);
@@ -137,6 +137,7 @@ namespace Framework
 		std::vector<CComponent*> m_vecComponents;
 		std::list<CComponent*> m_listCustomComponents;
 
+		CTransformComponent* m_pTransform;
 		Enums::eLayerType m_eLayerType;
 		eState m_eState;
 	};
