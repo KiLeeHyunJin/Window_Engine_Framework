@@ -35,7 +35,7 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	if (m_pTexture == nullptr)
 		return;
 
-	const CTransformComponent* pTr = GetOwner()->GetTransformComponent();
+	const CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
 	const Maths::Vector2 trPos  = pTr->GetPos();
 	const Vector2 scale = pTr->GetScale();
 	const float rot = pTr->GetRot();

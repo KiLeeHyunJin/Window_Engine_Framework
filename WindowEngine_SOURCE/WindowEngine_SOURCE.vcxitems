@@ -30,7 +30,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Component.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h" />
@@ -60,7 +59,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CInputManager.cpp" />

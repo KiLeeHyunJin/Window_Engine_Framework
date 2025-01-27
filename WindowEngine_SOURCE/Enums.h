@@ -6,8 +6,7 @@ namespace Framework::Enums
 	{
 		Transform,
 		Collider,
-		Rigidbody,
-
+		
 		Custom,
 
 		SpriteRenderer,

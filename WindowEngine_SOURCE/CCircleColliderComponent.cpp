@@ -28,7 +28,7 @@ namespace Framework
 	}
 	void CCircleColliderComponent::Render(HDC hdc)
 	{
-		CTransformComponent* pTr = GetOwner()->GetTransformComponent();
+		CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
 		Maths::Vector2 pos = pTr->GetPos();
 
 		CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
