@@ -8,10 +8,10 @@ namespace Framework
 {
 	CRigidbodyComponent::CRigidbodyComponent() :
 		CComponent(Enums::eComponentType::Rigidbody),
-		m_fFriction(20.0f), m_fMass(1.0f), m_bGround(false),
-		m_vecAccelation(Maths::Vector2::Zero),		m_vecForce(Maths::Vector2::Zero),
-		m_vecGravity(Maths::Vector2::Zero),			m_vecVelocity(Maths::Vector2::Zero),
-		m_vecLimitVelocity(Maths::Vector2(100,10)),	m_vecLimitGravity(Maths::Vector2(100,100))
+		m_fFriction(10.0f), m_fMass(1), m_bGround(false),
+		m_vecAccelation		(Maths::Vector2::Zero),			m_vecForce			(Maths::Vector2::Zero),
+		m_vecGravity		(Maths::Vector2(0,980)),		m_vecVelocity		(Maths::Vector2::Zero),
+		m_vecLimitVelocity	(Maths::Vector2(1000,1000)),	m_vecLimitGravity	(Maths::Vector2(1000,1000))
 	{
 	}
 	CRigidbodyComponent::~CRigidbodyComponent()
@@ -25,76 +25,13 @@ namespace Framework
 	}
 	void CRigidbodyComponent::Tick()
 	{
-		const float tickTime = TIME::DeltaTime();
-
-		if (m_vecForce.SqrLength() != 0.0f)
-		{
-			m_vecAccelation = m_vecForce / m_fMass; //가속도 = 힘 / 질량
-			m_vecVelocity += m_vecAccelation * tickTime; //프레임당 가속도를 계산해서 속도에 합산
-		}
-		else
-		{
-			if (m_vecAccelation.x != 0.0f && 
-				m_vecAccelation.y != 0.0f)
-			{
-				m_vecAccelation.Clear();
-			}
-		}
+		VelocityCompute();
 		
-		const Maths::Vector2 gravityDir = m_vecGravity.Normalized();
+		LimitSpeedCompute();
 
-		if (m_bGround)
+		if (m_vecVelocity.HasValue()) //가속도가 있다면
 		{
-			float dot = Maths::Vector2::Dot(m_vecAccelation, gravityDir);
-			m_vecVelocity -= gravityDir * dot;
-		}
-		else
-		{
-			m_vecVelocity += m_vecGravity * tickTime;
-		}
-
-		const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
-
-		Maths::Vector2 gravityDot = gravityDir * dot;
-		Maths::Vector2 sideVelocity = m_vecVelocity - gravityDot;
-
-
-		if (m_vecLimitGravity.y < gravityDot.Length())
-		{
-			gravityDot.Normalize();
-			gravityDot *= m_vecLimitVelocity.y;
-		}
-
-		if (m_vecLimitVelocity.x < sideVelocity.Length())
-		{
-			sideVelocity.Normalize();
-			sideVelocity *= m_vecLimitVelocity.x;
-		}
-
-		m_vecVelocity = gravityDot + sideVelocity;
-
-		const float velocitySqrLen = m_vecVelocity.SqrLength();
-		if (velocitySqrLen != 0.0f) //가속도가 있다면
-		{
-			Maths::Vector2 friction = -m_vecVelocity; //마찰력 방향
-			friction = friction.Normalize() * m_fFriction * m_fMass * tickTime; //마찰력 계산
-
-			if (m_vecVelocity.SqrLength() <= friction.SqrLength()) //속도가 마찰력보다 작거나 크면 정지
-			{
-				m_vecVelocity.Clear();
-			}
-			else
-			{
-				m_vecVelocity += friction; //속도에 마찰력 합산하여 속도 감소
-			}
-
-			CTransformComponent* pTr = GetOwner()->GetTransformComponent();
-			Maths::Vector2 pos = pTr->GetPos();
-
-			pos += m_vecVelocity * tickTime;
-			pTr->SetPos(pos); //현재 위치에서 이동 방향으로 이동
-
-			m_vecForce.Clear();
+			ChangePosition();
 		}
 	}
 	void CRigidbodyComponent::LastTick()
@@ -102,6 +39,87 @@ namespace Framework
 	}
 	void CRigidbodyComponent::Render(HDC hdc)
 	{
+	}
+	
+	void CRigidbodyComponent::VelocityCompute()
+	{
+		if (m_vecForce.HasValue())
+		{
+			m_vecAccelation = m_vecForce / m_fMass; //가속도 = 힘 / 질량
+			m_vecVelocity += m_vecAccelation * TIME::DeltaTime(); //프레임당 가속도를 계산해서 속도에 합산
+		}
+		else
+		{
+			if (m_vecAccelation.HasValue())
+			{
+				m_vecAccelation.Clear();
+			}
+		}
+	}
 
+	void CRigidbodyComponent::LimitSpeedCompute()
+	{
+		const Maths::Vector2 gravityDir = m_vecGravity.Normalized();
+
+		if (gravityDir.HasValue() == false && 
+			m_vecVelocity.HasValue() == false)
+		{
+			return;
+		}
+
+		if (m_bGround)
+		{
+			float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
+			m_vecVelocity -= gravityDir * dot;
+		}
+		else
+		{
+			m_vecVelocity += m_vecGravity * TIME::DeltaTime();
+		}
+		
+		const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
+
+		Maths::Vector2 gravityDot = gravityDir * dot;
+		Maths::Vector2 sideVelocity = m_vecVelocity - gravityDot;
+		
+		if (m_vecLimitGravity.y < gravityDot.Length())
+		{
+			gravityDot.Normalize();
+			gravityDot *= m_vecLimitVelocity.y;
+		}
+		
+		if (m_vecLimitVelocity.x < sideVelocity.Length())
+		{
+			sideVelocity.Normalize();
+			sideVelocity *= m_vecLimitVelocity.x;
+		}
+		
+		m_vecVelocity = gravityDot + sideVelocity;
+	}
+
+	void CRigidbodyComponent::ChangePosition()
+	{
+		const float tickTime = TIME::DeltaTime();
+
+		Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //마찰력 방향
+		friction = friction * (m_fFriction * m_fMass * tickTime); //마찰력 계산
+
+		if (m_vecVelocity.TotalElementSize() <= friction.TotalElementSize()) //속도가 마찰력보다 작거나 크면 정지
+		{
+			m_vecVelocity.Clear();
+			return;
+		}
+
+		m_vecVelocity += friction; //속도에 마찰력 합산하여 속도 감소
+
+		CTransformComponent* pTr = GetOwner()->GetTransformComponent();
+		Maths::Vector2 pos = pTr->GetPos();
+		pos += m_vecVelocity * tickTime;
+		pTr->SetPos(pos); //현재 위치에서 이동 방향으로 이동
+
+		if (m_vecForce.HasValue())
+		{
+			m_vecForce.Clear();
+		}
 	}
 }

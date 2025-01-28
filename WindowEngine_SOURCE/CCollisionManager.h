@@ -11,10 +11,10 @@ namespace Framework
 
 	union CollisionID
 	{
-		//CollisionID(): left(0), right(0)
-		//{}
-		//CollisionID(UINT left, UINT right) : left(left), right(right)
-		//{}
+		CollisionID(): left(0), right(0)
+		{}
+		CollisionID(UINT left, UINT right) : left(left), right(right)
+		{}
 		struct 
 		{
 			UINT32 left;

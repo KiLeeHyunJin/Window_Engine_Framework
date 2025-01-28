@@ -12,12 +12,9 @@ namespace Framework
 	std::unordered_map<UINT64, bool> CCollisionManager::m_unmapCollisions = {};
 
 	CCollisionManager::CCollisionManager()
-	{
-	}
-
+	{	}
 	CCollisionManager::~CCollisionManager()
-	{
-	}
+	{	}
 
 	void CCollisionManager::SetCollisionLayerState(Enums::eLayerType left, Enums::eLayerType right, bool enable)
 	{
@@ -113,6 +110,8 @@ namespace Framework
 			}
 		}
 	}
+
+
 
 	void CCollisionManager::CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider)
 	{

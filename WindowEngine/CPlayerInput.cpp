@@ -24,9 +24,9 @@ namespace Framework
 	}
 	void CPlayerInput::Tick()
 	{
-		const float speed = 200;
-		const float tickTime = TIME::DeltaTime();
-		const float movePower = speed * tickTime;
+		const float speed = 20;
+		//const float tickTime = TIME::DeltaTime();
+		const float movePower = speed * 10;
 
 		CRigidbodyComponent* rigid = GetOwner()->GetComponent<CRigidbodyComponent>();
 		Maths::Vector2 addForceDir;
@@ -47,7 +47,11 @@ namespace Framework
 		{
 			addForceDir += Maths::Vector2::Down;
 		}
-		rigid->SetVelocity(addForceDir.Normalized() * movePower);
+		addForceDir.Normalize();
+		if (addForceDir.HasValue())
+		{
+			rigid->SetVelocity(addForceDir * movePower);
+		}
 
 		//tr->SetPos(pos);
 	}

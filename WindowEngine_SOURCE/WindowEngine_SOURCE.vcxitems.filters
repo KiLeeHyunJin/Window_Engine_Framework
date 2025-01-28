@@ -82,6 +82,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.cpp">
       <Filter>Component\Rigidbody</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeManager.cpp">
+      <Filter>Core\Manager\CQuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeNode.cpp">
+      <Filter>Core\Manager\CQuadTree\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTree.cpp">
+      <Filter>Core\Manager\CQuadTree\Tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -177,6 +186,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.h">
       <Filter>Component\Rigidbody</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTreeManager.h">
+      <Filter>Core\Manager\CQuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTreeNode.h">
+      <Filter>Core\Manager\CQuadTree\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTree.h">
+      <Filter>Core\Manager\CQuadTree\Tree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Component">
@@ -244,6 +262,15 @@
     </Filter>
     <Filter Include="Component\Rigidbody">
       <UniqueIdentifier>{3454a006-08ea-423e-9df4-59ab6218c72d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\CQuadTree">
+      <UniqueIdentifier>{f7b4727a-a39f-4566-b217-d8c5d34762bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\CQuadTree\Node">
+      <UniqueIdentifier>{2b75a1f2-d203-47f3-afc8-025f3bb1cfe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\CQuadTree\Tree">
+      <UniqueIdentifier>{b0920652-38ee-4eb8-9172-3baba52112f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #pragma once
 #include "CComponent.h"
-
+#include "CTimeManager.h"
 
 namespace Framework
 {
@@ -17,24 +17,27 @@ namespace Framework
 		/// <summary>
 		/// 가해지는 힘을 설정
 		/// </summary>
-		void SetForce(Maths::Vector2 force) { m_vecForce = force; }
+		void SetForce(Maths::Vector2 force)			{ m_vecForce = force; }
 		/// <summary>
 		/// 중력을 재설정
 		/// </summary>
-		void SetGravity(Maths::Vector2 gravity) { m_vecGravity = gravity; }
+		void SetGravity(Maths::Vector2 gravity)		{ m_vecGravity = gravity; }
 		/// <summary>
 		/// 속력을 재설정
 		/// </summary>
-		void SetVelocity(Maths::Vector2 velocity) { m_vecVelocity = velocity; }
-		void SetGround(bool isGround) { m_bGround = isGround; }
+		void SetVelocity(Maths::Vector2 velocity)	{ m_vecVelocity = velocity;	}
 		/// <summary>
 		/// 가해지는 힘을 추가
 		/// </summary>
-		void SetAddForce(Maths::Vector2 addForce) { m_vecForce += addForce; }
+		void SetAddForce(Maths::Vector2 addForce)	{ m_vecForce += addForce; }
 
+		void SetGround(bool isGround) { m_bGround = isGround; }
 
-		Maths::Vector2 GetVelocity() const { return m_vecVelocity; }
+		Maths::Vector2 GetVelocity() const			{ return m_vecVelocity; }
+		Maths::Vector2 GetForce() const				{ return m_vecForce;}
 
+		float GetMass() const						{ return m_fMass; }
+		float GetFriction() const					{ return m_fFriction; }
 
 		friend CGameObject;
 	private:
@@ -46,6 +49,10 @@ namespace Framework
 		virtual void Tick() override;
 		virtual void LastTick() override;
 		virtual void Render(HDC hdc) override;
+
+		void VelocityCompute();
+		void LimitSpeedCompute();
+		void ChangePosition();
 
 		/// <summary>
 		/// 질량
@@ -77,7 +84,6 @@ namespace Framework
 		Maths::Vector2 m_vecLimitGravity;
 
 		bool m_bGround;
-
 	};
 
 }

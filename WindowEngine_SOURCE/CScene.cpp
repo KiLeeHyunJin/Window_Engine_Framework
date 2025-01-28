@@ -3,7 +3,7 @@
 #include "Enums.h"
 
 #include "CInputManager.h"
-
+#include "CCollisionManager.h"
 namespace Framework
 {
 	CScene::CScene()

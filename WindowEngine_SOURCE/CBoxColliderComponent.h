@@ -21,7 +21,7 @@ namespace Framework
 		virtual void LastTick() override;
 		virtual void Render(HDC hdc) override;
 
-		Maths::Vector2 m_vecSize;
+		//Maths::Vector2 m_vecSize;
 
 	};
 

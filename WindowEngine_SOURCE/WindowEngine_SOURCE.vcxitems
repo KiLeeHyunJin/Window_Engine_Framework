@@ -28,6 +28,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Component.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTree.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTreeManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTreeNode.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.h" />
@@ -58,6 +61,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTree.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeNode.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.cpp" />

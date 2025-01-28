@@ -4,6 +4,11 @@
 namespace Framework::Maths
 {
 #define PI 3.142592f
+	template<typename T>
+	T Abs(T other)
+	{
+		return other > 0 ? other : other * -1;
+	}
 
 	inline static float RadianToDegree(float radian) { return (radian * (180 / PI)); }
 
@@ -23,6 +28,16 @@ namespace Framework::Maths
 			const float y = (sin_f * v.x) - (cos_f * v.y);
 
 			return Vector2(x, y);
+		}
+
+		static bool Intersects(Vector2 leftCenter, Vector2 leftSize, Vector2 rightCenter, Vector2 rightSize)
+		{
+			if (Abs(leftCenter.x - rightCenter.x) < Abs((leftSize.x + rightSize.x) * 0.5f) &&
+				Abs(leftCenter.y - rightCenter.y) < Abs((leftSize.y + rightSize.y) * 0.5f))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -93,11 +108,31 @@ namespace Framework::Maths
 			return Vector2(x / other.x, y / other.y);
 		}
 
+		bool HasValue() const
+		{
+			if (this->x != 0.0f)
+				return true;
+			if (this->y != 0.0f)
+				return true;
+			return false;
+		}
+
 		bool operator == (Vector2& other)
 		{
-			bool xState = this->x == other.x;
-			bool yState = this->y == other.y;
-			return xState && yState;
+			if (this->x != other.x)
+				return false;
+			if (this->y != other.y)
+				return false;
+			return true;
+		}
+
+		bool operator != (Vector2& other)
+		{
+			if (this->x != other.x)
+				return true;
+			if (this->y != other.y)
+				return true;
+			return false;
 		}
 
 		void operator += (Vector2 other)
@@ -158,15 +193,7 @@ namespace Framework::Maths
 		}
 
 		/// <summary>
-		/// 빗변의 길이
-		/// </summary>
-		float Length() const
-		{
-			return sqrtf((x * x) + (y * y));
-		}
-
-		/// <summary>
-		/// 빗변의 크기
+		/// 밑변 제곱과 높이 제곱의 합
 		/// </summary>
 		float SqrLength() const
 		{
@@ -174,17 +201,38 @@ namespace Framework::Maths
 		}
 
 		/// <summary>
+		/// 빗변의 길이
+		/// </summary>
+		float Length() const
+		{
+			return sqrtf(SqrLength());
+		}
+
+		/// <summary>
+		/// 밑변과 높이의 합
+		/// </summary>
+		float TotalElementSize() const
+		{
+			return x + y;
+		}
+
+		/// <summary>
 		/// 정규화 변환(방향벡터로 변환)
 		/// </summary>
 		Vector2 Normalize()
 		{
-			const float len = Length();
-			if (len != 0.0f)
+			const float size = TotalElementSize();
+			if (size == 0.0f)
 			{
-				x /= len;
-				y /= len;
-				
+				return *this;
 			}
+			const float len = Length();
+			if (len == 1.0f)
+			{
+				return *this;
+			}
+			this->x /= len;
+			this->y /= len;
 			return *this;
 		}
 
@@ -193,23 +241,26 @@ namespace Framework::Maths
 		/// </summary>
 		Vector2 Normalized() const
 		{
-			const float len = Length();
-			if (len == 0.0f)
+			const float size = TotalElementSize();
+			if (size == 0.0f)
 			{
 				return Vector2::Zero;
 			}
-			const float x = this->x / len;
-			const float y = this->y / len;
-			return Vector2(x, y);
+			const float len = Length();
+			if (len == 1.0f)
+			{
+				return Vector2(this->x, this->y);
+			}
+			const float _x = this->x / len;
+			const float _y = this->y / len;
+			return Vector2(_x, _y);
 		}
+
+
 			float x;
 			float y;
 	};
-	template<typename T>
-	T Abs(T other)
-	{
-		return other > 0 ? other : other * -1;
-	}
+	
 
 	
 }
