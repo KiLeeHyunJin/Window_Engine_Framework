@@ -32,8 +32,12 @@ namespace Framework::Maths
 
 		static bool Intersects(Vector2 leftCenter, Vector2 leftSize, Vector2 rightCenter, Vector2 rightSize)
 		{
-			if (Abs(leftCenter.x - rightCenter.x) < Abs((leftSize.x + rightSize.x) * 0.5f) &&
-				Abs(leftCenter.y - rightCenter.y) < Abs((leftSize.y + rightSize.y) * 0.5f))
+			float xDistance = Abs(leftCenter.x - rightCenter.x);
+			float xSize = Abs((leftSize.x + rightSize.x) * 0.5f);
+			float yDistance = Abs(leftCenter.y - rightCenter.y);
+			float ySize = Abs((leftSize.y + rightSize.y) * 0.5f);
+			if (xDistance <= xSize &&
+				yDistance <= ySize)
 			{
 				return true;
 			}

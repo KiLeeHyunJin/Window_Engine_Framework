@@ -34,13 +34,13 @@ namespace Framework
 		void RemoveGameObject(CGameObject* pGameObject);
 		void EraseGameObject(CGameObject* pGameObject);
 
-		const std::list<CGameObject*> GetGameObject() const { return m_listGameObject; }
+		const std::vector<CGameObject*> GetGameObject() const { return m_listGameObject; }
 
 		void Destroy();
 
 		Enums::eLayerType m_eLayer;
-		std::list<CGameObject*> m_listGameObject;
-		std::list<CGameObject*> m_listRemoveGameObject;
+		std::vector<CGameObject*> m_listGameObject;
+		std::vector<CGameObject*> m_listRemoveGameObject;
 	};
 }
 

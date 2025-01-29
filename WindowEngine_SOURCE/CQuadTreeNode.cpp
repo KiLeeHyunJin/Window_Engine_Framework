@@ -5,8 +5,9 @@
 #include "CTransformComponent.h"
 namespace Framework
 {
-	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, Vector2 center, Vector2 size, int depth) :m_vecChildren(4)
+	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, Vector2 center, Vector2 size, int depth)
 	{
+		m_vecChildren.reserve(4);
 		m_pTree = tree;
 		m_pParent = parent;
 		m_vecCenter = center;
@@ -148,6 +149,20 @@ namespace Framework
 			for (auto node : m_vecChildren)
 			{
 				node->Clear();
+			}
+		}
+		m_listItems.clear();
+		m_vecChildren.clear();
+	}
+
+	void CQuadTreeNode::Release()
+	{
+		if (m_vecChildren.size() > 0)
+		{
+			for (auto node : m_vecChildren)
+			{
+				node->Release();
+				delete(node);
 			}
 		}
 		m_listItems.clear();

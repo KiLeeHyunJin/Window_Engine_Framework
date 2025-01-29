@@ -35,7 +35,7 @@ void Framework::CPlayScene::Initialize()
 	CGameObject* pObj = Object::Instantiate<CPlayerInput>(Enums::eLayerType::BackGround, L"pObj")->GetOwner();
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
-	pRigid->SetGround(false);
+	pRigid->SetGround(true);
 
 	CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
 	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));

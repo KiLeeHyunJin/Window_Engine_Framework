@@ -4,6 +4,7 @@
 #include "CGameObject.h"
 #include "CTransformComponent.h"
 #include "CColliderComponent.h"
+#include "CQuadTreeManager.h"
 //#include 
 
 namespace Framework
@@ -35,17 +36,61 @@ namespace Framework
 
 	void CCollisionManager::Initialize()
 	{
+		CQuadTreeManager::Initialize(Maths::Vector2(1024, 1024), 6, 2);
 	}
 
 	void CCollisionManager::Release()
 	{
+		CQuadTreeManager::Release();
 	}
 
 	void CCollisionManager::Tick()
 	{
+		CQuadTreeManager::Clear();
 		CScene* pScene = CSceneManager::GetCurrentScene();
+		std::list<CColliderComponent*> listCollider;
 
-		for (UINT row = 0; row < (UINT)Enums::eLayerType::Size; row++)
+		for (UINT layer = 0; layer < (UINT)Enums::eLayerType::Size; layer++)
+		{
+			const std::vector<CGameObject*>& listObj = CSceneManager::GetGameObject((Enums::eLayerType)layer);
+
+			for (auto& pGameObject : listObj)
+			{
+				if (pGameObject->GetActive() == false)
+				{
+					continue;
+				}
+				CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
+				if (pCollider == nullptr)
+				{
+					continue;
+				}
+				CQuadTreeManager::Insert(pCollider);
+				listCollider.push_back(pCollider);
+			}
+		}
+
+		for (const auto& pCollider : listCollider)
+		{
+			UINT leftLayer = (UINT)pCollider->GetOwner()->GetLayerType();
+
+			const std::list<CColliderComponent*>& possibleList = CQuadTreeManager::Query(pCollider);
+			for (const auto& possibleColl : possibleList)
+			{
+				if (pCollider == possibleColl)
+				{
+					continue;
+				}
+				UINT rightLayer = (UINT)possibleColl->GetOwner()->GetLayerType();
+
+				if (m_bsCollisionCheck[leftLayer][rightLayer])
+				{
+					CollisionStateUpdate(pCollider, possibleColl);
+				}
+			}
+		}
+
+	/*	for (UINT row = 0; row < (UINT)Enums::eLayerType::Size; row++)
 		{
 			for (UINT col = 0; col < (UINT)Enums::eLayerType::Size; col++)
 			{
@@ -54,7 +99,7 @@ namespace Framework
 					CollisionCheck(pScene,(Enums::eLayerType)row, (Enums::eLayerType)col);
 				}
 			}
-		}
+		}*/
 	}
 
 	void CCollisionManager::LastTick()
@@ -67,8 +112,8 @@ namespace Framework
 
 	void CCollisionManager::CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right)
 	{
-		const std::list<CGameObject*>& lefts = CSceneManager::GetGameObject(left);
-		const std::list<CGameObject*>& rights = CSceneManager::GetGameObject(right);
+		const std::vector<CGameObject*>& lefts = CSceneManager::GetGameObject(left);
+		const std::vector<CGameObject*>& rights = CSceneManager::GetGameObject(right);
 
 		for (CGameObject* leftObj : lefts)
 		{
@@ -172,8 +217,8 @@ namespace Framework
 
 	bool CCollisionManager::BoxCollisionStateUpdate(const CColliderComponent* left,const CColliderComponent* right)
 	{
-		const CTransformComponent* leftTr = left->GetOwner()->GetComponent<CTransformComponent>();
-		const CTransformComponent* rightTr = right->GetOwner()->GetComponent<CTransformComponent>();
+		const CTransformComponent* leftTr = left->GetOwner()->GetTransformComponent();
+		const CTransformComponent* rightTr = right->GetOwner()->GetTransformComponent();
 
 		const Maths::Vector2 leftPos = leftTr->GetPos() + left->GetOffset();
 		const Maths::Vector2 rightPos = rightTr->GetPos() + right->GetOffset();

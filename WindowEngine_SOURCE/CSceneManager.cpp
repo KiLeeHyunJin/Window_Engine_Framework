@@ -68,12 +68,16 @@ namespace Framework
 		m_pDontDestroyScene = nullptr;
 	}
 
-	std::list<CGameObject*> CSceneManager::GetGameObject(Enums::eLayerType layer)
+	std::vector<CGameObject*> CSceneManager::GetGameObject(Enums::eLayerType layer)
 	{
-		std::list<CGameObject*> gameObjects = m_pCurrentScene->GetLayer(layer)->GetGameObject();
-		std::list<CGameObject*> dontDestoryGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
+		std::vector<CGameObject*> gameObjects = m_pCurrentScene->GetLayer(layer)->GetGameObject();
+		std::vector<CGameObject*> dontDestroyGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
 
-		gameObjects.insert(dontDestoryGameObjects.cbegin(), dontDestoryGameObjects.begin(), dontDestoryGameObjects.end());
+		// 추가 공간을 미리 예약하여 재할당을 최소화
+		gameObjects.reserve(gameObjects.size() + dontDestroyGameObjects.size());
+
+		// dontDestroyGameObjects의 모든 요소를 gameObjects에 추가
+		gameObjects.insert(gameObjects.end(), dontDestroyGameObjects.begin(), dontDestroyGameObjects.end());
 		return gameObjects;
 	}
 

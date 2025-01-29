@@ -47,13 +47,11 @@ namespace Framework
 		{
 			addForceDir += Maths::Vector2::Down;
 		}
-		addForceDir.Normalize();
 		if (addForceDir.HasValue())
 		{
+			addForceDir.Normalize();
 			rigid->SetVelocity(addForceDir * movePower);
 		}
-
-		//tr->SetPos(pos);
 	}
 	void CPlayerInput::LastTick()
 	{

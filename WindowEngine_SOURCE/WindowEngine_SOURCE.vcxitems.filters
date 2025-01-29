@@ -91,6 +91,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTree.cpp">
       <Filter>Core\Manager\CQuadTree\Tree</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp">
+      <Filter>Core\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTree.h">
       <Filter>Core\Manager\CQuadTree\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CUIManager.h">
+      <Filter>Core\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

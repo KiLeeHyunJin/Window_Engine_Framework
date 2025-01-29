@@ -11,7 +11,7 @@ namespace Framework
 	class CQuadTree
 	{
 	public:
-		CQuadTree(Vector2 size);
+		CQuadTree(Vector2 size, int maxDepth, float constantK);
 		~CQuadTree();
 
 		void Clear();
@@ -20,6 +20,11 @@ namespace Framework
 
 		int GetMaxDepth() const { return m_iMaxDepth; }
 		float GetConstantK() const { return m_fConstantK; }
+
+		void SetMaxDepth(int depth)			{ m_iMaxDepth = depth; }
+		void SetConstantK(float constantK)	{ m_fConstantK = constantK; }
+		void Release();
+
 	private:
 		int GetTargetDepth(CColliderComponent* item);
 

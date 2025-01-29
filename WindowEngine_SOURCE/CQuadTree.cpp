@@ -4,18 +4,23 @@
 #include "CCircleColliderComponent.h"
 #include "CBoxColliderComponent.h"
 #include "CTransformComponent.h"
+
 namespace Framework
 {
-	CQuadTree::CQuadTree(Vector2 size)
+	CQuadTree::CQuadTree(Vector2 size, int maxDepth, float constantK) : 
+		m_iMaxDepth(maxDepth), m_fConstantK(constantK)
 	{
+		m_pRootNode = new CQuadTreeNode(this, nullptr, Maths::Vector2::Zero, size, 2);
 	}
 	CQuadTree::~CQuadTree()
 	{
 	}
+
 	void CQuadTree::Clear()
 	{
 		m_pRootNode->Clear();
 	}
+
 
 	void CQuadTree::Insert(CColliderComponent* pCollider)
 	{
@@ -38,6 +43,14 @@ namespace Framework
 			}
 		}
 		return interactions;
+	}
+
+	void CQuadTree::Release()
+	{
+		if (m_pRootNode != nullptr)
+		{
+			m_pRootNode->Release();
+		}
 	}
 
 	int CQuadTree::GetTargetDepth(CColliderComponent* item)

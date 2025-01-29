@@ -35,7 +35,7 @@ namespace Framework
 
 		inline static CScene* GetCurrentScene()		{ return m_pCurrentScene; }
 		inline static CScene* GetDontDestoryScene() { return m_pDontDestroyScene; }
-		static std::list<CGameObject*> GetGameObject(Enums::eLayerType layer);
+		static std::vector<CGameObject*> GetGameObject(Enums::eLayerType layer);
 
 
 		friend CApplication;

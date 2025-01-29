@@ -26,6 +26,7 @@ namespace Framework
 		void Query(CColliderComponent* item, std::list<CQuadTreeNode*>& possibleNodes);
 
 		void Clear();
+		void Release();
 
 		Vector2 GetCenter() const { return m_vecCenter; }
 		Vector2 GetSize()	const { return m_vecSize; }
