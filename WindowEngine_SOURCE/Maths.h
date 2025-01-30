@@ -217,7 +217,7 @@ namespace Framework::Maths
 		/// </summary>
 		float TotalElementSize() const
 		{
-			return x + y;
+			return Abs(x) + Abs(y);
 		}
 
 		/// <summary>

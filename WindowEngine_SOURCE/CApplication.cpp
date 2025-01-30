@@ -21,10 +21,11 @@ namespace Framework
 
 	void CApplication::Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
-		CRenderManager::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
+		RENDER::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
 
 		INPUT::Initialize();
 		TIME::Initialize();
+
 		SCENE::Initialize();
 		COLLISION::Initialize();
 	}
@@ -33,6 +34,7 @@ namespace Framework
 	{
 		SCENE::Release();
 		Resource::RESOURCE::Release();
+		
 		RENDER::Release();
 		COLLISION::Release();
 	}
@@ -51,6 +53,7 @@ namespace Framework
 		TIME::Tick();
 		SCENE::Tick();
 		COLLISION::Tick();
+		
 	}
 
 	void CApplication::LastTick()

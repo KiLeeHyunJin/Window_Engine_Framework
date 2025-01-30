@@ -1,4 +1,4 @@
-#include "CRigidbodyComponent.h"
+ï»¿#include "CRigidbodyComponent.h"
 #include "CTransformComponent.h"
 #include "CGameObject.h"
 
@@ -8,7 +8,7 @@ namespace Framework
 {
 	CRigidbodyComponent::CRigidbodyComponent() :
 		CComponent(Enums::eComponentType::Rigidbody),
-		m_fFriction(10.0f), m_fMass(1), m_bGround(false),
+		m_fFriction(10.0f), m_fMass(5), m_bGround(false),
 		m_vecAccelation		(Maths::Vector2::Zero),			m_vecForce			(Maths::Vector2::Zero),
 		m_vecGravity		(Maths::Vector2(0,980)),		m_vecVelocity		(Maths::Vector2::Zero),
 		m_vecLimitVelocity	(Maths::Vector2(1000,1000)),	m_vecLimitGravity	(Maths::Vector2(1000,1000))
@@ -27,9 +27,9 @@ namespace Framework
 	{
 		VelocityCompute();
 		
-		LimitSpeedCompute();
+		//LimitSpeedCompute();
 
-		if (m_vecVelocity.HasValue()) //°¡¼Óµµ°¡ ÀÖ´Ù¸é
+		if (m_vecVelocity.HasValue()) //ê°€ì†ë„ê°€ ìˆë‹¤ë©´
 		{
 			ChangePosition();
 		}
@@ -39,14 +39,24 @@ namespace Framework
 	}
 	void CRigidbodyComponent::Render(HDC hdc)
 	{
+		const CTransformComponent* pTr = GetOwner()->GetTransformComponent();
+		Maths::Vector2 pos = pTr->GetPos();
+		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+		if (pCam != nullptr)
+		{
+			pos = pCam->CaluatePosition(pos);
+		}
+		std::wstring pointStr = L"x : " + std::to_wstring((int)m_vecVelocity.x) + L", Y : " + std::to_wstring((int)m_vecVelocity.y);
+		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
+		TextOut(hdc, (UINT)(pos.x + 30), (UINT)(pos.y), pointStr.c_str(), lenPos);
 	}
 	
 	void CRigidbodyComponent::VelocityCompute()
 	{
 		if (m_vecForce.HasValue())
 		{
-			m_vecAccelation = m_vecForce / m_fMass; //°¡¼Óµµ = Èû / Áú·®
-			m_vecVelocity += m_vecAccelation * TIME::DeltaTime(); //ÇÁ·¹ÀÓ´ç °¡¼Óµµ¸¦ °è»êÇØ¼­ ¼Óµµ¿¡ ÇÕ»ê
+			m_vecAccelation = m_vecForce / m_fMass; //ê°€ì†ë„ = í˜ / ì§ˆëŸ‰
+			m_vecVelocity += m_vecAccelation * TIME::DeltaTime(); //í”„ë ˆì„ë‹¹ ê°€ì†ë„ë¥¼ ê³„ì‚°í•´ì„œ ì†ë„ì— í•©ì‚°
 		}
 		else
 		{
@@ -69,8 +79,9 @@ namespace Framework
 
 		if (m_bGround)
 		{
-			float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
-			m_vecVelocity -= gravityDir * dot;
+			const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
+			Maths::Vector2 minusGravityDir = gravityDir * dot;
+			m_vecVelocity -= minusGravityDir;
 		}
 		else
 		{
@@ -95,27 +106,32 @@ namespace Framework
 		}
 		
 		m_vecVelocity = gravityDot + sideVelocity;
+		
 	}
 
 	void CRigidbodyComponent::ChangePosition()
 	{
+		if (m_vecVelocity.HasValue() == false)
+		{
+			return;
+		}
 		const float tickTime = TIME::DeltaTime();
 
-		Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //¸¶Âû·Â ¹æÇâ
-		friction = friction * (m_fFriction * m_fMass * tickTime); //¸¶Âû·Â °è»ê
+		Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //ë§ˆì°°ë ¥ ë°©í–¥
+		friction = friction * (m_fFriction * m_fMass * tickTime); //ë§ˆì°°ë ¥ ê³„ì‚°
 
-		if (m_vecVelocity.TotalElementSize() <= friction.TotalElementSize()) //¼Óµµ°¡ ¸¶Âû·Âº¸´Ù ÀÛ°Å³ª Å©¸é Á¤Áö
+		if (m_vecVelocity.SqrLength() <= friction.SqrLength()) //ì†ë„ê°€ ë§ˆì°°ë ¥ë³´ë‹¤ ì‘ê±°ë‚˜ í¬ë©´ ì •ì§€
 		{
 			m_vecVelocity.Clear();
 			return;
 		}
 
-		m_vecVelocity += friction; //¼Óµµ¿¡ ¸¶Âû·Â ÇÕ»êÇÏ¿© ¼Óµµ °¨¼Ò
+		m_vecVelocity += friction; //ì†ë„ì— ë§ˆì°°ë ¥ í•©ì‚°í•˜ì—¬ ì†ë„ ê°ì†Œ
 
 		CTransformComponent* pTr = GetOwner()->GetTransformComponent();
 		Maths::Vector2 pos = pTr->GetPos();
-		pos += m_vecVelocity * tickTime;
-		pTr->SetPos(pos); //ÇöÀç À§Ä¡¿¡¼­ ÀÌµ¿ ¹æÇâÀ¸·Î ÀÌµ¿
+		pos = pos + (m_vecVelocity * tickTime);
+		pTr->SetPos(pos); //í˜„ì¬ ìœ„ì¹˜ì—ì„œ ì´ë™ ë°©í–¥ìœ¼ë¡œ ì´ë™
 
 		if (m_vecForce.HasValue())
 		{

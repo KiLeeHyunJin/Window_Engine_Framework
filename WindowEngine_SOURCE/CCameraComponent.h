@@ -11,7 +11,7 @@ namespace Framework
 		public CComponent
 	{
 	public :
-		__forceinline Maths::Vector2 CaluatePosition(Vector2 pos)		{ return pos - m_vecDistance; }
+		__forceinline Maths::Vector2 CaluatePosition(Vector2 pos)	const	{ return pos - m_vecDistance; }
 
 		inline void SetTarget(CGameObject* pTarget)						{ m_pTarget = pTarget; }
 		inline void SetResolution(Maths::Vector2 resolution)			{ m_vecResolution = resolution; }

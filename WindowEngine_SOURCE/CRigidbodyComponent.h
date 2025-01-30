@@ -1,6 +1,8 @@
 #pragma once
 #include "CComponent.h"
 #include "CTimeManager.h"
+#include "CRenderer.h"
+#include "CCameraComponent.h"
 
 namespace Framework
 {

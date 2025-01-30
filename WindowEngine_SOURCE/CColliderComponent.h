@@ -10,7 +10,7 @@ namespace Framework
 	public:
 		enum class eColliderType
 		{
-			Box, Circle,
+			Box, Circle, None
 		};
 
 		CColliderComponent();

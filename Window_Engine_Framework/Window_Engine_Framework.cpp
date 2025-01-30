@@ -192,8 +192,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
             case IDM_EXIT:
-                DestroyWindow(hWnd);
                 processState = false;
+                DestroyWindow(hWnd);
                 break;
             case ID_CHANGESCALE:
             {

@@ -7,8 +7,9 @@ namespace Framework
 	UINT32 CColliderComponent::m_collId = 1;
 
 	CColliderComponent::CColliderComponent():
-		CComponent(Enums::eComponentType::Collider)
-	{	}
+		CComponent(Enums::eComponentType::Collider), m_eColliderType(eColliderType::None)
+	{	
+	}
 
 	CColliderComponent::CColliderComponent(eColliderType colliderType):
 		CComponent(Enums::eComponentType::Collider), m_iColliderId(m_collId++),

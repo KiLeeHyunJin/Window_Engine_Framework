@@ -93,11 +93,7 @@ namespace Framework
 		const int idx = (int)m_pTexture->GetTextureType();
 		(this->*RenderFunc[idx])(hdc, rot, pos, scale, sprite);
 
-		Rectangle(hdc, (UINT)(pos.x - sizeX), (UINT)(pos.y - sizeY), (UINT)(pos.x + sizeX), (UINT)(pos.y + sizeY));
-
-		std::wstring pointStr = L"X : " + std::to_wstring((int)pos.x) + L", Y : " + std::to_wstring((int)pos.y);
-		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)(pos.x + 10), (UINT)(pos.y - 15), pointStr.c_str(), lenPos);
+		//Rectangle(hdc, (UINT)(pos.x - sizeX), (UINT)(pos.y - sizeY), (UINT)(pos.x + sizeX), (UINT)(pos.y + sizeY));
 	}
 
 
