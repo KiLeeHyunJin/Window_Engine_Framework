@@ -8,8 +8,9 @@ namespace Framework
 	class CRenderManager
 	{
 	public:
-		static void DrawRectangle(UINT left, UINT top, UINT right, UINT bottom);
-		static void DrawEllipse(UINT left, UINT top, UINT right, UINT bottom);
+		static void DrawRectangle(HDC hdc, UINT left, UINT top, UINT right, UINT bottom);
+		static void DrawEllipse(HDC hdc, UINT left, UINT top, UINT right, UINT bottom);
+		static void DrawWText(HDC hdc, int x, int y, std::wstring& text);
 
 		friend CApplication;
 	private:

@@ -29,14 +29,17 @@ namespace Framework
 	CRenderManager::~CRenderManager()
 	{}
 
-	void CRenderManager::DrawRectangle(UINT left, UINT top, UINT right, UINT bottom)
+	void CRenderManager::DrawRectangle(HDC hdc, UINT left, UINT top, UINT right, UINT bottom)
 	{
 	}
-	void CRenderManager::DrawEllipse(UINT left, UINT top, UINT right, UINT bottom)
+	void CRenderManager::DrawEllipse(HDC hdc, UINT left, UINT top, UINT right, UINT bottom)
 	{
 
 	}
+	void CRenderManager::DrawWText(HDC hdc, int x, int y, std::wstring& text)
+	{
 
+	}
 	void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
 		CRenderManager::AdjustWindow(hWnd, width, height, xPos, yPos, winStyle, menu);

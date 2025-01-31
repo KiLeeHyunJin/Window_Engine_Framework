@@ -34,6 +34,8 @@
 #include <queue>
 #include <map>
 #include <unordered_map>
+#include <stack>
+#include <queue>
 #pragma endregion  STL
 
 #include <dinput.h> //DX_Input

@@ -37,4 +37,12 @@ namespace Framework::Enums
 
 		Size,
 	};
+
+	enum class eUIType
+	{
+
+
+
+		Size,
+	};
 }
