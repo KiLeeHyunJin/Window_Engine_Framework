@@ -21,10 +21,11 @@ namespace Framework::Enums
 	{
 		None,
 		BackGround,
+		Ground,
 		Character,
 
 		Particle,
-
+		UI,
 		Size = 16,
 	};
 

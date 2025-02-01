@@ -94,6 +94,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp">
       <Filter>Core\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CUIBase.cpp">
+      <Filter>Asset\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
@@ -201,6 +204,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CUIManager.h">
       <Filter>Core\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CUIBase.h">
+      <Filter>Asset\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Component">
@@ -277,6 +283,9 @@
     </Filter>
     <Filter Include="Core\Manager\CQuadTree\Tree">
       <UniqueIdentifier>{b0920652-38ee-4eb8-9172-3baba52112f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\UI">
+      <UniqueIdentifier>{8bf59404-ab4c-4840-84d8-6fbdf119cc3c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

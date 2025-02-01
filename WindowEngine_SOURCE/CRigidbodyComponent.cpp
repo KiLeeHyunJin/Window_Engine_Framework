@@ -8,7 +8,7 @@ namespace Framework
 {
 	CRigidbodyComponent::CRigidbodyComponent() :
 		CComponent(Enums::eComponentType::Rigidbody),
-		m_fFriction(10.0f), m_fMass(5), m_bGround(false),
+		m_fFriction(10.0f), m_fMass(50), m_bGround(false),
 		m_vecAccelation		(Maths::Vector2::Zero),			m_vecForce			(Maths::Vector2::Zero),
 		m_vecGravity		(Maths::Vector2(0,980)),		m_vecVelocity		(Maths::Vector2::Zero),
 		m_vecLimitVelocity	(Maths::Vector2(1000,1000)),	m_vecLimitGravity	(Maths::Vector2(1000,1000))

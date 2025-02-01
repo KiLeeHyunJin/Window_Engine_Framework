@@ -11,9 +11,9 @@ namespace Framework
 		static void Push(Enums::eUIType type);
 		static void Pop(Enums::eUIType type);
 
-		static void OnLoad();
+		static void OnLoad(Enums::eUIType type);
 		
-		static void OnComplete();
+		static void OnComplete(CUIBase* uiBase);
 		static void OnFail();
 
 
