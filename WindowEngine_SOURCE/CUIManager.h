@@ -5,6 +5,9 @@ namespace Framework
 	class CRenderManager;
 	class CScene;
 	class CUIBase;
+	class CApplication;
+	class CRenderManager;
+
 	class CUIManager
 	{
 	public:
@@ -16,7 +19,8 @@ namespace Framework
 		static void OnComplete(CUIBase* uiBase);
 		static void OnFail();
 
-
+		friend CApplication;
+		friend CRenderManager;
 	private:
 		CUIManager();
 		~CUIManager();
@@ -32,5 +36,6 @@ namespace Framework
 		static CUIBase* m_pCurrentUI;
 
 	};
+	#define UI CUIManager
 }
 

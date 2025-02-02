@@ -20,6 +20,7 @@ namespace Framework
 	{
 		m_queUIType.push(type);
 	}
+
 	void CUIManager::Pop(Enums::eUIType type)
 	{
 		if (m_stackBase.size() == 0)
@@ -57,7 +58,7 @@ namespace Framework
 		uiBase->Active();
 		uiBase->Tick();
 
-		if (uiBase)
+		if (uiBase->GetFullScreen())
 		{
 			std::stack<CUIBase*> uiBases = m_stackBase;
 			while (uiBases.empty() == false)
@@ -67,10 +68,10 @@ namespace Framework
 				if (pUIBase != nullptr)
 				{
 					pUIBase->InActive();
-
 				}
 			}
 		}
+
 		m_stackBase.push(uiBase);
 		m_pCurrentUI = nullptr;
 
@@ -96,6 +97,7 @@ namespace Framework
 
 			}
 		}
+
 		if (m_queUIType.size() > 0)
 		{
 			Enums::eUIType requestUI = m_queUIType.front();

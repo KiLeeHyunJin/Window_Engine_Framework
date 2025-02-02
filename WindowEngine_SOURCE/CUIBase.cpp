@@ -27,23 +27,35 @@ namespace Framework
 
 	void CUIBase::Initialize()
 	{
+		OnInitialize();
 	}
+
 	void CUIBase::Tick()
 	{
+		OnTick();
 	}
+	
 	void CUIBase::LastTick()
 	{
+		OnLastTick();
 	}
+	
 	void CUIBase::Release()
 	{
+		OnClear();
 	}
+
 	void CUIBase::Render(HDC hdc)
 	{
 	}
+	
 	void CUIBase::Active()
 	{
+		OnActive();
 	}
+	
 	void CUIBase::InActive()
 	{
+		OnInActive();
 	}
 }

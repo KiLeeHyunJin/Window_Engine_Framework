@@ -6,6 +6,7 @@
 #include "CRenderManager.h"
 #include "CResourceManager.h"
 #include "CCollisionManager.h"
+#include "CUIManager.h"
 
 #include "CRenderer.h"
 
@@ -25,7 +26,7 @@ namespace Framework
 
 		INPUT::Initialize();
 		TIME::Initialize();
-
+		UI::Initialize();
 		SCENE::Initialize();
 		COLLISION::Initialize();
 	}
@@ -36,6 +37,7 @@ namespace Framework
 		Resource::RESOURCE::Release();
 		
 		RENDER::Release();
+		
 		COLLISION::Release();
 	}
 
@@ -51,6 +53,7 @@ namespace Framework
 	{
 		INPUT::Tick();
 		TIME::Tick();
+		UI::Tick();
 		SCENE::Tick();
 		COLLISION::Tick();
 		
@@ -59,6 +62,7 @@ namespace Framework
 	void CApplication::LastTick()
 	{
 		SCENE::LastTick();
+		UI::LastTick();
 	}
 
 	void CApplication::Render()

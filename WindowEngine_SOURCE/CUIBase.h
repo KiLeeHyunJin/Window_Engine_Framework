@@ -11,6 +11,9 @@ namespace Framework
 	public:
 		CUIBase();
 		virtual ~CUIBase();
+		
+		void SetFullScreen(bool state) { m_bFullScreen = state; }
+
 
 		friend CUIManager;
 	private:
@@ -25,12 +28,12 @@ namespace Framework
 
 		Enums::eUIType GetType() const { return m_eType; }
 		bool GetFullScreen() const { return m_bFullScreen; }
-		void SetFullScreen(bool state) { m_bFullScreen = state; }
 
 		virtual void OnInitialize();
 		virtual void OnActive();
 		virtual void OnInActive();
 		virtual void OnTick();
+		virtual void OnLastTick();
 		virtual void OnClear();
 
 

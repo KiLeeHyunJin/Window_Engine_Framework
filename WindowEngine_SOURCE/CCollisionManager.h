@@ -4,7 +4,7 @@
 namespace Framework
 {
 	class CApplication;
-	class CRenderManager;
+	//class CRenderManager;
 	class CScene;
 	class CColliderComponent;
 	class CSceneManager;
@@ -29,7 +29,7 @@ namespace Framework
 		static void SetCollisionLayerState(Enums::eLayerType left, Enums::eLayerType right, bool enable);
 
 		friend CApplication;
-		friend CRenderManager;
+		//friend CRenderManager;
 		friend CSceneManager;
 	private:
 		CCollisionManager();
@@ -41,7 +41,7 @@ namespace Framework
 		static void Tick();
 		static void LastTick();
 
-		static void Render(HDC hdc);
+		//static void Render(HDC hdc);
 
 		static void Clear() 
 		{ 

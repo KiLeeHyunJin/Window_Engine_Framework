@@ -106,10 +106,6 @@ namespace Framework
 	{
 	}
 
-	void CCollisionManager::Render(HDC hdc)
-	{
-	}
-
 	void CCollisionManager::CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right)
 	{
 		const std::vector<CGameObject*>& lefts = CSceneManager::GetGameObject(left);
