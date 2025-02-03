@@ -81,6 +81,15 @@ namespace Framework
 		m_pCurrentUI = nullptr;
 	}
 
+	void CUIManager::Release()
+	{
+		for (auto ui : m_unmapUI)
+		{
+			ui.second->OnClear();
+			delete ui.second;
+		}
+	}
+
 	void CUIManager::Initialize()
 	{
 	}

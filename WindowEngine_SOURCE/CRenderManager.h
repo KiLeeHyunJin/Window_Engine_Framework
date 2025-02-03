@@ -48,6 +48,8 @@ namespace Framework
 
 		static bool m_bScreenState;
 	};
+
 #define RENDER CRenderManager
+
 }
 

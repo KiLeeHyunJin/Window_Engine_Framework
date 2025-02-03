@@ -18,6 +18,7 @@ namespace Framework
 		
 		static void OnComplete(CUIBase* uiBase);
 		static void OnFail();
+		static void Release();
 
 		friend CApplication;
 		friend CRenderManager;

@@ -37,7 +37,8 @@ namespace Framework
 		Resource::RESOURCE::Release();
 		
 		RENDER::Release();
-		
+		UI::Release();
+
 		COLLISION::Release();
 	}
 
