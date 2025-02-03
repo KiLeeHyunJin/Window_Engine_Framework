@@ -21,6 +21,9 @@ namespace Framework
 	void CUIBase::OnTick()
 	{
 	}
+	void CUIBase::OnLastTick()
+	{
+	}
 	void CUIBase::OnClear()
 	{
 	}
