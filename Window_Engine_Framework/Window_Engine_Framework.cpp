@@ -199,6 +199,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
                 bool screenState = application.GetScreenState() == false; // 스크린 상태 역전
                 application.ChangeScreenSize(screenState);
+                break;
             }
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);

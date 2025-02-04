@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimatorComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CBoxColliderComponent.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCameraComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CColliderComponent.h" />
@@ -56,6 +57,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimatorComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CBoxColliderComponent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCameraComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CColliderComponent.cpp" />

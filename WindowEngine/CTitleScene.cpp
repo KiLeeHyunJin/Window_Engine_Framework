@@ -3,11 +3,17 @@
 #include "CInputManager.h"
 #include "CPlayScene.h"
 #include "CSceneManager.h"
+#include "CUIManager.h"
+
 #include "CObject.h"
-#include "CCameraComponent.h"
 #include "CGameObject.h"
 #include "CRenderer.h"
+
+#include "CCameraComponent.h"
 #include "CPlayerInput.h"
+
+#include "CButton.h"
+#include "CUIBase.h"
 
 Framework::CTitleScene::CTitleScene()
 {
@@ -26,6 +32,7 @@ void Framework::CTitleScene::Initialize()
 	//Renderer::mainCamera = pCamera;
 
 	//Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround);
+	
 }
 
 void Framework::CTitleScene::Tick()
@@ -57,8 +64,10 @@ void Framework::CTitleScene::Release()
 
 void Framework::CTitleScene::OnEnter()
 {
+	UI::Push(Enums::eUIType::Button);
 }
 
 void Framework::CTitleScene::OnExit()
 {
+	UI::Pop(Enums::eUIType::Button);
 }

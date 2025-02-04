@@ -56,25 +56,28 @@ namespace Framework
 		{
 			const T def{};
 			const Enums::eComponentType componentType = def.GetComponentType();
+			T* getCom = nullptr;
 			if (componentType == Enums::eComponentType::Custom)
 			{
 				for (CComponent* pCom : m_listCustomComponents)
 				{
-					T* getCom = dynamic_cast<T*>(pCom);
+					getCom = dynamic_cast<T*>(pCom);
 					if (getCom != nullptr)
 					{
 						return getCom;
 					}
 				}
-				return nullptr;
 			}
 			else
 			{
 				CComponent* pCom = m_vecComponents[(int)componentType];
-				T* getCom = dynamic_cast<T*>(pCom);
-				return getCom;
+				if (pCom != nullptr)
+				{
+					getCom = dynamic_cast<T*>(pCom);
+					return getCom;
+				}
 			}
-
+			return nullptr;
 		}
 
 		template<typename T>
@@ -82,6 +85,8 @@ namespace Framework
 		{
 			const T def{};
 			const Enums::eComponentType componentType = def.GetComponentType();
+			if (componentType == Enums::eComponentType::Transform)	{	return false;	}
+
 			if (componentType == Enums::eComponentType::Custom)
 			{
 				for(auto iter = m_listCustomComponents.cbegin(); 
@@ -97,7 +102,7 @@ namespace Framework
 					}
 				}
 			}
-			else if (componentType != Enums::eComponentType::Transform)
+			else
 			{
 				CComponent* pCom = m_vecComponents[(int)componentType];
 				if (pCom != nullptr)

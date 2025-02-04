@@ -1,5 +1,6 @@
 #include "CUIManager.h"
 #include "CUIBase.h"
+#include "CButton.h"
 
 namespace Framework
 {
@@ -15,6 +16,16 @@ namespace Framework
 	CUIManager::~CUIManager()
 	{
 	}
+
+	void CUIManager::Initialize()
+	{
+		CUIBase* leftButton = new CUIBase();
+		CUIBase* rightButton = new CUIBase();
+
+		m_unmapUI.insert(std::make_pair(Enums::eUIType::Button, leftButton));
+
+	}
+
 
 	void CUIManager::Push(Enums::eUIType type)
 	{
@@ -90,9 +101,7 @@ namespace Framework
 		}
 	}
 
-	void CUIManager::Initialize()
-	{
-	}
+
 	void CUIManager::Tick()
 	{
 		std::stack<CUIBase*> uiBases = m_stackBase;
@@ -125,7 +134,6 @@ namespace Framework
 			if (pUIBase != nullptr)
 			{
 				pUIBase->LastTick();
-
 			}
 		}
 	}
