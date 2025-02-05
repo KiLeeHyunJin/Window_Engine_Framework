@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowEngine", "WindowEngin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowEngine_SOURCE", "WindowEngine_SOURCE\WindowEngine_SOURCE.vcxitems", "{6C9B9F3E-C720-4603-B607-E9E3C02D29DE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestConsole", "TestConsole\TestConsole.vcxproj", "{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -33,6 +35,14 @@ Global
 		{05ABCEB3-3084-41B8-A665-C114091CB69B}.Release|x64.Build.0 = Release|x64
 		{05ABCEB3-3084-41B8-A665-C114091CB69B}.Release|x86.ActiveCfg = Release|Win32
 		{05ABCEB3-3084-41B8-A665-C114091CB69B}.Release|x86.Build.0 = Release|Win32
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Debug|x64.ActiveCfg = Debug|x64
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Debug|x64.Build.0 = Debug|x64
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Debug|x86.ActiveCfg = Debug|Win32
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Debug|x86.Build.0 = Debug|Win32
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Release|x64.ActiveCfg = Release|x64
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Release|x64.Build.0 = Release|x64
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Release|x86.ActiveCfg = Release|Win32
+		{124BEFE2-1E2A-4A5A-9323-22FE7D99D0BA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

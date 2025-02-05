@@ -5,10 +5,8 @@
 
 namespace Framework
 {
-	//class CApplication;
 	class CGameObject;
 	class CSceneManager;
-	//class CCollisionManager;
 
 	class CScene : public CEntity
 	{

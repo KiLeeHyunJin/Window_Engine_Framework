@@ -1,9 +1,9 @@
 #pragma once
 #include "CommonInclude.h"
+
 namespace Framework
 {
-	class CRenderManager;
-	class CScene;
+	//class CScene;
 	class CUIBase;
 	class CApplication;
 	class CRenderManager;
@@ -18,7 +18,11 @@ namespace Framework
 		
 		static void OnComplete(CUIBase* uiBase);
 		static void OnFail();
-		static void Release();
+
+		static void Clear();
+
+		static void SetLastSibling(CUIBase* pFrontUI);
+		static CUIBase* GetCollisionUI(Maths::Vector2 pos);
 
 		friend CApplication;
 		friend CRenderManager;
@@ -27,15 +31,17 @@ namespace Framework
 		~CUIManager();
 
 		static void Initialize();
+		static void Release();
+
 		static void Tick();
 		static void LastTick();
+
 		static void Render(HDC hdc);
 
-		static std::stack<CUIBase*> m_stackBase;
-		static std::queue<Enums::eUIType> m_queUIType;
-		static std::unordered_map<Enums::eUIType, CUIBase*> m_unmapUI;
-		static CUIBase* m_pCurrentUI;
-
+		static std::queue<Enums::eUIType> m_queUIType; //대기열
+		static std::vector<CUIBase*> m_vecCurrentUIs; //현재 UI 목록
+		static std::unordered_map<Enums::eUIType, CUIBase*> m_unmapUI; //캐싱
+		static CUIBase* m_pCurrentUI; //현재 UI
 	};
 	#define UI CUIManager
 }

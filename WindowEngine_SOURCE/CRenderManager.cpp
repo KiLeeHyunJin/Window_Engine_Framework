@@ -56,8 +56,9 @@ namespace Framework
 	{
 		BeginDraw();
 		SCENE::Render(m_BackHDC);
-		TIME::Render(m_BackHDC);
 		UI::Render(m_BackHDC);
+
+		TIME::Render(m_BackHDC);
 		//COLLISION::Render(m_BackHDC);
 		EndDraw();
 	}

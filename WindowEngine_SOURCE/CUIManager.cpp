@@ -4,18 +4,16 @@
 
 namespace Framework
 {
-	std::stack<CUIBase*> CUIManager::m_stackBase = {};
-	std::queue<Enums::eUIType> CUIManager::m_queUIType = {};
-	std::unordered_map<Enums::eUIType, CUIBase*> CUIManager::m_unmapUI = {};
-	CUIBase* CUIManager::m_pCurrentUI = nullptr;
+	std::queue<Enums::eUIType>						CUIManager::m_queUIType				= {};
+	std::unordered_map<Enums::eUIType, CUIBase*>	CUIManager::m_unmapUI				= {};
+	std::vector<CUIBase*>							CUIManager::m_vecCurrentUIs			= {};
+	CUIBase*										CUIManager::m_pCurrentUI			= nullptr;
 
 
 	CUIManager::CUIManager()
-	{
-	}
+	{	}
 	CUIManager::~CUIManager()
-	{
-	}
+	{	}
 
 	void CUIManager::Initialize()
 	{
@@ -23,7 +21,6 @@ namespace Framework
 		CUIBase* rightButton = new CUIBase();
 
 		m_unmapUI.insert(std::make_pair(Enums::eUIType::Button, leftButton));
-
 	}
 
 
@@ -34,16 +31,29 @@ namespace Framework
 
 	void CUIManager::Pop(Enums::eUIType type)
 	{
-		if (m_stackBase.size() == 0)
+		if (m_vecCurrentUIs.size() == 0)
+		{	return;	}
+
+		const UINT size = (UINT)m_vecCurrentUIs.size();
+		UINT removeIndex = -1;
+		for (UINT i = 0; i < size; i++)
+		{
+			CUIBase* pUI = m_vecCurrentUIs[i];
+			if (pUI->GetType() == type)
+			{
+				removeIndex = i;
+				auto iter = m_vecCurrentUIs.cbegin() + i;
+				m_vecCurrentUIs.erase(iter);
+				break;
+			}
+		}
+		if (removeIndex < 0)
 		{
 			return;
 		}
-		CUIBase* pUIBase = nullptr;
-		while (m_stackBase.size() != 0)
+		for (UINT i = removeIndex; i < size; i++)
 		{
-			pUIBase = m_stackBase.top();
-			m_stackBase.pop();
-
+			m_vecCurrentUIs[i]->SetUIIndex(i);
 		}
 	}
 
@@ -53,17 +63,17 @@ namespace Framework
 		if (iter == m_unmapUI.end())
 		{
 			OnFail();
-			return;
 		}
-		OnComplete(iter->second);
+		else
+		{
+			OnComplete(iter->second);
+		}
 	}
 
 	void CUIManager::OnComplete(CUIBase* uiBase)
 	{
 		if (uiBase == nullptr)
-		{
-			return;
-		}
+		{	return;	}
 
 		uiBase->Initialize();
 		uiBase->Active();
@@ -71,22 +81,18 @@ namespace Framework
 
 		if (uiBase->GetFullScreen())
 		{
-			std::stack<CUIBase*> uiBases = m_stackBase;
-			while (uiBases.empty() == false)
+			const UINT size = (UINT)m_vecCurrentUIs.size();
+			for (UINT i = 0; i < size; i++)
 			{
-				CUIBase* pUIBase = uiBases.top();
-				uiBases.pop();
-				if (pUIBase != nullptr)
-				{
-					pUIBase->InActive();
-				}
+				m_vecCurrentUIs[i]->InActive();
 			}
 		}
 
-		m_stackBase.push(uiBase);
+		m_vecCurrentUIs.push_back(uiBase);
+		uiBase->SetUIIndex((UINT)m_vecCurrentUIs.size());
 		m_pCurrentUI = nullptr;
-
 	}
+
 	void CUIManager::OnFail()
 	{
 		m_pCurrentUI = nullptr;
@@ -94,26 +100,62 @@ namespace Framework
 
 	void CUIManager::Release()
 	{
-		for (auto ui : m_unmapUI)
+		for (const auto& ui : m_unmapUI)
 		{
 			ui.second->OnClear();
 			delete ui.second;
 		}
 	}
 
+	void CUIManager::Clear()
+	{
+		m_vecCurrentUIs.clear();
+		while (m_queUIType.empty() == false)
+		{
+			m_queUIType.pop();
+		}
+	}
+
+	CUIBase* CUIManager::GetCollisionUI(Maths::Vector2 pos)
+	{
+		return nullptr;
+	}
+
+	void CUIManager::SetLastSibling(CUIBase* pFrontUI)
+	{
+		if (pFrontUI->GetDragable() == false)
+		{
+			return;
+		}
+
+		const UINT size = (UINT)m_vecCurrentUIs.size();
+		const UINT currentIdx = pFrontUI->GetUIIndex();
+
+		if (size <= 1 && currentIdx == size - 1)
+		{	return;	} // 마지막 요소면 이동 불필요
+
+		auto iter = std::find(m_vecCurrentUIs.cbegin(), m_vecCurrentUIs.cend(), pFrontUI);
+		if (iter != m_vecCurrentUIs.cend()) 
+		{
+			CUIBase* save = *iter;
+			m_vecCurrentUIs.erase(iter);               // 요소 삭제 (O(N))
+			m_vecCurrentUIs.push_back(save);          // 뒤에 추가 (O(1))
+		}
+
+		for (UINT i = currentIdx; i < size; i++) //번호 다시 기입
+		{
+			m_vecCurrentUIs[i]->SetUIIndex(i);
+		}
+	}
+
 
 	void CUIManager::Tick()
 	{
-		std::stack<CUIBase*> uiBases = m_stackBase;
-		while (uiBases.empty() == false)
-		{
-			CUIBase* pUIBase = uiBases.top();
-			uiBases.pop();
-			if (pUIBase != nullptr)
-			{
-				pUIBase->Tick();
+		const UINT size = (UINT)m_vecCurrentUIs.size();
 
-			}
+		for (UINT i = 0; i < size; i++)
+		{
+			m_vecCurrentUIs[i]->Tick();
 		}
 
 		if (m_queUIType.size() > 0)
@@ -126,29 +168,18 @@ namespace Framework
 
 	void CUIManager::LastTick()
 	{
-		std::stack<CUIBase*> uiBases = m_stackBase;
-		while (uiBases.empty() == false)
+		const UINT size = (UINT)m_vecCurrentUIs.size();
+		for (UINT i = 0; i < size; i++)
 		{
-			CUIBase* pUIBase = uiBases.top();
-			uiBases.pop();
-			if (pUIBase != nullptr)
-			{
-				pUIBase->LastTick();
-			}
+			m_vecCurrentUIs[i]->LastTick();
 		}
 	}
 	void CUIManager::Render(HDC hdc)
 	{
-		std::stack<CUIBase*> uiBases = m_stackBase;
-		while (uiBases.empty() == false)
+		const UINT size = (UINT)m_vecCurrentUIs.size();
+		for (UINT i = 0; i < size; i++)
 		{
-			CUIBase* pUIBase = uiBases.top();
-			uiBases.pop();
-			if (pUIBase != nullptr)
-			{
-				pUIBase->Render(hdc);
-
-			}
+			m_vecCurrentUIs[i]->Render(hdc);
 		}
 	}
 }

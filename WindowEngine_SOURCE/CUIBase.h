@@ -45,6 +45,9 @@ namespace Framework
 		__inline void SetScale(Maths::Vector2 size)	{ m_vecSize = size; }
 
 	protected:
+		void			SetDrag(bool state) { m_bDragable = state; }
+		__inline bool	GetDragable() const { return m_bDragable; }
+
 		Maths::Vector2 m_vecPos;
 		Maths::Vector2 m_vecSize;
 		bool m_bMouseOn;
@@ -74,14 +77,18 @@ namespace Framework
 		virtual void OnRender(HDC hdc);
 		virtual void OnClear();
 
+		__inline void	SetUIIndex(UINT idx) { m_iIndex = idx; }
+		__inline UINT	GetUIIndex() const { return m_iIndex; }
+
 		std::vector<CUIBase*> m_vecChilds;
 		CUIBase* m_pParent;
 
 		Enums::eUIType m_eType;
+		UINT m_iIndex;
 
 		bool m_bFullScreen;
 		bool m_bEnable;
-
+		bool m_bDragable;
 	};
 }
 

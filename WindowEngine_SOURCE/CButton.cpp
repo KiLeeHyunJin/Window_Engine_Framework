@@ -79,6 +79,8 @@ namespace Framework
 		(HBRUSH)SelectObject(hdc, oldBrush);
 		DeleteObject(newBrush);
 	}
+
+
 	void CButton::OnClick()
 	{
 	}

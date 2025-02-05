@@ -3,8 +3,8 @@
 namespace Framework
 {
 	CUIBase::CUIBase() :
-		m_bEnable(false), m_bFullScreen(false), m_bMouseOn(false),
-		m_pParent(nullptr), m_eType(Enums::eUIType::Button)
+		m_bEnable(false), m_bFullScreen(false), m_bMouseOn(false), m_bDragable(false),
+		m_pParent(nullptr), m_eType(Enums::eUIType::Button), m_iIndex(0)
 	{
 	}
 	CUIBase::~CUIBase()
