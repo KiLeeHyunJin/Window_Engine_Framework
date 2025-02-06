@@ -29,6 +29,13 @@ namespace Framework
 	void CButton::OnTick()
 	{
 		MouseOnCheck();
+		if (m_bPrevMouseOn != m_bCurMouseOn)
+		{
+			if (m_bCurMouseOn)
+			{	OnOver();	}
+			else
+			{	OnOut();	}
+		}
 	}
 
 
@@ -56,6 +63,12 @@ namespace Framework
 
 
 	void CButton::OnClick()
+	{
+	}
+	void CButton::OnDown()
+	{
+	}
+	void CButton::OnUp()
 	{
 	}
 	void CButton::OnOver()

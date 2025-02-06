@@ -35,47 +35,24 @@ namespace Framework
 		m_vecChilds.push_back(left);
 		m_vecChilds.push_back(right);
 
-		for (auto& child : m_vecChilds)
-		{
-			child->OnInitialize();
-		}
+
 	}
 
 	void CUIBase::OnRelease()
 	{
-		for (auto& child : m_vecChilds)
-		{
-			child->OnRelease();
-		}
 	}
 
 	void CUIBase::OnActive()
 	{
-		for (auto& child : m_vecChilds)
-		{
-			child->OnActive();
-		}
 	}
 	void CUIBase::OnInActive()
 	{
-		for (auto& child : m_vecChilds)
-		{
-			child->OnInActive();
-		}
 	}
 	void CUIBase::OnTick()
 	{
-		for (auto& child : m_vecChilds)
-		{
-			child->OnTick();
-		}
 	}
 	void CUIBase::OnLastTick()
 	{
-		for (auto& child : m_vecChilds)
-		{
-			child->OnLastTick();
-		}
 	}
 	void CUIBase::OnRender(HDC hdc)
 	{
@@ -83,24 +60,33 @@ namespace Framework
 			m_vecPos.x - (m_vecSize.x * 0.5f), m_vecPos.y - (m_vecSize.y * 0.5f),
 			m_vecPos.x + (m_vecSize.x * 0.5f), m_vecPos.y + (m_vecSize.y * 0.5f));
 
-		for (auto& child : m_vecChilds)
-		{
-			child->Render(hdc);
-		}
 	}
 	void CUIBase::OnClear()
 	{
-		for (auto& child : m_vecChilds)
-		{
-			child->OnClear();
-		}
+	}
+
+	void CUIBase::OnOver()
+	{
+	}
+
+	void CUIBase::OnOut()
+	{
+	}
+
+	void CUIBase::OnDown()
+	{
+	}
+
+	void CUIBase::OnUp()
+	{
+	}
+
+	void CUIBase::OnClick()
+	{
 	}
 
 	void CUIBase::MouseOnCheck()
 	{
-		if (m_bDragable == false && m_eType != Enums::eUIType::Button)
-		{	return;	}
-
 		m_bPrevMouseOn = m_bCurMouseOn;
 
 		const Maths::Vector2 halfSize = m_vecSize * 0.5f;
@@ -116,35 +102,73 @@ namespace Framework
 	void CUIBase::Initialize()
 	{
 		OnInitialize();
+		for (auto& child : m_vecChilds)
+		{
+			OnInitialize();
+		}
 	}
 
 	void CUIBase::Tick()
 	{
 		OnTick();
+		MouseOnCheck();
+		for (auto& child : m_vecChilds)
+		{
+			child->OnTick();
+			child->MouseOnCheck();
+		}
 	}
 	
 	void CUIBase::LastTick()
 	{
 		OnLastTick();
+		for (auto& child : m_vecChilds)
+		{
+			child->OnLastTick();
+		}
 	}
 	
 	void CUIBase::Release()
 	{
-		OnClear();
+		for (auto& child : m_vecChilds)
+		{
+			child->Release();
+		}
+		Release();
 	}
 
 	void CUIBase::Render(HDC hdc)
 	{
 		OnRender(hdc);
+		for (auto& child : m_vecChilds)
+		{
+			child->OnRender(hdc);
+		}
 	}
 	
 	void CUIBase::Active()
 	{
 		OnActive();
+		for (auto& child : m_vecChilds)
+		{
+			child->OnActive();
+		}
 	}
 	
 	void CUIBase::InActive()
 	{
 		OnInActive();
+		for (auto& child : m_vecChilds)
+		{
+			child->OnInActive();
+		}
+	}
+	void CUIBase::Clear()
+	{
+		for (auto& child : m_vecChilds)
+		{
+			child->Clear();
+		}
+		Clear();
 	}
 }

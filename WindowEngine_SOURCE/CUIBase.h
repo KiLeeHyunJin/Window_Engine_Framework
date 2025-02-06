@@ -71,6 +71,8 @@ namespace Framework
 		void Active();
 		void InActive();
 
+		void Clear();
+
 		virtual void OnInitialize();
 		virtual void OnRelease();
 
@@ -82,6 +84,14 @@ namespace Framework
 
 		virtual void OnRender(HDC hdc);
 		virtual void OnClear();
+
+		virtual void OnOver();
+		virtual void OnOut();
+		
+		virtual void OnDown();
+		virtual void OnUp();
+		
+		virtual void OnClick();
 
 		__inline void	SetUIIndex(UINT idx)	{ m_iIndex = idx; }
 		__inline UINT	GetUIIndex() const		{ return m_iIndex; }

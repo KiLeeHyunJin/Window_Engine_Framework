@@ -35,9 +35,13 @@ namespace Framework
 		virtual void OnClear()override;
 		virtual void OnRender(HDC hdc) override;
 
-		virtual void OnClick();
-		virtual void OnOver();
-		virtual void OnOut();
+		virtual void OnClick() override;
+		
+		virtual void OnDown() override;
+		virtual void OnUp() override;
+
+		virtual void OnOver() override;
+		virtual void OnOut() override;
 
 		Resource::CTexture* m_pTexture;
 		void (CButton::*Click[(int)eButtonState::Size])();

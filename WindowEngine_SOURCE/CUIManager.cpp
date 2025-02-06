@@ -167,10 +167,11 @@ namespace Framework
 			OnLoad(requestUI);
 		}
 
-		CUIBase* pUI = GetCollisionUI(INPUT::GetMousePosition());
-		if (pUI != nullptr)
+		CUIBase* pFocusUI = GetCollisionUI(INPUT::GetMousePosition());
+		CUIBase* pParentUI = GetParentUI(pFocusUI);
+		for (UINT i = 0; i < size; i++)
 		{
-			CButton* pButton = dynamic_cast<CButton*>(pUI);
+			MouseEvent(pParentUI, pFocusUI);
 		}
 	}
 
@@ -192,9 +193,45 @@ namespace Framework
 		}
 	}
 
-	void CUIManager::MouseEvent(CUIBase* pUI, CUIBase* pChild)
+	void CUIManager::MouseEvent(CUIBase* pUI, CUIBase* pfocusUI)
 	{
+		if (pUI == pfocusUI)
+		{
+			if (!pUI->m_bPrevMouseOn)
+			{
+				pUI->OnOver();
+			}
+			if (INPUT::GetKeyDown(eKeyCode::LBUTTON))
+			{
+				pUI->OnDown();
+				pUI->m_bPrevMouseDown = true;
+			}
+			else if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
+			{
+				pUI->OnUp();
+				if (pUI->m_bPrevMouseDown)
+				{
+					pUI->OnClick();
+					pUI->m_bPrevMouseDown = false;
+				}
+			}
+		}
+		else
+		{
+			if (pUI->m_bPrevMouseOn)
+			{
+				pUI->OnOut();
+			}
+			if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
+			{
+				pUI->m_bPrevMouseDown = false;
+			}
+		}
 		
+		for (CUIBase* pChildUI : pUI->m_vecChilds)
+		{
+			MouseEvent(pChildUI, pfocusUI);
+		}
 	}
 
 	CUIBase* CUIManager::GetTopUI()
@@ -214,6 +251,8 @@ namespace Framework
 
 	CUIBase* CUIManager::GetParentUI(CUIBase* pChild)
 	{
+		if (pChild == nullptr)				{	return nullptr; }
+
 		CUIBase* pParent = pChild;
 		if (pChild->m_pParent != nullptr)
 		{
