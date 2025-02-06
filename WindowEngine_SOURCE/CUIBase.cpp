@@ -1,10 +1,13 @@
 #include "CUIBase.h"
 #include "CButton.h"
+#include "CInputManager.h"
+
 namespace Framework
 {
 	CUIBase::CUIBase() :
-		m_bEnable(false), m_bFullScreen(false), m_bMouseOn(false), m_bDragable(false),
-		m_pParent(nullptr), m_eType(Enums::eUIType::Button), m_iIndex(0)
+		m_bEnable(false), m_bFullScreen(false), m_bDragable(false),
+		m_bCurMouseDown(false), m_bCurMouseOn(false), m_bPrevMouseOn(false), m_bPrevMouseDown(false),
+		m_pParent(nullptr), m_eType(Enums::eUIType::Button), m_iIndex(-1)
 	{
 	}
 	CUIBase::~CUIBase()
@@ -18,6 +21,9 @@ namespace Framework
 
 	void CUIBase::OnInitialize()
 	{
+		m_vecPos = Maths::Vector2(150, 100);
+		m_vecSize = Maths::Vector2(150, 150);
+
 		CButton* left = new CButton();
 		left->SetPosition(Maths::Vector2(100, 100));
 		left->SetScale(Maths::Vector2(50, 50));
@@ -88,6 +94,23 @@ namespace Framework
 		{
 			child->OnClear();
 		}
+	}
+
+	void CUIBase::MouseOnCheck()
+	{
+		if (m_bDragable == false && m_eType != Enums::eUIType::Button)
+		{	return;	}
+
+		m_bPrevMouseOn = m_bCurMouseOn;
+
+		const Maths::Vector2 halfSize = m_vecSize * 0.5f;
+		const auto& checkPos = INPUT::GetMousePosition();
+
+		m_bCurMouseOn =
+			m_vecPos.x - halfSize.x <= checkPos.x && 
+			m_vecPos.x + halfSize.x >= checkPos.x &&
+			m_vecPos.y - halfSize.y <= checkPos.y && 
+			m_vecPos.y + halfSize.y >= checkPos.y;
 	}
 
 	void CUIBase::Initialize()

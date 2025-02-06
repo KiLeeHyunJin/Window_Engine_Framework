@@ -38,6 +38,11 @@ namespace Framework
 
 		static void Render(HDC hdc);
 
+		static void MouseEvent(CUIBase* pUI, CUIBase* pChild);
+		static CUIBase* GetTopUI();
+		static CUIBase* GetParentUI(CUIBase* pChild);
+		static CUIBase* GetChildUI(const std::vector<CUIBase*>& vecUIs);
+
 		static std::queue<Enums::eUIType> m_queUIType; //대기열
 		static std::vector<CUIBase*> m_vecCurrentUIs; //현재 UI 목록
 		static std::unordered_map<Enums::eUIType, CUIBase*> m_unmapUI; //캐싱

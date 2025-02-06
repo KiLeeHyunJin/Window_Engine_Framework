@@ -32,8 +32,8 @@ namespace Framework
 		CUIBase();
 		virtual ~CUIBase();
 
-		void SetFullScreen(bool state) { m_bFullScreen = state; }
-		void SetParent(CUIBase* pParent) { m_pParent = pParent; }
+		__inline void SetFullScreen(bool state) { m_bFullScreen = state; }
+		__inline void SetParent(CUIBase* pParent) { m_pParent = pParent; }
 
 		__inline Enums::eUIType GetType() const { return m_eType; }
 		__inline bool GetFullScreen() const { return m_bFullScreen; }
@@ -45,12 +45,18 @@ namespace Framework
 		__inline void SetScale(Maths::Vector2 size)	{ m_vecSize = size; }
 
 	protected:
+		void			SetType(Enums::eUIType type) { m_eType = type; }
 		void			SetDrag(bool state) { m_bDragable = state; }
 		__inline bool	GetDragable() const { return m_bDragable; }
+		void			MouseOnCheck();
 
 		Maths::Vector2 m_vecPos;
 		Maths::Vector2 m_vecSize;
-		bool m_bMouseOn;
+
+		bool m_bPrevMouseOn;
+		bool m_bCurMouseOn;
+		bool m_bPrevMouseDown;
+		bool m_bCurMouseDown;
 
 		friend CUIManager;
 	private:
@@ -77,8 +83,8 @@ namespace Framework
 		virtual void OnRender(HDC hdc);
 		virtual void OnClear();
 
-		__inline void	SetUIIndex(UINT idx) { m_iIndex = idx; }
-		__inline UINT	GetUIIndex() const { return m_iIndex; }
+		__inline void	SetUIIndex(UINT idx)	{ m_iIndex = idx; }
+		__inline UINT	GetUIIndex() const		{ return m_iIndex; }
 
 		std::vector<CUIBase*> m_vecChilds;
 		CUIBase* m_pParent;
@@ -89,6 +95,8 @@ namespace Framework
 		bool m_bFullScreen;
 		bool m_bEnable;
 		bool m_bDragable;
+
+
 	};
 }
 

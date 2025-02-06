@@ -4,6 +4,8 @@
 
 namespace Framework
 {
+	class CUIManager;
+
 	class CButton :
 		public CUIBase
 	{
@@ -19,7 +21,7 @@ namespace Framework
 		CButton();
 		virtual ~CButton();
 
-
+		friend CUIManager;
 	private:
 		virtual void OnInitialize() override;
 		virtual void OnRelease() override;

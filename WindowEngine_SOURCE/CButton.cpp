@@ -25,39 +25,13 @@ namespace Framework
 	void CButton::OnInActive()
 	{
 	}
+
 	void CButton::OnTick()
 	{
-		const Maths::Vector2 mousePos = INPUT::GetMousePosition();
-
-		const float halfX = (m_vecSize.x * 0.5f);
-		const float halfY = (m_vecSize.y * 0.5f);
-
-		const bool prevState = m_bMouseOn;
-
-		if (mousePos.x >= m_vecPos.x - halfX && mousePos.x <= m_vecPos.x + halfX &&
-			mousePos.y >= m_vecPos.y - halfY && mousePos.y <= m_vecPos.x + halfY)
-		{
-			m_eButtonState = eButtonState::Over;
-			m_bMouseOn = true;
-		}
-		else
-		{
-			if (m_bMouseOn)
-			{
-				m_eButtonState = eButtonState::Out;
-				m_bMouseOn = false;
-			}
-			else
-			{
-				m_eButtonState = eButtonState::None;
-			}
-		}
-
-		if (m_eButtonState != eButtonState::None)
-		{
-			(this->*Click[(int)m_eButtonState])();
-		}
+		MouseOnCheck();
 	}
+
+
 	void CButton::OnLastTick()
 	{
 	}

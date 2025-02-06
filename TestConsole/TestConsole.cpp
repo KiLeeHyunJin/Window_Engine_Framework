@@ -9,16 +9,19 @@ private:
 
 public:
     // 데이터 추가
-    void add(int value) {
+    void add(int value) 
+    {
         data.push_back(value);
 
         int size = data.size();
     }
 
     // 특정 값을 삭제 (O(N))
-    void remove(int value) {
+    void remove(int value) 
+    {
         auto it = std::find(data.begin(), data.end(), value);
-        if (it != data.end()) {
+        if (it != data.end()) 
+        {
             data.erase(it);
         }
     }
