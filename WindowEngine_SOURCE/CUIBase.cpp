@@ -19,6 +19,15 @@ namespace Framework
 		m_vecChilds.clear();
 	}
 
+	void CUIBase::RemoveChildUI(CUIBase* pChildUI)
+	{
+		auto iter = std::find(m_vecChilds.cbegin(), m_vecChilds.cend(), pChildUI);
+		if (iter != m_vecChilds.cend())
+		{
+			m_vecChilds.erase(iter);
+		}
+	}
+
 	void CUIBase::OnInitialize()
 	{
 		m_vecPos = Maths::Vector2(150, 100);
@@ -40,6 +49,7 @@ namespace Framework
 
 	void CUIBase::OnRelease()
 	{
+
 	}
 
 	void CUIBase::OnActive()
@@ -54,7 +64,7 @@ namespace Framework
 	void CUIBase::OnLastTick()
 	{
 	}
-	void CUIBase::OnRender(HDC hdc)
+	void CUIBase::OnRender(HDC hdc) const
 	{
 		Rectangle(hdc,
 			m_vecPos.x - (m_vecSize.x * 0.5f), m_vecPos.y - (m_vecSize.y * 0.5f),
@@ -133,11 +143,12 @@ namespace Framework
 		for (auto& child : m_vecChilds)
 		{
 			child->Release();
+			delete child;
 		}
-		Release();
+		OnRelease();
 	}
 
-	void CUIBase::Render(HDC hdc)
+	void CUIBase::Render(HDC hdc) const
 	{
 		OnRender(hdc);
 		for (auto& child : m_vecChilds)
@@ -167,8 +178,47 @@ namespace Framework
 	{
 		for (auto& child : m_vecChilds)
 		{
-			child->Clear();
+			child->OnClear();
 		}
-		Clear();
+		OnClear();
+	}
+	void CUIBase::Over()
+	{
+		if (m_bPrevMouseOn == false)
+		{
+			OnOver();
+		}
+	}
+
+	void CUIBase::Out()
+	{
+		if (m_bPrevMouseOn)
+		{
+			OnOut();
+		}
+		if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
+		{
+			m_bPrevMouseDown = false;
+		}
+	}
+
+	void CUIBase::Down()
+	{
+		OnDown();
+		m_bPrevMouseDown = true;
+	}
+
+	void CUIBase::Up()
+	{
+		OnUp();
+		if (m_bPrevMouseDown)
+		{
+			OnClick();
+			m_bPrevMouseDown = false;
+		}
+	}
+
+	void CUIBase::Click()
+	{
 	}
 }

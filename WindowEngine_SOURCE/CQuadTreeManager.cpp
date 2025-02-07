@@ -35,6 +35,7 @@ namespace Framework
     void CQuadTreeManager::Release()
     {
         m_pQuadTree->Release();
+        delete m_pQuadTree;
     }
 
     void CQuadTreeManager::Insert(CColliderComponent* pCollider)

@@ -50,6 +50,7 @@ namespace Framework
 		if (m_pRootNode != nullptr)
 		{
 			m_pRootNode->Release();
+			delete m_pRootNode;
 		}
 	}
 

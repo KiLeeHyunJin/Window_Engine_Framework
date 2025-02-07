@@ -19,7 +19,7 @@ namespace Framework
 	void CUIManager::Initialize()
 	{
 		CUIBase* leftButton = new CUIBase();
-		CUIBase* rightButton = new CUIBase();
+		//CUIBase* rightButton = new CUIBase();
 
 		m_unmapUI.insert(std::make_pair(Enums::eUIType::Button, leftButton));
 	}
@@ -53,6 +53,24 @@ namespace Framework
 
 		for (UINT i = removeIndex; i < size; i++)
 		{	m_vecCurrentUIs[i]->SetUIIndex(i);	}
+	}
+
+	void CUIManager::Pop(CUIBase* closeUI)
+	{
+		const UINT closeUIIdx = closeUI->GetUIIndex();
+		const UINT size = (UINT)m_vecCurrentUIs.size();
+
+		if (size == 0) { return; }
+
+		const auto iter = m_vecCurrentUIs.begin() + closeUIIdx;
+		m_vecCurrentUIs.erase(iter);
+
+		for (UINT i = closeUIIdx; i < size; i++)
+		{
+			m_vecCurrentUIs[i]->SetUIIndex(i);
+		}
+
+		closeUI->SetUIIndex(-1);
 	}
 
 	void CUIManager::OnLoad(Enums::eUIType type)
@@ -102,6 +120,7 @@ namespace Framework
 		for (const auto& ui : m_unmapUI)
 		{
 			ui.second->OnClear();
+			ui.second->OnRelease();
 			delete ui.second;
 		}
 	}
@@ -171,7 +190,7 @@ namespace Framework
 		CUIBase* pParentUI = GetParentUI(pFocusUI);
 		for (UINT i = 0; i < size; i++)
 		{
-			MouseEvent(pParentUI, pFocusUI);
+			MouseEvent(m_vecCurrentUIs[i], pFocusUI);
 		}
 	}
 
@@ -197,37 +216,22 @@ namespace Framework
 	{
 		if (pUI == pfocusUI)
 		{
-			if (!pUI->m_bPrevMouseOn)
-			{
-				pUI->OnOver();
-			}
+			pUI->Over();
+
 			if (INPUT::GetKeyDown(eKeyCode::LBUTTON))
 			{
-				pUI->OnDown();
-				pUI->m_bPrevMouseDown = true;
+				pUI->Down();
 			}
 			else if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
 			{
-				pUI->OnUp();
-				if (pUI->m_bPrevMouseDown)
-				{
-					pUI->OnClick();
-					pUI->m_bPrevMouseDown = false;
-				}
+				pUI->Up();
 			}
 		}
 		else
 		{
-			if (pUI->m_bPrevMouseOn)
-			{
-				pUI->OnOut();
-			}
-			if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
-			{
-				pUI->m_bPrevMouseDown = false;
-			}
+			pUI->Out();
 		}
-		
+
 		for (CUIBase* pChildUI : pUI->m_vecChilds)
 		{
 			MouseEvent(pChildUI, pfocusUI);
@@ -266,7 +270,7 @@ namespace Framework
 
 	CUIBase* CUIManager::GetChildUI(const std::vector<CUIBase*>& vecUIs)
 	{
-		const UINT childSize = vecUIs.size();
+		const UINT childSize = (UINT)vecUIs.size();
 		std::queue<CUIBase*> queUIs;
 		for (UINT i = 0; i < childSize; i++)
 		{

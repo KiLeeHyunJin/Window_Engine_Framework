@@ -32,22 +32,24 @@ namespace Framework
 		CUIBase();
 		virtual ~CUIBase();
 
-		__inline void SetFullScreen(bool state) { m_bFullScreen = state; }
-		__inline void SetParent(CUIBase* pParent) { m_pParent = pParent; }
+		void SetFullScreen(bool state)					{ m_bFullScreen = state; }
+		void SetParent(CUIBase* pParent)				{ m_pParent = pParent; }
+		void AddChildUI(CUIBase* pChildUI)				{ m_vecChilds.push_back(pChildUI); }
+		void RemoveChildUI(CUIBase* pChildUI);
 
-		__inline Enums::eUIType GetType() const { return m_eType; }
-		__inline bool GetFullScreen() const { return m_bFullScreen; }
+		__inline Enums::eUIType GetType() const			{ return m_eType; }
+		__inline bool GetFullScreen() const				{ return m_bFullScreen; }
 
-		__inline Maths::Vector2 GetPosition() const	{ return m_vecPos; }
-		__inline Maths::Vector2 GetScale()	const	{ return m_vecSize; }
+		__inline Maths::Vector2 GetPosition() const		{ return m_vecPos; }
+		__inline Maths::Vector2 GetScale()	const		{ return m_vecSize; }
 
-		__inline void SetPosition(Maths::Vector2 pos){ m_vecPos = pos; }
-		__inline void SetScale(Maths::Vector2 size)	{ m_vecSize = size; }
+		__inline void SetPosition(Maths::Vector2 pos)	{ m_vecPos = pos; }
+		__inline void SetScale(Maths::Vector2 size)		{ m_vecSize = size; }
 
 	protected:
-		void			SetType(Enums::eUIType type) { m_eType = type; }
-		void			SetDrag(bool state) { m_bDragable = state; }
-		__inline bool	GetDragable() const { return m_bDragable; }
+		void			SetType(Enums::eUIType type)	{ m_eType = type; }
+		void			SetDrag(bool state)				{ m_bDragable = state; }
+		__inline bool	GetDragable() const				{ return m_bDragable; }
 		void			MouseOnCheck();
 
 		Maths::Vector2 m_vecPos;
@@ -60,18 +62,30 @@ namespace Framework
 
 		friend CUIManager;
 	private:
+#pragma region  Basic Event
 		void Initialize();
 		void Release();
 
 		void Tick();
 		void LastTick();
-		
-		void Render(HDC hdc);  
+
+		void Render(HDC hdc) const;
+#pragma endregion
 
 		void Active();
 		void InActive();
 
 		void Clear();
+
+#pragma region  UI Event
+		void Over();
+		void Out();
+
+		void Down();
+		void Up();
+
+		void Click();
+#pragma endregion
 
 		virtual void OnInitialize();
 		virtual void OnRelease();
@@ -82,7 +96,7 @@ namespace Framework
 		virtual void OnTick();
 		virtual void OnLastTick();
 
-		virtual void OnRender(HDC hdc);
+		virtual void OnRender(HDC hdc) const;
 		virtual void OnClear();
 
 		virtual void OnOver();

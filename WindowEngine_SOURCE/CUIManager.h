@@ -12,7 +12,9 @@ namespace Framework
 	{
 	public:
 		static void Push(Enums::eUIType type);
+
 		static void Pop(Enums::eUIType type);
+		static void Pop(CUIBase* closeUI);
 
 		static void OnLoad(Enums::eUIType type);
 		

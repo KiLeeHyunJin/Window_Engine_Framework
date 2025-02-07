@@ -28,14 +28,6 @@ namespace Framework
 
 	void CButton::OnTick()
 	{
-		MouseOnCheck();
-		if (m_bPrevMouseOn != m_bCurMouseOn)
-		{
-			if (m_bCurMouseOn)
-			{	OnOver();	}
-			else
-			{	OnOut();	}
-		}
 	}
 
 
@@ -45,7 +37,7 @@ namespace Framework
 	void CButton::OnClear()
 	{
 	}
-	void CButton::OnRender(HDC hdc)
+	void CButton::OnRender(HDC hdc) const
 	{
 		HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
