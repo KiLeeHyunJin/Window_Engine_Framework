@@ -64,10 +64,12 @@ void Framework::CTitleScene::Release()
 
 void Framework::CTitleScene::OnEnter()
 {
+	UI::Push(Enums::eUIType::Size);
 	UI::Push(Enums::eUIType::Button);
 }
 
 void Framework::CTitleScene::OnExit()
 {
+	UI::Pop(Enums::eUIType::Size);
 	UI::Pop(Enums::eUIType::Button);
 }

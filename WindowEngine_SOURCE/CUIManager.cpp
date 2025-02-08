@@ -19,11 +19,18 @@ namespace Framework
 	void CUIManager::Initialize()
 	{
 		CUIBase* leftButton = new CUIBase();
-		//CUIBase* rightButton = new CUIBase();
+		leftButton->SetChangeHierarchy(true);
+
+		CUIBase* rightButton = new CUIBase();
+		leftButton->SetDrag(true);
+		rightButton->SetChangeHierarchy(true);
+
+		leftButton->SetType(Enums::eUIType::Button);
+		rightButton->SetType(Enums::eUIType::Size);
 
 		m_unmapUI.insert(std::make_pair(Enums::eUIType::Button, leftButton));
+		m_unmapUI.insert(std::make_pair(Enums::eUIType::Size, rightButton));
 	}
-
 
 	void CUIManager::Push(Enums::eUIType type)
 	{
@@ -32,26 +39,37 @@ namespace Framework
 
 	void CUIManager::Pop(Enums::eUIType type)
 	{
-		const UINT size = (UINT)m_vecCurrentUIs.size();
-
+		const INT size = (INT)m_vecCurrentUIs.size();
 		if (size == 0)								{	return;	}
 
-		UINT removeIndex = -1;
-		for (UINT i = 0; i < size; i++)
+		const auto& findIter = m_unmapUI.find(type);
+		INT removeIndex = findIter->second->GetUIIndex();
+
+		if (removeIndex < 0 || 
+			m_vecCurrentUIs[removeIndex]->GetType() != type)
 		{
-			CUIBase* pUI = m_vecCurrentUIs[i];
-			if (pUI->GetType() == type)
+			for (INT i = 0; i < size; i++)
 			{
-				removeIndex = i;
-				auto iter = m_vecCurrentUIs.cbegin() + i;
-				m_vecCurrentUIs.erase(iter);
-				break;
+				CUIBase* pUI = m_vecCurrentUIs[i];
+				if (pUI->GetType() == type)
+				{
+					removeIndex = i;
+					break;
+				}
 			}
+			removeIndex = -1;
 		}
 
-		if (removeIndex < 0)						{	return;	}
+		if (removeIndex <= -1)						{	return;	}
 
-		for (UINT i = removeIndex; i < size; i++)
+
+		auto eraseIter = m_vecCurrentUIs.begin() + removeIndex;
+		if (eraseIter != m_vecCurrentUIs.cend())
+		{
+			m_vecCurrentUIs.erase(eraseIter);
+		}
+
+		for (INT i = removeIndex; i < size - 1; i++)
 		{	m_vecCurrentUIs[i]->SetUIIndex(i);	}
 	}
 
@@ -117,16 +135,19 @@ namespace Framework
 
 	void CUIManager::Release()
 	{
-		for (const auto& ui : m_unmapUI)
+		Clear();
+
+		for (auto& ui : m_unmapUI)
 		{
-			ui.second->OnClear();
-			ui.second->OnRelease();
+			ui.second->Clear();
+			ui.second->Release();
 			delete ui.second;
 		}
 	}
 
 	void CUIManager::Clear()
 	{
+		m_pCurrentUI = nullptr;
 		m_vecCurrentUIs.clear();
 		while (m_queUIType.empty() == false)
 		{
@@ -134,7 +155,7 @@ namespace Framework
 		}
 	}
 
-	CUIBase* CUIManager::GetCollisionUI(Maths::Vector2 checkPos)
+	CUIBase* CUIManager::GetCollisionUI()
 	{
 		const UINT size = (UINT)m_vecCurrentUIs.size() - 1;
 		if (size < 0)							{	return nullptr;	}
@@ -143,29 +164,30 @@ namespace Framework
 		return pUI;
 	}
 
-	void CUIManager::SetLastSibling(CUIBase* pFrontUI)
+	void CUIManager::SetLastSibling(CUIBase* pUI)
 	{
-		if (pFrontUI->GetDragable() == false)	{	return;	}
+		CUIBase* pParentUI = GetParentUI(pUI);
+		if (pParentUI == nullptr)						{	return;	}
+		if (pParentUI->GetChangeHierarchy() == false)	{	return;	}
 
 		const UINT size = (UINT)m_vecCurrentUIs.size();
-		if (size <= 1 )							{	return;	} // 마지막 요소면 이동 불필요
+		const UINT currentIdx = pParentUI->GetUIIndex();
 
-		pFrontUI = CUIManager::GetParentUI(pFrontUI);
-		const UINT currentIdx = pFrontUI->GetUIIndex();
-		if (currentIdx == size - 1 && 
-			currentIdx == -1)					{	return; }
+		if  (size <= 1  || 
+			(size - 1) == currentIdx)					{	return;	} // 마지막 요소면 이동 불필요
 
-		auto iter = std::find(m_vecCurrentUIs.cbegin(), m_vecCurrentUIs.cend(), pFrontUI);
+
+		auto iter = m_vecCurrentUIs.cbegin() + currentIdx;
 		if (iter != m_vecCurrentUIs.cend()) 
 		{
 			CUIBase* save = *iter;
 			m_vecCurrentUIs.erase(iter);               // 요소 삭제 (O(N))
 			m_vecCurrentUIs.push_back(save);          // 뒤에 추가 (O(1))
-		}
 
-		for (UINT i = currentIdx; i < size; i++) //번호 다시 기입
-		{
-			m_vecCurrentUIs[i]->SetUIIndex(i);
+			for (UINT i = currentIdx; i < size; i++) //번호 다시 기입
+			{
+				m_vecCurrentUIs[i]->SetUIIndex(i);
+			}
 		}
 	}
 
@@ -185,12 +207,17 @@ namespace Framework
 			m_queUIType.pop();
 			OnLoad(requestUI);
 		}
+		CUIBase* pTargetUI = GetCollisionUI();
 
-		CUIBase* pFocusUI = GetCollisionUI(INPUT::GetMousePosition());
-		CUIBase* pParentUI = GetParentUI(pFocusUI);
+		if (pTargetUI != m_pCurrentUI)
+		{
+			m_pCurrentUI = pTargetUI;
+		}
+
+
 		for (UINT i = 0; i < size; i++)
 		{
-			MouseEvent(m_vecCurrentUIs[i], pFocusUI);
+			MouseEvent(m_vecCurrentUIs[i], m_pCurrentUI);
 		}
 	}
 
@@ -216,6 +243,7 @@ namespace Framework
 	{
 		if (pUI == pfocusUI)
 		{
+			pUI->Enter();
 			pUI->Over();
 
 			if (INPUT::GetKeyDown(eKeyCode::LBUTTON))
@@ -229,7 +257,7 @@ namespace Framework
 		}
 		else
 		{
-			pUI->Out();
+			pUI->Exit();
 		}
 
 		for (CUIBase* pChildUI : pUI->m_vecChilds)
@@ -270,13 +298,17 @@ namespace Framework
 
 	CUIBase* CUIManager::GetChildUI(const std::vector<CUIBase*>& vecUIs)
 	{
-		const UINT childSize = (UINT)vecUIs.size();
+		if (vecUIs.size() == 0)				{	return nullptr;	}
+
 		std::queue<CUIBase*> queUIs;
-		for (UINT i = 0; i < childSize; i++)
+		for(auto iter  = m_vecCurrentUIs.rbegin(); 
+				 iter != m_vecCurrentUIs.rend(); 
+				 ++iter)
 		{
-			if (vecUIs[i]->m_bCurMouseOn)
+			if ((*iter)->m_bCurMouseOn)
 			{
-				queUIs.push(vecUIs[i]);
+				queUIs.push(*iter);
+				break;
 			}
 		}
 

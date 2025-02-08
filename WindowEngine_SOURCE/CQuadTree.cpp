@@ -12,6 +12,7 @@ namespace Framework
 	{
 		m_pRootNode = new CQuadTreeNode(this, nullptr, Maths::Vector2::Zero, size, 2);
 	}
+
 	CQuadTree::~CQuadTree()
 	{
 	}

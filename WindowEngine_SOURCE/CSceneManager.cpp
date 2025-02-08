@@ -71,10 +71,12 @@ namespace Framework
 	std::vector<CGameObject*> CSceneManager::GetGameObject(Enums::eLayerType layer)
 	{
 		std::vector<CGameObject*> gameObjects = m_pCurrentScene->GetLayer(layer)->GetGameObject();
-		std::vector<CGameObject*> dontDestroyGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
+		const std::vector<CGameObject*>& dontDestroyGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
 
 		// 추가 공간을 미리 예약하여 재할당을 최소화
-		gameObjects.reserve(gameObjects.size() + dontDestroyGameObjects.size());
+		const INT sceneSize = gameObjects.size();
+		const INT dontDestroySize = dontDestroyGameObjects.size();
+		gameObjects.reserve(sceneSize + dontDestroySize);
 
 		// dontDestroyGameObjects의 모든 요소를 gameObjects에 추가
 		gameObjects.insert(gameObjects.end(), dontDestroyGameObjects.begin(), dontDestroyGameObjects.end());

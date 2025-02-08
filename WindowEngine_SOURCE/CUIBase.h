@@ -9,56 +9,33 @@ namespace Framework
 	class CUIBase : public CEntity
 	{
 	public:
-		//struct Event
-		//{
-		//	void operator=(std::function<void()> func)
-		//	{
-		//		mEvent = std::move(func);
-		//	}
-		//	void operator()()
-		//	{
-		//		if (mEvent) { mEvent; }
-		//	}
-		//	std::function<void()> mEvent;
-		//};
-		//struct Events
-		//{
-		//	Event m_StartEvent;
-		//	Event m_CompleteEvent;
-		//	Event m_EndEvent;
-		//};
-
 
 		CUIBase();
 		virtual ~CUIBase();
 
 		void SetFullScreen(bool state)					{ m_bFullScreen = state; }
 		void SetParent(CUIBase* pParent)				{ m_pParent = pParent; }
-		void AddChildUI(CUIBase* pChildUI)				{ m_vecChilds.push_back(pChildUI); }
+
+		void AddChildUI(CUIBase* pChildUI);
 		void RemoveChildUI(CUIBase* pChildUI);
 
 		__inline Enums::eUIType GetType() const			{ return m_eType; }
 		__inline bool GetFullScreen() const				{ return m_bFullScreen; }
 
-		__inline Maths::Vector2 GetPosition() const		{ return m_vecPos; }
+		Maths::Vector2			GetWorldPosition() const{ return m_vecRenderPos; }
+		__inline Maths::Vector2 GetLocalPosition() const{ return m_vecPos; }
 		__inline Maths::Vector2 GetScale()	const		{ return m_vecSize; }
+		__inline bool			GetChangeHierarchy() const { return m_bChangeHierarchy; }
 
-		__inline void SetPosition(Maths::Vector2 pos)	{ m_vecPos = pos; }
+		__inline void SetLocalPosition(Maths::Vector2 pos)	{ m_vecPos = pos; }
 		__inline void SetScale(Maths::Vector2 size)		{ m_vecSize = size; }
+		__inline void SetChangeHierarchy(bool state)	{ m_bChangeHierarchy = state; }
 
 	protected:
 		void			SetType(Enums::eUIType type)	{ m_eType = type; }
-		void			SetDrag(bool state)				{ m_bDragable = state; }
-		__inline bool	GetDragable() const				{ return m_bDragable; }
-		void			MouseOnCheck();
-
-		Maths::Vector2 m_vecPos;
-		Maths::Vector2 m_vecSize;
-
-		bool m_bPrevMouseOn;
-		bool m_bCurMouseOn;
-		bool m_bPrevMouseDown;
-		bool m_bCurMouseDown;
+		void			SetDrag(bool state)				{ m_bDraggable = state; }
+		__inline bool	GetDragable() const				{ return m_bDraggable; }
+		Maths::Vector2 m_vecRenderPos;
 
 		friend CUIManager;
 	private:
@@ -79,12 +56,12 @@ namespace Framework
 
 #pragma region  UI Event
 		void Over();
-		void Out();
+
+		void Enter();
+		void Exit();
 
 		void Down();
 		void Up();
-
-		void Click();
 #pragma endregion
 
 		virtual void OnInitialize();
@@ -99,28 +76,43 @@ namespace Framework
 		virtual void OnRender(HDC hdc) const;
 		virtual void OnClear();
 
-		virtual void OnOver();
-		virtual void OnOut();
+		virtual void OnEnter();
+		virtual void OnExit();
 		
 		virtual void OnDown();
 		virtual void OnUp();
 		
 		virtual void OnClick();
 
-		__inline void	SetUIIndex(UINT idx)	{ m_iIndex = idx; }
-		__inline UINT	GetUIIndex() const		{ return m_iIndex; }
+		__inline void	MouseOnCheck();
+		__inline void	UpdatePosition();
 
-		std::vector<CUIBase*> m_vecChilds;
-		CUIBase* m_pParent;
-
-		Enums::eUIType m_eType;
-		UINT m_iIndex;
+		__inline void	SetUIIndex(INT idx)	{ m_iIndex = idx; }
+		__inline INT	GetUIIndex() const		{ return m_iIndex; }
 
 		bool m_bFullScreen;
 		bool m_bEnable;
-		bool m_bDragable;
 
+		bool m_bDraggable;
+		bool m_bIsDrag;
+		bool m_bWorldObject;
+		bool m_bChangeHierarchy;
+		bool m_bPrevMouseOn;
+		bool m_bCurMouseOn;
 
+		bool m_bPrevMouseDown;
+		bool m_bCurMouseDown;
+
+		CUIBase* m_pParent;
+
+		INT m_iIndex;
+		Enums::eUIType m_eType;
+
+		Maths::Vector2 m_vecPos;
+		Maths::Vector2 m_vecSize;
+		Maths::Vector2 m_vecDragStartPos;
+
+		std::vector<CUIBase*> m_vecChilds;
 	};
 }
 

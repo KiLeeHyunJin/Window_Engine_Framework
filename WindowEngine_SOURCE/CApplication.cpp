@@ -12,7 +12,7 @@
 
 namespace Framework
 {
-	CApplication::CApplication()
+	CApplication::CApplication() : m_bRelease(true)
 	{
 	}
 
@@ -22,6 +22,7 @@ namespace Framework
 
 	void CApplication::Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
+		m_bRelease = false;
 		RENDER::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
 
 		INPUT::Initialize();
@@ -33,13 +34,16 @@ namespace Framework
 
 	void CApplication::Release()
 	{
+		//if (m_bRelease)
+		//{	return;	}
+		//m_bRelease = true;
+
 		SCENE::Release();
 		Resource::RESOURCE::Release();
-		
-		RENDER::Release();
 		UI::Release();
-
 		COLLISION::Release();
+
+		RENDER::Release();
 	}
 
 	void CApplication::Run()
@@ -55,15 +59,14 @@ namespace Framework
 		INPUT::Tick();
 		TIME::Tick();
 		UI::Tick();
-		SCENE::Tick();
 		COLLISION::Tick();
-		
+		SCENE::Tick();
 	}
 
 	void CApplication::LastTick()
 	{
-		SCENE::LastTick();
 		UI::LastTick();
+		SCENE::LastTick();
 	}
 
 	void CApplication::Render()

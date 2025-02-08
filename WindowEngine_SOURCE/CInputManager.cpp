@@ -100,7 +100,7 @@ namespace Framework
 		POINT point = {};
 		GetCursorPos(&point);
 		ScreenToClient(application.GetHWND(), &point);
-		m_vecMousePos = Maths::Vector2(point.x, point.y);
+		m_vecMousePos = Maths::Vector2((UINT)point.x, (UINT)point.y);
 	}
 
 	void CInputManager::UpdateKey()

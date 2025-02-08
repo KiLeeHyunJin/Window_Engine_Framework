@@ -31,12 +31,21 @@ namespace Framework
 	CRenderManager::~CRenderManager()
 	{}
 
-	void CRenderManager::DrawRectangle(HDC hdc, UINT left, UINT top, UINT right, UINT bottom)
+	void CRenderManager::DrawRectangle(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale)
 	{
+		Rectangle(hdc,
+			(UINT)(position.x - (scale.x * 0.5f)),
+			(UINT)(position.y - (scale.y * 0.5f)),
+			(UINT)(position.x + (scale.x * 0.5f)),
+			(UINT)(position.y + (scale.y * 0.5f)));
 	}
-	void CRenderManager::DrawEllipse(HDC hdc, UINT left, UINT top, UINT right, UINT bottom)
+	void CRenderManager::DrawEllipse(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale)
 	{
-
+		Ellipse(hdc,
+			(UINT)(position.x - (scale.x * 0.5f)),
+			(UINT)(position.y - (scale.y * 0.5f)),
+			(UINT)(position.x + (scale.x * 0.5f)),
+			(UINT)(position.y + (scale.y * 0.5f)));
 	}
 	void CRenderManager::DrawWText(HDC hdc, int x, int y, std::wstring& text)
 	{
@@ -48,6 +57,7 @@ namespace Framework
 		m_BackHDC = CreateCompatibleDC(m_hDC);
 		ChangeScreenSize(screen);
 	}
+
 	void CRenderManager::Release()
 	{
 	}

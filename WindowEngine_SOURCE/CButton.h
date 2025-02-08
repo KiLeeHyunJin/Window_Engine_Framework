@@ -40,11 +40,10 @@ namespace Framework
 		virtual void OnDown() override;
 		virtual void OnUp() override;
 
-		virtual void OnOver() override;
-		virtual void OnOut() override;
+		virtual void OnEnter() override;
+		virtual void OnExit() override;
 
 		Resource::CTexture* m_pTexture;
-		void (CButton::*Click[(int)eButtonState::Size])();
 		eButtonState m_eButtonState;
 		Color m_colorFill;
 

@@ -1,9 +1,11 @@
 #pragma once
 #include <cmath>
-
+#include <windows.h>
 namespace Framework::Maths
 {
-#define PI 3.142592f
+	float const PI = 3.142592f; //이펙티브 C++ 에서 Define보단 const를 사용하라고 했는데 
+								//여기서 이렇게 한다고 크게 달라지겠냐만, 그래도 습관들면 좋으니까
+
 	template<typename T>
 	T Abs(T other)
 	{
@@ -84,8 +86,12 @@ namespace Framework::Maths
 		static Vector2 Down;
 #pragma endregion
 
-		Vector2():x(0), y(0){	}
-		Vector2(float x, float y) : x(x), y(y)
+				 Vector2():x(0), y(0){	}
+		explicit Vector2(float x, float y)	: x(x), y(y)
+		{}
+		explicit Vector2(int x, int y)		: x((float)x), y((float)y)
+		{}
+		explicit Vector2(UINT x, UINT y)	: x((float)x), y((float)y)
 		{}
 
 		Vector2 operator - (Vector2 other)

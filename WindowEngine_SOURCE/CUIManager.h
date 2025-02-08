@@ -24,7 +24,7 @@ namespace Framework
 		static void Clear();
 
 		static void SetLastSibling(CUIBase* pFrontUI);
-		static CUIBase* GetCollisionUI(Maths::Vector2 pos);
+		static CUIBase* GetCollisionUI();
 
 		friend CApplication;
 		friend CRenderManager;

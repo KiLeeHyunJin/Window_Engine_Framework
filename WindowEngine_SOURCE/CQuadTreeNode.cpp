@@ -152,7 +152,7 @@ namespace Framework
 			}
 		}
 		m_listItems.clear();
-		m_vecChildren.clear();
+		//m_vecChildren.clear();
 	}
 
 	void CQuadTreeNode::Release()

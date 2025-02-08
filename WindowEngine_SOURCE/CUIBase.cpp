@@ -1,22 +1,65 @@
 #include "CUIBase.h"
 #include "CButton.h"
+
 #include "CInputManager.h"
+#include "CUIManager.h"
+#include "CRenderManager.h"
+
+#include "CRenderer.h"
+#include "CCameraComponent.h"
 
 namespace Framework
 {
 	CUIBase::CUIBase() :
-		m_bEnable(false), m_bFullScreen(false), m_bDragable(false),
+		m_bEnable(false), m_bFullScreen(false), m_bDraggable(false), m_bIsDrag(false), m_bWorldObject(false), m_bChangeHierarchy(false),
 		m_bCurMouseDown(false), m_bCurMouseOn(false), m_bPrevMouseOn(false), m_bPrevMouseDown(false),
-		m_pParent(nullptr), m_eType(Enums::eUIType::Button), m_iIndex(-1)
+		m_pParent(nullptr), m_eType(Enums::eUIType::Button), m_iIndex(-1),
+		m_vecRenderPos(Maths::Vector2::Zero)
 	{
 	}
-	CUIBase::~CUIBase()
+	CUIBase::~CUIBase()				{	}
+
+	void CUIBase::OnInitialize()
 	{
-		for (auto& child : m_vecChilds)
-		{
-			delete child;
-		}
-		m_vecChilds.clear();
+		m_vecPos = Maths::Vector2(150, 100);
+		m_vecSize = Maths::Vector2(150, 150);
+
+		CButton* left = new CButton();
+		left->SetLocalPosition(Maths::Vector2( -70, 0));
+		left->SetScale(Maths::Vector2(50, 50));
+
+		CButton* right = new CButton();
+		right->SetLocalPosition(Maths::Vector2( 70, 0));
+		right->SetScale(Maths::Vector2(50, 50));
+
+		AddChildUI(left);
+		AddChildUI(right);
+	}
+
+	void CUIBase::OnRelease()		{	}
+	void CUIBase::OnActive()		{	}
+	void CUIBase::OnInActive()		{	}
+	void CUIBase::OnTick()			{	}
+	void CUIBase::OnLastTick()		{	}
+
+	void CUIBase::OnRender(HDC hdc) const 
+	{ 
+		RENDER::DrawRectangle(hdc, m_vecRenderPos, m_vecSize); 
+	}
+	void CUIBase::OnClear()			{	}
+
+	void CUIBase::OnEnter()			{	}
+	void CUIBase::OnExit()			{	}
+	void CUIBase::OnDown()			{	}
+	void CUIBase::OnUp()			{	}
+	void CUIBase::OnClick()			{	}
+
+	void CUIBase::AddChildUI(CUIBase* pChildUI)
+	{
+		m_vecChilds.push_back(pChildUI);
+		pChildUI->SetParent(this);
+		pChildUI->SetDrag(m_bDraggable);
+		pChildUI->m_bWorldObject = m_bWorldObject;
 	}
 
 	void CUIBase::RemoveChildUI(CUIBase* pChildUI)
@@ -26,73 +69,8 @@ namespace Framework
 		{
 			m_vecChilds.erase(iter);
 		}
-	}
-
-	void CUIBase::OnInitialize()
-	{
-		m_vecPos = Maths::Vector2(150, 100);
-		m_vecSize = Maths::Vector2(150, 150);
-
-		CButton* left = new CButton();
-		left->SetPosition(Maths::Vector2(100, 100));
-		left->SetScale(Maths::Vector2(50, 50));
-
-		CButton* right = new CButton();
-		right->SetPosition(Maths::Vector2(200, 100));
-		right->SetScale(Maths::Vector2(50, 50));
-
-		m_vecChilds.push_back(left);
-		m_vecChilds.push_back(right);
-
-
-	}
-
-	void CUIBase::OnRelease()
-	{
-
-	}
-
-	void CUIBase::OnActive()
-	{
-	}
-	void CUIBase::OnInActive()
-	{
-	}
-	void CUIBase::OnTick()
-	{
-	}
-	void CUIBase::OnLastTick()
-	{
-	}
-	void CUIBase::OnRender(HDC hdc) const
-	{
-		Rectangle(hdc,
-			m_vecPos.x - (m_vecSize.x * 0.5f), m_vecPos.y - (m_vecSize.y * 0.5f),
-			m_vecPos.x + (m_vecSize.x * 0.5f), m_vecPos.y + (m_vecSize.y * 0.5f));
-
-	}
-	void CUIBase::OnClear()
-	{
-	}
-
-	void CUIBase::OnOver()
-	{
-	}
-
-	void CUIBase::OnOut()
-	{
-	}
-
-	void CUIBase::OnDown()
-	{
-	}
-
-	void CUIBase::OnUp()
-	{
-	}
-
-	void CUIBase::OnClick()
-	{
+		assert(1);
+		/// 자식 어떻게 할지와 재 호출 시 구조를 어떻게 조정할지 
 	}
 
 	void CUIBase::MouseOnCheck()
@@ -102,30 +80,53 @@ namespace Framework
 		const Maths::Vector2 halfSize = m_vecSize * 0.5f;
 		const auto& checkPos = INPUT::GetMousePosition();
 
-		m_bCurMouseOn =
-			m_vecPos.x - halfSize.x <= checkPos.x && 
-			m_vecPos.x + halfSize.x >= checkPos.x &&
-			m_vecPos.y - halfSize.y <= checkPos.y && 
-			m_vecPos.y + halfSize.y >= checkPos.y;
+		if (m_vecRenderPos.x - halfSize.x <= checkPos.x &&
+			m_vecRenderPos.x + halfSize.x >= checkPos.x)
+		{
+			if (m_vecRenderPos.y - halfSize.y <= checkPos.y &&
+				m_vecRenderPos.y + halfSize.y >= checkPos.y)
+			{
+				m_bCurMouseOn = true;
+				return;
+			}
+		}
+		m_bCurMouseOn = false;
 	}
+
+	void CUIBase::UpdatePosition()
+	{
+		Maths::Vector2 m_vecAbsolutePos;
+		m_vecAbsolutePos = m_vecPos;
+		if (m_pParent != nullptr)
+		{
+			m_vecAbsolutePos = m_vecAbsolutePos + (m_pParent->m_vecPos);
+		}
+
+		m_vecRenderPos = m_bWorldObject ?
+			m_vecAbsolutePos :
+			Renderer::CRenderer::GetMainCamera()->CaluatePosition(m_vecAbsolutePos);
+	}
+
+
 
 	void CUIBase::Initialize()
 	{
+		OnExit();
 		OnInitialize();
 		for (auto& child : m_vecChilds)
 		{
-			OnInitialize();
+			child->Initialize();
 		}
 	}
 
 	void CUIBase::Tick()
 	{
 		OnTick();
+		UpdatePosition();
 		MouseOnCheck();
 		for (auto& child : m_vecChilds)
 		{
-			child->OnTick();
-			child->MouseOnCheck();
+			child->Tick();
 		}
 	}
 	
@@ -134,7 +135,7 @@ namespace Framework
 		OnLastTick();
 		for (auto& child : m_vecChilds)
 		{
-			child->OnLastTick();
+			child->LastTick();
 		}
 	}
 	
@@ -145,6 +146,7 @@ namespace Framework
 			child->Release();
 			delete child;
 		}
+		m_vecChilds.clear();
 		OnRelease();
 	}
 
@@ -153,7 +155,7 @@ namespace Framework
 		OnRender(hdc);
 		for (auto& child : m_vecChilds)
 		{
-			child->OnRender(hdc);
+			child->Render(hdc);
 		}
 	}
 	
@@ -162,7 +164,7 @@ namespace Framework
 		OnActive();
 		for (auto& child : m_vecChilds)
 		{
-			child->OnActive();
+			child->Active();
 		}
 	}
 	
@@ -171,30 +173,47 @@ namespace Framework
 		OnInActive();
 		for (auto& child : m_vecChilds)
 		{
-			child->OnInActive();
+			child->InActive();
 		}
 	}
 	void CUIBase::Clear()
 	{
 		for (auto& child : m_vecChilds)
 		{
-			child->OnClear();
+			child->Clear();
 		}
 		OnClear();
 	}
-	void CUIBase::Over()
+
+	void CUIBase::Enter()
 	{
 		if (m_bPrevMouseOn == false)
 		{
-			OnOver();
+			OnEnter();
 		}
 	}
 
-	void CUIBase::Out()
+	void CUIBase::Over()
 	{
-		if (m_bPrevMouseOn)
+		if (m_bIsDrag)
 		{
-			OnOut();
+			Maths::Vector2 mousePos = INPUT::GetMousePosition();
+			Maths::Vector2 vecDiff = mousePos - m_vecDragStartPos;
+
+			m_vecPos = m_vecPos + vecDiff;
+			m_vecDragStartPos = mousePos;
+		}
+	}
+
+	void CUIBase::Exit()
+	{
+		if (m_bPrevMouseOn && m_bCurMouseOn == false)
+		{
+			if (m_bIsDrag)
+			{
+				m_bIsDrag = false;
+			}
+			OnExit();
 		}
 		if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
 		{
@@ -206,6 +225,16 @@ namespace Framework
 	{
 		OnDown();
 		m_bPrevMouseDown = true;
+		if (m_bDraggable)
+		{
+			m_vecDragStartPos = INPUT::GetMousePosition();
+			m_bIsDrag = true;
+		}
+		if (m_bChangeHierarchy)
+		{
+			UI::SetLastSibling(this);
+		}
+
 	}
 
 	void CUIBase::Up()
@@ -216,9 +245,10 @@ namespace Framework
 			OnClick();
 			m_bPrevMouseDown = false;
 		}
-	}
-
-	void CUIBase::Click()
-	{
+		if (m_bIsDrag)
+		{
+			m_bIsDrag = false;
+			m_vecRenderPos = INPUT::GetMousePosition();
+		}
 	}
 }

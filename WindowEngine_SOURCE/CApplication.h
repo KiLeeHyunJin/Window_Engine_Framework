@@ -28,6 +28,7 @@ namespace Framework
 		void LastTick();
 		void Destroy();
 		void Render();
+		bool m_bRelease;
 	};
 
 }

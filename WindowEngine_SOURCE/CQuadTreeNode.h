@@ -44,7 +44,7 @@ namespace Framework
 
 		bool IsSplitted()
 		{
-			return m_vecChildren.size() > 0;
+			return m_vecChildren.size() != 0;
 		}
 
 

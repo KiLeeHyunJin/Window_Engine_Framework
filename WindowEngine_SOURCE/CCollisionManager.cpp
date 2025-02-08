@@ -42,12 +42,17 @@ namespace Framework
 	void CCollisionManager::Release()
 	{
 		CQuadTreeManager::Release();
+		Clear();
 	}
 
 	void CCollisionManager::Tick()
 	{
 		CQuadTreeManager::Clear();
-		CScene* pScene = CSceneManager::GetCurrentScene();
+		const CScene* pScene = CSceneManager::GetCurrentScene();
+		if (pScene == nullptr)
+		{
+			return;
+		}
 		std::list<CColliderComponent*> listCollider;
 
 		for (UINT layer = 0; layer < (UINT)Enums::eLayerType::Size; layer++)
@@ -60,11 +65,13 @@ namespace Framework
 				{
 					continue;
 				}
+
 				CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
 				if (pCollider == nullptr)
 				{
 					continue;
 				}
+
 				CQuadTreeManager::Insert(pCollider);
 				listCollider.push_back(pCollider);
 			}
@@ -89,6 +96,7 @@ namespace Framework
 				}
 			}
 		}
+		listCollider.clear();
 
 	/*	for (UINT row = 0; row < (UINT)Enums::eLayerType::Size; row++)
 		{
