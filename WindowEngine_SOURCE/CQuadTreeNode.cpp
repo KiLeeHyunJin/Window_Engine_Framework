@@ -67,7 +67,7 @@ namespace Framework
 		return quads;
 	}
 
-	CQuadTreeNode::NodeIndex CQuadTreeNode::TestRegion(Vector2 center) //저장 시킬 노드의 위치를 정한다.
+	CQuadTreeNode::NodeIndex CQuadTreeNode::TestRegion(Vector2 center) const //저장 시킬 노드의 위치를 정한다.
 	{
 		bool negX = center.x <= m_vecCenter.x;
 		bool negY = center.y <= m_vecCenter.y;

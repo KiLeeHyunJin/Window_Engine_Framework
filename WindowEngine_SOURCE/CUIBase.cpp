@@ -56,10 +56,11 @@ namespace Framework
 
 	void CUIBase::AddChildUI(CUIBase* pChildUI)
 	{
-		m_vecChilds.push_back(pChildUI);
 		pChildUI->SetParent(this);
-		pChildUI->SetDrag(m_bDraggable);
-		pChildUI->m_bWorldObject = m_bWorldObject;
+		//pChildUI->SetDrag(m_bDraggable);
+		pChildUI->SetChangeHierarchy(m_bChangeHierarchy);
+		pChildUI->SetWorldObject(m_bWorldObject);
+		m_vecChilds.push_back(pChildUI);
 	}
 
 	void CUIBase::RemoveChildUI(CUIBase* pChildUI)
@@ -95,16 +96,20 @@ namespace Framework
 
 	void CUIBase::UpdatePosition()
 	{
-		Maths::Vector2 m_vecAbsolutePos;
-		m_vecAbsolutePos = m_vecPos;
+		Maths::Vector2 vecAbsolutePos = m_vecPos;
 		if (m_pParent != nullptr)
 		{
-			m_vecAbsolutePos = m_vecAbsolutePos + (m_pParent->m_vecPos);
+			vecAbsolutePos = vecAbsolutePos + (m_pParent->m_vecPos);
 		}
 
-		m_vecRenderPos = m_bWorldObject ?
-			m_vecAbsolutePos :
-			Renderer::CRenderer::GetMainCamera()->CaluatePosition(m_vecAbsolutePos);
+		if (m_bWorldObject == true)
+		{
+			m_vecRenderPos = Renderer::CRenderer::GetMainCamera()->CaluatePosition(vecAbsolutePos);
+		}
+		else
+		{
+			m_vecRenderPos = vecAbsolutePos;
+		}
 	}
 
 
@@ -207,11 +212,15 @@ namespace Framework
 
 	void CUIBase::Exit()
 	{
-		if (m_bPrevMouseOn && m_bCurMouseOn == false)
+		if (m_bPrevMouseOn)
 		{
 			if (m_bIsDrag)
 			{
 				m_bIsDrag = false;
+			}
+			if (m_bCurMouseOn)
+			{
+				m_bCurMouseOn = false;
 			}
 			OnExit();
 		}

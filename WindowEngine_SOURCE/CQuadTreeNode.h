@@ -37,7 +37,7 @@ namespace Framework
 	private:
 		std::list<CQuadTreeNode*> GetQuads(const Vector2& center, const Vector2& size);
 
-		NodeIndex TestRegion(Vector2 center);
+		NodeIndex TestRegion(Vector2 center) const;
 		bool Intersects(Vector2 center1, Vector2 size1, Vector2 center2, Vector2 size2);
 
 		bool Split();

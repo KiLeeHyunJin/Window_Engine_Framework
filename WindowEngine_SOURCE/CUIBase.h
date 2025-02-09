@@ -20,7 +20,7 @@ namespace Framework
 		void RemoveChildUI(CUIBase* pChildUI);
 
 		__inline Enums::eUIType GetType() const			{ return m_eType; }
-		__inline bool GetFullScreen() const				{ return m_bFullScreen; }
+		__inline bool			GetFullScreen() const	{ return m_bFullScreen; }
 
 		Maths::Vector2			GetWorldPosition() const{ return m_vecRenderPos; }
 		__inline Maths::Vector2 GetLocalPosition() const{ return m_vecPos; }
@@ -29,11 +29,12 @@ namespace Framework
 
 		__inline void SetLocalPosition(Maths::Vector2 pos)	{ m_vecPos = pos; }
 		__inline void SetScale(Maths::Vector2 size)		{ m_vecSize = size; }
-		__inline void SetChangeHierarchy(bool state)	{ m_bChangeHierarchy = state; }
 
 	protected:
+		__inline void SetChangeHierarchy(bool state)	{ m_bChangeHierarchy = state; }
 		void			SetType(Enums::eUIType type)	{ m_eType = type; }
 		void			SetDrag(bool state)				{ m_bDraggable = state; }
+		void			SetWorldObject(bool state)		{ m_bWorldObject = state; }
 		__inline bool	GetDragable() const				{ return m_bDraggable; }
 		Maths::Vector2 m_vecRenderPos;
 

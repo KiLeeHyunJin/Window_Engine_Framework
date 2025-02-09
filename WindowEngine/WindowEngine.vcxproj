@@ -141,6 +141,7 @@
     <ClInclude Include="CTitleScene.h" />
     <ClInclude Include="LoadResource.h" />
     <ClInclude Include="LoadScene.h" />
+    <ClInclude Include="LoadUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlayerInput.cpp" />

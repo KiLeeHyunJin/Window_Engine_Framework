@@ -39,8 +39,8 @@ namespace Framework
 
 		const Maths::Vector2 offset = GetOffset();
 
-		const UINT posX = pos.x + offset.x;
-		const UINT posY = pos.y + offset.y;
+		const INT posX = (INT)(pos.x + offset.x);
+		const INT posY = (INT)(pos.y + offset.y);
 
 		const float sizeX = m_vecSize.x * 0.5f;
 		const float sizeY = m_vecSize.y * 0.5f;
@@ -53,9 +53,10 @@ namespace Framework
 		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
 		Ellipse(hdc,
-			posX - sizeX, posY - sizeY,
-			posX + sizeX, posY + sizeY
-		);
+			(INT)(posX - sizeX), 
+			(INT)(posY - sizeY),
+			(INT)(posX + sizeX), 
+			(INT)(posY + sizeY));
 
 		SelectObject(hdc, oldBrush);
 		pen = (HPEN)SelectObject(hdc, oldPen);

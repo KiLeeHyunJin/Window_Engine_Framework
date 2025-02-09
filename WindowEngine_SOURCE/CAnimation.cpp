@@ -143,12 +143,18 @@ namespace Framework
 
 		Maths::Vector2 vecSize(sprite.size.x * scale.x, sprite.size.y * scale.y);
 
+		Gdiplus::Rect rect = Gdiplus::Rect(
+			(UINT)(pos.x - (vecSize.x * 0.5f)),
+			(UINT)(pos.y - (vecSize.y * 0.5f)),
+			(UINT)vecSize.x,
+			(UINT)vecSize.y);
+
 		graphics.DrawImage(m_pTexture->GetImage(),
-			Gdiplus::Rect(
-				(UINT)pos.x - (vecSize.x * 0.5f), (UINT)pos.y - (vecSize.y * 0.5f),
-				(UINT)vecSize.x, (UINT)vecSize.y),
-			(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
-			(UINT)vecSize.x, (UINT)vecSize.y,
+			rect,
+			(UINT)sprite.leftTop.x, 
+			(UINT)sprite.leftTop.y,
+			(UINT)vecSize.x, 
+			(UINT)vecSize.y,
 			Gdiplus::UnitPixel,
 			nullptr);
 	}

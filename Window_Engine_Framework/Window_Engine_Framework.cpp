@@ -7,10 +7,11 @@
 #include "..\\WindowEngine_SOURCE\\CApplication.h"
 #include "..\\WindowEngine\\LoadScene.h"
 #include "..\\WindowEngine\\LoadResource.h"
+#include "..\\WindowEngine\\LoadUI.h"
 
 #pragma comment (lib,"..\\x64\\Debug\\WindowEngine.lib" )
 
-#define MAX_LOADSTRING 100
+const int MAX_LOADSTRING = 100;
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
@@ -164,6 +165,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    Framework::LoadResource();
    Framework::LoadScene();
+   Framework::LoadUI();
 
    return TRUE;
 }

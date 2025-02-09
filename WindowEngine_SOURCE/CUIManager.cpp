@@ -18,18 +18,15 @@ namespace Framework
 
 	void CUIManager::Initialize()
 	{
-		CUIBase* leftButton = new CUIBase();
-		leftButton->SetChangeHierarchy(true);
+		
+	}
 
-		CUIBase* rightButton = new CUIBase();
-		leftButton->SetDrag(true);
-		rightButton->SetChangeHierarchy(true);
-
-		leftButton->SetType(Enums::eUIType::Button);
-		rightButton->SetType(Enums::eUIType::Size);
-
-		m_unmapUI.insert(std::make_pair(Enums::eUIType::Button, leftButton));
-		m_unmapUI.insert(std::make_pair(Enums::eUIType::Size, rightButton));
+	void CUIManager::LoadUI(Enums::eUIType type, CUIBase* pUI, bool bChangeHierarchy, bool bDrag)
+	{
+		pUI->SetDrag(bDrag);
+		pUI->SetChangeHierarchy(bChangeHierarchy);
+		pUI->SetType(type);
+		m_unmapUI.insert(std::make_pair(type, pUI));
 	}
 
 	void CUIManager::Push(Enums::eUIType type)
@@ -43,52 +40,67 @@ namespace Framework
 		if (size == 0)								{	return;	}
 
 		const auto& findIter = m_unmapUI.find(type);
-		INT removeIndex = findIter->second->GetUIIndex();
+		const CUIBase* findUI = findIter->second;
+		INT closeUIIdx = findIter->second->GetUIIndex();
 
-		if (removeIndex < 0 || 
-			m_vecCurrentUIs[removeIndex]->GetType() != type)
+		if (closeUIIdx < 0 ||
+			m_vecCurrentUIs[closeUIIdx]->GetType() != type)
 		{
-			for (INT i = 0; i < size; i++)
-			{
-				CUIBase* pUI = m_vecCurrentUIs[i];
-				if (pUI->GetType() == type)
-				{
-					removeIndex = i;
-					break;
-				}
-			}
-			removeIndex = -1;
+			closeUIIdx = FindUIIdex(findUI);
 		}
 
-		if (removeIndex <= -1)						{	return;	}
+		if (closeUIIdx <= -1)						{	return;	}
 
-
-		auto eraseIter = m_vecCurrentUIs.begin() + removeIndex;
-		if (eraseIter != m_vecCurrentUIs.cend())
-		{
-			m_vecCurrentUIs.erase(eraseIter);
-		}
-
-		for (INT i = removeIndex; i < size - 1; i++)
-		{	m_vecCurrentUIs[i]->SetUIIndex(i);	}
+		CloseUI(closeUIIdx);
 	}
 
 	void CUIManager::Pop(CUIBase* closeUI)
 	{
-		const UINT closeUIIdx = closeUI->GetUIIndex();
 		const UINT size = (UINT)m_vecCurrentUIs.size();
+		if (size == 0)								{	return; }
 
-		if (size == 0) { return; }
+		INT closeUIIdx = closeUI->GetUIIndex();
+		const Enums::eUIType type = closeUI->GetType();
 
-		const auto iter = m_vecCurrentUIs.begin() + closeUIIdx;
-		m_vecCurrentUIs.erase(iter);
+		if (closeUIIdx < 0 ||
+			m_vecCurrentUIs[closeUIIdx]->GetType() != type)
+		{
+			closeUIIdx = FindUIIdex(closeUI);
+		}
+		if (closeUIIdx < 0)							{ return; }
 
+		CloseUI(closeUIIdx);
+	}
+
+	INT CUIManager::FindUIIdex(const CUIBase* pTarget)
+	{
+		const UINT size = (UINT)m_vecCurrentUIs.size();
+		for (UINT i = 0; i < size; i++)
+		{
+			if (pTarget == m_vecCurrentUIs[i])
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	bool CUIManager::CloseUI(INT closeUIIdx)
+	{
+		const auto iter = m_vecCurrentUIs.cbegin() + closeUIIdx;
+		if (iter != m_vecCurrentUIs.cend())
+		{
+			(*iter)->SetUIIndex(-1);
+			m_vecCurrentUIs.erase(iter);
+		}
+
+		UINT size = (UINT)m_vecCurrentUIs.size();
 		for (UINT i = closeUIIdx; i < size; i++)
 		{
 			m_vecCurrentUIs[i]->SetUIIndex(i);
 		}
 
-		closeUI->SetUIIndex(-1);
+		return false;
 	}
 
 	void CUIManager::OnLoad(Enums::eUIType type)
@@ -155,15 +167,6 @@ namespace Framework
 		}
 	}
 
-	CUIBase* CUIManager::GetCollisionUI()
-	{
-		const UINT size = (UINT)m_vecCurrentUIs.size() - 1;
-		if (size < 0)							{	return nullptr;	}
-
-		CUIBase* pUI = GetChildUI(m_vecCurrentUIs);
-		return pUI;
-	}
-
 	void CUIManager::SetLastSibling(CUIBase* pUI)
 	{
 		CUIBase* pParentUI = GetParentUI(pUI);
@@ -207,18 +210,17 @@ namespace Framework
 			m_queUIType.pop();
 			OnLoad(requestUI);
 		}
-		CUIBase* pTargetUI = GetCollisionUI();
 
-		if (pTargetUI != m_pCurrentUI)
-		{
-			m_pCurrentUI = pTargetUI;
-		}
+		CUIBase* pNewTarget = GetFocusUI();
 
+		m_pCurrentUI = pNewTarget;
 
 		for (UINT i = 0; i < size; i++)
 		{
-			MouseEvent(m_vecCurrentUIs[i], m_pCurrentUI);
+			MouseEvent(m_vecCurrentUIs[i], pNewTarget);
 		}
+
+		
 	}
 
 	void CUIManager::LastTick()
@@ -246,11 +248,11 @@ namespace Framework
 			pUI->Enter();
 			pUI->Over();
 
-			if (INPUT::GetKeyDown(eKeyCode::LBUTTON))
+			if (CInputManager::GetKeyDown(eKeyCode::LBUTTON))
 			{
 				pUI->Down();
 			}
-			else if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
+			else if (CInputManager::GetKeyUp(eKeyCode::LBUTTON))
 			{
 				pUI->Up();
 			}
@@ -296,25 +298,30 @@ namespace Framework
 		return pParent;
 	}
 
-	CUIBase* CUIManager::GetChildUI(const std::vector<CUIBase*>& vecUIs)
+	CUIBase* CUIManager::GetFocusUI()
 	{
-		if (vecUIs.size() == 0)				{	return nullptr;	}
+		CUIBase* pTopUI = GetTopUI();
+		if (pTopUI == nullptr)				{ return nullptr; }
+		if (m_vecCurrentUIs.size() == 0)	{ return nullptr; }
 
 		std::queue<CUIBase*> queUIs;
-		for(auto iter  = m_vecCurrentUIs.rbegin(); 
-				 iter != m_vecCurrentUIs.rend(); 
-				 ++iter)
-		{
-			if ((*iter)->m_bCurMouseOn)
-			{
-				queUIs.push(*iter);
-				break;
-			}
-		}
-
-		if (queUIs.empty())					{	return nullptr;	}
+		queUIs.push(pTopUI);
 
 		CUIBase* targetUI = nullptr;
+		//for(auto iter  = m_vecCurrentUIs.cbegin(); 
+		//		 iter != m_vecCurrentUIs.cend(); 
+		//		 ++iter)
+		//{
+		//	if ((*iter)->m_bCurMouseOn)
+		//	{
+		//		queUIs.push(*iter);
+		//		targetUI = *iter;
+		//		//break;
+		//	}
+		//}
+
+		//if (queUIs.empty())					{	return nullptr;	}
+
 
 		while (queUIs.empty() == false)
 		{
@@ -334,6 +341,9 @@ namespace Framework
 		}
 		return targetUI;
 	}
+
+
+
 
 
 }

@@ -7,9 +7,9 @@ namespace Framework::Maths
 								//여기서 이렇게 한다고 크게 달라지겠냐만, 그래도 습관들면 좋으니까
 
 	template<typename T>
-	T Abs(T other)
+	T Abs(T rhs)
 	{
-		return other > 0 ? other : other * -1;
+		return rhs > 0 ? rhs : rhs * -1;
 	}
 
 	inline static float RadianToDegree(float radian) { return (radian * (180 / PI)); }
@@ -94,30 +94,6 @@ namespace Framework::Maths
 		explicit Vector2(UINT x, UINT y)	: x((float)x), y((float)y)
 		{}
 
-		Vector2 operator - (Vector2 other)
-		{
-			return Vector2(x - other.x, y - other.y);
-		}		
-		Vector2 operator - ()
-		{
-			return Vector2(-x, -y);
-		}
-
-		Vector2 operator + (Vector2 other)
-		{
-			return Vector2(x + other.x, y + other.y);
-		}
-
-		Vector2 operator * (Vector2 other)
-		{
-			return Vector2(x * other.x, y * other.y);
-		}
-
-		Vector2 operator / (Vector2 other)
-		{
-			return Vector2(x / other.x, y / other.y);
-		}
-
 		bool HasValue() const
 		{
 			if (this->x != 0.0f)
@@ -127,73 +103,104 @@ namespace Framework::Maths
 			return false;
 		}
 
-		bool operator == (Vector2& other)
+		Vector2 operator - (const Vector2& rhs) const
 		{
-			if (this->x != other.x)
+			return Vector2(x - rhs.x, y - rhs.y);
+		}		
+		Vector2 operator - () const
+		{
+			return Vector2(-x, -y);
+		}
+
+		Vector2 operator + (const Vector2& rhs) const
+		{
+			return Vector2(x + rhs.x, y + rhs.y);
+		}
+
+		Vector2 operator * (const Vector2& rhs) const
+		{
+			return Vector2(x * rhs.x, y * rhs.y);
+		}
+
+		Vector2 operator / (const Vector2& rhs) const
+		{
+			return Vector2(x / rhs.x, y / rhs.y);
+		}
+
+		void operator += (const Vector2& rhs)
+		{
+			x += rhs.x;
+			y += rhs.y;
+		}
+
+		void operator -= (const Vector2& rhs)
+		{
+			x -= rhs.x;
+			y -= rhs.y;
+		}
+
+		void operator *= (const Vector2& rhs)
+		{
+			x *= rhs.x;
+			y *= rhs.y;
+		}
+
+		void operator /= (const Vector2& rhs)
+		{
+			x /= rhs.x;
+			y /= rhs.y;
+		}
+
+		bool operator == (const Vector2& rhs)
+		{
+			if (this->x != rhs.x)
 				return false;
-			if (this->y != other.y)
+			if (this->y != rhs.y)
 				return false;
 			return true;
 		}
 
-		bool operator != (Vector2& other)
+		bool operator != (const Vector2& rhs)
 		{
-			if (this->x != other.x)
-				return true;
-			if (this->y != other.y)
-				return true;
-			return false;
-		}
-
-		void operator += (Vector2 other)
-		{
-			x += other.x;
-			y += other.y;
-		}
-
-		void operator -= (Vector2 other)
-		{
-			x -= other.x;
-			y -= other.y;
-		}
-
-		void operator *= (Vector2 other)
-		{
-			x *= other.x; 
-			y *= other.y;
+			return (*this == rhs) == false;
 		}
 
 		template<typename T>
-		Vector2 operator / (T other)
+		Vector2 operator + (const T& rhs) const
 		{
-			return Vector2(x / other, y / other);
+			return Vector2(x + rhs, y + rhs);
 		}
 
 		template<typename T>
-		Vector2 operator * (T other)
+		Vector2 operator - (const T& rhs) const
 		{
-			return Vector2(x * other, y * other);
+			return Vector2(x - rhs, y - rhs);
 		}
 
 		template<typename T>
-		Vector2 operator * (T other) const
+		Vector2 operator / (const T& rhs) const
 		{
-			Vector2 copy = Vector2(x * other, y * other);
-			return copy;
+			return Vector2(x / rhs, y / rhs);
 		}
 
 		template<typename T>
-		void operator /= (T other)
+		Vector2 operator * (const T& rhs) const
 		{
-			x /= other;
-			y /= other;
+			return Vector2(x * rhs, y * rhs);
 		}
 
 		template<typename T>
-		void operator *= (T other)
+		void operator /= (const T& rhs)
 		{
-			x *= other;
-			y *= other;
+			x /= rhs;
+			y /= rhs;
+		}
+
+		template<typename T>
+		void operator *= (const T& rhs)
+		{
+			x *= rhs;
+			y *= rhs;
 		}
 
 		void Clear()
