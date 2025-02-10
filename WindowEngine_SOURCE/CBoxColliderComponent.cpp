@@ -53,10 +53,10 @@ namespace Framework
 		const float sizeY = m_vecSize.y * 0.5f;
 
 		Rectangle(hdc, 
-			offsetPos.x - sizeX, 
-			offsetPos.y - sizeY, 
-			offsetPos.x + sizeX, 
-			offsetPos.y + sizeY);
+			(INT)(offsetPos.x - sizeX), 
+			(INT)(offsetPos.y - sizeY), 
+			(INT)(offsetPos.x + sizeX), 
+			(INT)(offsetPos.y + sizeY));
 
 		transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
 		pen = (HPEN)SelectObject(hdc, oldPen);

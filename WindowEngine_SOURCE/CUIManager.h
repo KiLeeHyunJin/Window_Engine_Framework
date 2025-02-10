@@ -11,6 +11,7 @@ namespace Framework
 	class CUIManager
 	{
 	public:
+		static void LoadUI(Enums::eUIType type, CUIBase* pUI, bool bChangeHierarchy = false, bool bDrag = false);
 		static void Push(Enums::eUIType type);
 
 		static void Pop(Enums::eUIType type);
@@ -24,7 +25,7 @@ namespace Framework
 		static void Clear();
 
 		static void SetLastSibling(CUIBase* pFrontUI);
-		static CUIBase* GetCollisionUI();
+		//static CUIBase* GetCollisionUI();
 
 		friend CApplication;
 		friend CRenderManager;
@@ -43,7 +44,9 @@ namespace Framework
 		static void MouseEvent(CUIBase* pUI, CUIBase* pChild);
 		static CUIBase* GetTopUI();
 		static CUIBase* GetParentUI(CUIBase* pChild);
-		static CUIBase* GetChildUI(const std::vector<CUIBase*>& vecUIs);
+		static CUIBase* GetFocusUI();
+		static INT FindUIIdex(const CUIBase* pTarget);
+		static bool	CloseUI(INT closeUIIdx);
 
 		static std::queue<Enums::eUIType> m_queUIType; //대기열
 		static std::vector<CUIBase*> m_vecCurrentUIs; //현재 UI 목록

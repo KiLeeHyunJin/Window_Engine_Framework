@@ -74,8 +74,8 @@ namespace Framework
 		const std::vector<CGameObject*>& dontDestroyGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
 
 		// 추가 공간을 미리 예약하여 재할당을 최소화
-		const INT sceneSize = gameObjects.size();
-		const INT dontDestroySize = dontDestroyGameObjects.size();
+		const INT sceneSize = (INT)gameObjects.size();
+		const INT dontDestroySize = (INT)dontDestroyGameObjects.size();
 		gameObjects.reserve(sceneSize + dontDestroySize);
 
 		// dontDestroyGameObjects의 모든 요소를 gameObjects에 추가

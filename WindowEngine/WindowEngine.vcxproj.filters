@@ -27,6 +27,9 @@
     <ClInclude Include="CPlayerInput.h">
       <Filter>Script</Filter>
     </ClInclude>
+    <ClInclude Include="LoadUI.h">
+      <Filter>Load</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlayScene.cpp">
