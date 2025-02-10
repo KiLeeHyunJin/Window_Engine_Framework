@@ -103,6 +103,7 @@ namespace Framework
 		bool m_bPrevMouseDown;
 		bool m_bCurMouseDown;
 
+		bool m_bFocusOn;
 		CUIBase* m_pParent;
 
 		INT m_iIndex;

@@ -11,7 +11,7 @@
 namespace Framework
 {
 	CUIBase::CUIBase() :
-		m_bEnable(false), m_bFullScreen(false), m_bDraggable(false), m_bIsDrag(false), m_bWorldObject(false), m_bChangeHierarchy(false),
+		m_bEnable(false), m_bFullScreen(false), m_bDraggable(false), m_bIsDrag(false), m_bWorldObject(false), m_bChangeHierarchy(false), m_bFocusOn(false),
 		m_bCurMouseDown(false), m_bCurMouseOn(false), m_bPrevMouseOn(false), m_bPrevMouseDown(false),
 		m_pParent(nullptr), m_eType(Enums::eUIType::Button), m_iIndex(-1),
 		m_vecRenderPos(Maths::Vector2::Zero)
@@ -27,13 +27,14 @@ namespace Framework
 		CButton* left = new CButton();
 		left->SetLocalPosition(Maths::Vector2( -70, 0));
 		left->SetScale(Maths::Vector2(50, 50));
+		left->SetChangeHierarchy(true);
+		AddChildUI(left);
 
-		CButton* right = new CButton();
+	/*	CButton* right = new CButton();
 		right->SetLocalPosition(Maths::Vector2( 70, 0));
 		right->SetScale(Maths::Vector2(50, 50));
-
-		AddChildUI(left);
-		AddChildUI(right);
+		right->SetChangeHierarchy(true);
+		AddChildUI(right);*/
 	}
 
 	void CUIBase::OnRelease()		{	}
@@ -75,7 +76,7 @@ namespace Framework
 
 	void CUIBase::MouseOnCheck()
 	{
-		m_bPrevMouseOn = m_bCurMouseOn;
+		//m_bPrevMouseOn = m_bCurMouseOn;
 
 		const Maths::Vector2 halfSize = m_vecSize * 0.5f;
 		const auto& checkPos = INPUT::GetMousePosition();
@@ -187,14 +188,17 @@ namespace Framework
 
 	void CUIBase::Enter()
 	{
-		if (m_bPrevMouseOn == false)
+		if (m_bFocusOn == false)
 		{
+			m_bFocusOn = true;
 			OnEnter();
 		}
 	}
 
 	void CUIBase::Over()
 	{
+		Enter();
+
 		if (m_bIsDrag)
 		{
 			Maths::Vector2 mousePos = INPUT::GetMousePosition();
@@ -207,8 +211,9 @@ namespace Framework
 
 	void CUIBase::Exit()
 	{
-		if (m_bPrevMouseOn && m_bCurMouseOn == false)
+		if (m_bFocusOn)
 		{
+			m_bFocusOn = false;
 			if (m_bIsDrag)
 			{
 				m_bIsDrag = false;

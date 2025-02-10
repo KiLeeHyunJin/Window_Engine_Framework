@@ -209,9 +209,29 @@ namespace Framework
 		}
 		CUIBase* pTargetUI = GetCollisionUI();
 
-		if (pTargetUI != m_pCurrentUI)
+		if (m_pCurrentUI == nullptr)
 		{
 			m_pCurrentUI = pTargetUI;
+		}
+		else
+		{
+			if (m_pCurrentUI->m_bCurMouseOn == false)
+			{
+				m_pCurrentUI = pTargetUI;
+			}
+			else
+			{
+				if (pTargetUI != nullptr)
+				{
+					const CUIBase* pPrevParent = GetParentUI(m_pCurrentUI);
+					const CUIBase* pNewParent = GetParentUI(pTargetUI);
+
+					if (pPrevParent->m_iIndex <= pNewParent->m_iIndex)
+					{
+						m_pCurrentUI = pTargetUI;
+					}
+				}
+			}
 		}
 
 
@@ -243,7 +263,7 @@ namespace Framework
 	{
 		if (pUI == pfocusUI)
 		{
-			pUI->Enter();
+			//pUI->Enter();
 			pUI->Over();
 
 			if (INPUT::GetKeyDown(eKeyCode::LBUTTON))
