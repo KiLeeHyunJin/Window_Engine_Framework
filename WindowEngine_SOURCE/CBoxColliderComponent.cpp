@@ -8,8 +8,9 @@ namespace Framework
 {
 
 	CBoxColliderComponent::CBoxColliderComponent() :
-		CColliderComponent(eColliderType::Box)//, m_vecSize(Maths::Vector2(50,50))
+		CColliderComponent(eColliderType::Box)
 	{
+		 m_vecSize = (Maths::Vector2(50,50));
 	}
 
 	CBoxColliderComponent::~CBoxColliderComponent()

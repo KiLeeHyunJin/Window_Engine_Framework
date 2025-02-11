@@ -93,7 +93,7 @@ namespace Framework
 		const UINT imgHeigth	= vecImgs[0]->GetHeight();
 		
 		CTexture* spriteSheet	= CTexture::Create(name , imgWidth * fileCount, imgHeigth);
-		UINT size = vecImgs.size();
+		UINT size = (UINT)vecImgs.size();
 		for (UINT i = 0; i < size; i++)
 		{
 			BitBlt(spriteSheet->GetHDC(), i * imgWidth, 0, 

@@ -75,6 +75,7 @@ namespace Framework
 	INT CUIManager::FindUIIdex(const CUIBase* pTarget)
 	{
 		const UINT size = (UINT)m_vecCurrentUIs.size();
+
 		for (UINT i = 0; i < size; i++)
 		{
 			if (pTarget == m_vecCurrentUIs[i])
@@ -85,7 +86,7 @@ namespace Framework
 		return -1;
 	}
 
-	bool CUIManager::CloseUI(INT closeUIIdx)
+	void CUIManager::CloseUI(INT closeUIIdx)
 	{
 		const auto iter = m_vecCurrentUIs.cbegin() + closeUIIdx;
 		if (iter != m_vecCurrentUIs.cend())
@@ -99,8 +100,6 @@ namespace Framework
 		{
 			m_vecCurrentUIs[i]->SetUIIndex(i);
 		}
-
-		return false;
 	}
 
 	void CUIManager::OnLoad(Enums::eUIType type)
@@ -197,11 +196,9 @@ namespace Framework
 
 	void CUIManager::Tick()
 	{
-		const UINT size = (UINT)m_vecCurrentUIs.size();
-
-		for (UINT i = 0; i < size; i++)
+		for (auto& pUI : m_vecCurrentUIs)
 		{
-			m_vecCurrentUIs[i]->Tick();
+			pUI->Tick();
 		}
 
 		if (m_queUIType.size() > 0)
@@ -211,6 +208,7 @@ namespace Framework
 			OnLoad(requestUI);
 		}
 
+		CUIBase* pTargetUI = GetFocusUI();
 		if (m_pCurrentUI == nullptr)
 		{
 			m_pCurrentUI = pTargetUI;
@@ -223,7 +221,8 @@ namespace Framework
 			}
 			else
 			{
-				if (pTargetUI != nullptr)
+				if (pTargetUI != nullptr && 
+					pTargetUI != m_pCurrentUI)
 				{
 					const CUIBase* pPrevParent = GetParentUI(m_pCurrentUI);
 					const CUIBase* pNewParent = GetParentUI(pTargetUI);
@@ -236,31 +235,25 @@ namespace Framework
 			}
 		}
 
-		m_pCurrentUI = pNewTarget;
-
-		for (UINT i = 0; i < size; i++)
+		for (auto& pUI : m_vecCurrentUIs)
 		{
-			MouseEvent(m_vecCurrentUIs[i], pNewTarget);
+			MouseEvent(pUI, m_pCurrentUI);
 		}
-
-		
 	}
 
 	void CUIManager::LastTick()
 	{
-		const UINT size = (UINT)m_vecCurrentUIs.size();
-		for (UINT i = 0; i < size; i++)
+		for (auto& pUI : m_vecCurrentUIs)
 		{
-			m_vecCurrentUIs[i]->LastTick();
+			pUI->LastTick();
 		}
 	}
 
 	void CUIManager::Render(HDC hdc)
 	{
-		const UINT size = (UINT)m_vecCurrentUIs.size();
-		for (UINT i = 0; i < size; i++)
+		for (const auto& pUI : m_vecCurrentUIs)
 		{
-			m_vecCurrentUIs[i]->Render(hdc);
+			pUI->Render(hdc);
 		}
 	}
 
@@ -268,7 +261,7 @@ namespace Framework
 	{
 		if (pUI == pfocusUI)
 		{
-			//pUI->Enter();
+			pUI->Enter();
 			pUI->Over();
 
 			if (CInputManager::GetKeyDown(eKeyCode::LBUTTON))

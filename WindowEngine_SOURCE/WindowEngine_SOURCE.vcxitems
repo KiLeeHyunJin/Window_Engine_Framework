@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ColliderStruct.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Component.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTree.h" />

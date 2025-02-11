@@ -1,5 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
+
 namespace Framework
 {
 	class CQuadTree;
@@ -24,10 +25,12 @@ namespace Framework
 
 		void InsertAtDepth(CColliderComponent* item, int targetDepth);
 		void Query(CColliderComponent* item, std::list<CQuadTreeNode*>& possibleNodes);
-
+		void Query(const Maths::Vector2& center, const Maths::Vector2& size, std::list<CQuadTreeNode*>& possibleNodes);
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject);
 		void Clear();
 		void Release();
-
+		void Render(HDC hdc);
+		
 		Vector2 GetCenter() const { return m_vecCenter; }
 		Vector2 GetSize()	const { return m_vecSize; }
 		Vector2 GetQSize()	const { return m_vecQSize; }
@@ -62,6 +65,9 @@ namespace Framework
 
 		Vector2 _qbounds;
 		Vector2 m_vecQSize;
+
+		Rect bounds;
+
 	};
 }
 

@@ -46,6 +46,7 @@ namespace Framework::Maths
 			return false;
 		}
 
+
 		/// <summary>
 		/// ³»Àû
 		/// </summary>

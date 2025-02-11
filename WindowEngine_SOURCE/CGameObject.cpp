@@ -3,6 +3,8 @@
 #include "CInputManager.h"
 #include "CTimeManager.h"
 #include "CTransformComponent.h"
+#include "CRenderManager.h"
+#include "CRigidbodyComponent.h"
 
 namespace Framework
 {
@@ -78,6 +80,7 @@ namespace Framework
 		{
 			pCom->Render(hdc);
 		}
+
 	}
 	void CGameObject::Release()
 	{

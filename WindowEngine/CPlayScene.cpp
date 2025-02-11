@@ -4,6 +4,7 @@
 #include "CInputManager.h"
 #include "CSceneManager.h"
 #include "CResourceManager.h"
+#include "CCollisionManager.h"
 
 #include "CTransformComponent.h"
 #include "CSpriteRendererComponent.h"
@@ -40,9 +41,20 @@ void Framework::CPlayScene::Initialize()
 	CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
 	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
 
-	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	pAnim->CreateAnimation(L"Room", pTexture, Vector2::Zero, Vector2(50, 50), Vector2::Zero, 5, 0.2f);
-	pAnim->PlayAnimation(L"Room", true);
+	//CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
+	//pAnim->CreateAnimation(L"Room", pTexture, Vector2::Zero, Vector2(50, 50), Vector2::Zero, 5, 0.2f);
+	//pAnim->PlayAnimation(L"Room", true);
+
+
+	pObj = Object::Instantiate<CPlayerInput>(Enums::eLayerType::BackGround, L"pObj")->GetOwner();
+	pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
+	pRigid = pObj->AddComponent<CRigidbodyComponent>();
+	pRigid->SetGround(true);
+	pObj->AddComponent<CPlayerInput>();
+	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
+
+	CCollisionManager::SetCollisionLayerState(Enums::eLayerType::BackGround, Enums::eLayerType::BackGround, true);
+
 
 	//pObj->AddComponent<CPlayerInput>();
 

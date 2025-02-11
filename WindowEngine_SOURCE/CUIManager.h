@@ -46,7 +46,7 @@ namespace Framework
 		static CUIBase* GetParentUI(CUIBase* pChild);
 		static CUIBase* GetFocusUI();
 		static INT FindUIIdex(const CUIBase* pTarget);
-		static bool	CloseUI(INT closeUIIdx);
+		static void	CloseUI(INT closeUIIdx);
 
 		static std::queue<Enums::eUIType> m_queUIType; //대기열
 		static std::vector<CUIBase*> m_vecCurrentUIs; //현재 UI 목록

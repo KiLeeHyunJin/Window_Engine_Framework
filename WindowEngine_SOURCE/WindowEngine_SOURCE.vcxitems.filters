@@ -213,6 +213,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CButton.h">
       <Filter>Asset\UI\Button</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ColliderStruct.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Component">

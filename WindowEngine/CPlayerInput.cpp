@@ -2,15 +2,20 @@
 
 #include "..\\WindowEngine_SOURCE\\CTimeManager.h"
 #include "..\\WindowEngine_SOURCE\\CInputManager.h"
+#include "..\\WindowEngine_SOURCE\\CCollisionManager.h"
 
 #include "CTransformComponent.h"
 #include "CRigidbodyComponent.h"
+#include "CColliderComponent.h"
 
+#include "CRenderManager.h"
 #include "CGameObject.h"
 #include "CObject.h"
 namespace Framework
 {
-	CPlayerInput::CPlayerInput()
+	int CPlayerInput::temp = 0;
+
+	CPlayerInput::CPlayerInput() : id(0)
 	{
 	}
 	CPlayerInput::~CPlayerInput()
@@ -18,17 +23,37 @@ namespace Framework
 	}
 	void CPlayerInput::Initialize()
 	{
+		id = temp++;
 	}
 	void CPlayerInput::Release()
 	{
 	}
 	void CPlayerInput::Tick()
 	{
+		CGameObject* owner = GetOwner();
+
+		CColliderComponent outColl;
+		Ray ray;
+		ray.origin = owner->GetTransformComponent()->GetPos();
+		ray.direction = Maths::Vector2(0, 1);
+		if (CCollisionManager::Raycast(ray, outColl))
+		{
+			m_colorFill = Color(0, 0, 255);
+		}
+		else
+		{
+			m_colorFill = Color(255, 0, 255);
+
+		}
+
+		if (id >= 1)
+		{
+			return;
+		}
 		const float speed = 20;
 		//const float tickTime = TIME::DeltaTime();
 		const float movePower = speed * 10;
-
-		CRigidbodyComponent* rigid = GetOwner()->GetComponent<CRigidbodyComponent>();
+		CRigidbodyComponent* rigid = owner->GetComponent<CRigidbodyComponent>();
 		Maths::Vector2 addForceDir;
 
 		if (INPUT::GetKeyPressed(eKeyCode::Left))
@@ -52,11 +77,47 @@ namespace Framework
 			addForceDir.Normalize();
 			rigid->SetVelocity(addForceDir * movePower);
 		}
+		if (INPUT::GetKeyDown(eKeyCode::Q))
+		{
+			Maths::Vector2 pos;
+			pos.x = ray.origin.x - 50;
+			pos.y = 0;
+			Maths::Vector2 size;
+			size.x = 50;
+			size.y = 50;
+			const auto& list = CCollisionManager::GetCollisionCollider(pos, size);
+			if (list.size() != 0)
+			{
+				int a = 1;
+			}
+		}
 	}
 	void CPlayerInput::LastTick()
 	{
 	}
 	void CPlayerInput::Render(HDC hdc)
+	{
+		HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
+		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
+
+
+		Maths::Vector2 pos = GetOwner()->GetTransformComponent()->GetPos();
+		Maths::Vector2 size = Maths::Vector2(50, 50);
+		CRenderManager::DrawRectangle(hdc, pos, size);
+
+		MoveToEx(hdc, pos.x, pos.y, nullptr);
+		LineTo(hdc, pos.x, pos.y + 100);
+
+		(HBRUSH)SelectObject(hdc, oldBrush);
+		DeleteObject(newBrush);
+	}
+	void CPlayerInput::OnCollisionEnter(CColliderComponent* other)
+	{
+	}
+	void CPlayerInput::OnCollisionStay(CColliderComponent* other)
+	{
+	}
+	void CPlayerInput::OnCollisionExit(CColliderComponent* other)
 	{
 	}
 }

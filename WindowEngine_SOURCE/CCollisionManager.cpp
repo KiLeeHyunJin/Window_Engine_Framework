@@ -34,6 +34,20 @@ namespace Framework
 		m_bsCollisionCheck[row][col] = enable;
 	}
 
+	const std::list<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size)
+	{
+		return CQuadTreeManager::Query(center, size);
+	}
+
+	const std::list<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Rect& rect)
+	{
+		Maths::Vector2 center = (rect.max + rect.min) * 0.5f;
+		Maths::Vector2 size = rect.max - rect.min;
+
+		return GetCollisionCollider(center, size);
+	}
+
+
 	void CCollisionManager::Initialize()
 	{
 		CQuadTreeManager::Initialize(Maths::Vector2(1024, 1024), 6, 2);
@@ -42,76 +56,42 @@ namespace Framework
 	void CCollisionManager::Release()
 	{
 		CQuadTreeManager::Release();
-		Clear();
 	}
 
 	void CCollisionManager::Tick()
 	{
 		CQuadTreeManager::Clear();
-		const CScene* pScene = CSceneManager::GetCurrentScene();
-		if (pScene == nullptr)
+
+		CScene* pScene = CSceneManager::GetCurrentScene();
+		if (pScene == nullptr)				{	return;	}
+
+		if(true) //쿼드트리
 		{
-			return;
+			std::list<CColliderComponent*> listCollider;
+			InsertCollision(listCollider);
+			CollisionCircuit(listCollider);
 		}
-		std::list<CColliderComponent*> listCollider;
-
-		for (UINT layer = 0; layer < (UINT)Enums::eLayerType::Size; layer++)
+		else //브루트포스
 		{
-			const std::vector<CGameObject*>& listObj = CSceneManager::GetGameObject((Enums::eLayerType)layer);
-
-			for (auto& pGameObject : listObj)
+			for (UINT row = 0; row < (UINT)Enums::eLayerType::Size; row++)
 			{
-				if (pGameObject->GetActive() == false)
+				for (UINT col = 0; col < (UINT)Enums::eLayerType::Size; col++)
 				{
-					continue;
-				}
-
-				CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
-				if (pCollider == nullptr)
-				{
-					continue;
-				}
-
-				CQuadTreeManager::Insert(pCollider);
-				listCollider.push_back(pCollider);
-			}
-		}
-
-		for (const auto& pCollider : listCollider)
-		{
-			UINT leftLayer = (UINT)pCollider->GetOwner()->GetLayerType();
-
-			const std::list<CColliderComponent*>& possibleList = CQuadTreeManager::Query(pCollider);
-			for (const auto& possibleColl : possibleList)
-			{
-				if (pCollider == possibleColl)
-				{
-					continue;
-				}
-				UINT rightLayer = (UINT)possibleColl->GetOwner()->GetLayerType();
-
-				if (m_bsCollisionCheck[leftLayer][rightLayer])
-				{
-					CollisionStateUpdate(pCollider, possibleColl);
+					if (m_bsCollisionCheck[row][col])
+					{
+						CollisionCheck(pScene, (Enums::eLayerType)row, (Enums::eLayerType)col);
+					}
 				}
 			}
 		}
-		listCollider.clear();
-
-	/*	for (UINT row = 0; row < (UINT)Enums::eLayerType::Size; row++)
-		{
-			for (UINT col = 0; col < (UINT)Enums::eLayerType::Size; col++)
-			{
-				if (m_bsCollisionCheck[row][col])
-				{
-					CollisionCheck(pScene,(Enums::eLayerType)row, (Enums::eLayerType)col);
-				}
-			}
-		}*/
 	}
 
 	void CCollisionManager::LastTick()
+	{	}
+
+	void CCollisionManager::Render(HDC hdc)
 	{
+		CQuadTreeManager::Render(hdc);
 	}
 
 	void CCollisionManager::CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right)
@@ -200,6 +180,18 @@ namespace Framework
 
 	}
 
+	void CCollisionManager::Clear()
+	{
+		CQuadTreeManager::Clear();
+		m_unmapCollisions.clear();
+		m_bsCollisionCheck->reset();
+	}
+
+	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent& hitObject)
+	{
+		return CQuadTreeManager::Raycast(ray, hitObject);
+	}
+
 	const bool CCollisionManager::Intersect(const CColliderComponent* left, const CColliderComponent* right)
 	{
 		const CColliderComponent::eColliderType leftType = left->GetColliderType();
@@ -218,6 +210,47 @@ namespace Framework
 		return false;
 	}
 
+	void CCollisionManager::InsertCollision(std::list<CColliderComponent*>& listCollider)
+	{
+		for (UINT layer = 0; layer < (UINT)Enums::eLayerType::Size; layer++)
+		{
+			const std::vector<CGameObject*>& listObj = CSceneManager::GetGameObject((Enums::eLayerType)layer);
+			for (const auto& pGameObject : listObj)
+			{
+				if (pGameObject->GetActive())
+				{
+					CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
+					if (pCollider != nullptr)
+					{
+						CQuadTreeManager::Insert(pCollider);
+						listCollider.push_back(pCollider);
+					}
+				}
+			}
+		}
+	}
+
+	void CCollisionManager::CollisionCircuit(const std::list<CColliderComponent*>& listCollider)
+	{
+		for (const auto& pCollider : listCollider)
+		{
+			const UINT leftLayer = (UINT)pCollider->GetOwner()->GetLayerType();
+
+			const std::list<CColliderComponent*>& possibleList = CQuadTreeManager::Query(pCollider);
+			for (const auto& possibleColl : possibleList)
+			{
+				if (pCollider != possibleColl)
+				{
+					const UINT rightLayer = (UINT)possibleColl->GetOwner()->GetLayerType();
+					if (m_bsCollisionCheck[leftLayer][rightLayer])
+					{
+						CollisionStateUpdate(pCollider, possibleColl);
+					}
+				}
+			}
+		}
+	}
+
 
 	bool CCollisionManager::BoxCollisionStateUpdate(const CColliderComponent* left,const CColliderComponent* right)
 	{
@@ -227,8 +260,8 @@ namespace Framework
 		const Maths::Vector2 leftPos = leftTr->GetPos() + left->GetOffset();
 		const Maths::Vector2 rightPos = rightTr->GetPos() + right->GetOffset();
 
-		const Maths::Vector2 leftSize = left->GetSize() * 100;
-		const Maths::Vector2 rightSize = right->GetSize() * 100;
+		const Maths::Vector2 leftSize = left->GetSize();
+		const Maths::Vector2 rightSize = right->GetSize();
 
 		if (Maths::Abs(leftPos.x - rightPos.x) < Maths::Abs((leftSize.x + rightSize.x) * 0.5f) &&
 			Maths::Abs(leftPos.y - rightPos.y) < Maths::Abs((leftSize.y + rightSize.y) * 0.5f))

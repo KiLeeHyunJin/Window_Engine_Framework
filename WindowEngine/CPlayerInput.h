@@ -19,6 +19,14 @@ namespace Framework
 		void LastTick() override;
 
 		void Render(HDC hdc) override;
+
+		virtual void OnCollisionEnter(CColliderComponent* other) override;
+		virtual void OnCollisionStay(CColliderComponent* other) override;
+		virtual void OnCollisionExit(CColliderComponent* other) override;
+
+		Color m_colorFill;
+		int id;
+		static int temp;
 	};
 
 

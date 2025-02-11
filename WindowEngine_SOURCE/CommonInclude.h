@@ -26,6 +26,8 @@
 
 #include "Enums.h"
 #include "Maths.h"
+#include "ColliderStruct.h"
+
 
 #pragma region STL
 //STL

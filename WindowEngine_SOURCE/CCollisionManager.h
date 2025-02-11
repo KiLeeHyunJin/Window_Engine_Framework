@@ -4,7 +4,7 @@
 namespace Framework
 {
 	class CApplication;
-	//class CRenderManager;
+	class CRenderManager;
 	class CScene;
 	class CColliderComponent;
 	class CSceneManager;
@@ -27,9 +27,14 @@ namespace Framework
 	{
 	public:
 		static void SetCollisionLayerState(Enums::eLayerType left, Enums::eLayerType right, bool enable);
+		static const std::list<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center,const Maths::Vector2& size);
+		static const std::list<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
+		static bool Raycast(const Ray& ray, CColliderComponent& hitObject);
+
+
 
 		friend CApplication;
-		//friend CRenderManager;
+		friend CRenderManager;
 		friend CSceneManager;
 	private:
 		CCollisionManager();
@@ -41,15 +46,16 @@ namespace Framework
 		static void Tick();
 		static void LastTick();
 
-		//static void Render(HDC hdc);
+		static void Render(HDC hdc);
 
-		static void Clear() 
-		{ 
-			m_unmapCollisions.clear(); 
-			m_bsCollisionCheck->reset(); 
-		}
+		static void Clear();
+
+		//static bool Raycast(Ray& ray, CColliderComponent& hitObject);
 
 		static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
+
+		static void InsertCollision(std::list<CColliderComponent*>& listCollider);
+		static void CollisionCircuit(const std::list<CColliderComponent*>& listCollider);
 
 		static void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
 		static void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);

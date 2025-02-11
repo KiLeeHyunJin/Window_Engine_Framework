@@ -14,6 +14,7 @@ namespace Framework
 		};
 
 		CColliderComponent();
+		virtual ~CColliderComponent();
 
 		inline const eColliderType GetColliderType() const { return m_eColliderType; }
 
@@ -30,7 +31,6 @@ namespace Framework
 
 	protected:
 		CColliderComponent(eColliderType colliderType);
-		virtual ~CColliderComponent();
 
 		Maths::Vector2 m_vecOffset;
 		Maths::Vector2 m_vecSize;

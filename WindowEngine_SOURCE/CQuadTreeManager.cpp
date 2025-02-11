@@ -1,5 +1,6 @@
 #include "CQuadTreeManager.h"
 #include "CQuadTree.h"
+#include <limits.h>
 
 namespace Framework
 {
@@ -22,9 +23,14 @@ namespace Framework
         }
         m_pQuadTree = new CQuadTree(size, maxDepth, constrantK);
     }
-    std::list<CColliderComponent*> CQuadTreeManager::Query(CColliderComponent* queryItem)
+    const std::list<CColliderComponent*>& CQuadTreeManager::Query(CColliderComponent* queryItem)
     {
         return m_pQuadTree->Query(queryItem);
+    }
+
+    const std::list<CColliderComponent*>& CQuadTreeManager::Query(const Maths::Vector2& center, const Maths::Vector2& size)
+    {
+        return m_pQuadTree->Query(center, size);
     }
 
     void CQuadTreeManager::Clear()
@@ -38,9 +44,21 @@ namespace Framework
         delete m_pQuadTree;
     }
 
+    void CQuadTreeManager::Render(HDC hdc)
+    {
+        m_pQuadTree->Render(hdc);
+    }
+
+
     void CQuadTreeManager::Insert(CColliderComponent* pCollider)
     {
         m_pQuadTree->Insert(pCollider);
+    }
+
+    bool CQuadTreeManager::Raycast(const Ray& ray, CColliderComponent& hitObject)
+    {
+        float closestHit = FLT_MAX;
+        return m_pQuadTree->Raycast(ray, closestHit, hitObject);
     }
 
 

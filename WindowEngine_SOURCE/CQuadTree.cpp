@@ -4,6 +4,7 @@
 #include "CCircleColliderComponent.h"
 #include "CBoxColliderComponent.h"
 #include "CTransformComponent.h"
+#include "CGameObject.h"
 
 namespace Framework
 {
@@ -28,22 +29,41 @@ namespace Framework
 		m_pRootNode->InsertAtDepth(pCollider, GetTargetDepth(pCollider));
 	}
 
-	std::list<CColliderComponent*> CQuadTree::Query(CColliderComponent* queryItem)
+	const std::list<CColliderComponent*>& CQuadTree::Query(CColliderComponent* queryItem)
 	{
-		std::list<CQuadTreeNode*> possibleNodes; //충돌 노드
-		std::list<CColliderComponent*> interactions; //충돌 가능성 게임 오브젝트
+		const CTransformComponent* pTr = queryItem->GetOwner()->GetTransformComponent();
+		const Maths::Vector2 center = pTr->GetPos() + queryItem->GetOffset();
+		const Maths::Vector2 size = queryItem->GetSize();
 
-		m_pRootNode->Query(queryItem, possibleNodes); //충돌 노드들을 가져온다.
+		return Query(center, size);
+	}
 
-		for(auto node : possibleNodes) //노드를 순회하며 게임 오브젝트를 가져온다.
+	const std::list<CColliderComponent*>& CQuadTree::Query(const Maths::Vector2& center, const Maths::Vector2& size)
+	{
+		m_pPossibleNodes.clear(); //충돌 노드
+		m_pCollisionList.clear();
+
+		m_pRootNode->Query(center, size, m_pPossibleNodes); //충돌 노드들을 가져온다.
+
+		for (const auto& node : m_pPossibleNodes) //노드를 순회하며 게임 오브젝트를 가져온다.
 		{
 			const std::list<CColliderComponent*>& items = node->GetItemList();
-			for(auto& item : items)
+			for (const auto& item : items)
 			{
-				interactions.push_back(item);
+				m_pCollisionList.push_back(item);
 			}
 		}
-		return interactions;
+		return m_pCollisionList;
+	}
+
+	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject)
+	{
+		return m_pRootNode->Raycast(ray, closestHit, hitObject);
+	}
+
+	void CQuadTree::Render(HDC hdc)
+	{
+		m_pRootNode->Render(hdc);
 	}
 
 	void CQuadTree::Release()

@@ -1,5 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
+#include "CQuadTreeManager.h"
 
 namespace Framework
 {
@@ -8,6 +9,7 @@ namespace Framework
 	class CQuadTreeManager;
 	class CQuadTreeNode;
 	class CColliderComponent;
+
 	class CQuadTree
 	{
 	public:
@@ -16,8 +18,10 @@ namespace Framework
 
 		void Clear();
 		void Insert(CColliderComponent* pCollider);
-		std::list<CColliderComponent*> Query(CColliderComponent* queryItem);
-
+		const std::list<CColliderComponent*>& Query(CColliderComponent* queryItem);
+		const std::list<CColliderComponent*>& Query(const Maths::Vector2& center, const Maths::Vector2& size);
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject);
+		void Render(HDC hdc);
 		int GetMaxDepth() const { return m_iMaxDepth; }
 		float GetConstantK() const { return m_fConstantK; }
 
@@ -27,10 +31,11 @@ namespace Framework
 
 	private:
 		int GetTargetDepth(CColliderComponent* item);
-
 		CQuadTreeNode* m_pRootNode;
 		int m_iMaxDepth;
 		float m_fConstantK;
+		std::list<CQuadTreeNode*> m_pPossibleNodes;
+		std::list<CColliderComponent*> m_pCollisionList;
 	};
 }
 

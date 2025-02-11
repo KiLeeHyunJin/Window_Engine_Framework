@@ -3,23 +3,24 @@
 #include "CColliderComponent.h"
 #include "CGameObject.h"
 #include "CTransformComponent.h"
+#include "CRenderManager.h"
+
 namespace Framework
 {
 	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, Vector2 center, Vector2 size, int depth)
+		: m_pTree(tree), m_pParent(parent), m_vecCenter(center), m_vecSize(size), m_iDepth(depth)
 	{
 		m_vecChildren.reserve(4);
-		m_pTree = tree;
-		m_pParent = parent;
-		m_vecCenter = center;
-		m_vecSize = size;
 		m_vecQSize = size * m_pTree->GetConstantK();
-
-		m_iDepth = depth;
-
+		const Maths::Vector2 halfSize = size * 0.5f;
+		bounds.max = center + halfSize;
+		bounds.min = center - halfSize;
 	}
+
 	CQuadTreeNode::~CQuadTreeNode()
 	{
 	}
+	
 	void CQuadTreeNode::InsertAtDepth(CColliderComponent* item, int targetDepth)
 	{
 		if (m_iDepth < targetDepth) // 현재 깊이가 목표 깊이보다 얕으면 다음 깊이로 넘김.
@@ -52,6 +53,64 @@ namespace Framework
 			}
 		}
 	}
+
+	void CQuadTreeNode::Query(const Maths::Vector2& center,const Maths::Vector2& size, std::list<CQuadTreeNode*>& possibleNodes)
+	{
+		possibleNodes.push_back(this); //본인 노드를 저장한다.
+
+		if (IsSplitted())
+		{
+			const std::list<CQuadTreeNode*>& quads = GetQuads(center, size); //자식 노드들도 충돌 가능성이 있다면 저장시킨다.
+			for (const auto& quad : quads)
+			{
+				quad->Query(center, size, possibleNodes);
+			}
+		}
+	}
+
+	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject)
+	{
+		float tEnter = 0;
+
+		if (!bounds.Intersects(ray, tEnter)) //해당 노드와의 충돌 검사
+		{
+			return false;
+		}
+		if (tEnter > closestHit)
+		{
+			return false;
+		}
+
+		bool hit = false;
+		Rect rect;
+
+		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
+		{
+			float objNear;
+			const Maths::Vector2 pos = obj->GetOwner()->GetTransformComponent()->GetPos() + obj->GetOffset();
+			rect.max = pos + (obj->GetSize() * 0.5f);
+			rect.min = pos - (obj->GetSize() * 0.5f);
+
+			if (rect.Intersects(ray, objNear) && objNear < closestHit) {
+				closestHit = objNear;
+				hitObject = *obj;
+				hit = true;
+			}
+		}
+
+		if (m_vecChildren.size() != 0)  // 자식들 순회
+		{
+			for (const auto& child : m_vecChildren) {
+				if (child) {
+					hit |= child->Raycast(ray, closestHit, hitObject);
+				}
+			}
+		}
+
+		return hit;
+		
+	}
+
 
 	std::list<CQuadTreeNode*> CQuadTreeNode::GetQuads(const Vector2& center,const Vector2& size)
 	{
@@ -167,5 +226,36 @@ namespace Framework
 		}
 		m_listItems.clear();
 		m_vecChildren.clear();
+	}
+	void CQuadTreeNode::Render(HDC hdc)
+	{
+		if (m_vecChildren.size() > 0)
+		{
+			for (auto node : m_vecChildren)
+			{
+				node->Render(hdc);
+			}
+		}
+		else
+		{
+			Color m_colorFill;
+			if (m_vecChildren.size() == 0)
+			{
+				m_colorFill = Color(0, 0, 255);
+			}
+			else
+			{
+				m_colorFill = Color(255, 0, 255);
+			}
+			HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
+			HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
+
+
+			CRenderManager::DrawRectangle(hdc, m_vecCenter, m_vecSize);
+
+
+			(HBRUSH)SelectObject(hdc, oldBrush);
+			DeleteObject(newBrush);
+		}
 	}
 }

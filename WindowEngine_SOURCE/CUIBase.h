@@ -32,10 +32,10 @@ namespace Framework
 
 	protected:
 		__inline void SetChangeHierarchy(bool state)	{ m_bChangeHierarchy = state; }
-		void			SetType(Enums::eUIType type)	{ m_eType = type; }
-		void			SetDrag(bool state)				{ m_bDraggable = state; }
-		void			SetWorldObject(bool state)		{ m_bWorldObject = state; }
-		__inline bool	GetDragable() const				{ return m_bDraggable; }
+		__inline void SetType(Enums::eUIType type)		{ m_eType = type; }
+		__inline void SetDrag(bool state)				{ m_bDraggable = state; }
+		__inline void SetWorldObject(bool state)		{ m_bWorldObject = state; }
+		__inline bool GetDragable() const				{ return m_bDraggable; }
 		Maths::Vector2 m_vecRenderPos;
 
 		friend CUIManager;
@@ -65,6 +65,7 @@ namespace Framework
 		void Up();
 #pragma endregion
 
+#pragma region Virtual
 		virtual void OnInitialize();
 		virtual void OnRelease();
 
@@ -79,11 +80,12 @@ namespace Framework
 
 		virtual void OnEnter();
 		virtual void OnExit();
-		
+
 		virtual void OnDown();
 		virtual void OnUp();
-		
+
 		virtual void OnClick();
+#pragma endregion
 
 		__inline void	MouseOnCheck();
 		__inline void	UpdatePosition();
@@ -96,8 +98,10 @@ namespace Framework
 
 		bool m_bDraggable;
 		bool m_bIsDrag;
+
 		bool m_bWorldObject;
 		bool m_bChangeHierarchy;
+		
 		bool m_bPrevMouseOn;
 		bool m_bCurMouseOn;
 

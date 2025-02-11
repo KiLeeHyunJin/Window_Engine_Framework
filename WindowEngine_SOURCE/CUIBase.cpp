@@ -77,8 +77,6 @@ namespace Framework
 
 	void CUIBase::MouseOnCheck()
 	{
-		//m_bPrevMouseOn = m_bCurMouseOn;
-
 		const Maths::Vector2 halfSize = m_vecSize * 0.5f;
 		const auto& checkPos = INPUT::GetMousePosition();
 
@@ -202,8 +200,6 @@ namespace Framework
 
 	void CUIBase::Over()
 	{
-		Enter();
-
 		if (m_bIsDrag)
 		{
 			Maths::Vector2 mousePos = INPUT::GetMousePosition();
@@ -238,7 +234,10 @@ namespace Framework
 	void CUIBase::Down()
 	{
 		OnDown();
-		m_bPrevMouseDown = true;
+		if (m_bPrevMouseDown == false)
+		{
+			m_bPrevMouseDown = true;
+		}
 		if (m_bDraggable)
 		{
 			m_vecDragStartPos = INPUT::GetMousePosition();
@@ -248,7 +247,6 @@ namespace Framework
 		{
 			UI::SetLastSibling(this);
 		}
-
 	}
 
 	void CUIBase::Up()
