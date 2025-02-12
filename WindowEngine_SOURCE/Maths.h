@@ -7,16 +7,12 @@ namespace Framework::Maths
 								//여기서 이렇게 한다고 크게 달라지겠냐만, 그래도 습관들면 좋으니까
 
 	template<typename T>
-	T Abs(T rhs)
-	{
-		return rhs > 0 ? rhs : rhs * -1;
-	}
+	__inline T Abs(const T rhs)	{	return rhs > 0 ? rhs : rhs * -1;	}
 
-	inline static float RadianToDegree(float radian) { return (radian * (180 / PI)); }
+	__inline static float RadianToDegree(const float radian) { return (radian * (180 / PI)); }
 
 	struct Vector2
 	{
-
 #pragma region  Static
 		static Vector2 Rotate(Vector2 v, float degree) // 행렬 회전
 		{
@@ -104,6 +100,7 @@ namespace Framework::Maths
 			return false;
 		}
 
+
 		Vector2 operator - (const Vector2& rhs) const
 		{
 			return Vector2(x - rhs.x, y - rhs.y);
@@ -128,28 +125,39 @@ namespace Framework::Maths
 			return Vector2(x / rhs.x, y / rhs.y);
 		}
 
-		void operator += (const Vector2& rhs)
+		Vector2& operator = (const Vector2& rhs)
+		{
+			this->x = rhs.x;
+			this->y = rhs.y;
+			return *this;
+		}
+
+		Vector2& operator += (const Vector2& rhs)
 		{
 			x += rhs.x;
 			y += rhs.y;
+			return *this;
 		}
 
-		void operator -= (const Vector2& rhs)
+		Vector2& operator -= (const Vector2& rhs)
 		{
 			x -= rhs.x;
 			y -= rhs.y;
+			return *this;
 		}
 
-		void operator *= (const Vector2& rhs)
+		Vector2& operator *= (const Vector2& rhs)
 		{
 			x *= rhs.x;
 			y *= rhs.y;
+			return *this;
 		}
 
-		void operator /= (const Vector2& rhs)
+		Vector2& operator /= (const Vector2& rhs)
 		{
 			x /= rhs.x;
 			y /= rhs.y;
+			return *this;
 		}
 
 		bool operator == (const Vector2& rhs)
@@ -191,17 +199,19 @@ namespace Framework::Maths
 		}
 
 		template<typename T>
-		void operator /= (const T& rhs)
+		Vector2& operator /= (const T& rhs)
 		{
 			x /= rhs;
 			y /= rhs;
+			return *this;
 		}
 
 		template<typename T>
-		void operator *= (const T& rhs)
+		Vector2& operator *= (const T& rhs)
 		{
 			x *= rhs;
 			y *= rhs;
+			return *this;
 		}
 
 		void Clear()
