@@ -1,5 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
+#include "Structs.h"
 
 namespace Framework
 {
@@ -26,7 +27,7 @@ namespace Framework
 		void InsertAtDepth(CColliderComponent* item, int targetDepth);
 		void Query(CColliderComponent* item, std::list<CQuadTreeNode*>& possibleNodes);
 		void Query(const Maths::Vector2& center, const Maths::Vector2& size, std::list<CQuadTreeNode*>& possibleNodes);
-		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject);
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject,const std::vector<CColliderComponent*>& ignores);
 		void Clear();
 		void Release();
 		void Render(HDC hdc);
@@ -65,7 +66,8 @@ namespace Framework
 
 		Vector2 _qbounds;
 		Vector2 m_vecQSize;
-
+		Color m_colorFill;
+		bool check;
 		Rect bounds;
 
 	};

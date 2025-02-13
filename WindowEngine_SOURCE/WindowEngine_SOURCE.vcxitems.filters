@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CInputManager.cpp">
-      <Filter>Core\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CTimeManager.cpp">
-      <Filter>Core\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
-      <Filter>Core\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp">
       <Filter>Asset\GameObject</Filter>
     </ClCompile>
@@ -31,9 +22,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp">
-      <Filter>Core\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCustomComponent.cpp">
       <Filter>Component\Custom</Filter>
     </ClCompile>
@@ -45,9 +33,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCameraComponent.cpp">
       <Filter>Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CRenderManager.cpp">
-      <Filter>Core\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp">
       <Filter>Common\Maths</Filter>
@@ -73,9 +58,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.cpp">
       <Filter>Component\Collider\Circle</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
-      <Filter>Core\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp">
       <Filter>Asset\Scene</Filter>
     </ClCompile>
@@ -83,16 +65,13 @@
       <Filter>Component\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeManager.cpp">
-      <Filter>Core\Manager\CQuadTree</Filter>
+      <Filter>Core\Manager\Collision\CQuadTree</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeNode.cpp">
-      <Filter>Core\Manager\CQuadTree\Node</Filter>
+      <Filter>Core\Manager\Collision\CQuadTree\Node</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTree.cpp">
-      <Filter>Core\Manager\CQuadTree\Tree</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp">
-      <Filter>Core\Manager</Filter>
+      <Filter>Core\Manager\Collision\CQuadTree\Tree</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIBase.cpp">
       <Filter>Asset\UI</Filter>
@@ -100,17 +79,29 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CButton.cpp">
       <Filter>Asset\UI\Button</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
+      <Filter>Core\Manager\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CInputManager.cpp">
+      <Filter>Core\Manager\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CRenderManager.cpp">
+      <Filter>Core\Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp">
+      <Filter>Core\Manager\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
+      <Filter>Core\Manager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTimeManager.cpp">
+      <Filter>Core\Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp">
+      <Filter>Core\Manager\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
-      <Filter>Core\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CTimeManager.h">
-      <Filter>Core\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
-      <Filter>Core\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
       <Filter>Asset\GameObject</Filter>
     </ClInclude>
@@ -144,9 +135,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h">
-      <Filter>Core\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCustomComponent.h">
       <Filter>Component\Custom</Filter>
     </ClInclude>
@@ -158,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCameraComponent.h">
       <Filter>Component\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CRenderManager.h">
-      <Filter>Core\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
       <Filter>Common\Maths</Filter>
@@ -186,9 +171,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.h">
       <Filter>Component\Collider\Circle</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
-      <Filter>Core\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h">
       <Filter>Asset\Scene</Filter>
     </ClInclude>
@@ -196,16 +178,13 @@
       <Filter>Component\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTreeManager.h">
-      <Filter>Core\Manager\CQuadTree</Filter>
+      <Filter>Core\Manager\Collision\CQuadTree</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTreeNode.h">
-      <Filter>Core\Manager\CQuadTree\Node</Filter>
+      <Filter>Core\Manager\Collision\CQuadTree\Node</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTree.h">
-      <Filter>Core\Manager\CQuadTree\Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CUIManager.h">
-      <Filter>Core\Manager</Filter>
+      <Filter>Core\Manager\Collision\CQuadTree\Tree</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CUIBase.h">
       <Filter>Asset\UI</Filter>
@@ -213,7 +192,33 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CButton.h">
       <Filter>Asset\UI\Button</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ColliderStruct.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
+      <Filter>Core\Manager\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CInputManager.h">
+      <Filter>Core\Manager\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CRenderManager.h">
+      <Filter>Core\Manager\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h">
+      <Filter>Core\Manager\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
+      <Filter>Core\Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTimeManager.h">
+      <Filter>Core\Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CUIManager.h">
+      <Filter>Core\Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ColliderStruct.h">
+      <Filter>Common\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Structs.h">
+      <Filter>Common\Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Component">
@@ -282,15 +287,6 @@
     <Filter Include="Component\Rigidbody">
       <UniqueIdentifier>{3454a006-08ea-423e-9df4-59ab6218c72d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Manager\CQuadTree">
-      <UniqueIdentifier>{f7b4727a-a39f-4566-b217-d8c5d34762bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Manager\CQuadTree\Node">
-      <UniqueIdentifier>{2b75a1f2-d203-47f3-afc8-025f3bb1cfe1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Manager\CQuadTree\Tree">
-      <UniqueIdentifier>{b0920652-38ee-4eb8-9172-3baba52112f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Asset\UI">
       <UniqueIdentifier>{8bf59404-ab4c-4840-84d8-6fbdf119cc3c}</UniqueIdentifier>
     </Filter>
@@ -299,6 +295,39 @@
     </Filter>
     <Filter Include="Asset\UI\Panel">
       <UniqueIdentifier>{d8fdd1f2-2c50-4437-9769-0dac3befa343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Collision">
+      <UniqueIdentifier>{93a7a9b2-c81f-4b2a-abc2-480cb9138701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Collision\CQuadTree">
+      <UniqueIdentifier>{f7b4727a-a39f-4566-b217-d8c5d34762bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Collision\CQuadTree\Node">
+      <UniqueIdentifier>{2b75a1f2-d203-47f3-afc8-025f3bb1cfe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Collision\CQuadTree\Tree">
+      <UniqueIdentifier>{b0920652-38ee-4eb8-9172-3baba52112f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Input">
+      <UniqueIdentifier>{73710e63-5603-4af8-8887-2fdb945e885f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Render">
+      <UniqueIdentifier>{ab9cc65e-b8d5-4f6e-948c-e88fbf3ff91a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Resource">
+      <UniqueIdentifier>{f2b1eb7d-f9d0-4abd-b615-889e05df1373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Scene">
+      <UniqueIdentifier>{5372df87-b442-4dc1-91fe-35ebe041f546}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Time">
+      <UniqueIdentifier>{38d0dca7-6f0f-48c2-8539-51e6775c322a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\UI">
+      <UniqueIdentifier>{b170533b-3510-4606-897a-fd084c74817c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Struct">
+      <UniqueIdentifier>{27d569c5-5acc-4b61-80d3-114d9fe1f12a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

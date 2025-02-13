@@ -48,7 +48,7 @@ namespace Framework
 		if (m_vecSprites[m_iIndex].duration < m_fTime)
 		{
 			m_fTime = 0;
-			if (m_iIndex < m_vecSprites.size() - 1)
+			if (m_iIndex < (INT)m_vecSprites.size() - 1)
 			{
 				m_iIndex++;
 			}

@@ -47,10 +47,21 @@ namespace Framework
 		return GetCollisionCollider(center, size);
 	}
 
+	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores)
+	{
+		return CQuadTreeManager::Raycast(ray, hitObject, ignores);
+	}
+
+	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayer)
+	{
+		return CQuadTreeManager::Raycast(ray, hitObject, checkLayer);
+	}
+
+
 
 	void CCollisionManager::Initialize()
 	{
-		CQuadTreeManager::Initialize(Maths::Vector2(1024, 1024), 6, 2);
+		CQuadTreeManager::Initialize(Maths::Vector2(2048, 2048), 8, 2);
 	}
 
 	void CCollisionManager::Release()
@@ -187,10 +198,7 @@ namespace Framework
 		m_bsCollisionCheck->reset();
 	}
 
-	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent& hitObject)
-	{
-		return CQuadTreeManager::Raycast(ray, hitObject);
-	}
+
 
 	const bool CCollisionManager::Intersect(const CColliderComponent* left, const CColliderComponent* right)
 	{

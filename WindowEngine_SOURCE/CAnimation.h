@@ -60,7 +60,7 @@ namespace Framework
         //bool m_bLoop;
         bool m_bCompleted;
 
-        int m_iIndex;
+        INT m_iIndex;
         float m_fTime;
     };
 

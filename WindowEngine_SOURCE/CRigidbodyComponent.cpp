@@ -17,12 +17,15 @@ namespace Framework
 	CRigidbodyComponent::~CRigidbodyComponent()
 	{
 	}
+	
 	void CRigidbodyComponent::Initialize()
 	{
 	}
+	
 	void CRigidbodyComponent::Release()
 	{
 	}
+
 	void CRigidbodyComponent::Tick()
 	{
 		VelocityCompute();

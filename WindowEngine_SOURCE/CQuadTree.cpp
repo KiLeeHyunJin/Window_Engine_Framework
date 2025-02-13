@@ -56,9 +56,14 @@ namespace Framework
 		return m_pCollisionList;
 	}
 
-	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject)
+	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores)
 	{
-		return m_pRootNode->Raycast(ray, closestHit, hitObject);
+		return m_pRootNode->Raycast(ray, closestHit, hitObject, ignores);
+	}
+
+	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayer)
+	{
+		return false;
 	}
 
 	void CQuadTree::Render(HDC hdc)
@@ -78,10 +83,13 @@ namespace Framework
 	int CQuadTree::GetTargetDepth(CColliderComponent* item)
 	{
 		// 현재 넣을 물체의 Depth를 미리 예측
-		float width = m_pRootNode->GetSize().x;
-		Vector2 size = item->GetSize() * 0.5f;
-		float maxHalfValue = size.x > size.y ? size.x : size.y;
-		int targetDepth = (int)logf(width / maxHalfValue);
+		const float width = m_pRootNode->GetSize().x;
+
+		const Vector2 size = item->GetSize() * 0.5f;
+		const float maxHalfValue = size.x > size.y ? size.x : size.y;
+
+		int targetDepth = static_cast<int>(std::floor(std::log(width / maxHalfValue) / std::log(2.0)));
+
 		if (targetDepth > m_iMaxDepth)
 		{
 			targetDepth = m_iMaxDepth;

@@ -27,10 +27,22 @@ namespace Framework
 	{
 	public:
 		static void SetCollisionLayerState(Enums::eLayerType left, Enums::eLayerType right, bool enable);
-		static const std::list<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center,const Maths::Vector2& size);
-		static const std::list<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
-		static bool Raycast(const Ray& ray, CColliderComponent& hitObject);
 
+		/// <summary>
+		/// 이전 Tick의 기준에서 충돌체를 가져옴
+		/// </summary>
+		static const std::list<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center,const Maths::Vector2& size);
+
+		/// <summary>
+		/// 이전 Tick의 기준에서 충돌체를 가져옴
+		/// </summary>
+		static const std::list<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
+
+		/// <summary>
+		/// 사용은 가능하나 최적화가 필요
+		/// </summary>
+		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores);
+		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayer);
 
 
 		friend CApplication;

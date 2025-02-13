@@ -5,6 +5,9 @@ namespace Framework
 {
 	class CApplication;
 
+
+
+
 	class CRenderManager
 	{
 	public:

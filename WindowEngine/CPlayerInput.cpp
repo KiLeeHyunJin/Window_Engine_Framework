@@ -7,8 +7,8 @@
 #include "CTransformComponent.h"
 #include "CRigidbodyComponent.h"
 #include "CColliderComponent.h"
-
 #include "CRenderManager.h"
+#include "Structs.h"
 #include "CGameObject.h"
 #include "CObject.h"
 namespace Framework
@@ -30,13 +30,23 @@ namespace Framework
 	}
 	void CPlayerInput::Tick()
 	{
+		if (id >= 1)
+		{
+			return;
+		}
+
 		CGameObject* owner = GetOwner();
 
 		CColliderComponent outColl;
 		Ray ray;
 		ray.origin = owner->GetTransformComponent()->GetPos();
 		ray.direction = Maths::Vector2(0, 1);
-		if (CCollisionManager::Raycast(ray, outColl))
+		CColliderComponent* ownerColl = GetOwner()->GetComponent<CColliderComponent>();
+		std::vector<CColliderComponent*> ignoreColl;
+		ignoreColl.push_back(ownerColl);
+
+		bool state = CCollisionManager::Raycast(ray, outColl, ignoreColl);
+		if (state)
 		{
 			m_colorFill = Color(0, 0, 255);
 		}
@@ -46,10 +56,6 @@ namespace Framework
 
 		}
 
-		if (id >= 1)
-		{
-			return;
-		}
 		const float speed = 20;
 		//const float tickTime = TIME::DeltaTime();
 		const float movePower = speed * 10;
@@ -100,13 +106,17 @@ namespace Framework
 		HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 
-
+		CColliderComponent* coll = GetOwner()->GetComponent<CColliderComponent>();
 		Maths::Vector2 pos = GetOwner()->GetTransformComponent()->GetPos();
-		Maths::Vector2 size = Maths::Vector2(50, 50);
+		Maths::Vector2 size = coll->GetSize();
 		CRenderManager::DrawRectangle(hdc, pos, size);
 
-		MoveToEx(hdc, pos.x, pos.y, nullptr);
-		LineTo(hdc, pos.x, pos.y + 100);
+		MoveToEx(hdc, 
+			(INT)pos.x, 
+			(INT)pos.y, nullptr);
+		LineTo(hdc, 
+			(INT)pos.x,
+			(INT)pos.y + 100);
 
 		(HBRUSH)SelectObject(hdc, oldBrush);
 		DeleteObject(newBrush);

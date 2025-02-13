@@ -16,55 +16,106 @@ namespace Framework
 	struct Rect
 	{
 		Maths::Vector2 min, max;
-		bool Intersects(const Ray& ray, float& tNear) const //Slab 알고리즘
-		{
-			float tMinX;
-			float tMaxX;
-			if (ray.direction.x == 0)
-			{
-				if (ray.origin.x >= min.x && ray.origin.x <= max.x)
-					tMinX = tMaxX = ray.origin.x;
-				else
-					return false;
-			}
-			else
-			{
-				tMinX = (min.x - ray.origin.x) / ray.direction.x;
-				tMaxX = (max.x - ray.origin.x) / ray.direction.x;
-			}
 
-			if (tMinX > tMaxX)
-				std::swap(tMinX, tMaxX);
+        bool intersects(const Ray& ray, float& tNear) const
+        {
+            const float epsilon = 1e-6f; 
 
-			float tMinY;
-			float tMaxY;
-			if (ray.direction.y == 0)
-			{
-				if (ray.origin.y >= min.y && ray.origin.y <= max.y)
-					tMinY = tMaxY = ray.origin.y;
-				else
-					return false;
-			}
-			else
-			{
-				tMinY = (min.y - ray.origin.y) / ray.direction.y;
-				tMaxY = (max.y - ray.origin.y) / ray.direction.y;
-			}
+            if (std::abs(ray.direction.x) < epsilon)
+            {
+                if (ray.origin.x < min.x || ray.origin.x > max.x)
+                    return false;
+            }
 
-			if (tMinY > tMaxY)
-				std::swap(tMinY, tMaxY);
+            if (std::abs(ray.direction.y) < epsilon)
+            {
+                if (ray.origin.y < min.y || ray.origin.y > max.y)
+                    return false;
+            }
 
-			float tEnter = 
-				tMinX > tMinY ? tMinX : tMinY;// max
-			float tExit = 
-				tMaxX < tMaxY ? tMaxX : tMaxY;//std::min(tMaxX, tMaxY);
+            float tminX = (min.x - ray.origin.x) / ray.direction.x;
+            float tmaxX = (max.x - ray.origin.x) / ray.direction.x;
+            float tminY = (min.y - ray.origin.y) / ray.direction.y;
+            float tmaxY = (max.y - ray.origin.y) / ray.direction.y;
 
-			if (tEnter > tExit || tExit < 0)
-				return false;
+            if (tminX > tmaxX)
+            {
+                std::swap(tminX, tmaxX);
+            }
+            if (tminY > tmaxY)
+            {
+                std::swap(tminY, tmaxY);
+            }
 
-			tNear = tEnter;
-			return true;
-		}
+            float tNearTemp = tminX > tminY ? tminX : tminY;
+            float tFar      = tmaxX < tmaxY ? tmaxX : tmaxY;
+
+            if (tFar < 0 || 
+                tNearTemp > tFar || 
+                tNearTemp < 0) 
+                return false;
+
+            tNear = tNearTemp;
+            return true;
+        }
+
+
+
+        bool Intersects(const Ray& ray, float& tNear) const // Slab 알고리즘 (개선됨)
+        {
+            const float epsilon = 1e-6f; // 0으로 나누는 문제 방지
+
+            // X 방향이 0인 경우
+            if (std::abs(ray.direction.x) < epsilon)
+            {
+                if (ray.origin.x < min.x || ray.origin.x > max.x)
+                    return false;
+
+                // Y축 충돌 검사
+                float tminY = (min.y - ray.origin.y) / ray.direction.y;
+                float tmaxY = (max.y - ray.origin.y) / ray.direction.y;
+                if (tminY > tmaxY) std::swap(tminY, tmaxY);
+
+                tNear = tminY;
+                return tmaxY >= 0; //  내부에서 시작하는 경우도 포함
+            }
+
+            // Y 방향이 0인 경우
+            if (std::abs(ray.direction.y) < epsilon)
+            {
+                if (ray.origin.y < min.y || ray.origin.y > max.y)
+                    return false;
+
+                // X축 충돌 검사
+                float tminX = (min.x - ray.origin.x) / ray.direction.x;
+                float tmaxX = (max.x - ray.origin.x) / ray.direction.x;
+                if (tminX > tmaxX) std::swap(tminX, tmaxX);
+
+                tNear = tminX;
+                return tmaxX >= 0; //  내부에서 시작하는 경우도 포함
+            }
+
+            // 일반적인 Slab 교차 지점 계산
+            float tminX = (min.x - ray.origin.x) / ray.direction.x;
+            float tmaxX = (max.x - ray.origin.x) / ray.direction.x;
+            float tminY = (min.y - ray.origin.y) / ray.direction.y;
+            float tmaxY = (max.y - ray.origin.y) / ray.direction.y;
+
+            if (tminX > tmaxX) std::swap(tminX, tmaxX);
+            if (tminY > tmaxY) std::swap(tminY, tmaxY);
+
+            // tNear: 처음 충돌하는 거리, tFar: 박스를 통과한 후의 거리
+            float tMinTemp = tminX > tminY ? tminX : tminY;
+            float tMaxTemp = tmaxX < tmaxY ? tmaxX : tmaxY;
+
+            //  내부에서 시작하는 경우를 허용하기 위해 `tMinTemp < 0` 조건 제거
+            if (tMaxTemp < 0 || tMinTemp > tMaxTemp)
+                return false;
+
+            tNear = tMinTemp;
+            return true;
+        }
+
 
 	private:
 		bool IntersectsCheck()

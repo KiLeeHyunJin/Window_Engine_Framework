@@ -55,11 +55,16 @@ namespace Framework
         m_pQuadTree->Insert(pCollider);
     }
 
-    bool CQuadTreeManager::Raycast(const Ray& ray, CColliderComponent& hitObject)
+    bool CQuadTreeManager::Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores)
     {
         float closestHit = FLT_MAX;
-        return m_pQuadTree->Raycast(ray, closestHit, hitObject);
+        return m_pQuadTree->Raycast(ray, closestHit, hitObject, ignores);
     }
 
+    bool CQuadTreeManager::Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayers)
+    {
+        float closestHit = FLT_MAX;
+        return m_pQuadTree->Raycast(ray, closestHit, hitObject, checkLayers);
+    }
 
 }

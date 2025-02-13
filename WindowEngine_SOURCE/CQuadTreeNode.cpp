@@ -30,6 +30,7 @@ namespace Framework
 				const CTransformComponent* pTr = item->GetOwner()->GetTransformComponent();
 				Vector2 pos = pTr->GetPos();
 				Vector2 offset = item->GetOffset();
+
 				m_vecChildren[(int)TestRegion(offset + pos)]->InsertAtDepth(item, targetDepth);
 			}
 		}
@@ -38,6 +39,7 @@ namespace Framework
 			m_listItems.push_back(item);
 		}
 	}
+
 	void CQuadTreeNode::Query(CColliderComponent* item, std::list<CQuadTreeNode*>& possibleNodes)
 	{
 		possibleNodes.push_back(this); //본인 노드를 저장한다.
@@ -68,11 +70,11 @@ namespace Framework
 		}
 	}
 
-	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject)
+	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores)
 	{
 		float tEnter = 0;
-
-		if (!bounds.Intersects(ray, tEnter)) //해당 노드와의 충돌 검사
+		check = false;
+		if (!bounds.Intersects(ray, tEnter) || tEnter > closestHit) //해당 노드와의 충돌 검사
 		{
 			return false;
 		}
@@ -80,18 +82,28 @@ namespace Framework
 		{
 			return false;
 		}
-
+		
 		bool hit = false;
 		Rect rect;
+		check = true;
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
+			auto iter = std::find(ignores.begin(), ignores.end(), obj);
+			if (iter != ignores.end())
+			{
+				continue;
+			}
+
 			float objNear;
 			const Maths::Vector2 pos = obj->GetOwner()->GetTransformComponent()->GetPos() + obj->GetOffset();
-			rect.max = pos + (obj->GetSize() * 0.5f);
-			rect.min = pos - (obj->GetSize() * 0.5f);
+			const Maths::Vector2 halfSize = obj->GetSize() * 0.5f;
 
-			if (rect.Intersects(ray, objNear) && objNear < closestHit) {
+			rect.max = pos + halfSize;
+			rect.min = pos - halfSize;
+
+			if (rect.Intersects(ray, objNear) && objNear < closestHit) 
+			{
 				closestHit = objNear;
 				hitObject = *obj;
 				hit = true;
@@ -100,15 +112,16 @@ namespace Framework
 
 		if (m_vecChildren.size() != 0)  // 자식들 순회
 		{
-			for (const auto& child : m_vecChildren) {
-				if (child) {
-					hit |= child->Raycast(ray, closestHit, hitObject);
+			for (const auto& child : m_vecChildren) 
+			{
+				if (child) 
+				{
+					hit |= child->Raycast(ray, closestHit, hitObject, ignores);
 				}
 			}
 		}
 
 		return hit;
-		
 	}
 
 
@@ -203,6 +216,8 @@ namespace Framework
 
 	void CQuadTreeNode::Clear()
 	{
+		m_listItems.clear();
+		check = false;
 		if (m_vecChildren.size() > 0)
 		{
 			for (auto node : m_vecChildren)
@@ -210,7 +225,6 @@ namespace Framework
 				node->Clear();
 			}
 		}
-		m_listItems.clear();
 		//m_vecChildren.clear();
 	}
 
@@ -227,6 +241,7 @@ namespace Framework
 		m_listItems.clear();
 		m_vecChildren.clear();
 	}
+
 	void CQuadTreeNode::Render(HDC hdc)
 	{
 		if (m_vecChildren.size() > 0)
@@ -238,8 +253,7 @@ namespace Framework
 		}
 		else
 		{
-			Color m_colorFill;
-			if (m_vecChildren.size() == 0)
+			if (check == false)
 			{
 				m_colorFill = Color(0, 0, 255);
 			}

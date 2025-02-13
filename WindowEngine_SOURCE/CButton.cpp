@@ -1,6 +1,6 @@
 #include "CButton.h"
 #include "CInputManager.h"
-#include "CRenderManager.h"
+
 namespace Framework
 {
 	CButton::CButton() : 

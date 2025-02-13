@@ -37,7 +37,6 @@
 #include <map>
 #include <unordered_map>
 #include <stack>
-#include <queue>
 #pragma endregion  STL
 
 #include <dinput.h> //DX_Input
@@ -53,22 +52,6 @@
 #pragma comment(lib, "gdiplus.lib")
 #pragma endregion
 
-struct Color
-{
-	Color()
-	{
-		this->r = 255;
-		this->g = 255;
-		this->b = 255;
-	}
-	BYTE r, g, b;
-	Color(BYTE r, BYTE g, BYTE b)
-	{
-		this->r = r;
-		this->g = g;
-		this->b = b;
-	}
-};
 
 
 

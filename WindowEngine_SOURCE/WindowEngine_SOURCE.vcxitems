@@ -52,6 +52,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Structs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimation.cpp" />

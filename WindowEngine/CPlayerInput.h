@@ -1,6 +1,7 @@
 #pragma once
 #include "..\\WindowEngine_SOURCE\\CCustomComponent.h"
-
+#include "..\\WindowEngine_SOURCE\\CRenderManager.h"
+#include "..\\WindowEngine_SOURCE\\Structs.h"
 
 namespace Framework
 {
