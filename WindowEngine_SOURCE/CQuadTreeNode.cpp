@@ -1,14 +1,17 @@
 #include "CQuadTreeNode.h"
 #include "CQuadTree.h"
-#include "CColliderComponent.h"
-#include "CGameObject.h"
-#include "CTransformComponent.h"
+
 #include "CRenderManager.h"
+
+#include "CColliderComponent.h"
+#include "CTransformComponent.h"
+
+#include "CGameObject.h"
 
 namespace Framework
 {
 	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, Vector2 center, Vector2 size, int depth)
-		: m_pTree(tree), m_pParent(parent), m_vecCenter(center), m_vecSize(size), m_iDepth(depth)
+		: m_pTree(tree), m_pParent(parent), m_vecCenter(center), m_vecSize(size), m_iDepth(depth), check(false)
 	{
 		m_vecChildren.reserve(4);
 		m_vecQSize = size * m_pTree->GetConstantK();
