@@ -9,7 +9,6 @@ namespace Framework
 	class CUIBase : public CEntity
 	{
 	public:
-
 		CUIBase();
 		virtual ~CUIBase();
 
@@ -40,6 +39,7 @@ namespace Framework
 
 		friend CUIManager;
 	private:
+
 #pragma region  Basic Event
 		void Initialize();
 		void Release();

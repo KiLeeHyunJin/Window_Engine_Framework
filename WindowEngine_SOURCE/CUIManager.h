@@ -50,6 +50,7 @@ namespace Framework
 
 		static std::queue<Enums::eUIType> m_queUIType; //대기열
 		static std::vector<CUIBase*> m_vecCurrentUIs; //현재 UI 목록
+		static std::stack<CUIBase*> m_vecCurrentPopups;
 		static std::unordered_map<Enums::eUIType, CUIBase*> m_unmapUI; //캐싱
 		static CUIBase* m_pCurrentUI; //현재 UI
 	};
