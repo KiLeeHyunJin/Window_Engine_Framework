@@ -100,6 +100,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp">
       <Filter>Core\Manager\UI</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CUILayer.cpp">
+      <Filter>Core\Manager\UI\UILayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Structs.h">
       <Filter>Common\Struct</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CUILayer.h">
+      <Filter>Core\Manager\UI\UILayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Component">
@@ -328,6 +334,9 @@
     </Filter>
     <Filter Include="Common\Struct">
       <UniqueIdentifier>{27d569c5-5acc-4b61-80d3-114d9fe1f12a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\UI\UILayer">
+      <UniqueIdentifier>{0bf1fec5-2e8d-4267-8849-dc88b43ff3e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
