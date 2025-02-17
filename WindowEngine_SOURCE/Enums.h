@@ -29,6 +29,13 @@ namespace Framework::Enums
 		Size = 16,
 	};
 
+	enum class eUILayer
+	{
+		None,
+		HUD,
+		Popup,
+	};
+
 	enum class eResourceType
 	{
 		Texture,

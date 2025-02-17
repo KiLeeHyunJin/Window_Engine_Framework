@@ -1,4 +1,5 @@
 #pragma once
+#include "CommonInclude.h"
 
 namespace Framework
 {
@@ -7,17 +8,23 @@ namespace Framework
 	class CUILayer
 	{
 	public:
+		Enums::eUILayer GetLayer() { return m_eUILayer; }
+
+
+
 		friend CUIManager;
 	private:
 		CUILayer();
 		virtual ~CUILayer();
+		
+		void SetLayer(Enums::eUILayer eLayer) { m_eUILayer = eLayer; }
 
 		void AddUI(CUIBase* pUI);
 		void RemoveUI(CUIBase* pUI);
 
+		std::vector<CUIBase*> m_vecUIs;
 
-
-
+		Enums::eUILayer m_eUILayer;
 
 	};
 
