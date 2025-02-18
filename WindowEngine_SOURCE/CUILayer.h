@@ -19,8 +19,8 @@ namespace Framework
 		
 		void SetLayer(Enums::eUILayer eLayer) { m_eUILayer = eLayer; }
 
-		void AddUI(CUIBase* pUI);
-		void RemoveUI(CUIBase* pUI);
+		bool AddUI(CUIBase* pUI);
+		bool RemoveUI(CUIBase* pUI);
 
 		std::vector<CUIBase*> m_vecUIs;
 

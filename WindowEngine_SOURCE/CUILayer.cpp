@@ -5,12 +5,6 @@
 namespace Framework
 {
 
-
-
-
-
-
-
 	CUILayer::CUILayer()
 	{
 	}
@@ -18,5 +12,26 @@ namespace Framework
 	CUILayer::~CUILayer()
 	{
 	}
+
+	bool CUILayer::AddUI(CUIBase* pUI)
+	{
+		if (pUI == nullptr)
+		{
+			return false;
+		}
+
+		m_vecUIs.push_back(pUI);
+	}
+
+	bool CUILayer::RemoveUI(CUIBase* pUI)
+	{
+		if (pUI == nullptr)
+		{
+			return false;
+		}
+
+
+	}
+
 
 }
