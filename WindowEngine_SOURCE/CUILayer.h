@@ -22,7 +22,7 @@ namespace Framework
 		bool AddUI(CUIBase* pUI);
 		bool RemoveUI(CUIBase* pUI);
 
-		std::vector<CUIBase*> m_vecUIs;
+		std::list<CUIBase*> m_listUIs;
 
 		Enums::eUILayer m_eUILayer;
 
