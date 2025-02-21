@@ -18,6 +18,7 @@ namespace Framework
 		void AddChildUI(CUIBase* pChildUI);
 		void RemoveChildUI(CUIBase* pChildUI);
 
+		Enums::eUILayer GetLayer() const				{ return m_eLayerType; }
 		__inline Enums::eUIType GetType() const			{ return m_eType; }
 		__inline bool			GetFullScreen() const	{ return m_bFullScreen; }
 
@@ -113,7 +114,7 @@ namespace Framework
 
 		INT m_iIndex;
 		Enums::eUIType m_eType;
-
+		Enums::eUILayer m_eLayerType;
 		Maths::Vector2 m_vecPos;
 		Maths::Vector2 m_vecSize;
 		Maths::Vector2 m_vecDragStartPos;

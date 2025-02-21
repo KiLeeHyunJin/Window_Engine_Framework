@@ -46,7 +46,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTimeManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransformComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CUIBase.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CUILayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CUIManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enums.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h" />
@@ -87,7 +86,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.h.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIBase.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CUILayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp" />
   </ItemGroup>

@@ -8,7 +8,6 @@ namespace Framework
 	std::queue<Enums::eUIType>						CUIManager::m_queUIType				= {};
 	std::unordered_map<Enums::eUIType, CUIBase*>	CUIManager::m_unmapUI				= {};
 	std::vector<CUIBase*>							CUIManager::m_vecCurrentUIs			= {};
-	std::vector<CUIBase*>							CUIManager::m_vecUILayers			= {};
 	CUIBase*										CUIManager::m_pCurrentUI			= nullptr;
 
 

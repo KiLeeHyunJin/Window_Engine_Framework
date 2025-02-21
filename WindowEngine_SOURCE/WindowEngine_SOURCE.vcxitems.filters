@@ -100,9 +100,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp">
       <Filter>Core\Manager\UI</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CUILayer.cpp">
-      <Filter>Core\Manager\UI\UILayer</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
@@ -221,9 +218,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Structs.h">
       <Filter>Common\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CUILayer.h">
-      <Filter>Core\Manager\UI\UILayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
