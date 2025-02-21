@@ -16,30 +16,34 @@ namespace Framework
 	bool CUILayer::AddUI(CUIBase* pUI)
 	{
 		if (pUI == nullptr)
+		{	return false;	}
+
+		auto iter = std::find(m_listUIs.begin(), m_listUIs.end(), pUI);
+		if (iter != m_listUIs.cend())
 		{
-			return false;
+			m_listUIs.push_back(pUI);
+			return true;
 		}
 
-		m_listUIs.push_back(pUI);
+		return false;
 	}
 
 	bool CUILayer::RemoveUI(CUIBase* pUI)
 	{
 		if (pUI == nullptr)
+		{	return false;	}
+
+		auto iter = std::find(m_listUIs.begin(), m_listUIs.end(), pUI);
+		
+		if (iter != m_listUIs.cend())
 		{
-			return false;
-		}
-		for (auto iter = m_listUIs.cbegin(); iter != m_listUIs.cend() ; iter++)
-		{
-			if (*iter == pUI)
-			{
-				m_listUIs.erase(iter);
-				return true;
-			}
+			m_listUIs.erase(iter);
+			return true;
 		}
 		return false;
-
 	}
+
+	
 
 
 }
