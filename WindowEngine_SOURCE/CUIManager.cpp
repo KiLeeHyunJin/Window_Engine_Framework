@@ -72,6 +72,24 @@ namespace Framework
 		CloseUI(closeUIIdx);
 	}
 
+	void CUIManager::PopPopup()
+	{
+		const UINT size = (UINT)m_vecCurrentUIs.size();
+		if (size == 0)
+		{
+			return;
+		}
+		
+		for (UINT i = size - 1;  size >= 0; i++)
+		{
+			if (m_vecCurrentUIs[i]->GetType() == Enums::eUIType::Popup)
+			{
+				CloseUI(i);
+				return;
+			}
+		}
+	}
+
 	INT CUIManager::FindUIIdex(const CUIBase* pTarget)
 	{
 		const UINT size = (UINT)m_vecCurrentUIs.size();

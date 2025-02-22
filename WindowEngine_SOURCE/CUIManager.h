@@ -17,6 +17,8 @@ namespace Framework
 		static void Pop(Enums::eUIType type);
 		static void Pop(CUIBase* closeUI);
 
+		static void PopPopup();
+
 		static void OnLoad(Enums::eUIType type);
 		
 		static void OnComplete(CUIBase* uiBase);
@@ -41,12 +43,13 @@ namespace Framework
 
 		static void Render(HDC hdc);
 
+		static void	CloseUI(INT closeUIIdx);
+
 		static void MouseEvent(CUIBase* pUI, CUIBase* pChild);
 		static CUIBase* GetTopUI();
 		static CUIBase* GetParentUI(CUIBase* pChild);
 		static CUIBase* GetFocusUI();
 		static INT FindUIIdex(const CUIBase* pTarget);
-		static void	CloseUI(INT closeUIIdx);
 
 		static std::queue<Enums::eUIType> m_queUIType; //대기열
 		static std::vector<CUIBase*> m_vecCurrentUIs; //현재 UI 목록
