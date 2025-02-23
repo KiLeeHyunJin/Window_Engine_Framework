@@ -74,27 +74,28 @@ namespace Framework
 
 	void CUIManager::PopPopup()
 	{
-		const UINT size = (UINT)m_vecCurrentUIs.size();
+		const INT size = static_cast<INT>(m_vecCurrentUIs.size());
+
 		if (size == 0)
 		{
 			return;
 		}
-		
-		for (UINT i = size - 1;  size >= 0; i++)
+
+		for (INT i = size - 1; i >= 0; i--)
 		{
 			if (m_vecCurrentUIs[i]->GetType() == Enums::eUIType::Popup)
 			{
 				CloseUI(i);
-				return;
+				return;  // 만약 하나만 닫고 싶다면 유지
 			}
 		}
 	}
 
 	INT CUIManager::FindUIIdex(const CUIBase* pTarget)
 	{
-		const UINT size = (UINT)m_vecCurrentUIs.size();
+		const INT size = static_cast<INT>(m_vecCurrentUIs.size());
 
-		for (UINT i = 0; i < size; i++)
+		for (INT i = 0; i < size; i++)
 		{
 			if (pTarget == m_vecCurrentUIs[i])
 			{
@@ -113,8 +114,8 @@ namespace Framework
 			m_vecCurrentUIs.erase(iter);
 		}
 
-		UINT size = (UINT)m_vecCurrentUIs.size();
-		for (UINT i = closeUIIdx; i < size; i++)
+		const INT size = static_cast<INT>(m_vecCurrentUIs.size());
+		for (INT i = closeUIIdx; i < size; i++)
 		{
 			m_vecCurrentUIs[i]->SetUIIndex(i);
 		}
