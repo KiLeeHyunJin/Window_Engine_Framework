@@ -144,10 +144,9 @@ namespace Framework
 
 		if (uiBase->GetFullScreen())
 		{
-			const UINT size = (UINT)m_vecCurrentUIs.size();
-			for (UINT i = 0; i < size; i++)
+			for (const auto& pUI : m_vecCurrentUIs)
 			{
-				m_vecCurrentUIs[i]->InActive();
+				pUI->InActive();
 			}
 		}
 
