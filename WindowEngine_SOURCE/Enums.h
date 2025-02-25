@@ -48,6 +48,7 @@ namespace Framework::Enums
 
 	enum class eUIType
 	{
+		None,
 		Button,
 		Popup,
 

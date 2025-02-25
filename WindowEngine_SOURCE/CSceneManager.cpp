@@ -2,6 +2,7 @@
 #include "CScene.h"
 #include "CDontDestroyOnLoad.h"
 #include "CCollisionManager.h"
+#include "CUIManager.h"
 
 namespace Framework
 {
@@ -92,6 +93,7 @@ namespace Framework
 			{
 				m_pCurrentScene->OnExit();
 				CCollisionManager::Clear();
+				CUIManager::Clear();
 			}
 			m_pCurrentScene = pScene;
 			m_pCurrentScene->OnEnter();

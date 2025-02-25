@@ -177,6 +177,10 @@ namespace Framework
 	void CUIManager::Clear()
 	{
 		m_pCurrentUI = nullptr;
+		for (const auto pUI : m_vecCurrentUIs)
+		{
+			pUI->SetUIIndex(-1);
+		}
 		m_vecCurrentUIs.clear();
 		while (m_queUIType.empty() == false)
 		{
