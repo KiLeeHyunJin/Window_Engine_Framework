@@ -55,7 +55,7 @@ namespace Framework
 		static CScene* m_pCurrentScene;
 		static CScene* m_pDontDestroyScene;
 	};
-	
-#define SCENE CSceneManager
+	using SCENE = CSceneManager;
+//#define SCENE CSceneManager
 }
 

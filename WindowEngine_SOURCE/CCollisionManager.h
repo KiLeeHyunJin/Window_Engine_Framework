@@ -79,7 +79,7 @@ namespace Framework
 		static std::unordered_map<UINT64, bool> m_unmapCollisions;
 
 	};
-#define COLLISION  CCollisionManager
+	using COLLISION = CCollisionManager;
 }
 
 

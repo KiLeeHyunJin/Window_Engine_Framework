@@ -64,8 +64,8 @@ namespace Framework
 
 		static std::vector<Key> m_vecKeys;
 	};
-
-#define INPUT CInputManager
+	using INPUT = CInputManager;
+//#define INPUT CInputManager
 
 
 }

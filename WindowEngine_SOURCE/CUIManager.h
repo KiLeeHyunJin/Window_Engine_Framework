@@ -57,6 +57,7 @@ namespace Framework
 		static std::unordered_map<Enums::eUIType, CUIBase*> m_unmapUI; //Ä³½Ì
 		static CUIBase* m_pCurrentUI; //ÇöÀç UI
 	};
-	#define UI CUIManager
+	using UI = CUIManager;
+//	#define UI CUIManager
 }
 

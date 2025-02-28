@@ -26,8 +26,9 @@ namespace Framework
 		static LARGE_INTEGER m_liCurrentFrequency;
 		static float m_fDeltaTime;
 	};
-
-#define TIME CTimeManager
+	using TIME = CTimeManager;
+//#define TIME CTimeManager
+//using DELTATIME = CTimeManager::DeltaTime();
 #define DELTATIME CTimeManager::DeltaTime()
 }
 

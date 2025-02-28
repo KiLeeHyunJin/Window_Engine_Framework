@@ -51,8 +51,8 @@ namespace Framework
 
 		static bool m_bScreenState;
 	};
-
-#define RENDER CRenderManager
+	using RENDER = CRenderManager;
+//#define RENDER CRenderManager
 
 }
 
