@@ -5,7 +5,10 @@ namespace Framework
 	LARGE_INTEGER	CTimeManager::m_liCpuFrequency		= {};
 	LARGE_INTEGER	CTimeManager::m_liPrevFrequency		= {};
 	LARGE_INTEGER	CTimeManager::m_liCurrentFrequency	= {};
-	
+
+	ULONGLONG		CTimeManager::m_fDeltaTick			= 0;
+	ULONGLONG		CTimeManager::m_fPrevTick			= 0;
+
 	float			CTimeManager::m_fDeltaTime			= 0;
 
 	CTimeManager::CTimeManager()		{	}
@@ -26,6 +29,10 @@ namespace Framework
 		m_fDeltaTime = dirrentFrequency / static_cast<float>(m_liCpuFrequency.QuadPart);
 
 		m_liPrevFrequency.QuadPart = m_liCurrentFrequency.QuadPart;
+
+		const ULONGLONG currentTick = GetTickCount64();
+		m_fDeltaTick = currentTick - m_fPrevTick;
+		m_fPrevTick = currentTick;
 	}
 
 	void CTimeManager::Render(HDC hdc)

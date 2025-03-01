@@ -12,7 +12,8 @@ namespace Framework
 		CTimeManager();
 		virtual ~CTimeManager();
 
-		__forceinline static float DeltaTime() { return m_fDeltaTime; }
+		__forceinline static float DeltaTime()	{ return m_fDeltaTime; }
+		__forceinline static ULONGLONG TickTime()	{ return m_fDeltaTick; }
 
 		friend CApplication;
 		friend CRenderManager;
@@ -25,6 +26,9 @@ namespace Framework
 		static LARGE_INTEGER m_liPrevFrequency;
 		static LARGE_INTEGER m_liCurrentFrequency;
 		static float m_fDeltaTime;
+
+		static ULONGLONG m_fPrevTick;
+		static ULONGLONG m_fDeltaTick;
 	};
 	using TIME = CTimeManager;
 //#define TIME CTimeManager
