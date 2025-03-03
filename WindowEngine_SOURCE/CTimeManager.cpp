@@ -37,9 +37,9 @@ namespace Framework
 
 	void CTimeManager::Render(HDC hdc)
 	{
-		static float time = 0;
+		//static float time = 0;
 		
-		time += m_fDeltaTime;
+		//time += m_fDeltaTime;
 		float fps = 1.0f / m_fDeltaTime;
 
 		wchar_t str[50] = L"";
