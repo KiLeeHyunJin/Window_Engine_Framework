@@ -25,6 +25,11 @@ namespace Framework
 		static LARGE_INTEGER m_liCpuFrequency;
 		static LARGE_INTEGER m_liPrevFrequency;
 		static LARGE_INTEGER m_liCurrentFrequency;
+
+		/// Chrono Time
+		static std::chrono::high_resolution_clock::time_point curTime;
+		static std::chrono::high_resolution_clock::time_point prevTime;
+
 		static float m_fDeltaTime;
 
 		static ULONGLONG m_fPrevTick;

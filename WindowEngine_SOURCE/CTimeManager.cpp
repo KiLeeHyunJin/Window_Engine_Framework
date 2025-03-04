@@ -11,6 +11,9 @@ namespace Framework
 
 	float			CTimeManager::m_fDeltaTime			= 0;
 
+	std::chrono::high_resolution_clock::time_point CTimeManager::curTime	= {};
+	std::chrono::high_resolution_clock::time_point CTimeManager::prevTime	= {};
+
 	CTimeManager::CTimeManager()		{	}
 	
 	CTimeManager::~CTimeManager()		{	}
@@ -23,16 +26,38 @@ namespace Framework
 
 	void CTimeManager::Tick()
 	{
-		QueryPerformanceCounter(&m_liCurrentFrequency);
-		float dirrentFrequency = static_cast<float>(m_liCurrentFrequency.QuadPart - m_liPrevFrequency.QuadPart);
+
+		// //Performance Time //CPU 클럭 주파수를 기반, 정확도 - 매우 높음, 일관성 - 일부 멀티 코어 환경에서 문제 발생 가능
+		//{
+		//	QueryPerformanceCounter(&m_liCurrentFrequency);
+		//	float dirrentFrequency = static_cast<float>(m_liCurrentFrequency.QuadPart - m_liPrevFrequency.QuadPart);
+
+		//	m_fDeltaTime = dirrentFrequency / static_cast<float>(m_liCpuFrequency.QuadPart);
+
+		//	m_liPrevFrequency.QuadPart = m_liCurrentFrequency.QuadPart;
+		//}
+		// //Tick Time //OS 타이머 기반 정확도 - 낮음, 
+		//{
+		//	const ULONGLONG currentTick = GetTickCount64();
+		//	m_fDeltaTick = currentTick - m_fPrevTick;
+		//	m_fPrevTick = currentTick;
+		//}
 		
-		m_fDeltaTime = dirrentFrequency / static_cast<float>(m_liCpuFrequency.QuadPart);
+		
+		//Chrono Time //C++11 이후 표준 라이브러리 정확도 ㅔ 매우 높음, 일관성 - 운영체제에 종속되어 있는 않는 기능(독립적)
+		{
+			curTime = std::chrono::high_resolution_clock::now();
 
-		m_liPrevFrequency.QuadPart = m_liCurrentFrequency.QuadPart;
+			std::chrono::duration<float> elapsed = curTime - prevTime; // 이전 프레임이랑 차이 시간 계산
+			m_fDeltaTime = std::clamp(elapsed.count(), 0.0f, 0.1f);
 
-		const ULONGLONG currentTick = GetTickCount64();
-		m_fDeltaTick = currentTick - m_fPrevTick;
-		m_fPrevTick = currentTick;
+			prevTime = curTime;
+			//지연에 의한 순간이동 현상을 억제
+			if (m_fDeltaTime > 0.1f)
+			{
+				m_fDeltaTime = 0.1f;
+			}
+		}
 	}
 
 	void CTimeManager::Render(HDC hdc)

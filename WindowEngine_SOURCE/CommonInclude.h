@@ -23,6 +23,8 @@
 #include <filesystem>
 #pragma endregion
 
+#include <chrono>
+
 
 #include "Enums.h"
 #include "Maths.h"
