@@ -10,7 +10,7 @@ namespace Framework
 	ULONGLONG		CTimeManager::m_fPrevTick			= 0;
 
 	float			CTimeManager::m_fDeltaTime			= 0;
-
+	UINT			CTimeManager::m_uiFPS				= 0;
 	std::chrono::high_resolution_clock::time_point CTimeManager::curTime	= {};
 	std::chrono::high_resolution_clock::time_point CTimeManager::prevTime	= {};
 
@@ -27,6 +27,7 @@ namespace Framework
 	void CTimeManager::Tick()
 	{
 
+#pragma region NoUseDeltaTimeCalc
 		// //Performance Time //CPU 클럭 주파수를 기반, 정확도 - 매우 높음, 일관성 - 일부 멀티 코어 환경에서 문제 발생 가능
 		//{
 		//	QueryPerformanceCounter(&m_liCurrentFrequency);
@@ -42,22 +43,46 @@ namespace Framework
 		//	m_fDeltaTick = currentTick - m_fPrevTick;
 		//	m_fPrevTick = currentTick;
 		//}
-		
+
+#pragma endregion
+
 		
 		//Chrono Time //C++11 이후 표준 라이브러리 정확도 ㅔ 매우 높음, 일관성 - 운영체제에 종속되어 있는 않는 기능(독립적)
 		{
 			curTime = std::chrono::high_resolution_clock::now();
 
 			std::chrono::duration<float> elapsed = curTime - prevTime; // 이전 프레임이랑 차이 시간 계산
+			prevTime = curTime;
+
 			m_fDeltaTime = std::clamp(elapsed.count(), 0.0f, 0.1f);
 
-			prevTime = curTime;
 			//지연에 의한 순간이동 현상을 억제
 			if (m_fDeltaTime > 0.1f)
 			{
 				m_fDeltaTime = 0.1f;
 			}
 		}
+
+#pragma region FPS
+
+		static float stackDeltaTime = 0;
+		static int tickCount = 0;
+
+		stackDeltaTime += m_fDeltaTime;
+
+		if (stackDeltaTime >= 1.0f)
+		{
+			m_uiFPS = tickCount;
+			stackDeltaTime = 0;
+			tickCount = 1;
+		}
+		else
+		{
+			tickCount += 1;
+		}
+#pragma endregion
+
+
 	}
 
 	void CTimeManager::Render(HDC hdc)
