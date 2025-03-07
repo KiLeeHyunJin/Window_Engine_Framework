@@ -38,16 +38,15 @@ namespace Framework
 		static UINT m_uiFPS;
 		static eTimeType timeType;
 
-		using FunctionPtr = void(*)();
-		static FunctionPtr functions[3];
+		static VoidPtr functions[3];
 
 		/// CPU Preformance
 		static LARGE_INTEGER m_liCpuFrequency;
 		static LARGE_INTEGER m_liPrevFrequency;
 	};
+
 	using TIME = CTimeManager;
-//#define TIME CTimeManager
-//using DELTATIME = CTimeManager::DeltaTime();
+
 #define DELTATIME CTimeManager::DeltaTime()
 #define FPS CTimeManager::FPS()
 }

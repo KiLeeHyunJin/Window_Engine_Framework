@@ -5,7 +5,7 @@ namespace Framework
 	float			CTimeManager::m_fDeltaTime			= 0;
 	UINT			CTimeManager::m_uiFPS				= 0;
 	CTimeManager::eTimeType CTimeManager::timeType		= CTimeManager::eTimeType::Chrono;
-	CTimeManager::FunctionPtr CTimeManager::functions[3]= { nullptr};
+	VoidPtr			CTimeManager::functions[3]= { nullptr};
 
 	LARGE_INTEGER	CTimeManager::m_liCpuFrequency		= {};
 	LARGE_INTEGER	CTimeManager::m_liPrevFrequency		= {};

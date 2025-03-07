@@ -75,7 +75,7 @@ void Framework::CPlayScene::Tick()
 {
 	if (INPUT::GetKeyDown(eKeyCode::A))
 	{
-		CSceneManager::LoadScene(L"PlayScene");
+		//CSceneManager::LoadScene(L"PlayScene");
 	}
 }
 

@@ -10,9 +10,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp">
-      <Filter>Asset\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.h.cpp">
       <Filter>Asset\Resource</Filter>
     </ClCompile>
@@ -100,6 +97,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp">
       <Filter>Core\Manager\UI</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CEventManager.cpp">
+      <Filter>Core\Manager\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp">
+      <Filter>Asset\Scene\Layer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
@@ -113,9 +116,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Component.h">
       <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h">
-      <Filter>Asset\Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
       <Filter>Common</Filter>
@@ -218,6 +218,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Structs.h">
       <Filter>Common\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CEventManager.h">
+      <Filter>Core\Manager\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Define.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h">
+      <Filter>Asset\Scene\Layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +340,12 @@
     </Filter>
     <Filter Include="Core\Manager\UI\UILayer">
       <UniqueIdentifier>{0bf1fec5-2e8d-4267-8849-dc88b43ff3e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Manager\Event">
+      <UniqueIdentifier>{cb6ad2f8-364a-4660-88f7-5de5fe2b2429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Scene\Layer">
+      <UniqueIdentifier>{3ca6ca2a-b6d0-4b67-84f9-41fe558d41ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

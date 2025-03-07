@@ -40,7 +40,7 @@ namespace Framework::Object
 
 	static void Destroy(CGameObject* pObj)
 	{
-		pObj->Dead();
+		pObj->SetReserveDelete();
 	}
 
 	static void DontDestoryOnLoad(CGameObject* pGameObject)

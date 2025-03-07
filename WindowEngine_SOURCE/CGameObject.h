@@ -28,7 +28,7 @@ namespace Framework
 		{
 			Enable,
 			Disable,
-			Destory
+			//Destory
 		};
 
 		CGameObject(Enums::eLayerType layerType);
@@ -131,14 +131,13 @@ namespace Framework
 		inline void SetActive(bool power) { m_eState = power ? eState::Enable : eState::Disable; }
 		inline void SetLayerType(Enums::eLayerType layerType) { m_eLayerType = layerType; }
 
-		inline const eState GetState()	const { return m_eState; }
-		inline const bool GetActive()	const { return m_eState == eState::Enable; }
-		inline const bool GetDead()		const { return m_eState == eState::Destory; }
-		inline const Enums::eLayerType GetLayerType() const { return m_eLayerType; }
+		__forceinline const eState GetState()	const { return m_eState; }
+		__forceinline const bool GetActive()	const { return m_eState == eState::Enable; }
+		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
-
-		//friend void Object::Destroy(CGameObject* pObj);
-		void Dead();
+		__forceinline const Enums::eLayerType GetLayerType() const { return m_eLayerType; }
+		void SetReserveDelete() { if (m_bReserveDelete == false) m_bReserveDelete = true; }
+		bool GetReserveDelete() const { return m_bReserveDelete; }
 
 		friend CLayer;
 	private:
@@ -150,12 +149,20 @@ namespace Framework
 
 		void AddTransform();
 
+		void SetSafeToDelete()	{ if (m_bSafeToDelete == false) m_bSafeToDelete = true; }
+
+		__forceinline bool GetSafeToDelete() const	{ return m_bSafeToDelete; }
+
 		std::vector<CComponent*> m_vecComponents;
 		std::list<CComponent*> m_listCustomComponents;
 
 		CTransformComponent* m_pTransform;
+
 		Enums::eLayerType m_eLayerType;
 		eState m_eState;
+
+		bool m_bSafeToDelete;
+		bool m_bReserveDelete;
 	};
 }
 

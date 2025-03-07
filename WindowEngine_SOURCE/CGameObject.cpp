@@ -8,7 +8,7 @@
 
 namespace Framework
 {
-	CGameObject::CGameObject(Enums::eLayerType layerType) : m_eState(eState::Enable), m_eLayerType(layerType), m_pTransform(nullptr)
+	CGameObject::CGameObject(Enums::eLayerType layerType) : m_eState(eState::Enable), m_eLayerType(layerType), m_pTransform(nullptr), m_bReserveDelete(false), m_bSafeToDelete(false)
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size);
 		AddTransform();
@@ -30,11 +30,6 @@ namespace Framework
 		{
 			pCom->Initialize();
 		}
-	}
-
-	void CGameObject::Dead()
-	{
-		m_eState = eState::Destory;
 	}
 
 	void CGameObject::Tick()

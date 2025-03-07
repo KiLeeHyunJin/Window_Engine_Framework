@@ -49,54 +49,63 @@ namespace Framework
 
 	void CLayer::LastTick()
 	{
-		for (auto iter = m_listGameObject.cbegin();
-			iter != m_listGameObject.cend();
-			)
+		if (m_listGameObject.empty())
+			return;
+
+		// 삭제할 개체가 많을 가능성이 있다면 reserve()로 메모리 재할당 최적화
+		//m_listRemoveGameObject.reserve(m_listRemoveGameObject.size() + m_listGameObject.size());
+
+		for (auto iter = m_listGameObject.begin(); iter != m_listGameObject.end();)
 		{
-			CGameObject* pObj = (*iter);
+			CGameObject* pObj = *iter;
 			CGameObject::eState state = pObj->GetState();
 
-			if (state == CGameObject::eState::Enable)
+			if (pObj->GetReserveDelete())
 			{
-				(*iter)->LastTick();
-			}
-			else if (state == CGameObject::eState::Destory)
-			{
+				pObj->SetSafeToDelete();
 				m_listRemoveGameObject.push_back(pObj);
 				iter = m_listGameObject.erase(iter);
-				continue;
 			}
-
-			iter++;
+			else
+			{
+				if (state == CGameObject::eState::Enable)
+				{
+					pObj->LastTick();
+				}
+				++iter;
+			}
 		}
 	}
 
 	void CLayer::Render(HDC hdc) const
 	{
-		for (auto iter = m_listGameObject.cbegin();
-			iter != m_listGameObject.cend();
-			iter++)
+		if (m_listGameObject.empty())
+			return;
+
+		for (const CGameObject* pGameObject : m_listGameObject)
 		{
-			CGameObject::eState state = (*iter)->GetState();
-			if (state == CGameObject::eState::Enable)
+			if (pGameObject->GetState() == CGameObject::eState::Enable)
 			{
-				(*iter)->Render(hdc);;
+				pGameObject->Render(hdc);;
 			}
 		}
+
+
 	}
 
 	void CLayer::Destroy()
 	{
-		//std::erase_if(m_listRemoveGameObject,[](CGameObject* pObj){return pObj->GetDead()});
+		if (m_listRemoveGameObject.empty())
+			return; // 불필요한 연산 방지
 
-		for (auto iter = m_listRemoveGameObject.cbegin();
-			iter != m_listRemoveGameObject.cend();)
+		for (CGameObject* pGameObject : m_listRemoveGameObject)
 		{
-			CGameObject* eraseObj = (*iter);
-			iter = m_listRemoveGameObject.erase(iter);
-
-			RemoveGameObject(eraseObj);
+			pGameObject->Release();
+			delete pGameObject;
 		}
+
+		m_listRemoveGameObject.clear();
+		//m_listGameObject.shrink_to_fit(); // 필요할 경우 메모리 해제
 	}
 
 	void CLayer::RemoveGameObject(CGameObject* pGameObject)

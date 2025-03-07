@@ -23,9 +23,8 @@
 #include <filesystem>
 #pragma endregion
 
-#include <chrono>
 
-
+#include "Define.h"
 #include "Enums.h"
 #include "Maths.h"
 #include "ColliderStruct.h"
@@ -53,6 +52,7 @@
 #include <gdiplus.h>
 #pragma comment(lib, "gdiplus.lib")
 #pragma endregion
+
 
 
 
