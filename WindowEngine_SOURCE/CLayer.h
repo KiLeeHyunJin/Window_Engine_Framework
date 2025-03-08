@@ -31,7 +31,6 @@ namespace Framework
 		void Render(HDC hdc) const;
 
 		void AddGameObject(CGameObject* pGameObject);
-		void RemoveGameObject(CGameObject* pGameObject);
 		void EraseGameObject(CGameObject* pGameObject);
 
 		const std::vector<CGameObject*> GetGameObject() const { return m_listGameObject; }

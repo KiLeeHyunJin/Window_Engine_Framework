@@ -77,6 +77,8 @@ namespace Framework
 		if (INPUT::GetKeyPressed(eKeyCode::Down))
 		{
 			addForceDir += Maths::Vector2::Down;
+			Object::Destroy(GetOwner());
+
 		}
 		if (addForceDir.HasValue())
 		{

@@ -2,9 +2,8 @@
 
 namespace Framework
 {
+
 	CEventManager::CEventManager()	{	}
 	CEventManager::~CEventManager()	{	}
-
-
 
 }

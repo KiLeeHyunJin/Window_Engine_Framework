@@ -1,14 +1,15 @@
 #pragma once
 #include "CommonInclude.h"
 #include "CEntity.h"
-#include "CComponent.h"
-//#include "CObject.h"
 
 //성능이 중요 → 부모 클래스의 함수 포인터 사용
 //
 //가상함수 테이블을 거치지 않으므로 더 빠른 호출 성능을 제공한다.
 //게임 엔진, 실시간 렌더링 등 극한의 성능 최적화가 필요한 경우 적합.
-//하지만 객체 지향적인 설계가 어려워지고 유지보수가 복잡해질 수 있음.
+//하지만 객체 지향적인 설계가 어려워지고 유지보수가 복잡해질 수 있음.    
+//  
+// => 불가 : 부모 함수 포인터에 자식 멤버 함수를 대입할 방법이 없고, 
+// 하더라도 가상함수 방식이 더 성능과 효율적으로 좋음
 // 
 //코드 유지보수가 중요 → 가상 함수 사용
 //
@@ -17,10 +18,13 @@
 
 namespace Framework
 {
+	class CEventManager;
 	class CAnimatorComponent;
 	class CTransformComponent;
 	class CComponent;
 	class CLayer;
+
+
 	class CGameObject : public CEntity
 	{
 	public:
@@ -28,11 +32,11 @@ namespace Framework
 		{
 			Enable,
 			Disable,
-			//Destory
 		};
 
 		CGameObject(Enums::eLayerType layerType);
 		virtual ~CGameObject();
+
 		CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
 
@@ -136,10 +140,10 @@ namespace Framework
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
 		__forceinline const Enums::eLayerType GetLayerType() const { return m_eLayerType; }
-		void SetReserveDelete() { if (m_bReserveDelete == false) m_bReserveDelete = true; }
-		bool GetReserveDelete() const { return m_bReserveDelete; }
+		__forceinline bool GetReserveDelete() const { return m_bReserveDelete; }
 
 		friend CLayer;
+		friend CEventManager;
 	private:
 		void Initialize();
 		void Tick();
@@ -147,9 +151,10 @@ namespace Framework
 		void Render(HDC hdc) const;
 		void Release();
 
-		void AddTransform();
+		//void AddTransform();
 
-		void SetSafeToDelete()	{ if (m_bSafeToDelete == false) m_bSafeToDelete = true; }
+		__forceinline void SetSafeToDelete()	{ if (m_bSafeToDelete == false)  m_bSafeToDelete  = true; }
+		__forceinline void SetReserveDelete()	{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
 
 		__forceinline bool GetSafeToDelete() const	{ return m_bSafeToDelete; }
 

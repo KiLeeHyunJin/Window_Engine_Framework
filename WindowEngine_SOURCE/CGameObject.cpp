@@ -1,22 +1,27 @@
 #pragma once
 #include "CGameObject.h"
+
 #include "CInputManager.h"
 #include "CTimeManager.h"
-#include "CTransformComponent.h"
 #include "CRenderManager.h"
+
+#include "CTransformComponent.h"
 #include "CRigidbodyComponent.h"
 
 namespace Framework
 {
-	CGameObject::CGameObject(Enums::eLayerType layerType) : m_eState(eState::Enable), m_eLayerType(layerType), m_pTransform(nullptr), m_bReserveDelete(false), m_bSafeToDelete(false)
+	CGameObject::CGameObject(Enums::eLayerType layerType) :
+		m_eState(eState::Enable), m_eLayerType(layerType), 
+		m_bReserveDelete(false), m_bSafeToDelete(false),
+		m_pTransform(new CTransformComponent)
 	{
-		m_vecComponents.resize((int)Enums::eComponentType::Size);
-		AddTransform();
+		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
+		m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
 	}
-	CGameObject::~CGameObject()
-	{
 
-	}
+	CGameObject::~CGameObject()
+	{	}
+	
 	void CGameObject::Initialize()
 	{
 		for (CComponent* pCom : m_vecComponents)
@@ -96,11 +101,11 @@ namespace Framework
 		m_vecComponents.clear();
 	}
 
-	void CGameObject::AddTransform()
-	{
-		if (m_pTransform == nullptr)
-		{
-			m_pTransform = AddComponent<CTransformComponent>();
-		}
-	}
+	//void CGameObject::AddTransform()
+	//{
+	//	if (m_pTransform == nullptr)
+	//	{
+	//		m_pTransform = AddComponent<CTransformComponent>();
+	//	}
+	//}
 }

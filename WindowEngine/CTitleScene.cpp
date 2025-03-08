@@ -32,7 +32,6 @@ void Framework::CTitleScene::Initialize()
 	//Renderer::mainCamera = pCamera;
 
 	//Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround);
-	
 }
 
 void Framework::CTitleScene::Tick()

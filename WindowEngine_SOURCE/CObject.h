@@ -1,9 +1,11 @@
 #pragma once
+#include "CSceneManager.h"
+#include "CEventManager.h"
+
 #include "Enums.h"
 #include "CGameObject.h"
 #include "CScene.h"
-#include "CSceneManager.h"
-#include "CComponent.h"
+
 #include "CLayer.h"
 
 
@@ -40,7 +42,9 @@ namespace Framework::Object
 
 	static void Destroy(CGameObject* pObj)
 	{
-		pObj->SetReserveDelete();
+		//Event::DeleteGameObject(pObj);
+		Framework::Delete(pObj);
+		//pObj->SetReserveDelete();
 	}
 
 	static void DontDestoryOnLoad(CGameObject* pGameObject)

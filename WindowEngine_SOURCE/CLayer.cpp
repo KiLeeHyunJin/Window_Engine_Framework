@@ -89,8 +89,6 @@ namespace Framework
 				pGameObject->Render(hdc);;
 			}
 		}
-
-
 	}
 
 	void CLayer::Destroy()
@@ -106,12 +104,6 @@ namespace Framework
 
 		m_listRemoveGameObject.clear();
 		//m_listGameObject.shrink_to_fit(); // 필요할 경우 메모리 해제
-	}
-
-	void CLayer::RemoveGameObject(CGameObject* pGameObject)
-	{
-		pGameObject->Release();
-		delete pGameObject;
 	}
 
 	void CLayer::AddGameObject(CGameObject* pGameObject)

@@ -73,7 +73,7 @@ void Framework::CPlayScene::Initialize()
 
 void Framework::CPlayScene::Tick()
 {
-	if (INPUT::GetKeyDown(eKeyCode::A))
+	if (INPUT::GetKeyDown(eKeyCode::B))
 	{
 		//CSceneManager::LoadScene(L"PlayScene");
 	}
