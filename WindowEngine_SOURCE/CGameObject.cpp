@@ -31,7 +31,7 @@ namespace Framework
 				pCom->Initialize();
 			}
 		}
-		for (CComponent* pCom : m_listCustomComponents)
+		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			pCom->Initialize();
 		}
@@ -46,7 +46,7 @@ namespace Framework
 				pCom->Tick();
 			}
 		}
-		for (CComponent* pCom : m_listCustomComponents) 
+		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			pCom->Tick();
 		}
@@ -61,7 +61,7 @@ namespace Framework
 				pCom->LastTick();
 			}
 		}
-		for (CComponent* pCom : m_listCustomComponents)
+		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			pCom->LastTick();
 		}
@@ -76,7 +76,7 @@ namespace Framework
 				pCom->Render(hdc);
 			}
 		}
-		for (CComponent* pCom : m_listCustomComponents)
+		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			pCom->Render(hdc);
 		}
@@ -92,10 +92,13 @@ namespace Framework
 				delete pCom;
 			}
 		}
-		for (CComponent* pCom : m_listCustomComponents)
+		for (CComponent* pCom : m_vecCustomComponents)
 		{
-			pCom->Release();
-			delete pCom;
+			if (pCom != nullptr)
+			{
+				pCom->Release();
+				delete pCom;
+			}
 		}
 		m_vecComponents.clear();
 		m_vecComponents.clear();

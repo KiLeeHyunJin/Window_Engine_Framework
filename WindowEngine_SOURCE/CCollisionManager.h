@@ -8,6 +8,7 @@ namespace Framework
 	class CScene;
 	class CColliderComponent;
 	class CSceneManager;
+	class CGameObject;
 
 	union CollisionID
 	{
@@ -64,20 +65,26 @@ namespace Framework
 
 		//static bool Raycast(Ray& ray, CColliderComponent& hitObject);
 
-		static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
+		__forceinline static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 
-		static void InsertCollision(std::list<CColliderComponent*>& listCollider);
-		static void CollisionCircuit(const std::list<CColliderComponent*>& listCollider);
 
-		static void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
-		static void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
+		__forceinline static void InsertCollision();
+		__forceinline static void InsertGameObject(CColliderComponent* pCollider);
 
-		static bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
-		static bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
+		__forceinline static void CollisionCircuit();
+
+		//static void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
+		//static void CollisionCheck(const std::vector<CGameObject*>& lefts, const std::vector<CGameObject*>& rights);
+
+		__forceinline static void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
+
+		__forceinline static bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
+		__forceinline static bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
+
 
 		static std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
 		static std::unordered_map<UINT64, bool> m_unmapCollisions;
-
+		static std::vector<CColliderComponent*> m_vecCollider;
 	};
 	using COLLISION = CCollisionManager;
 }

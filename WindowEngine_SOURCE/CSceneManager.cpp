@@ -27,6 +27,8 @@ namespace Framework
 
 	void CSceneManager::Tick()
 	{
+		Destroy();
+
 		m_pCurrentScene->SceneTick();
 		m_pDontDestroyScene->SceneTick();
 	}
@@ -69,19 +71,29 @@ namespace Framework
 		m_pDontDestroyScene = nullptr;
 	}
 
-	std::vector<CGameObject*> CSceneManager::GetGameObject(Enums::eLayerType layer)
+	//std::vector<CGameObject*> CSceneManager::GetGameObject(Enums::eLayerType layer)
+	//{
+	//	std::vector<CGameObject*> gameObjects = m_pCurrentScene->GetLayer(layer)->GetGameObject();
+	//	const std::vector<CGameObject*>& dontDestroyGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
+
+	//	// 추가 공간을 미리 예약하여 재할당을 최소화
+	//	const INT sceneSize = (INT)gameObjects.size();
+	//	const INT dontDestroySize = (INT)dontDestroyGameObjects.size();
+	//	gameObjects.reserve(sceneSize + dontDestroySize);
+
+	//	// dontDestroyGameObjects의 모든 요소를 gameObjects에 추가
+	//	gameObjects.insert(gameObjects.end(), dontDestroyGameObjects.begin(), dontDestroyGameObjects.end());
+	//	return gameObjects;
+	//}
+
+
+	const std::vector<CGameObject*>& CSceneManager::GetDontDestroyGameObject(Enums::eLayerType layer)
 	{
-		std::vector<CGameObject*> gameObjects = m_pCurrentScene->GetLayer(layer)->GetGameObject();
-		const std::vector<CGameObject*>& dontDestroyGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
-
-		// 추가 공간을 미리 예약하여 재할당을 최소화
-		const INT sceneSize = (INT)gameObjects.size();
-		const INT dontDestroySize = (INT)dontDestroyGameObjects.size();
-		gameObjects.reserve(sceneSize + dontDestroySize);
-
-		// dontDestroyGameObjects의 모든 요소를 gameObjects에 추가
-		gameObjects.insert(gameObjects.end(), dontDestroyGameObjects.begin(), dontDestroyGameObjects.end());
-		return gameObjects;
+		return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
+	}
+	const std::vector<CGameObject*>& CSceneManager::GetGameObject(Enums::eLayerType layer)
+	{
+		return  m_pCurrentScene->GetLayer(layer)->GetGameObject();
 	}
 
 	CScene* CSceneManager::LoadScene(const std::wstring& name)

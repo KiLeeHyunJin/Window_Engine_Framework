@@ -53,6 +53,9 @@ namespace Framework
 
 		static std::queue<Enums::eUIType> m_queUIType; //대기열
 		static std::vector<CUIBase*> m_vecCurrentUIs; //현재 UI 목록
+		/// <summary>
+		/// vector를 사용하는 이유는 캐시 적중률, 참조 연산등을 고려해 선택
+		/// </summary>
 
 		static std::unordered_map<Enums::eUIType, CUIBase*> m_unmapUI; //캐싱
 		static CUIBase* m_pCurrentUI; //현재 UI

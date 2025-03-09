@@ -57,7 +57,7 @@ namespace Framework
 			const Enums::eComponentType componentType = pCom->GetComponentType();
 			if (componentType == Enums::eComponentType::Custom)
 			{
-				m_listCustomComponents.push_back(pCom);
+				m_vecCustomComponents.push_back(pCom);
 			}
 			else
 			{
@@ -74,7 +74,7 @@ namespace Framework
 			T* getCom = nullptr;
 			if (componentType == Enums::eComponentType::Custom)
 			{
-				for (CComponent* pCom : m_listCustomComponents)
+				for (CComponent* pCom : m_vecCustomComponents)
 				{
 					getCom = dynamic_cast<T*>(pCom);
 					if (getCom != nullptr)
@@ -104,16 +104,20 @@ namespace Framework
 
 			if (componentType == Enums::eComponentType::Custom)
 			{
-				for(auto iter = m_listCustomComponents.cbegin(); 
-						 iter != m_listCustomComponents.cend();
-						 iter++)
+				for(auto idx = 0;
+					idx != m_vecCustomComponents.size();
+					idx++)
 				{
-					T* getCom = dynamic_cast<T*>(iter);
-					if (getCom != nullptr)
+					if (m_vecCustomComponents[idx] != nullptr)
 					{
-						m_listCustomComponents.erase(iter);
-						delete getCom;
-						return true;
+						T* getCom = dynamic_cast<T*>(m_vecCustomComponents[idx]);
+
+						if (getCom != nullptr)
+						{
+							m_vecCustomComponents[idx] = nullptr;
+							delete getCom;
+							return true;
+						}
 					}
 				}
 			}
@@ -159,7 +163,7 @@ namespace Framework
 		__forceinline bool GetSafeToDelete() const	{ return m_bSafeToDelete; }
 
 		std::vector<CComponent*> m_vecComponents;
-		std::list<CComponent*> m_listCustomComponents;
+		std::vector<CComponent*> m_vecCustomComponents;
 
 		CTransformComponent* m_pTransform;
 

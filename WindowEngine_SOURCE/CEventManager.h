@@ -19,6 +19,7 @@ namespace Framework
 
 
 	};
+
 	using Event = CEventManager;
 	using DeleteFunc = void(*)(CGameObject*); // 함수 포인터 - 정적 멤버 함수이므로, 객체 인스턴스 없이 호출 
 
