@@ -71,6 +71,7 @@ namespace Framework
 		{
 			const T def{};
 			const Enums::eComponentType componentType = def.GetComponentType();
+			const Enums::eComponentType componentType = T::StaticComponentType();
 			T* getCom = nullptr;
 			if (componentType == Enums::eComponentType::Custom)
 			{
