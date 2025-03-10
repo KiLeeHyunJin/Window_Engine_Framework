@@ -29,8 +29,14 @@ namespace Framework
 		virtual void OnCollisionStay(CColliderComponent* other);
 		virtual void OnCollisionExit(CColliderComponent* other);
 
+		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Collider; }
+		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+
 	protected:
 		CColliderComponent(eColliderType colliderType);
+
+		virtual void Initialize() override;
+		virtual void Release() override;
 
 		Maths::Vector2 m_vecOffset;
 		Maths::Vector2 m_vecSize;
@@ -40,8 +46,7 @@ namespace Framework
 	private:
 
 		// CComponent을(를) 통해 상속됨
-		virtual void Initialize() override;
-		virtual void Release() override;
+		
 		virtual void Tick() override;
 		virtual void LastTick() override;
 		virtual void Render(HDC hdc) override;

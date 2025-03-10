@@ -21,6 +21,12 @@ namespace Framework
 	void CQuadTree::Clear()
 	{
 		m_pRootNode->Clear();
+
+		//m_pPossibleNodes를 초기화 하지 않는 이유는 매 프레임 자동 초기화되고 
+		// 다음 씬에서도 평균치만큼 충돌검사를 진행할것으로 예상되어서 크기 조절을 따로 실행하지는 않음.
+
+		m_pCollisions.clear();
+		m_pCollisions.shrink_to_fit();
 	}
 
 
@@ -29,19 +35,20 @@ namespace Framework
 		m_pRootNode->InsertAtDepth(pCollider, GetTargetDepth(pCollider));
 	}
 
-	const std::list<CColliderComponent*>& CQuadTree::Query(CColliderComponent* queryItem)
+	const std::vector<CColliderComponent*>& CQuadTree::Query(CColliderComponent* queryItem)
 	{
 		const CTransformComponent* pTr = queryItem->GetOwner()->GetTransformComponent();
+
 		const Maths::Vector2 center = pTr->GetPos() + queryItem->GetOffset();
 		const Maths::Vector2 size = queryItem->GetSize();
 
 		return Query(center, size);
 	}
 
-	const std::list<CColliderComponent*>& CQuadTree::Query(const Maths::Vector2& center, const Maths::Vector2& size)
+	const std::vector<CColliderComponent*>& CQuadTree::Query(const Maths::Vector2& center, const Maths::Vector2& size)
 	{
 		m_pPossibleNodes.clear(); //충돌 노드
-		m_pCollisionList.clear();
+		m_pCollisions.clear();
 
 		m_pRootNode->Query(center, size, m_pPossibleNodes); //충돌 노드들을 가져온다.
 
@@ -50,10 +57,10 @@ namespace Framework
 			const std::list<CColliderComponent*>& items = node->GetItemList();
 			for (const auto& item : items)
 			{
-				m_pCollisionList.push_back(item);
+				m_pCollisions.push_back(item);
 			}
 		}
-		return m_pCollisionList;
+		return m_pCollisions;
 	}
 
 	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores)

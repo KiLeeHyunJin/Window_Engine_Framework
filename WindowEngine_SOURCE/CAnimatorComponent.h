@@ -45,6 +45,9 @@ public CComponent
 
 		CAnimatorComponent::Events* FindEvents(const std::wstring& name);
 
+		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Animator; }
+		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+
 		friend CGameObject;
 	private:
 		CAnimatorComponent();

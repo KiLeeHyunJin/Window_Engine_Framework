@@ -19,6 +19,7 @@ namespace Framework
 
 	void CBoxColliderComponent::Initialize()
 	{
+		//CColliderComponent::Initialize();
 	}
 
 	void CBoxColliderComponent::Release()
@@ -47,7 +48,7 @@ namespace Framework
 		HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc,transparentBrush);
 
-		HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
+		HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
 		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
 		const float sizeX = m_vecSize.x * 0.5f;

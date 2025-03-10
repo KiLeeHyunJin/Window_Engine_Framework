@@ -37,12 +37,12 @@ namespace Framework
 		m_bsCollisionCheck[row][col] = enable;
 	}
 
-	const std::list<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size)
+	const std::vector<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size)
 	{
 		return CQuadTreeManager::Query(center, size);
 	}
 
-	const std::list<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Rect& rect)
+	const std::vector<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Rect& rect)
 	{
 		Maths::Vector2 center = (rect.max + rect.min) * 0.5f;
 		Maths::Vector2 size = rect.max - rect.min;
@@ -80,7 +80,6 @@ namespace Framework
 		CScene* pScene = SCENE::GetCurrentScene();
 		if (pScene == nullptr)				{	return;	}
 
-		m_vecCollider.clear();
 
 		InsertCollision();
 		CollisionCircuit();
@@ -195,6 +194,9 @@ namespace Framework
 		CQuadTreeManager::Clear();
 		m_unmapCollisions.clear();
 		m_bsCollisionCheck->reset();
+		
+		m_vecCollider.clear();
+		m_vecCollider.shrink_to_fit();
 	}
 
 
@@ -219,6 +221,8 @@ namespace Framework
 
 	void CCollisionManager::InsertCollision()
 	{
+		m_vecCollider.clear();
+
 		for (UINT layer = 0; layer < (UINT)Enums::eLayerType::Size; layer++)
 		{
 			const std::vector<CGameObject*>& vecDontDestroyObj 
@@ -261,7 +265,7 @@ namespace Framework
 		{
 			const UINT leftLayer = (UINT)pCollider->GetOwner()->GetLayerType(); 
 
-			const std::list<CColliderComponent*>& possibleList = CQuadTreeManager::Query(pCollider); //해당 영역 오브젝트 가져오기
+			const std::vector<CColliderComponent*>& possibleList = CQuadTreeManager::Query(pCollider); //해당 영역 오브젝트 가져오기
 
 			for (const auto& possibleColl : possibleList)
 			{

@@ -39,8 +39,8 @@ namespace Framework
 			iter != m_listGameObject.cend();
 			iter++)
 		{
-			CGameObject::eState state = (*iter)->GetState();
-			if (state == CGameObject::eState::Enable)
+			const bool state = (*iter)->GetActive();
+			if (state)
 			{
 				(*iter)->Tick();
 			}
@@ -58,8 +58,7 @@ namespace Framework
 		for (auto iter = m_listGameObject.begin(); iter != m_listGameObject.end();)
 		{
 			CGameObject* pObj = *iter;
-			CGameObject::eState state = pObj->GetState();
-
+			//CGameObject::eState state = pObj->GetState();
 			if (pObj->GetReserveDelete())
 			{
 				pObj->SetSafeToDelete();
@@ -68,7 +67,8 @@ namespace Framework
 			}
 			else
 			{
-				if (state == CGameObject::eState::Enable)
+				const bool state = pObj->GetActive();
+				if (state)
 				{
 					pObj->LastTick();
 				}
@@ -84,7 +84,7 @@ namespace Framework
 
 		for (const CGameObject* pGameObject : m_listGameObject)
 		{
-			if (pGameObject->GetState() == CGameObject::eState::Enable)
+			if (pGameObject->GetActive())
 			{
 				pGameObject->Render(hdc);;
 			}

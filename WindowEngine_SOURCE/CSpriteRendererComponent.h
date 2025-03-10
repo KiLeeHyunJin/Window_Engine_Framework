@@ -17,6 +17,9 @@ namespace Framework
 		};
 		void SetSize(Maths::Vector2 scale) { m_vecScale = scale; }
 
+		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::SpriteRenderer; }
+		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+
 		friend CGameObject;
 	private:
 		CSpriteRendererComponent();

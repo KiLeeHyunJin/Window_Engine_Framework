@@ -25,8 +25,8 @@ namespace Framework
 		~CQuadTreeNode();
 
 		void InsertAtDepth(CColliderComponent* item, int targetDepth);
-		void Query(CColliderComponent* item, std::list<CQuadTreeNode*>& possibleNodes);
-		void Query(const Maths::Vector2& center, const Maths::Vector2& size, std::list<CQuadTreeNode*>& possibleNodes);
+		void Query(CColliderComponent* item, std::vector<CQuadTreeNode*>& possibleNodes);
+		void Query(const Maths::Vector2& center, const Maths::Vector2& size, std::vector<CQuadTreeNode*>& possibleNodes);
 		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject,const std::vector<CColliderComponent*>& ignores);
 		void Clear();
 		void Release();
@@ -50,9 +50,6 @@ namespace Framework
 		{
 			return m_vecChildren.size() != 0;
 		}
-
-
-
 
 		std::vector<CQuadTreeNode*> m_vecChildren;
 		std::list<CColliderComponent*> m_listItems;

@@ -23,12 +23,12 @@ namespace Framework
         }
         m_pQuadTree = new CQuadTree(size, maxDepth, constrantK);
     }
-    const std::list<CColliderComponent*>& CQuadTreeManager::Query(CColliderComponent* queryItem)
+    const std::vector<CColliderComponent*>& CQuadTreeManager::Query(CColliderComponent* queryItem)
     {
         return m_pQuadTree->Query(queryItem);
     }
 
-    const std::list<CColliderComponent*>& CQuadTreeManager::Query(const Maths::Vector2& center, const Maths::Vector2& size)
+    const std::vector<CColliderComponent*>& CQuadTreeManager::Query(const Maths::Vector2& center, const Maths::Vector2& size)
     {
         return m_pQuadTree->Query(center, size);
     }

@@ -9,7 +9,8 @@ namespace Framework
     {
     public :
         __forceinline CGameObject* GetOwner()       const { return m_pOwner; }
-        __forceinline Enums::eComponentType GetComponentType() const { return m_eComponentType; }
+        //__forceinline Enums::eComponentType GetComponentType() const { return m_eComponentType; }
+        virtual Enums::eComponentType GetComponentType() const = 0;
 
         friend CGameObject;
     protected:

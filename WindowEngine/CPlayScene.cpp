@@ -19,6 +19,7 @@
 
 #include "CTexture.h"
 #include "CPlayerInput.h"
+#include "CDummy.h"
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -33,12 +34,12 @@ void Framework::CPlayScene::Initialize()
 	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 
 
-	CGameObject* pObj = Object::Instantiate<CPlayerInput>(Enums::eLayerType::BackGround, L"pObj")->GetOwner();
+	CGameObject* pObj = Object::Instantiate<CPlayerInput>(Enums::eLayerType::BackGround, L"Player")->GetOwner();
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	pRigid->SetGround(true);
 
-	CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
+	//CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
 	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
 
 	//CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
@@ -46,11 +47,11 @@ void Framework::CPlayScene::Initialize()
 	//pAnim->PlayAnimation(L"Room", true);
 
 
-	pObj = Object::Instantiate<CPlayerInput>(Enums::eLayerType::BackGround, L"pObj")->GetOwner();
+	pObj = Object::Instantiate<CDummy>(Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
 	pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	pRigid->SetGround(true);
-	pObj->AddComponent<CPlayerInput>();
+	//pObj->AddComponent<CPlayerInput>();
 	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
 
 	CCollisionManager::SetCollisionLayerState(Enums::eLayerType::BackGround, Enums::eLayerType::BackGround, true);

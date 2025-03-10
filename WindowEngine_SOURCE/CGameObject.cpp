@@ -103,6 +103,19 @@ namespace Framework
 		m_vecComponents.clear();
 		m_vecComponents.clear();
 	}
+	void CGameObject::SetLayerType(const Enums::eLayerType layerType)
+	{
+		if (layerType != m_eLayerType)
+		{
+			m_eLayerType = layerType;
+			ChangeLayer(layerType);
+		}
+	}
+
+	void CGameObject::ChangeLayer(const Enums::eLayerType layerType)
+	{
+
+	}
 
 	//void CGameObject::AddTransform()
 	//{

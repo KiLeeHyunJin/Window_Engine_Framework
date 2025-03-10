@@ -43,6 +43,8 @@ namespace Framework
 		template<typename T>
 		T* AddComponent()
 		{
+			static_assert(std::is_base_of<CComponent, T>::value, "T is not from CComponent");
+
 			T* getCom = GetComponent<T>();
 			if (getCom != nullptr)
 			{
@@ -69,8 +71,9 @@ namespace Framework
 		template<typename T>
 		T* GetComponent()
 		{
-			const T def{};
-			const Enums::eComponentType componentType = def.GetComponentType();
+			//const T def{};
+			static_assert(std::is_base_of<CComponent, T>::value, "T is not from CComponent");
+
 			const Enums::eComponentType componentType = T::StaticComponentType();
 			T* getCom = nullptr;
 			if (componentType == Enums::eComponentType::Custom)
@@ -99,8 +102,10 @@ namespace Framework
 		template<typename T>
 		bool RemoveComponent()
 		{
-			const T def{};
-			const Enums::eComponentType componentType = def.GetComponentType();
+			//const T def{};
+			static_assert(std::is_base_of<CComponent, T>::value, "T is not from CComponent");
+
+			const Enums::eComponentType componentType = T::StaticComponentType();
 			if (componentType == Enums::eComponentType::Transform)	{	return false;	}
 
 			if (componentType == Enums::eComponentType::Custom)
@@ -137,15 +142,20 @@ namespace Framework
 
 #pragma endregion Component Template
 
-		inline void SetActive(bool power) { m_eState = power ? eState::Enable : eState::Disable; }
-		inline void SetLayerType(Enums::eLayerType layerType) { m_eLayerType = layerType; }
+		void SetLayerType(const Enums::eLayerType layerType);
 
-		__forceinline const eState GetState()	const { return m_eState; }
-		__forceinline const bool GetActive()	const { return m_eState == eState::Enable; }
+		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable; }
+		__forceinline const Enums::eLayerType GetLayerType()	const	{ return m_eLayerType; }
+
+		//__forceinline const eState GetState()					const	{ return m_eState; }
+		__forceinline const bool GetActive()					const	{ return m_eState == eState::Enable; }
+		__forceinline const bool GetDisable()					const	{ return m_eState == eState::Disable; }
+
+		__forceinline const bool GetReserveDelete()				const	{ return m_bReserveDelete; }
+		__forceinline const bool GetSafeToDelete()				const	{ return m_bSafeToDelete; }
+
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
-		__forceinline const Enums::eLayerType GetLayerType() const { return m_eLayerType; }
-		__forceinline bool GetReserveDelete() const { return m_bReserveDelete; }
 
 		friend CLayer;
 		friend CEventManager;
@@ -156,12 +166,12 @@ namespace Framework
 		void Render(HDC hdc) const;
 		void Release();
 
+		void ChangeLayer(const Enums::eLayerType layerType);
 		//void AddTransform();
 
 		__forceinline void SetSafeToDelete()	{ if (m_bSafeToDelete == false)  m_bSafeToDelete  = true; }
 		__forceinline void SetReserveDelete()	{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
 
-		__forceinline bool GetSafeToDelete() const	{ return m_bSafeToDelete; }
 
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;

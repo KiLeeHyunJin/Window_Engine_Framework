@@ -30,6 +30,9 @@
     <ClInclude Include="LoadUI.h">
       <Filter>Load</Filter>
     </ClInclude>
+    <ClInclude Include="CDummy.h">
+      <Filter>Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlayScene.cpp">
@@ -39,6 +42,9 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerInput.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CDummy.cpp">
       <Filter>Script</Filter>
     </ClCompile>
   </ItemGroup>

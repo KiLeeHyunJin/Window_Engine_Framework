@@ -18,8 +18,8 @@ namespace Framework
 
 		void Clear();
 		void Insert(CColliderComponent* pCollider);
-		const std::list<CColliderComponent*>& Query(CColliderComponent* queryItem);
-		const std::list<CColliderComponent*>& Query(const Maths::Vector2& center, const Maths::Vector2& size);
+		const std::vector<CColliderComponent*>& Query(CColliderComponent* queryItem);
+		const std::vector<CColliderComponent*>& Query(const Maths::Vector2& center, const Maths::Vector2& size);
 
 		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& removes);
 		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayer);
@@ -37,8 +37,16 @@ namespace Framework
 		CQuadTreeNode* m_pRootNode;
 		const int m_iMaxDepth;
 		float m_fConstantK;
-		std::list<CQuadTreeNode*> m_pPossibleNodes;
-		std::list<CColliderComponent*> m_pCollisionList;
+
+		//list에서 vector로 바꾸고 930프레임에서 1000프레임으로 상승
+		/// <summary>
+		/// 충돌 가능성이 있는 노드를 담아 놓는 자료형
+		/// </summary>
+		std::vector<CQuadTreeNode*> m_pPossibleNodes;
+		/// <summary>
+		/// 충돌중인 콜라이더를 담아서 반환하는 자료형
+		/// </summary>
+		std::vector<CColliderComponent*> m_pCollisions;
 	};
 }
 

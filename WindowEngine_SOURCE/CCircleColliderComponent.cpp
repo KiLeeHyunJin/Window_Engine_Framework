@@ -16,6 +16,7 @@ namespace Framework
 	}
 	void CCircleColliderComponent::Initialize()
 	{
+		//CColliderComponent::Initialize();
 	}
 	void CCircleColliderComponent::Release()
 	{

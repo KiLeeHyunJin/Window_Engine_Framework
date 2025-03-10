@@ -27,8 +27,10 @@ namespace Framework
 			T* createScene = new T();
 			pScene = static_cast<CScene*>(createScene);
 			m_pCurrentScene = pScene;
+
 			m_pCurrentScene->SetName(name);
 			m_pCurrentScene->Initialize();
+
 			m_mapScene.insert(make_pair(name, pScene));
 			return pScene;
 		}
@@ -49,6 +51,7 @@ namespace Framework
 
 		static void Tick();
 		static void LastTick();
+
 		static void Destroy();
 		static void Render(HDC hDC);
 

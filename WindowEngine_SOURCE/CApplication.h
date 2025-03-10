@@ -20,9 +20,11 @@ namespace Framework
 				(float)CRenderManager::m_iCurrentBufferBitmapWidth, 
 				(float)CRenderManager::m_iCurrentBufferBitmapHeight); 
 		}
-		bool GetScreenState()	{ return CRenderManager::m_bScreenState; };
-		HDC GetHDC() const		{ return CRenderManager::GetHDC(); }
-		HWND GetHWND() const	{ return CRenderManager::m_hWnd; }
+
+		HDC GetHDC() const							{ return CRenderManager::GetHDC(); }
+		__forceinline bool GetScreenState() const	{ return CRenderManager::m_bScreenState; };
+		__forceinline HWND GetHWND() const			{ return CRenderManager::m_hWnd; }
+
 	private:
 		void Tick();
 		void LastTick();

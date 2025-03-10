@@ -7,7 +7,8 @@ namespace Framework
 	UINT32 CColliderComponent::m_collId = 1;
 
 	CColliderComponent::CColliderComponent():
-		CComponent(Enums::eComponentType::Collider), m_eColliderType(eColliderType::None)
+		CComponent(Enums::eComponentType::Collider), m_eColliderType(eColliderType::None), m_iColliderId(m_collId++),
+		m_vecSize(Maths::Vector2::One)
 	{	
 	}
 
@@ -16,6 +17,7 @@ namespace Framework
 		m_vecSize(Maths::Vector2::One), m_eColliderType(colliderType)
 	{
 	}
+
 	CColliderComponent::~CColliderComponent()
 	{
 	}

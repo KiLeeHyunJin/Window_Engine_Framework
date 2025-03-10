@@ -3,8 +3,9 @@
 namespace Framework
 {
 	float			CTimeManager::m_fDeltaTime			= 0;
+	bool			CTimeManager::m_bShowFPS			= true;
 	UINT			CTimeManager::m_uiFPS				= 0;
-	CTimeManager::eTimeType CTimeManager::timeType		= CTimeManager::eTimeType::Chrono;
+	CTimeManager::eTimeType CTimeManager::timeType		= CTimeManager::eTimeType::Performance;
 	VoidPtr			CTimeManager::functions[3]= { nullptr};
 
 	LARGE_INTEGER	CTimeManager::m_liCpuFrequency		= {};
@@ -55,6 +56,9 @@ namespace Framework
 
 	void CTimeManager::Render(HDC hdc)
 	{
+		if (m_bShowFPS == false)
+		{	return;	}
+
 		//static float time = 0;
 		
 		//time += m_fDeltaTime;
@@ -68,21 +72,21 @@ namespace Framework
 	}
 
 	/// <summary>
-	/// OS 타이머 기반 정확도 - 낮음, 
+	/// OS 타이머 기반
 	/// </summary>
 	void CTimeManager::TimeTick()
 	{
-		static ULONGLONG m_fDeltaTick	= 0;
 		static ULONGLONG m_fPrevTick	= 0;
-		const  ULONGLONG currentTick	= GetTickCount64();
 
-		m_fDeltaTick = currentTick - m_fPrevTick;
-		m_fDeltaTime = m_fDeltaTick * 0.001f;
+		const  ULONGLONG currentTick	= GetTickCount64();
+		const  ULONGLONG m_fDeltaTick	= currentTick - m_fPrevTick;
 		m_fPrevTick = currentTick;
+
+		m_fDeltaTime = m_fDeltaTick * 0.001f;
 	}
 
 	/// <summary>
-	/// CPU 클럭 주파수를 기반, 정확도 - 매우 높음, 일관성 - 일부 멀티 코어 환경에서 문제 발생 가능
+	/// CPU 클럭 주파수를 기반
 	/// </summary>
 	void CTimeManager::TimePerformance()
 	{
@@ -96,7 +100,7 @@ namespace Framework
 	}
 
 	/// <summary>
-	/// C++11 이후 표준 라이브러리 정확도 - 매우 높음, 일관성 - 운영체제에 종속되어 있는 않는 기능(독립적)
+	/// C++11 이후 표준 라이브러리
 	/// </summary>
 	void CTimeManager::TimeChrono()
 	{
@@ -105,7 +109,7 @@ namespace Framework
 
 		curTime = std::chrono::high_resolution_clock::now();
 
-		std::chrono::duration<float> elapsed = curTime - prevTime; // 이전 프레임이랑 차이 시간 계산
+		const std::chrono::duration<float> elapsed = curTime - prevTime; 
 		prevTime = curTime;
 
 		m_fDeltaTime = std::clamp(elapsed.count(), 0.0f, 0.1f);

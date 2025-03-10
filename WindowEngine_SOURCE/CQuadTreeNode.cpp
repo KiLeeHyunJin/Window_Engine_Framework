@@ -43,7 +43,7 @@ namespace Framework
 		}
 	}
 
-	void CQuadTreeNode::Query(CColliderComponent* item, std::list<CQuadTreeNode*>& possibleNodes)
+	void CQuadTreeNode::Query(CColliderComponent* item, std::vector<CQuadTreeNode*>& possibleNodes)
 	{
 		possibleNodes.push_back(this); //본인 노드를 저장한다.
 
@@ -59,7 +59,7 @@ namespace Framework
 		}
 	}
 
-	void CQuadTreeNode::Query(const Maths::Vector2& center,const Maths::Vector2& size, std::list<CQuadTreeNode*>& possibleNodes)
+	void CQuadTreeNode::Query(const Maths::Vector2& center,const Maths::Vector2& size, std::vector<CQuadTreeNode*>& possibleNodes)
 	{
 		possibleNodes.push_back(this); //본인 노드를 저장한다.
 
@@ -253,6 +253,7 @@ namespace Framework
 			{
 				node->Render(hdc);
 			}
+
 		}
 		else
 		{
@@ -273,6 +274,19 @@ namespace Framework
 
 			(HBRUSH)SelectObject(hdc, oldBrush);
 			DeleteObject(newBrush);
+		}
+
+		if (m_listItems.size() > 0)
+		{
+			std::wstring str = L"";
+			for (auto item : m_listItems)
+			{
+				str.append(item->GetName() + L", ");
+			}
+			//swprintf_s(str, 50, L"FPS : %d", str.c_str());
+			int len = (int)wcsnlen_s(str.c_str(), 50);
+
+			TextOut(hdc, (INT)m_vecCenter.x, (INT)m_vecCenter.y, str.c_str(), len);
 		}
 	}
 }

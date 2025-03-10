@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDummy.h" />
     <ClInclude Include="CPlayerInput.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CTitleScene.h" />
@@ -144,6 +145,7 @@
     <ClInclude Include="LoadUI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDummy.cpp" />
     <ClCompile Include="CPlayerInput.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
     <ClCompile Include="CTitleScene.cpp" />

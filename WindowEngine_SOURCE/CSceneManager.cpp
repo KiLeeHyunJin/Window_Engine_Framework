@@ -61,7 +61,7 @@ namespace Framework
 	{
 		for (auto& scenePair : m_mapScene)
 		{
-			//scenePair.second->OnExit();
+			scenePair.second->OnExit();
 			scenePair.second->SceneRelease();
 			delete scenePair.second;
 		}

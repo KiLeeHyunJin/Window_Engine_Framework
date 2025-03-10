@@ -16,6 +16,9 @@ namespace Framework
 		inline void SetTarget(CGameObject* pTarget)						{ m_pTarget = pTarget; }
 		inline void SetResolution(Maths::Vector2 resolution)			{ m_vecResolution = resolution; }
 
+		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Camera; }
+		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+
 		friend CGameObject;
 	private :
 		CCameraComponent();

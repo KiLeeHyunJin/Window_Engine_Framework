@@ -32,12 +32,12 @@ namespace Framework
 		/// <summary>
 		/// 이전 Tick의 기준에서 충돌체를 가져옴
 		/// </summary>
-		static const std::list<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center,const Maths::Vector2& size);
+		static const std::vector<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center,const Maths::Vector2& size);
 
 		/// <summary>
 		/// 이전 Tick의 기준에서 충돌체를 가져옴
 		/// </summary>
-		static const std::list<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
+		static const std::vector<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
 
 		/// <summary>
 		/// 사용은 가능하나 최적화가 필요
@@ -84,6 +84,9 @@ namespace Framework
 
 		static std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
 		static std::unordered_map<UINT64, bool> m_unmapCollisions;
+		/// <summary>
+		/// 모든 콜라이더들을 담아놓는 자료형
+		/// </summary>
 		static std::vector<CColliderComponent*> m_vecCollider;
 	};
 	using COLLISION = CCollisionManager;
