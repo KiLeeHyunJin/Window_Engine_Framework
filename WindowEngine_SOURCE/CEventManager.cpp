@@ -33,6 +33,11 @@ namespace Framework
 		ProgressChangeLayer();
 	}
 
+	void CEventManager::LoadScene(UINT loadSceneID, float changeTime)
+	{
+
+	}
+
 	void CEventManager::ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType)
 	{
 		CScene* currentScene = SCENE::GetCurrentScene();

@@ -18,6 +18,8 @@ namespace Framework
 			Enums::eLayerType targetLayer;
 		};
 
+		static void LoadScene(UINT loadSceneID, float changeTime = 0);
+
 		static void ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType);
 
 		static void SetDontDestroyGameObject(CGameObject* pObj);
