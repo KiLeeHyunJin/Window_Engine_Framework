@@ -12,7 +12,7 @@
 namespace Framework::Object
 {
 	template <typename T>
-	static T* Instantiate(Enums::eLayerType layerType, std::wstring name)
+	static T* Instantiate(Enums::eLayerType layerType, std::wstring name, bool dontDestory = false)
 	{
 		CScene* pCurScene = CSceneManager::GetCurrentScene();
 		if (pCurScene == nullptr)
@@ -20,14 +20,14 @@ namespace Framework::Object
 			return nullptr;
 		}
 		CGameObject* pGameObject = new CGameObject(layerType);
-		pCurScene->AddGameObject(pGameObject);
+		EVENT::AddGameObject(pCurScene,pGameObject, dontDestory);
 		pGameObject->SetName(name);
 
 		T* pComponent = pGameObject->AddComponent<T>();
 		return pComponent;
 	};
 
-	static CGameObject* Instantiate(Enums::eLayerType layerType, std::wstring name)
+	static CGameObject* Instantiate(Enums::eLayerType layerType, std::wstring name, bool dontDestory = false)
 	{
 		CScene* pCurScene = CSceneManager::GetCurrentScene();
 		if (pCurScene == nullptr)
@@ -35,7 +35,7 @@ namespace Framework::Object
 			return nullptr;
 		}
 		CGameObject* pGameObject = new CGameObject(layerType);
-		pCurScene->AddGameObject(pGameObject);
+		EVENT::AddGameObject(pCurScene, pGameObject, dontDestory);
 		pGameObject->SetName(name);
 		return pGameObject;
 	};
@@ -49,10 +49,10 @@ namespace Framework::Object
 
 	static void DontDestoryOnLoad(CGameObject* pGameObject)
 	{
-		CScene* pCurScene = CSceneManager::GetCurrentScene();
-		pCurScene->EraseGameObject(pGameObject);
-		CScene*  pDonDestoryScene = CSceneManager::GetDontDestoryScene();
-		pDonDestoryScene->AddGameObject(pGameObject);
+		EVENT::SetDontDestroyGameObject(pGameObject);
+		//pCurScene->EraseGameObject(pGameObject);
+		//CScene*  pDonDestoryScene = CSceneManager::GetDontDestoryScene();
+		//pDonDestoryScene->AddGameObject(pGameObject);
 	}
 }
 

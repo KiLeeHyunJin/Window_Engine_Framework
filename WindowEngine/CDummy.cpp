@@ -6,6 +6,7 @@
 #include "CCollisionManager.h"
 #include "CInputManager.h"
 #include "CRenderManager.h"
+#include "CEventManager.h"
 
 #include "CGameObject.h"
 
@@ -70,6 +71,10 @@ namespace Framework
 			rigid->SetVelocity(addForceDir * movePower);
 		}
 
+		if (INPUT::GetKeyDown(eKeyCode::Enter))
+		{
+			EVENT::ChangeLayer(GetOwner(), Enums::eLayerType::Particle);
+		}
 	}
 
 	void CDummy::Render(HDC hdc)

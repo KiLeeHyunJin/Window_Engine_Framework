@@ -15,6 +15,8 @@
 #include "CButton.h"
 #include "CUIBase.h"
 
+#include "MapEnums.h"
+
 Framework::CTitleScene::CTitleScene()
 {
 }
@@ -42,7 +44,7 @@ void Framework::CTitleScene::LastTick()
 {
 	if (INPUT::GetKeyDown(eKeyCode::A))
 	{
-		CSceneManager::LoadScene(L"PlayScene");
+		CSceneManager::LoadScene((UINT)eMap::Play);
 	}
 }
 

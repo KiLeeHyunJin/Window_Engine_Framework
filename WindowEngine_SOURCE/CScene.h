@@ -7,12 +7,12 @@ namespace Framework
 {
 	class CGameObject;
 	class CSceneManager;
+	class CEventManager;
 
 	class CScene : public CEntity
 	{
 	public:
-		void AddGameObject(CGameObject* pGameObject);
-		void EraseGameObject(CGameObject* pGameObject);
+
 
 	protected:
 		CScene();
@@ -31,7 +31,7 @@ namespace Framework
 
 
 		friend CSceneManager;
-		//friend CCollisionManager;
+		friend CEventManager;
 	private:
 		void SceneInitialize();
 		void SceneRelease();
@@ -42,6 +42,9 @@ namespace Framework
 		void SceneDestroy();
 		void SceneRender(HDC hdc);
 
+		void AddGameObject(CGameObject* pGameObject);
+		bool EraseInLayer(CGameObject* pGameObject);
+		//void InsertInLayer(CGameObject* pGameObject);
 		const CLayer* GetLayer(Enums::eLayerType layer) const { return m_vecLayer[(UINT)layer]; }
 		//std::vector<CGameObject*> m_vecGameObject;
 		std::vector<CLayer*> m_vecLayer;

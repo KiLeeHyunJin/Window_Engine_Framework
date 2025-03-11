@@ -10,6 +10,9 @@
     <Filter Include="Script">
       <UniqueIdentifier>{96ce5319-3e93-4ccb-b6c2-5f226ec531a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataStruct">
+      <UniqueIdentifier>{0f8a2bcb-4b3f-42e9-8a9d-31f8a3410609}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPlayScene.h">
@@ -32,6 +35,9 @@
     </ClInclude>
     <ClInclude Include="CDummy.h">
       <Filter>Script</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEnums.h">
+      <Filter>DataStruct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

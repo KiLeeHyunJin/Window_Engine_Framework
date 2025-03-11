@@ -1,6 +1,7 @@
 #pragma once
 #include "CommonInclude.h"
 
+
 namespace Framework
 {
 	class CApplication;
@@ -88,6 +89,8 @@ namespace Framework
 		/// 모든 콜라이더들을 담아놓는 자료형
 		/// </summary>
 		static std::vector<CColliderComponent*> m_vecCollider;
+
+		static double duration;
 	};
 	using COLLISION = CCollisionManager;
 }

@@ -140,6 +140,7 @@
     <ClInclude Include="CPlayerInput.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CTitleScene.h" />
+    <ClInclude Include="MapEnums.h" />
     <ClInclude Include="LoadResource.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="LoadUI.h" />

@@ -68,12 +68,11 @@ namespace Framework
 
 	void CScene::SceneRender(HDC hdc)
 	{
-		for (CLayer* pLayer : m_vecLayer)
-		{
-			pLayer->Render(hdc);
-		}
+		//for (CLayer* pLayer : m_vecLayer)
+		//{
+		//	pLayer->Render(hdc);
+		//}
 		Render(hdc);
-
 
 		const Maths::Vector2 mousePos = CInputManager::GetMousePosition();
 		
@@ -87,13 +86,19 @@ namespace Framework
 	
 	void CScene::AddGameObject(CGameObject* pGameObject)
 	{
-		Enums::eLayerType layer = pGameObject->GetLayerType();
+		const Enums::eLayerType layer = pGameObject->GetLayerType();
 		m_vecLayer[(int)layer]->AddGameObject(pGameObject);
 	}
 
-	void CScene::EraseGameObject(CGameObject* pGameObject)
+	bool CScene::EraseInLayer(CGameObject* pGameObject)
 	{
 		const Enums::eLayerType objectLayer = pGameObject->GetLayerType();
-		m_vecLayer[(UINT)objectLayer]->EraseGameObject(pGameObject);
+		const bool result = m_vecLayer[(int)objectLayer]->EraseInIndex(pGameObject);
+		return result;
 	}
+	//void CScene::EraseGameObject(CGameObject* pGameObject)
+	//{
+	//	const Enums::eLayerType objectLayer = pGameObject->GetLayerType();
+	//	m_vecLayer[(UINT)objectLayer]->EraseGameObject(pGameObject);
+	//}
 }

@@ -5,15 +5,16 @@
 
 #include "CPlayScene.h"
 #include "CTitleScene.h"
+#include "MapEnums.h"
 
 namespace Framework
 {
 	void CreateScenes()
 	{
+		CSceneManager::InitMapDataSize((UINT)eMap::Size);
 
-
-		CSceneManager::CreateScene<CPlayScene>(L"PlayScene");
-		CSceneManager::CreateScene<CTitleScene>(L"TitleScene");
+		CSceneManager::CreateScene<CPlayScene>(L"PlayScene",(UINT)eMap::Play);
+		CSceneManager::CreateScene<CTitleScene>(L"TitleScene", (UINT)eMap::Title);
 	}
 
 
@@ -21,7 +22,7 @@ namespace Framework
 	{
 		CreateScenes();
 
-		CSceneManager::LoadScene(L"TitleScene");
+		CSceneManager::LoadScene((UINT)eMap::Title);
 	}
 
 

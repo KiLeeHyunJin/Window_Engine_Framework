@@ -9,11 +9,11 @@ namespace Framework
 	Maths::Vector2 CInputManager::m_vecMousePos = Maths::Vector2::One;
 	int ASCII[] =
 	{
-		'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
-		'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
-		'Z', 'X', 'C', 'V', 'B', 'N', 'M',
-		VK_LBUTTON, VK_RBUTTON, VK_MBUTTON, //마우스
-		VK_BACK, VK_ESCAPE, VK_TAB, VK_RETURN, //백스페이스, ESC, 탭, 엔터
+		'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // 9
+		'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', //18
+		'Z', 'X', 'C', 'V', 'B', 'N', 'M', //25
+		VK_LBUTTON, VK_RBUTTON, VK_MBUTTON, //마우스 //24
+		VK_BACK, VK_ESCAPE, VK_TAB, VK_RETURN, //백스페이스, ESC, 탭, 엔터 //32
 		VK_CAPITAL, VK_SPACE,  //캡스락
 		VK_PRIOR, VK_NEXT, VK_END, VK_HOME, VK_INSERT, VK_DELETE, //방향키 위 키
 		VK_LEFT, VK_UP, VK_RIGHT, VK_DOWN, //화살표

@@ -4,6 +4,7 @@
 #include "CInputManager.h"
 #include "CTimeManager.h"
 #include "CRenderManager.h"
+#include "CEventManager.h"
 
 #include "CTransformComponent.h"
 #include "CRigidbodyComponent.h"
@@ -12,7 +13,7 @@ namespace Framework
 {
 	CGameObject::CGameObject(Enums::eLayerType layerType) :
 		m_eState(eState::Enable), m_eLayerType(layerType), 
-		m_bReserveDelete(false), m_bSafeToDelete(false),
+		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),
 		m_pTransform(new CTransformComponent)
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
@@ -103,18 +104,13 @@ namespace Framework
 		m_vecComponents.clear();
 		m_vecComponents.clear();
 	}
-	void CGameObject::SetLayerType(const Enums::eLayerType layerType)
-	{
-		if (layerType != m_eLayerType)
-		{
-			m_eLayerType = layerType;
-			ChangeLayer(layerType);
-		}
-	}
 
 	void CGameObject::ChangeLayer(const Enums::eLayerType layerType)
 	{
-
+		if (layerType != m_eLayerType)
+		{
+			EVENT::ChangeLayer(this, layerType);
+		}
 	}
 
 	//void CGameObject::AddTransform()

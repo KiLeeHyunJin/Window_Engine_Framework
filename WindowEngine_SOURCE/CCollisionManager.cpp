@@ -7,13 +7,16 @@
 
 #include "CTransformComponent.h"
 #include "CColliderComponent.h"
+#include "CApplication.h"
 //#include 
+extern Framework::CApplication application;
 
 namespace Framework
 {
 	std::bitset<(UINT)Enums::eLayerType::Size> CCollisionManager::m_bsCollisionCheck[(UINT)Enums::eLayerType::Size] = {false};
 	std::unordered_map<UINT64, bool> CCollisionManager::m_unmapCollisions = {};
 	std::vector<CColliderComponent*> CCollisionManager::m_vecCollider = {};
+	double CCollisionManager::duration = 0;
 
 	CCollisionManager::CCollisionManager()
 	{	}
@@ -80,9 +83,14 @@ namespace Framework
 		CScene* pScene = SCENE::GetCurrentScene();
 		if (pScene == nullptr)				{	return;	}
 
+		//clock_t start, finish;
+		//start = clock();
 
 		InsertCollision();
 		CollisionCircuit();
+		
+		//finish = clock();
+		//duration = (double)(finish - start) / CLOCKS_PER_SEC;
 	}
 
 	void CCollisionManager::LastTick()
@@ -90,7 +98,13 @@ namespace Framework
 
 	void CCollisionManager::Render(HDC hdc)
 	{
-		CQuadTreeManager::Render(hdc);
+		//CQuadTreeManager::Render(hdc);
+		//wchar_t str[50] = L"";
+		//swprintf_s(str, 50, L"FPS : %d", (int)(duration * 1000));
+		//int len = (int)wcsnlen_s(str, 50);
+
+		//const Maths::Vector2 resolution = application.GetResolution();
+		//TextOut(hdc, ((int)resolution.x - 100), ((int)resolution.y - 20), str, len);
 	}
 
 #pragma region NoUsed

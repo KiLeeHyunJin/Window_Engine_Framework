@@ -1,28 +1,37 @@
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CDontDestroyOnLoad.h"
+
 #include "CCollisionManager.h"
 #include "CUIManager.h"
+#include "CEventManager.h"
 
 namespace Framework
 {
-	std::map<std::wstring,CScene*>	CSceneManager::m_mapScene		= {};
-	CScene* CSceneManager::m_pCurrentScene = nullptr;
-	CScene*	CSceneManager::m_pDontDestroyScene = nullptr;
-
+	std::vector<CScene*>	CSceneManager::m_vecScenes				= {nullptr};
+	CScene* CSceneManager::m_pCurrentScene							= nullptr;
+	CScene*	CSceneManager::m_pDontDestroyScene						= nullptr;
+	CScene* CSceneManager::m_pChangeScene							= nullptr;
 
 	CSceneManager::CSceneManager()
 	{
-
 	}
+
 	CSceneManager::~CSceneManager()
 	{
 	}
 
 	void CSceneManager::Initialize()
 	{
-		m_pDontDestroyScene = CreateScene<CDontDestroyOnLoad>(L"DontDestroyOnLoad");
-		m_pCurrentScene->SceneInitialize();
+		CDontDestroyOnLoad* pDontDestroyScene = new CDontDestroyOnLoad;
+		m_pDontDestroyScene = static_cast<CScene*>(pDontDestroyScene);
+		m_pDontDestroyScene->SetName(L"DontDestroyScene");
+		m_pDontDestroyScene->SceneInitialize();
+
+		//if (m_pCurrentScene != nullptr)
+		//{
+		//	m_pCurrentScene->SceneInitialize();
+		//}
 	}
 
 	void CSceneManager::Tick()
@@ -55,17 +64,21 @@ namespace Framework
 			pCurrentLayer->Render(hDC);
 			pDontDestroyLayer->Render(hDC);
 		}
+		m_pCurrentScene->SceneRender(hDC);
 	}
 
 	void CSceneManager::Release()
 	{
-		for (auto& scenePair : m_mapScene)
+		for (auto& pScene : m_vecScenes)
 		{
-			scenePair.second->OnExit();
-			scenePair.second->SceneRelease();
-			delete scenePair.second;
+			if (pScene != nullptr)
+			{
+				pScene->OnExit();
+				pScene->SceneRelease();
+				delete pScene;
+			}
 		}
-		m_mapScene.clear();
+		m_vecScenes.clear();
 
 		m_pCurrentScene = nullptr;
 		m_pDontDestroyScene = nullptr;
@@ -91,14 +104,15 @@ namespace Framework
 	{
 		return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
 	}
+
 	const std::vector<CGameObject*>& CSceneManager::GetGameObject(Enums::eLayerType layer)
 	{
 		return  m_pCurrentScene->GetLayer(layer)->GetGameObject();
 	}
 
-	CScene* CSceneManager::LoadScene(const std::wstring& name)
+	CScene* CSceneManager::LoadScene(const UINT idx)
 	{
-		CScene* pScene = FindScene(name);
+		CScene* pScene = FindScene(idx);
 		if (pScene != nullptr)
 		{
 			if (m_pCurrentScene != nullptr)
@@ -114,13 +128,14 @@ namespace Framework
 		return nullptr;
 	}
 
-	CScene* CSceneManager::FindScene(const std::wstring& name)
+	CScene* CSceneManager::FindScene(const UINT idx)
 	{
-		std::map<std::wstring, CScene*>::iterator iter = m_mapScene.find(name);
-		if (iter != m_mapScene.end())
+		CScene* pScene = m_vecScenes[idx];
+		//std::map<std::wstring, CScene*>::iterator iter = m_mapScene.find(name);
+		/*if (iter != m_mapScene.end())
 		{
 			return iter->second;
-		}
-		return nullptr;
+		}*/
+		return pScene;
 	}
 }

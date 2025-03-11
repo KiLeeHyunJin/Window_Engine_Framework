@@ -58,17 +58,17 @@ namespace Framework
 		for (auto iter = m_listGameObject.begin(); iter != m_listGameObject.end();)
 		{
 			CGameObject* pObj = *iter;
-			//CGameObject::eState state = pObj->GetState();
-			if (pObj->GetReserveDelete())
+
+			///삭제 예정이라면 삭제 목록으로 추가
+			if (pObj->GetReserveDelete()) 
 			{
-				pObj->SetSafeToDelete();
-				m_listRemoveGameObject.push_back(pObj);
+				DeleteGameObject(pObj);
 				iter = m_listGameObject.erase(iter);
 			}
-			else
+			///활성화 되어있는 게임 오브젝트만 라스트 틱 호출
+			else 
 			{
-				const bool state = pObj->GetActive();
-				if (state)
+				if (pObj->GetActive())
 				{
 					pObj->LastTick();
 				}
@@ -111,13 +111,33 @@ namespace Framework
 		m_listGameObject.push_back(pGameObject);
 	}
 
-	void CLayer::EraseGameObject(CGameObject* pGameObject)
+	void CLayer::DeleteGameObject(CGameObject* pGameObject)
 	{
-		std::erase_if(m_listGameObject, 
-			[=](CGameObject* pObj) 
-			{
-				return pObj == pGameObject;
-			});
+		pGameObject->SetSafeToDelete();
+		m_listRemoveGameObject.push_back(pGameObject);
 	}
+
+	bool CLayer::EraseInIndex(CGameObject* pGameObject)
+	{
+		bool result = false;
+		auto iter = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
+			[pGameObject](CGameObject* obj) 
+			{ return obj == pGameObject; });
+
+		if (iter != m_listGameObject.end()) 
+		{
+			m_listGameObject.erase(iter, m_listGameObject.end());
+			result = true;
+		}
+		return result;
+	}
+	//void CLayer::EraseGameObject(CGameObject* pGameObject)
+	//{
+	//	std::erase_if(m_listGameObject, 
+	//		[=](CGameObject* pObj) 
+	//		{
+	//			return pObj == pGameObject;
+	//		});
+	//}
 }
 

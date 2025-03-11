@@ -8,7 +8,7 @@ namespace Framework
 
 	class CRenderManager;
 	class CCollisionManager;
-
+	class CEventManager;
 	class CScene;
 
 	class CSceneManager
@@ -17,25 +17,39 @@ namespace Framework
 		CSceneManager();
 		virtual ~CSceneManager();
 
+		static void InitMapDataSize(UINT size) 
+		{ 
+			m_vecScenes.resize(size); 
+			m_vecScenes[m_vecScenes.size() - 1] = m_pDontDestroyScene;
+		}
+
 		template<typename T>
-		static CScene* CreateScene(const std::wstring& name )//씬은 씬매니저가 생성하게하자
+		static CScene* CreateScene(const std::wstring& name, const UINT idx )//씬은 씬매니저가 생성하게하자
 		{
-			CScene* pScene = FindScene(name);
+			CScene* pScene = FindScene(idx);
 			if (pScene != nullptr)
 			{	return pScene;	}
 
 			T* createScene = new T();
 			pScene = static_cast<CScene*>(createScene);
+
 			m_pCurrentScene = pScene;
+			pScene->SetName(name);
+			pScene->SceneInitialize();
 
-			m_pCurrentScene->SetName(name);
-			m_pCurrentScene->Initialize();
-
-			m_mapScene.insert(make_pair(name, pScene));
+			if (m_vecScenes[idx] == nullptr)
+			{
+				m_vecScenes[idx] = pScene;
+			}
+			else
+			{
+				static_assert(true, L"There is already a stored data");
+			}
+			//m_mapScene.insert(make_pair(name, pScene));
 			return pScene;
 		}
 
-		static CScene* LoadScene(const std::wstring& name);
+		static CScene* LoadScene(const UINT idx);
 
 		inline static CScene* GetCurrentScene()		{ return m_pCurrentScene; }
 		inline static CScene* GetDontDestoryScene() { return m_pDontDestroyScene; }
@@ -45,6 +59,7 @@ namespace Framework
 		friend CApplication;
 		friend CRenderManager;
 		friend CCollisionManager;
+		friend CEventManager;
 	private:
 		static void Initialize();
 		static void Release();
@@ -55,14 +70,15 @@ namespace Framework
 		static void Destroy();
 		static void Render(HDC hDC);
 
-		static CScene* FindScene(const std::wstring& name);
+		static CScene* FindScene(const UINT idx);
 
 		static const std::vector<CGameObject*>& GetDontDestroyGameObject(Enums::eLayerType layer);
 		static const std::vector<CGameObject*>& GetGameObject(Enums::eLayerType layer);
 
-		static std::map<std::wstring, CScene*> m_mapScene;
+		static std::vector<CScene*> m_vecScenes;
 		static CScene* m_pCurrentScene;
 		static CScene* m_pDontDestroyScene;
+		static CScene* m_pChangeScene;
 	};
 
 	using SCENE = CSceneManager;

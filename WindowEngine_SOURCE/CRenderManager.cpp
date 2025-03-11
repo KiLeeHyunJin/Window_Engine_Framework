@@ -71,6 +71,7 @@ namespace Framework
 		UI::Render(m_BackHDC);
 
 		TIME::Render(m_BackHDC);
+
 		EndDraw();
 	}
 

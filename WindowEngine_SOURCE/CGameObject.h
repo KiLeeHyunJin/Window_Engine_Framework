@@ -142,7 +142,7 @@ namespace Framework
 
 #pragma endregion Component Template
 
-		void SetLayerType(const Enums::eLayerType layerType);
+		void ChangeLayer(const Enums::eLayerType layerType);
 
 		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable; }
 		__forceinline const Enums::eLayerType GetLayerType()	const	{ return m_eLayerType; }
@@ -153,7 +153,7 @@ namespace Framework
 
 		__forceinline const bool GetReserveDelete()				const	{ return m_bReserveDelete; }
 		__forceinline const bool GetSafeToDelete()				const	{ return m_bSafeToDelete; }
-
+		__forceinline const bool GetDontDestroy()				const	{ return m_bDontDestroy; }
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
 
@@ -161,17 +161,19 @@ namespace Framework
 		friend CEventManager;
 	private:
 		void Initialize();
-		void Tick();
-		void LastTick();
-		void Render(HDC hdc) const;
 		void Release();
 
-		void ChangeLayer(const Enums::eLayerType layerType);
+		void Tick();
+		void LastTick();
+		
+		void Render(HDC hdc) const;
+
 		//void AddTransform();
 
-		__forceinline void SetSafeToDelete()	{ if (m_bSafeToDelete == false)  m_bSafeToDelete  = true; }
-		__forceinline void SetReserveDelete()	{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
-
+		__forceinline void SetSafeToDelete()								{ if (m_bSafeToDelete == false)  m_bSafeToDelete  = true; }
+		__forceinline void SetReserveDelete()								{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
+		__forceinline void SetDontDestroy(bool state)						{ m_bDontDestroy = state; }
+		__forceinline void SetLayerType(const Enums::eLayerType layerType)	{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
 
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;
@@ -183,6 +185,7 @@ namespace Framework
 
 		bool m_bSafeToDelete;
 		bool m_bReserveDelete;
+		bool m_bDontDestroy;
 	};
 }
 
