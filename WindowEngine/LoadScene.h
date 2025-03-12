@@ -22,7 +22,7 @@ namespace Framework
 	{
 		CreateScenes();
 
-		CSceneManager::LoadScene((UINT)eMap::Title);
+		//CSceneManager::LoadScene((UINT)eMap::Title);
 	}
 
 

@@ -2,16 +2,17 @@
 #include "CScene.h"
 #include "CDontDestroyOnLoad.h"
 
+#include "CRenderManager.h"
 #include "CCollisionManager.h"
 #include "CUIManager.h"
-#include "CEventManager.h"
+//#include "CEventManager.h"
 
 namespace Framework
 {
 	std::vector<CScene*>	CSceneManager::m_vecScenes				= {nullptr};
 	CScene* CSceneManager::m_pCurrentScene							= nullptr;
 	CScene*	CSceneManager::m_pDontDestroyScene						= nullptr;
-	CScene* CSceneManager::m_pChangeScene							= nullptr;
+	//CScene* CSceneManager::m_pChangeScene							= nullptr;
 
 	CSceneManager::CSceneManager()
 	{
@@ -65,6 +66,9 @@ namespace Framework
 			pDontDestroyLayer->Render(hDC);
 		}
 		m_pCurrentScene->SceneRender(hDC);
+		
+		std::wstring str = m_pCurrentScene->GetName();
+		RENDER::DrawWText(hDC, 0, 15, str);
 	}
 
 	void CSceneManager::Release()

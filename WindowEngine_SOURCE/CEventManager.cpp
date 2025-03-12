@@ -1,5 +1,6 @@
 #include "CEventManager.h"
 #include "CSceneManager.h"
+#include "CTimeManager.h"
 
 #include "CScene.h"
 #include "CGameObject.h"
@@ -9,7 +10,7 @@ namespace Framework
 	std::queue<std::pair<CGameObject*, CScene*>> CEventManager::m_quequeAddObject	= {};
 	std::queue<CGameObject*> CEventManager::m_quequeDeleteObject					= {};
 	std::queue<std::pair<CGameObject*, CEventManager::LayerData>> CEventManager::m_quequeChangeLayerObject = {};
-	std::pair<CScene, float>* CEventManager::m_pChangeScene							= nullptr;
+	std::pair<const UINT, float>* CEventManager::m_pChangeScene						= nullptr;
 
 	CEventManager::CEventManager()	{	}
 	CEventManager::~CEventManager()	{	}
@@ -26,6 +27,21 @@ namespace Framework
 	{
 		ProgressAddGameObject();
 		ProgressDeleteGameObject();
+
+		if (nullptr != m_pChangeScene)
+		{
+			m_pChangeScene->second -= CTimeManager::DeltaTime();
+			if (m_pChangeScene->second <= 0)
+			{
+				const UINT scene = m_pChangeScene->first;
+				delete m_pChangeScene;
+				m_pChangeScene = nullptr;
+
+				SCENE::LoadScene(scene);
+			}
+		}
+
+
 	}
 
 	void CEventManager::LastTick()
@@ -35,7 +51,15 @@ namespace Framework
 
 	void CEventManager::LoadScene(UINT loadSceneID, float changeTime)
 	{
-
+		if (m_pChangeScene == nullptr)
+		{
+			m_pChangeScene = new std::pair<const UINT, float>(loadSceneID, changeTime);
+		}
+		else if (m_pChangeScene->second > changeTime)
+		{
+			delete m_pChangeScene;
+			m_pChangeScene = new std::pair<const UINT, float>(loadSceneID, changeTime);
+		}
 	}
 
 	void CEventManager::ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType)

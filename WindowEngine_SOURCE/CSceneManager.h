@@ -49,11 +49,9 @@ namespace Framework
 			return pScene;
 		}
 
-		static CScene* LoadScene(const UINT idx);
-
-		inline static CScene* GetCurrentScene()		{ return m_pCurrentScene; }
-		inline static CScene* GetDontDestoryScene() { return m_pDontDestroyScene; }
-
+		__forceinline static CScene* GetCurrentScene()		{ return m_pCurrentScene; }
+		__forceinline static CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene; }
+		
 		//static std::vector<CGameObject*> GetGameObject(Enums::eLayerType layer);
 
 		friend CApplication;
@@ -70,7 +68,9 @@ namespace Framework
 		static void Destroy();
 		static void Render(HDC hDC);
 
+		static CScene* LoadScene(const UINT idx);
 		static CScene* FindScene(const UINT idx);
+
 
 		static const std::vector<CGameObject*>& GetDontDestroyGameObject(Enums::eLayerType layer);
 		static const std::vector<CGameObject*>& GetGameObject(Enums::eLayerType layer);
@@ -78,7 +78,7 @@ namespace Framework
 		static std::vector<CScene*> m_vecScenes;
 		static CScene* m_pCurrentScene;
 		static CScene* m_pDontDestroyScene;
-		static CScene* m_pChangeScene;
+		//static CScene* m_pChangeScene;
 	};
 
 	using SCENE = CSceneManager;

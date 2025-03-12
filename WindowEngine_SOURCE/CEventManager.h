@@ -48,7 +48,7 @@ namespace Framework
 		static std::queue<std::pair<CGameObject*, CScene*>> m_quequeAddObject;
 		static std::queue<std::pair<CGameObject*, LayerData>> m_quequeChangeLayerObject;
 		static std::queue<CGameObject*> m_quequeDeleteObject;
-		static std::pair<CScene, float>* m_pChangeScene;
+		static std::pair<const UINT, float>* m_pChangeScene;
 	};
 
 	using EVENT = CEventManager;

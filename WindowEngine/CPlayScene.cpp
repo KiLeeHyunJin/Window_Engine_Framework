@@ -20,6 +20,7 @@
 #include "CTexture.h"
 #include "CPlayerInput.h"
 #include "CDummy.h"
+#include "MapEnums.h"
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -76,7 +77,7 @@ void Framework::CPlayScene::Tick()
 {
 	if (INPUT::GetKeyDown(eKeyCode::B))
 	{
-		//CSceneManager::LoadScene(L"PlayScene");
+		EVENT::LoadScene((UINT)eMap::Title, 1);
 	}
 }
 
@@ -86,10 +87,6 @@ void Framework::CPlayScene::LastTick()
 
 void Framework::CPlayScene::Render(HDC hdc)
 {
-	wchar_t str[50] = L"PlayScene";
-	int len = (int)wcsnlen_s(str, 50);
-
-	TextOut(hdc, 0, 0, str, len);
 }
 
 void Framework::CPlayScene::Release()

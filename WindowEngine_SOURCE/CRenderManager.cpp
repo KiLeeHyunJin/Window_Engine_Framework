@@ -39,6 +39,7 @@ namespace Framework
 			(UINT)(position.x + (scale.x * 0.5f)),
 			(UINT)(position.y + (scale.y * 0.5f)));
 	}
+
 	void CRenderManager::DrawEllipse(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale)
 	{
 		Ellipse(hdc,
@@ -47,10 +48,13 @@ namespace Framework
 			(UINT)(position.x + (scale.x * 0.5f)),
 			(UINT)(position.y + (scale.y * 0.5f)));
 	}
-	void CRenderManager::DrawWText(HDC hdc, int x, int y, std::wstring& text)
-	{
 
+	void CRenderManager::DrawWText(HDC hdc, int x, int y, const std::wstring& text)
+	{
+		const int INT = (int)wcsnlen_s(text.c_str(), 50);
+		TextOut(hdc, 0, 15, text.c_str(), INT);
 	}
+
 	void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
 		CRenderManager::AdjustWindow(hWnd, width, height, xPos, yPos, winStyle, menu);
@@ -70,7 +74,7 @@ namespace Framework
 		SCENE::Render(m_BackHDC);
 		UI::Render(m_BackHDC);
 
-		//TIME::Render(m_BackHDC);
+		TIME::Render(m_BackHDC);
 
 		EndDraw();
 	}

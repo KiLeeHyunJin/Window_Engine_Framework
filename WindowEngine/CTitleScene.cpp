@@ -2,8 +2,9 @@
 
 #include "CInputManager.h"
 #include "CPlayScene.h"
-#include "CSceneManager.h"
+//#include "CSceneManager.h"
 #include "CUIManager.h"
+#include "CEventManager.h"
 
 #include "CObject.h"
 #include "CGameObject.h"
@@ -44,19 +45,13 @@ void Framework::CTitleScene::LastTick()
 {
 	if (INPUT::GetKeyDown(eKeyCode::A))
 	{
-		CSceneManager::LoadScene((UINT)eMap::Play);
+		EVENT::LoadScene((UINT)eMap::Play, 1);
+		//CSceneManager::LoadScene((UINT)eMap::Play);
 	}
 }
 
 void Framework::CTitleScene::Render(HDC hdc)
 {
-	wchar_t str[50] = L"TitleScene";
-	int len = (int)wcsnlen_s(str, 50);
-
-	TextOut(hdc, 200, 200, str, len);
-	Maths::Vector2 mousePos = CInputManager::GetMousePosition();
-
-
 }
 
 void Framework::CTitleScene::Release()

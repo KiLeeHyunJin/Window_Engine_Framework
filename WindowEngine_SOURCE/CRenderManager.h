@@ -6,14 +6,12 @@ namespace Framework
 	class CApplication;
 
 
-
-
 	class CRenderManager
 	{
 	public:
 		static void DrawRectangle(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale);
 		static void DrawEllipse(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale);
-		static void DrawWText(HDC hdc, int x, int y, std::wstring& text);
+		static void DrawWText(HDC hdc, int x, int y, const std::wstring& text);
 
 		friend CApplication;
 	private:
