@@ -34,6 +34,7 @@ namespace Framework
 		{
 			m_fDeltaTime = 0.1f;
 		}
+
 #pragma region FPS
 
 		static float stackDeltaTime = 0;

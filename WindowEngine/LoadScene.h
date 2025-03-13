@@ -1,6 +1,7 @@
 #pragma once
 
 #include "..\\WindowEngine_SOURCE\\CSceneManager.h"
+#include "..\\WindowEngine_SOURCE\\CEventManager.h"
 //#include "..\\WindowEngine_SOURCE\\CDontDestroyOnLoad.h"
 
 #include "CPlayScene.h"
@@ -13,16 +14,17 @@ namespace Framework
 	{
 		CSceneManager::InitMapDataSize((UINT)eMap::Size);
 
-		CSceneManager::CreateScene<CPlayScene>(L"PlayScene",(UINT)eMap::Play);
 		CSceneManager::CreateScene<CTitleScene>(L"TitleScene", (UINT)eMap::Title);
+		CSceneManager::CreateScene<CPlayScene>(L"PlayScene",(UINT)eMap::Play);
+
+
 	}
 
 
 	void LoadScene()
 	{
 		CreateScenes();
-
-		//CSceneManager::LoadScene((UINT)eMap::Title);
+		CEventManager::LoadScene((UINT)eMap::Title);
 	}
 
 

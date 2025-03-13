@@ -24,15 +24,7 @@ namespace Framework
 
 	void CSceneManager::Initialize()
 	{
-		CDontDestroyOnLoad* pDontDestroyScene = new CDontDestroyOnLoad;
-		m_pDontDestroyScene = static_cast<CScene*>(pDontDestroyScene);
-		m_pDontDestroyScene->SetName(L"DontDestroyScene");
-		m_pDontDestroyScene->SceneInitialize();
-
-		//if (m_pCurrentScene != nullptr)
-		//{
-		//	m_pCurrentScene->SceneInitialize();
-		//}
+		InitDontDestroyScene();
 	}
 
 	void CSceneManager::Tick()
@@ -125,6 +117,7 @@ namespace Framework
 				CCollisionManager::Clear();
 				CUIManager::Clear();
 			}
+
 			m_pCurrentScene = pScene;
 			m_pCurrentScene->OnEnter();
 			return m_pCurrentScene;
@@ -141,5 +134,13 @@ namespace Framework
 			return iter->second;
 		}*/
 		return pScene;
+	}
+
+	void CSceneManager::InitDontDestroyScene()
+	{
+		CDontDestroyOnLoad* pDontDestroyScene = new CDontDestroyOnLoad;
+		m_pDontDestroyScene = static_cast<CScene*>(pDontDestroyScene);
+		m_pDontDestroyScene->SetName(L"DontDestroyScene");
+		m_pDontDestroyScene->SceneInitialize();
 	}
 }

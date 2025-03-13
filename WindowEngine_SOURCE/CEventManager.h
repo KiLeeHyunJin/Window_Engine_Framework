@@ -44,6 +44,7 @@ namespace Framework
 		static void ProgressAddGameObject();
 		static void ProgressDeleteGameObject();
 		static void ProgressChangeLayer();
+		static void ProgressChangeScene();
 
 		static std::queue<std::pair<CGameObject*, CScene*>> m_quequeAddObject;
 		static std::queue<std::pair<CGameObject*, LayerData>> m_quequeChangeLayerObject;

@@ -47,8 +47,8 @@ namespace Framework
 
 	const std::vector<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Rect& rect)
 	{
-		Maths::Vector2 center = (rect.max + rect.min) * 0.5f;
-		Maths::Vector2 size = rect.max - rect.min;
+		const Maths::Vector2 center	= (rect.max + rect.min) * 0.5f;
+		const Maths::Vector2 size		=  rect.max - rect.min;
 
 		return GetCollisionCollider(center, size);
 	}

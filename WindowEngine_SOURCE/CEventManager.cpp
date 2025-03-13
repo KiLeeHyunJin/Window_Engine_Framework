@@ -1,8 +1,8 @@
+#pragma once
 #include "CEventManager.h"
 #include "CSceneManager.h"
 #include "CTimeManager.h"
 
-#include "CScene.h"
 #include "CGameObject.h"
 
 namespace Framework
@@ -27,21 +27,7 @@ namespace Framework
 	{
 		ProgressAddGameObject();
 		ProgressDeleteGameObject();
-
-		if (nullptr != m_pChangeScene)
-		{
-			m_pChangeScene->second -= CTimeManager::DeltaTime();
-			if (m_pChangeScene->second <= 0)
-			{
-				const UINT scene = m_pChangeScene->first;
-				delete m_pChangeScene;
-				m_pChangeScene = nullptr;
-
-				SCENE::LoadScene(scene);
-			}
-		}
-
-
+		ProgressChangeScene();
 	}
 
 	void CEventManager::LastTick()
@@ -49,34 +35,7 @@ namespace Framework
 		ProgressChangeLayer();
 	}
 
-	void CEventManager::LoadScene(UINT loadSceneID, float changeTime)
-	{
-		if (m_pChangeScene == nullptr)
-		{
-			m_pChangeScene = new std::pair<const UINT, float>(loadSceneID, changeTime);
-		}
-		else if (m_pChangeScene->second > changeTime)
-		{
-			delete m_pChangeScene;
-			m_pChangeScene = new std::pair<const UINT, float>(loadSceneID, changeTime);
-		}
-	}
 
-	void CEventManager::ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType)
-	{
-		CScene* currentScene = SCENE::GetCurrentScene();
-		m_quequeChangeLayerObject.push(std::pair(pObj, LayerData(currentScene, layerType)));
-	}
-
-	void CEventManager::SetDontDestroyGameObject(CGameObject* pObj)
-	{
-		CScene* currentScene = SCENE::GetCurrentScene();
-		const bool result = currentScene->EraseInLayer(pObj);
-		if (result)
-		{
-			SCENE::GetDontDestoryScene()->AddGameObject(pObj);
-		}
-	}
 
 	void CEventManager::ProgressAddGameObject()
 	{
@@ -124,6 +83,53 @@ namespace Framework
 		}
 	}
 
+	void CEventManager::ProgressChangeScene()
+	{
+		if (nullptr != m_pChangeScene)
+		{
+			m_pChangeScene->second -= CTimeManager::DeltaTime();
+			if (m_pChangeScene->second <= 0)
+			{
+				const UINT scene = m_pChangeScene->first;
+				delete m_pChangeScene;
+				m_pChangeScene = nullptr;
+
+				SCENE::LoadScene(scene);
+			}
+		}
+	}
+
+	void CEventManager::LoadScene(UINT loadSceneID, float changeTime)
+	{
+		if (m_pChangeScene == nullptr)
+		{
+			m_pChangeScene = new std::pair<const UINT, float>(loadSceneID, changeTime);
+		}
+		else if (m_pChangeScene->second > changeTime)
+		{
+			delete m_pChangeScene;
+			m_pChangeScene = new std::pair<const UINT, float>(loadSceneID, changeTime);
+		}
+	}
+
+	void CEventManager::ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType)
+	{
+		CScene* currentScene = SCENE::GetCurrentScene();
+		m_quequeChangeLayerObject.push(std::pair(pObj, LayerData(currentScene, layerType)));
+	}
+
+	void CEventManager::SetDontDestroyGameObject(CGameObject* pObj)
+	{
+		if (pObj->GetDontDestroy())
+		{	return;		}
+
+		CScene* currentScene = SCENE::GetCurrentScene();
+		const bool result = currentScene->EraseInLayer(pObj);
+		if (result)
+		{
+			SCENE::GetDontDestoryScene()->AddGameObject(pObj);
+		}
+	}
 
 	void CEventManager::AddGameObject(CScene* pTargetScene, CGameObject* pObj, bool dontDestroy)
 	{

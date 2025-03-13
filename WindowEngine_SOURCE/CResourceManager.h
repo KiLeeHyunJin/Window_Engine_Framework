@@ -24,7 +24,7 @@ namespace Framework::Resource
 			Resource::CResource* pParentResource = static_cast<Resource::CResource*>(new T());
 			if ( FAILED(pParentResource->Load(path)) )
 			{
-				assert(1);
+				assert(true);
 				//MessageBox(nullptr, key + L"Image Load Failed!", L"Error", MB_OK);
 				return nullptr;
 			}

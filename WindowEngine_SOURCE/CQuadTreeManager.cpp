@@ -7,14 +7,12 @@ namespace Framework
     CQuadTree* CQuadTreeManager::m_pQuadTree = nullptr;
 
     CQuadTreeManager::CQuadTreeManager()
-    {
-    }
+    {   }
 
     CQuadTreeManager::~CQuadTreeManager()
-    {
-    }
+    {   }
 
-    void CQuadTreeManager::Initialize(Maths::Vector2 size, int maxDepth, float constrantK)
+    void CQuadTreeManager::Initialize(const Maths::Vector2& size, int maxDepth, float constrantK)
     {
         if (m_pQuadTree != nullptr)
         {
@@ -23,6 +21,7 @@ namespace Framework
         }
         m_pQuadTree = new CQuadTree(size, maxDepth, constrantK);
     }
+
     const std::vector<CColliderComponent*>& CQuadTreeManager::Query(CColliderComponent* queryItem)
     {
         return m_pQuadTree->Query(queryItem);

@@ -7,6 +7,9 @@ namespace Framework
 	void LoadResource()
 	{
 		Framework::Resource::CResourceManager::Load<Resource::CTexture>(L"Room", L"Resources\\Room.png");
+
+
+
 	}
 
 }

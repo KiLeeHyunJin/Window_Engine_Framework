@@ -19,8 +19,11 @@ namespace Framework
 
 		static void InitMapDataSize(UINT size) 
 		{ 
-			m_vecScenes.resize(size); 
-			m_vecScenes[m_vecScenes.size() - 1] = m_pDontDestroyScene;
+			if (m_vecScenes.size() < size)
+			{
+				m_vecScenes.resize(size);
+				m_vecScenes[m_vecScenes.size() - 1] = m_pDontDestroyScene;
+			}
 		}
 
 		template<typename T>
@@ -67,6 +70,8 @@ namespace Framework
 
 		static void Destroy();
 		static void Render(HDC hDC);
+
+		static void InitDontDestroyScene();
 
 		static CScene* LoadScene(const UINT idx);
 		static CScene* FindScene(const UINT idx);

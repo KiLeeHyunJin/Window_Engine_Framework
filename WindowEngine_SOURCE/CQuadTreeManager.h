@@ -18,7 +18,7 @@ namespace Framework
 		CQuadTreeManager();
 		~CQuadTreeManager();
 
-		static void Initialize(Maths::Vector2 size, int maxDepth, float constrantK);
+		static void Initialize(const Maths::Vector2& size, int maxDepth, float constrantK);
 		static void Insert(CColliderComponent* pCollider);
 		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores);
 		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayers);

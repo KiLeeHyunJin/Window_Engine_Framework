@@ -4,9 +4,8 @@
 
 #include "Enums.h"
 #include "CGameObject.h"
-#include "CScene.h"
 
-#include "CLayer.h"
+//#include "CLayer.h"
 
 
 namespace Framework::Object
@@ -42,14 +41,20 @@ namespace Framework::Object
 
 	static void Destroy(CGameObject* pObj)
 	{
+		if (pObj->GetReserveDelete() == false)
+		{
+			Framework::Delete(pObj);
+		}
 		//Event::DeleteGameObject(pObj);
-		Framework::Delete(pObj);
 		//pObj->SetReserveDelete();
 	}
 
 	static void DontDestoryOnLoad(CGameObject* pGameObject)
 	{
-		EVENT::SetDontDestroyGameObject(pGameObject);
+		if (pGameObject->GetDontDestroy() == false)
+		{
+			EVENT::SetDontDestroyGameObject(pGameObject);
+		}
 		//pCurScene->EraseGameObject(pGameObject);
 		//CScene*  pDonDestoryScene = CSceneManager::GetDontDestoryScene();
 		//pDonDestoryScene->AddGameObject(pGameObject);
