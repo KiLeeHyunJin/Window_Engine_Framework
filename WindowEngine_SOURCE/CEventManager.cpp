@@ -7,16 +7,22 @@
 
 namespace Framework
 {
-	std::queue<std::pair<CGameObject*, CScene*>> CEventManager::m_quequeAddObject	= {};
-	std::queue<CGameObject*> CEventManager::m_quequeDeleteObject					= {};
-	std::queue<std::pair<CGameObject*, CEventManager::LayerData>> CEventManager::m_quequeChangeLayerObject = {};
+	std::queue<std::pair<CGameObject*, CEventManager::LayerData>> CEventManager::m_quequeObject	= {};
+	std::queue<std::pair<CGameObject*, CEventManager::LayerData>> CEventManager::m_quequeChange = {};
+	//std::queue<CGameObject*> CEventManager::m_quequeDeleteObject					= {};
 	std::pair<const UINT, float>* CEventManager::m_pChangeScene						= nullptr;
+	CEventManager::EventFuncPtr CEventManager::ProgressFunc[static_cast<int>(CEventManager::eEventType::Size)] = {};
 
 	CEventManager::CEventManager()	{	}
 	CEventManager::~CEventManager()	{	}
 
 	void CEventManager::Initialize()
 	{
+		ProgressFunc[(INT)eEventType::Delete]	= &ProgressDeleteGameObject;
+		ProgressFunc[(INT)eEventType::Add]		= &ProgressAddGameObject;
+		ProgressFunc[(INT)eEventType::Layer]	= &ProgressChangeLayer;
+		ProgressFunc[(INT)eEventType::Scene]	= &ProgressDontDestroy;
+
 	}
 
 	void CEventManager::Release()
@@ -25,61 +31,71 @@ namespace Framework
 
 	void CEventManager::Tick()
 	{
-		ProgressAddGameObject();
-		ProgressDeleteGameObject();
-		ProgressChangeScene();
+		ProgressLifeObject(); //게임 오브젝트 추가 삭제
 	}
 
 	void CEventManager::LastTick()
 	{
-		ProgressChangeLayer();
+		ProgressChangeObject(); // 게임 오브젝트 레이어, 씬 변경
+		ProgressChangeScene(); // 씬 전환
 	}
 
-
-
-	void CEventManager::ProgressAddGameObject()
+	void CEventManager::ProgressLifeObject()
 	{
-		while (m_quequeAddObject.empty() == false)
+		while (m_quequeObject.empty() == false)
 		{
-			const std::pair<CGameObject*, CScene*> pair = m_quequeAddObject.front();
-			m_quequeAddObject.pop();
+			std::pair<CGameObject*, LayerData> pair = m_quequeObject.front();
+			m_quequeObject.pop();
+			
+			CGameObject* pObj = pair.first;
+			ProgressFunc[(INT)pair.second.eEventType](pObj, pair.second);
+		}
+	}
+
+	void CEventManager::ProgressChangeObject()
+	{
+		while (m_quequeChange.empty() == false)
+		{
+			std::pair<CGameObject*, LayerData> pair = m_quequeChange.front();
+			m_quequeChange.pop();
 
 			CGameObject* pObj = pair.first;
-			CScene* currentScene = pObj->GetDontDestroy() ?
-				SCENE::GetDontDestoryScene() : 
-				pair.second;
-
-			currentScene->AddGameObject(pObj);
+			ProgressFunc[(INT)pair.second.eEventType](pObj, pair.second);
 		}
 	}
 
-	void CEventManager::ProgressDeleteGameObject()
+	void CEventManager::ProgressAddGameObject(CGameObject* pObj, LayerData& data)
 	{
-		while (m_quequeDeleteObject.empty() == false)
+		CScene* currentScene = pObj->GetDontDestroy() ?
+			SCENE::GetDontDestoryScene() :
+			data.pScene;
+
+		currentScene->AddGameObject(pObj);
+	}
+
+	void CEventManager::ProgressDeleteGameObject(CGameObject* pObj, LayerData& data)
+	{
+		pObj->SetReserveDelete();
+	}
+
+	void CEventManager::ProgressChangeLayer(CGameObject* pObj, LayerData& data)
+	{
+		const bool result = data.pScene->EraseInLayer(pObj);
+		if (result)
 		{
-			CGameObject* obj = m_quequeDeleteObject.front();
-			m_quequeDeleteObject.pop();
-			obj->SetReserveDelete();
+			Enums::eLayerType eLayer = data.eTargetLayer;
+
+			pObj->SetLayerType(eLayer);
+			data.pScene->AddGameObject(pObj);
 		}
 	}
 
-	void CEventManager::ProgressChangeLayer()
+	void CEventManager::ProgressDontDestroy(CGameObject* pObj, LayerData& data)
 	{
-		while (m_quequeChangeLayerObject.empty() == false)
+		const bool result = data.pScene->EraseInLayer(pObj);
+		if (result)
 		{
-			std::pair<CGameObject*, CEventManager::LayerData> layerData = m_quequeChangeLayerObject.front();
-			m_quequeChangeLayerObject.pop();
-
-			CGameObject* pObj = layerData.first;
-			CScene* pScene = layerData.second.scene;
-			Enums::eLayerType eLayer = layerData.second.targetLayer;
-
-			const bool result = pScene->EraseInLayer(pObj);
-			if (result)
-			{
-				pObj->SetLayerType(eLayer);
-				pScene->AddGameObject(pObj);
-			}
+			SCENE::GetDontDestoryScene()->AddGameObject(pObj);
 		}
 	}
 
@@ -99,6 +115,26 @@ namespace Framework
 		}
 	}
 
+	void CEventManager::AddGameObject(CScene* pTargetScene, CGameObject* pObj, bool dontDestroy)
+	{
+		pObj->SetDontDestroy(dontDestroy);
+		m_quequeObject.push(
+			std::pair(pObj, LayerData(eEventType::Add, pTargetScene)));
+	}
+
+	void CEventManager::DeleteGameObject(CGameObject* pObj)
+	{
+		CScene* pScene = SCENE::GetCurrentScene();
+		m_quequeObject.push(
+			std::pair(pObj, LayerData(eEventType::Delete, pScene)));
+	}
+
+
+	/// <summary>
+	/// LastTick에서 처리
+	/// </summary>
+	/// <param name="loadSceneID">Enum값으로 지정하는것을 추천</param>
+	/// <param name="changeTime">전환 예약 시간</param>
 	void CEventManager::LoadScene(UINT loadSceneID, float changeTime)
 	{
 		if (m_pChangeScene == nullptr)
@@ -112,10 +148,19 @@ namespace Framework
 		}
 	}
 
+	/// <summary>
+	/// LastTick에서 처리
+	/// </summary>
+	/// <param name="pObj"></param>
+	/// <param name="layerType"></param>
 	void CEventManager::ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType)
 	{
-		CScene* currentScene = SCENE::GetCurrentScene();
-		m_quequeChangeLayerObject.push(std::pair(pObj, LayerData(currentScene, layerType)));
+		CScene* currentScene = pObj->GetDontDestroy() ?  
+			SCENE::GetDontDestoryScene() :
+			SCENE::GetCurrentScene();
+
+		m_quequeChange.push(
+			std::pair(pObj, LayerData(eEventType::Layer, currentScene, layerType)));
 	}
 
 	void CEventManager::SetDontDestroyGameObject(CGameObject* pObj)
@@ -124,28 +169,23 @@ namespace Framework
 		{	return;		}
 
 		CScene* currentScene = SCENE::GetCurrentScene();
-		const bool result = currentScene->EraseInLayer(pObj);
-		if (result)
-		{
-			SCENE::GetDontDestoryScene()->AddGameObject(pObj);
-		}
+		m_quequeChange.push(
+			std::pair(pObj, LayerData(eEventType::Scene, currentScene)));
+
+
 	}
 
-	void CEventManager::AddGameObject(CScene* pTargetScene, CGameObject* pObj, bool dontDestroy)
-	{
-		pObj->SetDontDestroy(dontDestroy);
-		m_quequeAddObject.push(std::pair(pObj, pTargetScene));
-	}
+
 
 	void CEventManager::Clear()
 	{
-		while (m_quequeDeleteObject.empty() == false)
+		while (m_quequeObject.empty() == false)
 		{
-			m_quequeDeleteObject.pop();
+			m_quequeObject.pop();
 		}
-		while (m_quequeAddObject.empty() == false)
+		while (m_quequeChange.empty() == false)
 		{
-			m_quequeAddObject.pop();
+			m_quequeChange.pop();
 		}
 	}
 
