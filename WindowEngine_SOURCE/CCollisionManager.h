@@ -84,15 +84,17 @@ namespace Framework
 		__forceinline static bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
 		__forceinline static bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
 
-		static std::vector<std::vector<bool>> m_vectorCollisionCheck;
-		static std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
+		__forceinline static bool GetLayerState(UINT left, UINT right);
+
+		//static std::vector<std::vector<bool>> m_vectorCollisionCheck;
+		//static std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
 		static std::unordered_map<UINT64, bool> m_unmapCollisions;
 		/// <summary>
 		/// 모든 콜라이더들을 담아놓는 자료형
 		/// </summary>
 		static std::vector<CColliderComponent*> m_vecCollider;
+		static bool* m_bArryCollision;
 
-		static double duration;
 	};
 	using COLLISION = CCollisionManager;
 }

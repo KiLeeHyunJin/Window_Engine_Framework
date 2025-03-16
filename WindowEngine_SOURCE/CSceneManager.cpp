@@ -142,6 +142,6 @@ namespace Framework
 		}
 		m_uiLayerSize = layerSize;
 		sizeSet = true;
-		CCollisionManager::InitCollisionLayer();
+		COLLISION::InitCollisionLayer();
 	}
 }

@@ -13,30 +13,41 @@ extern Framework::CApplication application;
 
 namespace Framework
 {
-	std::bitset<(UINT)Enums::eLayerType::Size> CCollisionManager::m_bsCollisionCheck[(UINT)Enums::eLayerType::Size] = {false};
+	//std::bitset<(UINT)Enums::eLayerType::Size> CCollisionManager::m_bsCollisionCheck[(UINT)Enums::eLayerType::Size] = {false};
 
-	std::vector<std::vector<bool>>		CCollisionManager::m_vectorCollisionCheck	= {};
+	//std::vector<std::vector<bool>>		CCollisionManager::m_vectorCollisionCheck	= {};
 	std::unordered_map<UINT64, bool>	CCollisionManager::m_unmapCollisions		= {};
 	std::vector<CColliderComponent*>	CCollisionManager::m_vecCollider			= {};
-	double CCollisionManager::duration = 0;
+	bool* CCollisionManager::m_bArryCollision = nullptr;
 
-	CCollisionManager::CCollisionManager()
+	CCollisionManager::CCollisionManager()	//사용안함
 	{	}
-	CCollisionManager::~CCollisionManager()
+	CCollisionManager::~CCollisionManager() //사용안함
 	{	}
+
+	void CCollisionManager::InitCollisionLayer()
+	{
+		if (m_bArryCollision != nullptr)
+		{	return;		}
+
+		const UINT size = SCENE::GetLayerSize();
+		const UINT fullSize = size * size;
+		m_bArryCollision = new bool [fullSize];
+		memset(m_bArryCollision, 0, sizeof(bool) * fullSize);
+	}
 
 	void CCollisionManager::SetCollisionLayerState(UINT left, UINT right, bool enable)
 	{
 		const UINT size = SCENE::GetLayerSize();
-		if (left > size || right > size)
+		if (left > size || right > size ||
+			m_bArryCollision == nullptr)
 		{
 			assert(1);
 			return;
 		}
 
-		UINT row;
-		UINT col;
-		if (left <=  right)
+		UINT row, col;
+		if (left <  right)
 		{
 			row = left;
 			col = right;
@@ -46,7 +57,7 @@ namespace Framework
 			col = left;
 			row = right;
 		}
-		m_bsCollisionCheck[row][col] = enable;
+		m_bArryCollision[(row * size) + col] = enable;
 	}
 
 	const std::vector<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size)
@@ -72,8 +83,6 @@ namespace Framework
 		return CQuadTreeManager::Raycast(ray, hitObject, checkLayer);
 	}
 
-
-
 	void CCollisionManager::Initialize()
 	{
 		CQuadTreeManager::Initialize(Maths::Vector2(2048, 2048), 8, 2);
@@ -83,6 +92,8 @@ namespace Framework
 	void CCollisionManager::Release()
 	{
 		CQuadTreeManager::Release();
+		delete[] m_bArryCollision;
+		m_bArryCollision = nullptr;
 	}
 
 	void CCollisionManager::Tick()
@@ -216,25 +227,14 @@ namespace Framework
 	{
 		CQuadTreeManager::Clear();
 		m_unmapCollisions.clear();
-		m_bsCollisionCheck->reset();
 		
 		m_vecCollider.clear();
 		m_vecCollider.shrink_to_fit();
-	}
 
-	void CCollisionManager::InitCollisionLayer()
-	{
 		const UINT size = SCENE::GetLayerSize();
-		m_vectorCollisionCheck.resize(16);  // 외부 벡터 크기 설정
-
-		for (auto& vec : m_vectorCollisionCheck)
-		{
-			vec.reserve(16);     // 먼저 capacity를 16으로 확보
-			vec.resize(16);      // 크기를 16으로 맞춤
-			vec.shrink_to_fit(); // 필요 없는 capacity 줄이기
-		}
-		int a = 10;
+		memset(m_bArryCollision, 0, sizeof(bool) * size * size);
 	}
+
 
 
 	const bool CCollisionManager::Intersect(const CColliderComponent* left, const CColliderComponent* right)
@@ -309,7 +309,7 @@ namespace Framework
 				if (pCollider != possibleColl)
 				{
 					const UINT rightLayer = (UINT)possibleColl->GetOwner()->GetLayerType();
-					if (m_bsCollisionCheck[leftLayer][rightLayer])
+					if (GetLayerState(leftLayer, rightLayer))
 					{
 						CollisionStateUpdate(pCollider, possibleColl);
 					}
@@ -361,7 +361,10 @@ namespace Framework
 		return false;
 	}
 
-
-
+	bool CCollisionManager::GetLayerState(UINT left, UINT right)
+	{
+		const UINT size = SCENE::GetLayerSize();
+		return m_bArryCollision[(size * left) + right];
+	}
 
 }

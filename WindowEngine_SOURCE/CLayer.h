@@ -1,13 +1,13 @@
 #pragma once
 #include "CEntity.h"
 #include "Enums.h"
-#include "CGameObject.h"
 
 namespace Framework
 {
 	class CCollisionManager;
 	class CSceneManager;
 	class CScene;
+	class CGameObject;
 
 	class CLayer :
 		public CEntity

@@ -1,13 +1,13 @@
 #pragma once
 #include "CommonInclude.h"
 #include "CEntity.h"
-#include "CLayer.h"
 
 namespace Framework
 {
 	class CGameObject;
 	class CSceneManager;
 	class CEventManager;
+	class CLayer;
 
 	class CScene : public CEntity
 	{

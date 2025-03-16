@@ -1,4 +1,5 @@
 #include "CLayer.h"
+#include "CGameObject.h"
 
 
 namespace Framework

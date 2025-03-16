@@ -1,5 +1,7 @@
 #pragma once
 #include "CResource.h"
+
+
 namespace Framework::Resource
 {
 	class CResourceManager;

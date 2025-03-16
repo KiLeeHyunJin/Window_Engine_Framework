@@ -1,6 +1,7 @@
 #pragma once
 #include "CommonInclude.h"
 #include "CScene.h"
+#include "CLayer.h"
 
 namespace Framework
 {
@@ -71,14 +72,12 @@ namespace Framework
 
 
 		__forceinline static const std::vector<CGameObject*>& GetDontDestroyGameObject(UINT layer)
-		{
-			return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
-		}
+		{		return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();		}
 
 		__forceinline static const std::vector<CGameObject*>& GetGameObject(UINT layer)
-		{
-			return  m_pCurrentScene->GetLayer(layer)->GetGameObject();
-		}
+		{		return  m_pCurrentScene->GetLayer(layer)->GetGameObject();			}
+
+		static bool** m_bArrCollisionState;
 
 		static std::vector<CScene*> m_vecScenes;
 		static UINT m_uiLayerSize;

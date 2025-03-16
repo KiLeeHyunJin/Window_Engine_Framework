@@ -1,9 +1,11 @@
 #include "CScene.h"
-#include "CGameObject.h"
 #include "Enums.h"
+#include "CLayer.h"
 
-#include "CInputManager.h"
-#include "CCollisionManager.h"
+//#include "CInputManager.h"
+//#include "CCollisionManager.h"
+//#include "CGameObject.h"
+
 namespace Framework
 {
 	CScene::CScene()
@@ -33,6 +35,7 @@ namespace Framework
 		}
 		Initialize();
 	}
+
 	void CScene::SceneRelease()
 	{
 		for (CLayer* pLayer : m_vecLayer)
