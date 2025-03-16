@@ -7,39 +7,104 @@ namespace Framework
 	class CGameObject;
 	class CScene;
 
-
-
 	class CEventManager
 	{
 	public:
-		enum class eEventType
+
+		class EventJob
 		{
-			Delete,
-			Add,
-
-			Layer,
-			Scene,
-
-			Size
+		public :
+			EventJob()	{}
+			virtual ~EventJob()	{}
+			virtual void operator () () = 0;
 		};
 
-		struct LayerData
+		class EventAddGameObject : public EventJob
 		{
-			LayerData(eEventType _eEventType, CScene* _scene, Enums::eLayerType _targetLayer = Enums::eLayerType::None) :
-				eEventType(_eEventType), pScene(_scene), eTargetLayer(_targetLayer)
+		public :
+			EventAddGameObject(CGameObject* _pObj, CScene* _pScene, bool _bDontDestroy) :
+				pObj(_pObj), pScene(_pScene), bDontDestroy(_bDontDestroy)
 			{}
+			virtual ~EventAddGameObject()
+			{}
+			virtual void operator () ();
+			
+		private :
+			CGameObject* pObj;
 			CScene* pScene;
-			eEventType eEventType;
-			Enums::eLayerType eTargetLayer;
+			bool bDontDestroy;
 		};
 
+		class EventDeleteGameObject : public EventJob
+		{
+		public:
+			EventDeleteGameObject(CGameObject* _pObj) :	
+				pObj(_pObj)
+			{}
+			virtual ~EventDeleteGameObject()
+			{}
+			virtual void operator () ();
+		private:
+			CGameObject* pObj;
+		};
+
+		class EventChangeLayerGameObject : public EventJob
+		{
+		public:
+			EventChangeLayerGameObject(CGameObject* _pObj, CScene* _pScene, UINT _layer) :
+				pObj(_pObj), pScene(_pScene), layer(_layer)
+			{}
+			virtual ~EventChangeLayerGameObject()
+			{}
+			virtual void operator () ();
+		private:
+			CGameObject* pObj;
+			CScene* pScene;
+			const UINT layer;
+		};
+
+		class EventSetDontDestoryGameObject : public EventJob
+		{
+		public :
+			EventSetDontDestoryGameObject(CGameObject* _pObj, CScene* _pCurrentScene, bool _bChangeState) :
+				pObj(_pObj), pCurrentScene(_pCurrentScene), bChangeState(_bChangeState)
+			{ }
+			virtual ~EventSetDontDestoryGameObject()
+			{ }
+			virtual void operator() ();
+			
+		private:
+			CGameObject* pObj;
+			CScene* pCurrentScene;
+			const bool bChangeState;
+		};
+
+		/// <summary>
+		/// LastTick에서 처리
+		/// </summary>
+		/// <param name="loadSceneID">Enum값으로 지정하는것을 추천</param>
+		/// <param name="changeTime">전환 예약 시간</param>
 		static void LoadScene(UINT loadSceneID, float changeTime = 0);
 
-		static void ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType);
+		/// <summary>
+		/// LastTick에서 처리
+		/// </summary>
+		static void ChangeLayer(CGameObject* pObj, UINT layerType);
 
-		static void SetDontDestroyGameObject(CGameObject* pObj);
+		/// <summary>
+		/// LastTick에서 처리
+		/// </summary>
+		/// <param name="pObj"></param>
+		static void SetDontDestroyGameObject(CGameObject* pObj, bool state);
+
+		/// <summary>
+		/// Tick에서 처리
+		/// </summary>
 		static void AddGameObject(CScene* pTargetScene, CGameObject* pObj, bool dontDestroy);
-
+		
+		/// <summary>
+		/// Tick에서 처리
+		/// </summary>
 		static void DeleteGameObject(CGameObject* pObj);
 		
 		static void Clear();
@@ -55,31 +120,17 @@ namespace Framework
 		static void Tick();
 		static void LastTick();
 
-		static void ProgressLifeObject();
-		static void ProgressChangeObject();
-
-		static void ProgressAddGameObject(CGameObject* pObj, LayerData& data);
-		static void ProgressDeleteGameObject(CGameObject* pObj, LayerData& data);
+		static void Job();
 		
-		static void ProgressChangeLayer(CGameObject* pObj, LayerData& data);
-		static void ProgressDontDestroy(CGameObject* pObj, LayerData& data);
-		
-		static void ProgressChangeScene();
+		static void ChangeScene();
 
-		static std::queue<std::pair<CGameObject*, LayerData>> m_quequeObject;
-		static std::queue<std::pair<CGameObject*, LayerData>> m_quequeChange;
-		//static std::queue<CGameObject*> m_quequeDeleteObject;
+		static std::queue<EventJob*> m_quequeEventJob;
 		static std::pair<const UINT, float>* m_pChangeScene;
 
-		//using Progress = ;
-		using EventFuncPtr = void (*)(CGameObject*, CEventManager::LayerData&);
-
-		static EventFuncPtr ProgressFunc[static_cast<int>(eEventType::Size)];
 	};
 
 	using EVENT = CEventManager;
-	using DeleteFunc = void(*)(CGameObject*); // 함수 포인터 - 정적 멤버 함수이므로, 객체 인스턴스 없이 호출 
 
-	constexpr DeleteFunc Delete = &CEventManager::DeleteGameObject; //상수 함수 포인터 - constexpr을 붙였으므로 컴파일 타임 상수로 사용
+
 }
 

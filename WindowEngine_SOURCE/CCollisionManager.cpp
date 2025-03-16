@@ -14,8 +14,10 @@ extern Framework::CApplication application;
 namespace Framework
 {
 	std::bitset<(UINT)Enums::eLayerType::Size> CCollisionManager::m_bsCollisionCheck[(UINT)Enums::eLayerType::Size] = {false};
-	std::unordered_map<UINT64, bool> CCollisionManager::m_unmapCollisions = {};
-	std::vector<CColliderComponent*> CCollisionManager::m_vecCollider = {};
+
+	std::vector<std::vector<bool>>		CCollisionManager::m_vectorCollisionCheck	= {};
+	std::unordered_map<UINT64, bool>	CCollisionManager::m_unmapCollisions		= {};
+	std::vector<CColliderComponent*>	CCollisionManager::m_vecCollider			= {};
 	double CCollisionManager::duration = 0;
 
 	CCollisionManager::CCollisionManager()
@@ -23,19 +25,26 @@ namespace Framework
 	CCollisionManager::~CCollisionManager()
 	{	}
 
-	void CCollisionManager::SetCollisionLayerState(Enums::eLayerType left, Enums::eLayerType right, bool enable)
+	void CCollisionManager::SetCollisionLayerState(UINT left, UINT right, bool enable)
 	{
+		const UINT size = SCENE::GetLayerSize();
+		if (left > size || right > size)
+		{
+			assert(1);
+			return;
+		}
+
 		UINT row;
 		UINT col;
 		if (left <=  right)
 		{
-			row = (UINT)left;
-			col = (UINT)right;
+			row = left;
+			col = right;
 		}
 		else
 		{
-			col = (UINT)left;
-			row = (UINT)right;
+			col = left;
+			row = right;
 		}
 		m_bsCollisionCheck[row][col] = enable;
 	}
@@ -58,7 +67,7 @@ namespace Framework
 		return CQuadTreeManager::Raycast(ray, hitObject, ignores);
 	}
 
-	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayer)
+	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<UINT>& checkLayer)
 	{
 		return CQuadTreeManager::Raycast(ray, hitObject, checkLayer);
 	}
@@ -213,6 +222,20 @@ namespace Framework
 		m_vecCollider.shrink_to_fit();
 	}
 
+	void CCollisionManager::InitCollisionLayer()
+	{
+		const UINT size = SCENE::GetLayerSize();
+		m_vectorCollisionCheck.resize(16);  // 외부 벡터 크기 설정
+
+		for (auto& vec : m_vectorCollisionCheck)
+		{
+			vec.reserve(16);     // 먼저 capacity를 16으로 확보
+			vec.resize(16);      // 크기를 16으로 맞춤
+			vec.shrink_to_fit(); // 필요 없는 capacity 줄이기
+		}
+		int a = 10;
+	}
+
 
 	const bool CCollisionManager::Intersect(const CColliderComponent* left, const CColliderComponent* right)
 	{
@@ -237,13 +260,13 @@ namespace Framework
 	{
 		m_vecCollider.clear();
 
-		for (UINT layer = 0; layer < (UINT)Enums::eLayerType::Size; layer++)
+		for (UINT layer = 0; layer < SCENE::GetLayerSize(); layer++)
 		{
 			const std::vector<CGameObject*>& vecDontDestroyObj 
-				= SCENE::GetDontDestroyGameObject((Enums::eLayerType)layer);
+				= SCENE::GetDontDestroyGameObject(layer);
 
 			const std::vector<CGameObject*>& vecObj 
-				= SCENE::GetGameObject((Enums::eLayerType)layer);
+				= SCENE::GetGameObject(layer);
 
 			for (auto& pGameObject : vecObj)
 			{

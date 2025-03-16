@@ -73,7 +73,7 @@ namespace Framework
 
 		if (INPUT::GetKeyDown(eKeyCode::Enter))
 		{
-			EVENT::ChangeLayer(GetOwner(), Enums::eLayerType::Particle);
+			EVENT::ChangeLayer(GetOwner(), (UINT)Enums::eLayerType::Particle);
 		}
 	}
 

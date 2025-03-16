@@ -13,7 +13,8 @@ namespace Framework
 		{
 			Tick,
 			Performance,
-			Chrono
+			Chrono,
+			Size
 		};
 		CTimeManager();
 		virtual ~CTimeManager();
@@ -41,7 +42,8 @@ namespace Framework
 		static UINT m_uiFPS;
 		static eTimeType timeType;
 
-		static VoidPtr functions[3];
+		using TimeFuncPtr = void (*)();
+		static TimeFuncPtr functions[static_cast<int>(eTimeType::Size)];
 
 		/// CPU Preformance
 		static LARGE_INTEGER m_liCpuFrequency;

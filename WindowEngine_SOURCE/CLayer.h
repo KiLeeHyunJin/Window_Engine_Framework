@@ -19,7 +19,7 @@ namespace Framework
 		friend CCollisionManager;
 		friend CSceneManager;
 	private:
-		CLayer(Enums::eLayerType layer);
+		CLayer(UINT layer);
 		virtual ~CLayer();
 
 		void Initialize();
@@ -38,7 +38,7 @@ namespace Framework
 
 		void Destroy();
 
-		Enums::eLayerType m_eLayer;
+		UINT m_eLayer;
 		std::vector<CGameObject*> m_listGameObject;
 		std::vector<CGameObject*> m_listRemoveGameObject;
 	};

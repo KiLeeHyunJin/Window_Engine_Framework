@@ -3,7 +3,7 @@
 
 namespace Framework
 {
-	CLayer::CLayer(Enums::eLayerType layer) :
+	CLayer::CLayer(UINT layer) :
 		m_listGameObject({}), 
 		m_listRemoveGameObject({}),
 		m_eLayer(layer)

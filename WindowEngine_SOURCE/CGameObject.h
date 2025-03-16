@@ -34,7 +34,7 @@ namespace Framework
 			Disable,
 		};
 
-		CGameObject(Enums::eLayerType layerType);
+		CGameObject(UINT layerType);
 		virtual ~CGameObject();
 
 		CTransformComponent* GetTransformComponent() const { return m_pTransform; }
@@ -142,10 +142,10 @@ namespace Framework
 
 #pragma endregion Component Template
 
-		void ChangeLayer(const Enums::eLayerType layerType);
+		void ChangeLayer(UINT layerType);
 
 		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable; }
-		__forceinline const Enums::eLayerType GetLayerType()	const	{ return m_eLayerType; }
+		__forceinline const UINT GetLayerType()	const	{ return m_eLayerType; }
 
 		//__forceinline const eState GetState()					const	{ return m_eState; }
 		__forceinline const bool GetActive()					const	{ return m_eState == eState::Enable; }
@@ -173,14 +173,14 @@ namespace Framework
 		__forceinline void SetSafeToDelete()								{ if (m_bSafeToDelete == false)  m_bSafeToDelete  = true; }
 		__forceinline void SetReserveDelete()								{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
 		__forceinline void SetDontDestroy(bool state)						{ m_bDontDestroy = state; }
-		__forceinline void SetLayerType(const Enums::eLayerType layerType)	{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
+		__forceinline void SetLayerType(const UINT layerType)				{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
 
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;
 
 		CTransformComponent* m_pTransform;
 
-		Enums::eLayerType m_eLayerType;
+		UINT m_eLayerType;
 		eState m_eState;
 
 		bool m_bSafeToDelete;

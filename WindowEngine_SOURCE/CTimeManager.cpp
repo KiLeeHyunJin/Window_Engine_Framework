@@ -6,7 +6,7 @@ namespace Framework
 	bool			CTimeManager::m_bShowFPS			= true;
 	UINT			CTimeManager::m_uiFPS				= 0;
 	CTimeManager::eTimeType CTimeManager::timeType		= CTimeManager::eTimeType::Performance;
-	VoidPtr			CTimeManager::functions[3]= { nullptr};
+	CTimeManager::TimeFuncPtr CTimeManager::functions[static_cast<int>(eTimeType::Size)]= { nullptr};
 
 	LARGE_INTEGER	CTimeManager::m_liCpuFrequency		= {};
 	LARGE_INTEGER	CTimeManager::m_liPrevFrequency		= {};

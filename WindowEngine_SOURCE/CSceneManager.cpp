@@ -1,5 +1,4 @@
 #include "CSceneManager.h"
-#include "CScene.h"
 #include "CDontDestroyOnLoad.h"
 
 #include "CRenderManager.h"
@@ -12,7 +11,7 @@ namespace Framework
 	std::vector<CScene*>	CSceneManager::m_vecScenes				= {nullptr};
 	CScene* CSceneManager::m_pCurrentScene							= nullptr;
 	CScene*	CSceneManager::m_pDontDestroyScene						= nullptr;
-	//CScene* CSceneManager::m_pChangeScene							= nullptr;
+	UINT	CSceneManager::m_uiLayerSize = 0;
 
 	CSceneManager::CSceneManager()
 	{
@@ -51,8 +50,8 @@ namespace Framework
 	{
 		for (UINT i = (UINT)Enums::eLayerType::None; i < (UINT)Enums::eLayerType::Size; i++)
 		{
-			const CLayer* pCurrentLayer = m_pCurrentScene->GetLayer((Enums::eLayerType)i);
-			const CLayer* pDontDestroyLayer = m_pDontDestroyScene->GetLayer((Enums::eLayerType)i);
+			const CLayer* pCurrentLayer = m_pCurrentScene->GetLayer(i);
+			const CLayer* pDontDestroyLayer = m_pDontDestroyScene->GetLayer(i);
 
 			pCurrentLayer->Render(hDC);
 			pDontDestroyLayer->Render(hDC);
@@ -80,31 +79,15 @@ namespace Framework
 		m_pDontDestroyScene = nullptr;
 	}
 
-	//std::vector<CGameObject*> CSceneManager::GetGameObject(Enums::eLayerType layer)
+	//const std::vector<CGameObject*>& CSceneManager::GetDontDestroyGameObject(UINT layer)
 	//{
-	//	std::vector<CGameObject*> gameObjects = m_pCurrentScene->GetLayer(layer)->GetGameObject();
-	//	const std::vector<CGameObject*>& dontDestroyGameObjects = m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
-
-	//	// 추가 공간을 미리 예약하여 재할당을 최소화
-	//	const INT sceneSize = (INT)gameObjects.size();
-	//	const INT dontDestroySize = (INT)dontDestroyGameObjects.size();
-	//	gameObjects.reserve(sceneSize + dontDestroySize);
-
-	//	// dontDestroyGameObjects의 모든 요소를 gameObjects에 추가
-	//	gameObjects.insert(gameObjects.end(), dontDestroyGameObjects.begin(), dontDestroyGameObjects.end());
-	//	return gameObjects;
+	//	return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
 	//}
 
-
-	const std::vector<CGameObject*>& CSceneManager::GetDontDestroyGameObject(Enums::eLayerType layer)
-	{
-		return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
-	}
-
-	const std::vector<CGameObject*>& CSceneManager::GetGameObject(Enums::eLayerType layer)
-	{
-		return  m_pCurrentScene->GetLayer(layer)->GetGameObject();
-	}
+	//const std::vector<CGameObject*>& CSceneManager::GetGameObject(UINT layer)
+	//{
+	//	return  m_pCurrentScene->GetLayer(layer)->GetGameObject();
+	//}
 
 	CScene* CSceneManager::LoadScene(const UINT idx)
 	{
@@ -142,5 +125,23 @@ namespace Framework
 		m_pDontDestroyScene = static_cast<CScene*>(pDontDestroyScene);
 		m_pDontDestroyScene->SetName(L"DontDestroyScene");
 		m_pDontDestroyScene->SceneInitialize();
+	}
+
+	void CSceneManager::InitDataSize(UINT size, UINT layerSize)
+	{
+		static bool sizeSet = false;
+		if (sizeSet)	//데이터가 설정되었을 경우 변경 불가
+		{
+			return;
+		}
+
+		if (m_vecScenes.size() < size)
+		{
+			m_vecScenes.resize(size);
+			m_vecScenes[m_vecScenes.size() - 1] = m_pDontDestroyScene;
+		}
+		m_uiLayerSize = layerSize;
+		sizeSet = true;
+		CCollisionManager::InitCollisionLayer();
 	}
 }

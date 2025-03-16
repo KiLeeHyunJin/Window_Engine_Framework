@@ -35,7 +35,7 @@ void Framework::CPlayScene::Initialize()
 	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 
 
-	CGameObject* pObj = Object::Instantiate<CPlayerInput>(Enums::eLayerType::BackGround, L"Player")->GetOwner();
+	CGameObject* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	pRigid->SetGround(true);
@@ -48,20 +48,20 @@ void Framework::CPlayScene::Initialize()
 	//pAnim->PlayAnimation(L"Room", true);
 
 
-	pObj = Object::Instantiate<CDummy>(Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
+	pObj = Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
 	pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	pRigid->SetGround(true);
 	//pObj->AddComponent<CPlayerInput>();
 	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
 
-	CCollisionManager::SetCollisionLayerState(Enums::eLayerType::BackGround, Enums::eLayerType::BackGround, true);
+	CCollisionManager::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
 
 
 	//pObj->AddComponent<CPlayerInput>();
 
 
-	CGameObject* pCameraObj = Object::Instantiate(Enums::eLayerType::None, L"Cam");
+	CGameObject* pCameraObj = Object::Instantiate((UINT)Enums::eLayerType::None, L"Cam");
 	
 	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
 

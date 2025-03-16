@@ -11,7 +11,7 @@
 
 namespace Framework
 {
-	CGameObject::CGameObject(Enums::eLayerType layerType) :
+	CGameObject::CGameObject(UINT layerType) :
 		m_eState(eState::Enable), m_eLayerType(layerType), 
 		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),
 		m_pTransform(new CTransformComponent)
@@ -105,7 +105,7 @@ namespace Framework
 		m_vecComponents.clear();
 	}
 
-	void CGameObject::ChangeLayer(const Enums::eLayerType layerType)
+	void CGameObject::ChangeLayer(const UINT layerType)
 	{
 		if (layerType != m_eLayerType)
 		{

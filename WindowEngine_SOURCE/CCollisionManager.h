@@ -28,7 +28,7 @@ namespace Framework
 	class CCollisionManager
 	{
 	public:
-		static void SetCollisionLayerState(Enums::eLayerType left, Enums::eLayerType right, bool enable);
+		static void SetCollisionLayerState(UINT left, UINT right, bool enable);
 
 		/// <summary>
 		/// 이전 Tick의 기준에서 충돌체를 가져옴
@@ -44,7 +44,7 @@ namespace Framework
 		/// 사용은 가능하나 최적화가 필요
 		/// </summary>
 		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores);
-		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayer);
+		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<UINT>& checkLayer);
 
 
 		friend CApplication;
@@ -64,6 +64,8 @@ namespace Framework
 
 		static void Clear();
 
+		static void InitCollisionLayer();
+
 		//static bool Raycast(Ray& ray, CColliderComponent& hitObject);
 
 		__forceinline static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
@@ -82,7 +84,7 @@ namespace Framework
 		__forceinline static bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
 		__forceinline static bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
 
-
+		static std::vector<std::vector<bool>> m_vectorCollisionCheck;
 		static std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
 		static std::unordered_map<UINT64, bool> m_unmapCollisions;
 		/// <summary>

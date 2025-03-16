@@ -1,6 +1,7 @@
 
 
-using VoidPtr = void(*)();
+//using VoidPtr = void(*)();
+// 
 //using RenderPtr = void(*)(HDC);
 
 //

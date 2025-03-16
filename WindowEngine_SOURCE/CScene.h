@@ -44,9 +44,9 @@ namespace Framework
 
 		void AddGameObject(CGameObject* pGameObject);
 		bool EraseInLayer(CGameObject* pGameObject);
-		//void InsertInLayer(CGameObject* pGameObject);
-		const CLayer* GetLayer(Enums::eLayerType layer) const { return m_vecLayer[(UINT)layer]; }
-		//std::vector<CGameObject*> m_vecGameObject;
+
+		const CLayer* GetLayer(UINT layer) const ;
+
 		std::vector<CLayer*> m_vecLayer;
 	};
 

@@ -7,103 +7,49 @@
 
 namespace Framework
 {
-	std::queue<std::pair<CGameObject*, CEventManager::LayerData>> CEventManager::m_quequeObject	= {};
-	std::queue<std::pair<CGameObject*, CEventManager::LayerData>> CEventManager::m_quequeChange = {};
-	//std::queue<CGameObject*> CEventManager::m_quequeDeleteObject					= {};
+	std::queue<CEventManager::EventJob*> CEventManager::m_quequeEventJob			= {};
 	std::pair<const UINT, float>* CEventManager::m_pChangeScene						= nullptr;
-	CEventManager::EventFuncPtr CEventManager::ProgressFunc[static_cast<int>(CEventManager::eEventType::Size)] = {};
+
 
 	CEventManager::CEventManager()	{	}
 	CEventManager::~CEventManager()	{	}
 
 	void CEventManager::Initialize()
 	{
-		ProgressFunc[(INT)eEventType::Delete]	= &ProgressDeleteGameObject;
-		ProgressFunc[(INT)eEventType::Add]		= &ProgressAddGameObject;
-		ProgressFunc[(INT)eEventType::Layer]	= &ProgressChangeLayer;
-		ProgressFunc[(INT)eEventType::Scene]	= &ProgressDontDestroy;
-
 	}
 
 	void CEventManager::Release()
 	{
+		Clear();
 	}
 
 	void CEventManager::Tick()
 	{
-		ProgressLifeObject(); //게임 오브젝트 추가 삭제
 	}
 
 	void CEventManager::LastTick()
 	{
-		ProgressChangeObject(); // 게임 오브젝트 레이어, 씬 변경
-		ProgressChangeScene(); // 씬 전환
+		Job(); //예약 실행
+		ChangeScene(); // 씬 전환
 	}
 
-	void CEventManager::ProgressLifeObject()
+	void CEventManager::Job()
 	{
-		while (m_quequeObject.empty() == false)
+		while (m_quequeEventJob.empty() == false)
 		{
-			std::pair<CGameObject*, LayerData> pair = m_quequeObject.front();
-			m_quequeObject.pop();
-			
-			CGameObject* pObj = pair.first;
-			ProgressFunc[(INT)pair.second.eEventType](pObj, pair.second);
+			EventJob* job = m_quequeEventJob.front();
+			m_quequeEventJob.pop();
+			(*job)();
+			delete job;
 		}
 	}
 
-	void CEventManager::ProgressChangeObject()
-	{
-		while (m_quequeChange.empty() == false)
-		{
-			std::pair<CGameObject*, LayerData> pair = m_quequeChange.front();
-			m_quequeChange.pop();
-
-			CGameObject* pObj = pair.first;
-			ProgressFunc[(INT)pair.second.eEventType](pObj, pair.second);
-		}
-	}
-
-	void CEventManager::ProgressAddGameObject(CGameObject* pObj, LayerData& data)
-	{
-		CScene* currentScene = pObj->GetDontDestroy() ?
-			SCENE::GetDontDestoryScene() :
-			data.pScene;
-
-		currentScene->AddGameObject(pObj);
-	}
-
-	void CEventManager::ProgressDeleteGameObject(CGameObject* pObj, LayerData& data)
-	{
-		pObj->SetReserveDelete();
-	}
-
-	void CEventManager::ProgressChangeLayer(CGameObject* pObj, LayerData& data)
-	{
-		const bool result = data.pScene->EraseInLayer(pObj);
-		if (result)
-		{
-			Enums::eLayerType eLayer = data.eTargetLayer;
-
-			pObj->SetLayerType(eLayer);
-			data.pScene->AddGameObject(pObj);
-		}
-	}
-
-	void CEventManager::ProgressDontDestroy(CGameObject* pObj, LayerData& data)
-	{
-		const bool result = data.pScene->EraseInLayer(pObj);
-		if (result)
-		{
-			SCENE::GetDontDestoryScene()->AddGameObject(pObj);
-		}
-	}
-
-	void CEventManager::ProgressChangeScene()
+	void CEventManager::ChangeScene()
 	{
 		if (nullptr != m_pChangeScene)
 		{
 			m_pChangeScene->second -= CTimeManager::DeltaTime();
+
 			if (m_pChangeScene->second <= 0)
 			{
 				const UINT scene = m_pChangeScene->first;
@@ -117,24 +63,25 @@ namespace Framework
 
 	void CEventManager::AddGameObject(CScene* pTargetScene, CGameObject* pObj, bool dontDestroy)
 	{
-		pObj->SetDontDestroy(dontDestroy);
-		m_quequeObject.push(
-			std::pair(pObj, LayerData(eEventType::Add, pTargetScene)));
+		CScene* pScene = SCENE::GetCurrentScene();
+
+		EventAddGameObject* newJob = new EventAddGameObject(pObj, pScene, dontDestroy);
+		EventJob* parentJob = static_cast<EventJob*>(newJob);
+		m_quequeEventJob.push(parentJob);
 	}
 
 	void CEventManager::DeleteGameObject(CGameObject* pObj)
 	{
+		if (pObj->GetReserveDelete()) //파괴 예정이라면
+		{	return;		}
 		CScene* pScene = SCENE::GetCurrentScene();
-		m_quequeObject.push(
-			std::pair(pObj, LayerData(eEventType::Delete, pScene)));
+
+		EventDeleteGameObject* newJob = new EventDeleteGameObject(pObj);
+		EventJob* parentJob = static_cast<EventJob*>(newJob);
+		m_quequeEventJob.push(parentJob);
 	}
 
 
-	/// <summary>
-	/// LastTick에서 처리
-	/// </summary>
-	/// <param name="loadSceneID">Enum값으로 지정하는것을 추천</param>
-	/// <param name="changeTime">전환 예약 시간</param>
 	void CEventManager::LoadScene(UINT loadSceneID, float changeTime)
 	{
 		if (m_pChangeScene == nullptr)
@@ -148,45 +95,98 @@ namespace Framework
 		}
 	}
 
-	/// <summary>
-	/// LastTick에서 처리
-	/// </summary>
-	/// <param name="pObj"></param>
-	/// <param name="layerType"></param>
-	void CEventManager::ChangeLayer(CGameObject* pObj, Enums::eLayerType layerType)
+	void CEventManager::ChangeLayer(CGameObject* pObj, UINT layerType)
 	{
+		if (pObj->GetReserveDelete()) //파괴 예정이라면
+		{	return;		}
+
 		CScene* currentScene = pObj->GetDontDestroy() ?  
 			SCENE::GetDontDestoryScene() :
 			SCENE::GetCurrentScene();
 
-		m_quequeChange.push(
-			std::pair(pObj, LayerData(eEventType::Layer, currentScene, layerType)));
+		EventChangeLayerGameObject* newJob = new EventChangeLayerGameObject(pObj, currentScene, layerType);
+		EventJob* parentJob = static_cast<EventJob*>(newJob);
+		m_quequeEventJob.push(parentJob);
 	}
 
-	void CEventManager::SetDontDestroyGameObject(CGameObject* pObj)
+	void CEventManager::SetDontDestroyGameObject(CGameObject* pObj, bool state)
 	{
-		if (pObj->GetDontDestroy())
+		if (pObj->GetReserveDelete() || pObj->GetDontDestroy() == state) //파괴 예정이거나 이미 현재 상태라면
 		{	return;		}
 
-		CScene* currentScene = SCENE::GetCurrentScene();
-		m_quequeChange.push(
-			std::pair(pObj, LayerData(eEventType::Scene, currentScene)));
-
-
+		CScene* currentScene = SCENE::GetCurrentScene(); //변경해야할 씬 저장
+		EventSetDontDestoryGameObject* newJob = new EventSetDontDestoryGameObject(pObj, currentScene, state);
+		EventJob* parentJob = static_cast<EventJob*>(newJob);
+		m_quequeEventJob.push(parentJob);
 	}
-
 
 
 	void CEventManager::Clear()
 	{
-		while (m_quequeObject.empty() == false)
+		while (m_quequeEventJob.empty() == false)
 		{
-			m_quequeObject.pop();
+			EventJob* pJob = m_quequeEventJob.front();
+			m_quequeEventJob.pop();
+			delete pJob;
 		}
-		while (m_quequeChange.empty() == false)
+
+		if (m_pChangeScene != nullptr)
 		{
-			m_quequeChange.pop();
+			delete m_pChangeScene;
 		}
+		m_pChangeScene = nullptr;
+	}
+
+	void CEventManager::EventAddGameObject::operator() ()
+	{
+		pObj->SetDontDestroy(bDontDestroy);
+		if (bDontDestroy)
+		{
+			pScene = SCENE::GetDontDestoryScene();
+		}
+		pScene->AddGameObject(pObj);
+	}
+
+	void CEventManager::EventDeleteGameObject::operator() ()
+	{
+		pObj->SetReserveDelete();
+	}
+
+	void CEventManager::EventChangeLayerGameObject::operator() ()
+	{
+		if (pObj->GetReserveDelete()) //파괴 예정이라면
+		{	return;		}
+		const bool result = pScene->EraseInLayer(pObj);
+		if (result)
+		{
+			pObj->SetLayerType(layer);
+			pScene->AddGameObject(pObj);
+		}
+	}
+
+	void CEventManager::EventSetDontDestoryGameObject::operator() ()
+	{
+		if (pObj->GetReserveDelete()) //파괴 예정이라면
+		{	return;		}
+
+		CScene* removeIn; //삭제해야할 씬
+		CScene* addIn; //추가해야할 씬
+		if (bChangeState) // 씬전환 파괴 불가 객체로 생성하고 싶을경우
+		{
+			removeIn = pCurrentScene;
+			addIn = SCENE::GetDontDestoryScene();
+		}
+		else
+		{
+			removeIn = SCENE::GetDontDestoryScene();
+			addIn = pCurrentScene;
+		}
+
+		pObj->SetDontDestroy(bChangeState);
+
+		const bool result = removeIn->EraseInLayer(pObj);
+		if (result)
+		{	addIn->AddGameObject(pObj);		}
 	}
 
 }

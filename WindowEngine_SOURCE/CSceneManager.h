@@ -9,22 +9,13 @@ namespace Framework
 	class CRenderManager;
 	class CCollisionManager;
 	class CEventManager;
-	class CScene;
+	class CGameObject;
 
 	class CSceneManager
 	{
 	public:
 		CSceneManager();
 		virtual ~CSceneManager();
-
-		static void InitMapDataSize(UINT size) 
-		{ 
-			if (m_vecScenes.size() < size)
-			{
-				m_vecScenes.resize(size);
-				m_vecScenes[m_vecScenes.size() - 1] = m_pDontDestroyScene;
-			}
-		}
 
 		template<typename T>
 		static CScene* CreateScene(const std::wstring& name, const UINT idx )//씬은 씬매니저가 생성하게하자
@@ -52,9 +43,11 @@ namespace Framework
 			return pScene;
 		}
 
-		__forceinline static CScene* GetCurrentScene()		{ return m_pCurrentScene; }
-		__forceinline static CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene; }
-		
+		static void InitDataSize(UINT size, UINT layerSize);
+
+		__forceinline static CScene* GetCurrentScene()		{ return m_pCurrentScene;		}
+		__forceinline static CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene;	}
+		__forceinline static const UINT	 GetLayerSize()		{	return m_uiLayerSize;		}
 		//static std::vector<CGameObject*> GetGameObject(Enums::eLayerType layer);
 
 		friend CApplication;
@@ -77,12 +70,22 @@ namespace Framework
 		static CScene* FindScene(const UINT idx);
 
 
-		static const std::vector<CGameObject*>& GetDontDestroyGameObject(Enums::eLayerType layer);
-		static const std::vector<CGameObject*>& GetGameObject(Enums::eLayerType layer);
+		__forceinline static const std::vector<CGameObject*>& GetDontDestroyGameObject(UINT layer)
+		{
+			return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
+		}
+
+		__forceinline static const std::vector<CGameObject*>& GetGameObject(UINT layer)
+		{
+			return  m_pCurrentScene->GetLayer(layer)->GetGameObject();
+		}
 
 		static std::vector<CScene*> m_vecScenes;
+		static UINT m_uiLayerSize;
+
 		static CScene* m_pCurrentScene;
 		static CScene* m_pDontDestroyScene;
+
 		//static CScene* m_pChangeScene;
 	};
 

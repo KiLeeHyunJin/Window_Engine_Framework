@@ -10,9 +10,9 @@ namespace Framework
 	{
 		m_vecLayer = {};
 		m_vecLayer.resize((int)Enums::eLayerType::Size);
-		for (size_t i = 0; i < m_vecLayer.size(); i++)
+		for (UINT i = 0; i < m_vecLayer.size(); i++)
 		{
-			m_vecLayer[i] = new CLayer((Enums::eLayerType)i);
+			m_vecLayer[i] = new CLayer(i);
 		}
 	}
 
@@ -41,6 +41,7 @@ namespace Framework
 		}
 		Release();
 	}
+
 	void CScene::SceneTick()
 	{
 		for (CLayer* pLayer : m_vecLayer)
@@ -49,6 +50,7 @@ namespace Framework
 		}
 		Tick();
 	}
+
 	void CScene::SceneLastTick()
 	{
 		for (CLayer* pLayer : m_vecLayer)
@@ -84,16 +86,26 @@ namespace Framework
 		TextOut(hdc, mouseXPos + 10, mouseYPos - 15, pointStr.c_str(), lenPos);*/
 	}
 	
+	const CLayer* CScene::GetLayer(UINT layer) const
+	{
+		if (m_vecLayer.size() <= layer)
+		{
+			assert(1);
+			return nullptr;
+		}
+		return m_vecLayer[layer];
+	}
+
 	void CScene::AddGameObject(CGameObject* pGameObject)
 	{
-		const Enums::eLayerType layer = pGameObject->GetLayerType();
-		m_vecLayer[(int)layer]->AddGameObject(pGameObject);
+		const UINT layer = pGameObject->GetLayerType();
+		m_vecLayer[layer]->AddGameObject(pGameObject);
 	}
 
 	bool CScene::EraseInLayer(CGameObject* pGameObject)
 	{
-		const Enums::eLayerType objectLayer = pGameObject->GetLayerType();
-		const bool result = m_vecLayer[(int)objectLayer]->EraseInIndex(pGameObject);
+		const UINT objectLayer = pGameObject->GetLayerType();
+		const bool result = m_vecLayer[objectLayer]->EraseInIndex(pGameObject);
 		return result;
 	}
 	//void CScene::EraseGameObject(CGameObject* pGameObject)

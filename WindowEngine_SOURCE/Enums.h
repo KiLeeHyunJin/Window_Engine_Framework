@@ -2,10 +2,13 @@
 
 namespace Framework::Enums
 {
+
+#pragma region  Component
+
 	enum class eComponentType
 	{
 		Transform,
-		
+
 		Custom,
 
 		SpriteRenderer,
@@ -16,7 +19,10 @@ namespace Framework::Enums
 
 		Size,
 	};
+#pragma endregion
 
+
+#pragma region Layer
 	enum class eLayerType
 	{
 		None,
@@ -28,13 +34,10 @@ namespace Framework::Enums
 		UI,
 		Size = 16,
 	};
+#pragma endregion
 
-	enum class eUILayer
-	{
-		None,
-		HUD,
-		Popup,
-	};
+
+#pragma region  Resource
 
 	enum class eResourceType
 	{
@@ -45,6 +48,17 @@ namespace Framework::Enums
 
 		Size,
 	};
+#pragma endregion
+
+
+#pragma region  UI
+	enum class eUILayer
+	{
+		None,
+		HUD,
+		Popup,
+	};
+
 
 	enum class eUIType
 	{
@@ -54,4 +68,7 @@ namespace Framework::Enums
 
 		Size,
 	};
+#pragma endregion
+
+
 }

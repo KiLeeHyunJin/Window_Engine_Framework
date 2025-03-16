@@ -68,7 +68,7 @@ namespace Framework
 		return m_pRootNode->Raycast(ray, closestHit, hitObject, ignores);
 	}
 
-	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<Enums::eLayerType>& checkLayer)
+	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<UINT>& checkLayer)
 	{
 		return false;
 	}
