@@ -71,6 +71,14 @@ void Framework::CPlayScene::Initialize()
 	//pCamera->SetTarget(pObj);
 
 	//pSr->ImageLoad(L"Resources\\Room.png");
+
+
+	CColliderComponent** ppCol = nullptr;
+	CColliderComponent* pCol = new CColliderComponent;
+	*(ppCol) = pCol;
+
+	auto it = *ppCol;
+
 }
 
 void Framework::CPlayScene::Tick()

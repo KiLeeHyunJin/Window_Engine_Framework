@@ -25,11 +25,11 @@ namespace Framework
 
 	void CEventManager::Tick()
 	{
+		Job(); //예약 실행
 	}
 
 	void CEventManager::LastTick()
 	{
-		Job(); //예약 실행
 		ChangeScene(); // 씬 전환
 	}
 

@@ -27,7 +27,11 @@ namespace Framework
 		void InsertAtDepth(CColliderComponent* item, int targetDepth);
 		void Query(CColliderComponent* item, std::vector<CQuadTreeNode*>& possibleNodes);
 		void Query(const Maths::Vector2& center, const Maths::Vector2& size, std::vector<CQuadTreeNode*>& possibleNodes);
-		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject,const std::vector<CColliderComponent*>& ignores);
+
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores);
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayers);
+
+
 		void Clear();
 		void Release();
 		void Render(HDC hdc);

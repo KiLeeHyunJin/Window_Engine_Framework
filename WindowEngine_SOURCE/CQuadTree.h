@@ -21,8 +21,8 @@ namespace Framework
 		const std::vector<CColliderComponent*>& Query(CColliderComponent* queryItem);
 		const std::vector<CColliderComponent*>& Query(const Maths::Vector2& center, const Maths::Vector2& size);
 
-		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& removes);
-		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<UINT>& checkLayer);
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& removes);
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayer);
 
 		void Render(HDC hdc);
 		int GetMaxDepth() const { return m_iMaxDepth; }

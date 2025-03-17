@@ -36,23 +36,29 @@ namespace Framework
 
 	void CLayer::Tick()
 	{
-		for (auto iter = m_listGameObject.cbegin();
-			iter != m_listGameObject.cend();
-			iter++)
+		for (CGameObject* pObj : m_listGameObject)
 		{
-			const bool state = (*iter)->GetActive();
+			const bool state = pObj->GetActive();
 			if (state)
 			{
-				(*iter)->Tick();
+				pObj->Tick();
 			}
 		}
+
+		//for (auto iter = m_listGameObject.cbegin();
+		//	iter != m_listGameObject.cend();
+		//	iter++)
+		//{
+		//	const bool state = (*iter)->GetActive();
+		//	if (state)
+		//	{
+		//		(*iter)->Tick();
+		//	}
+		//}
 	}
 
 	void CLayer::LastTick()
 	{
-		if (m_listGameObject.empty())
-			return;
-
 		// 삭제할 개체가 많을 가능성이 있다면 reserve()로 메모리 재할당 최적화
 		//m_listRemoveGameObject.reserve(m_listRemoveGameObject.size() + m_listGameObject.size());
 
@@ -132,6 +138,8 @@ namespace Framework
 		}
 		return result;
 	}
+
+
 	//void CLayer::EraseGameObject(CGameObject* pGameObject)
 	//{
 	//	std::erase_if(m_listGameObject, 

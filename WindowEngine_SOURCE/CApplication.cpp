@@ -58,19 +58,23 @@ namespace Framework
 
 	void CApplication::Tick()
 	{
-		EVENT::Tick();
 		INPUT::Tick();
 		TIME::Tick();
-		UI::Tick();
-		COLLISION::Tick();
+
 		SCENE::Tick();
+
+		EVENT::Tick();
+		UI::Tick();
+
+		COLLISION::Tick();
 	}
 
 	void CApplication::LastTick()
 	{
+		SCENE::LastTick();
+
 		EVENT::LastTick();
 		UI::LastTick();
-		SCENE::LastTick();
 	}
 
 	void CApplication::Render()

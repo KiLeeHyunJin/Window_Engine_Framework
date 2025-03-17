@@ -19,8 +19,7 @@ namespace Framework
 		{}
 		struct 
 		{
-			UINT32 left;
-			UINT32 right;
+			UINT32 left, right;
 		};
 		UINT64 id;
 	};
@@ -31,20 +30,24 @@ namespace Framework
 		static void SetCollisionLayerState(UINT left, UINT right, bool enable);
 
 		/// <summary>
-		/// 이전 Tick의 기준에서 충돌체를 가져옴
+		/// 해당 위치를 중심으로 size크기와 충돌한 객체를 가져온다.
 		/// </summary>
 		static const std::vector<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center,const Maths::Vector2& size);
 
 		/// <summary>
-		/// 이전 Tick의 기준에서 충돌체를 가져옴
+		/// 해당 Rect와 충돌한 객체를 가져온다.
 		/// </summary>
 		static const std::vector<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
 
 		/// <summary>
-		/// 사용은 가능하나 최적화가 필요
+		/// 무시 목록에 존재하지 않은 방향의 근거리 객체를 가져온다.
 		/// </summary>
-		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores);
-		static bool Raycast(const Ray& ray, CColliderComponent& hitObject, const std::vector<UINT>& checkLayer);
+		static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores);
+
+		/// <summary>
+		/// 특정 레이어의 객체만 체크하여 가져온다.
+		/// </summary>
+		static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayer);
 
 
 		friend CApplication;

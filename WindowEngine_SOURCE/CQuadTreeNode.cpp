@@ -73,7 +73,7 @@ namespace Framework
 		}
 	}
 
-	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent& hitObject, const std::vector<CColliderComponent*>& ignores)
+	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores)
 	{
 		float tEnter = 0;
 		check = false;
@@ -87,13 +87,20 @@ namespace Framework
 		}
 		
 		bool hit = false;
-		Rect rect;
 		check = true;
+
+		std::unordered_set<CColliderComponent*> ignoreSet(ignores.begin(), ignores.end());
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
-			auto iter = std::find(ignores.begin(), ignores.end(), obj);
-			if (iter != ignores.end())
+			//auto iter = std::find(ignores.begin(), ignores.end(), obj); 
+
+			//if (iter != ignores.end())
+			//{
+			//	continue;
+			//}
+
+			if (ignoreSet.find(obj) != ignoreSet.end()) //무시 목록에 존재하면 점프
 			{
 				continue;
 			}
@@ -102,13 +109,15 @@ namespace Framework
 			const Maths::Vector2 pos = obj->GetOwner()->GetTransformComponent()->GetPos() + obj->GetOffset();
 			const Maths::Vector2 halfSize = obj->GetSize() * 0.5f;
 
+			Rect rect;
+
 			rect.max = pos + halfSize;
 			rect.min = pos - halfSize;
 
 			if (rect.Intersects(ray, objNear) && objNear < closestHit) 
 			{
 				closestHit = objNear;
-				hitObject = *obj;
+				hitObject = obj;
 				hit = true;
 			}
 		}
@@ -120,6 +129,61 @@ namespace Framework
 				if (child) 
 				{
 					hit |= child->Raycast(ray, closestHit, hitObject, ignores);
+				}
+			}
+		}
+
+		return hit;
+	}
+
+	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayers)
+	{
+		float tEnter = 0;
+		check = false;
+		if (!bounds.Intersects(ray, tEnter) || tEnter > closestHit) //해당 노드와의 충돌 검사
+		{
+			return false;
+		}
+		if (tEnter > closestHit)
+		{
+			return false;
+		}
+
+		bool hit = false;
+		Rect rect;
+		check = true;
+
+		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
+		{
+			const UINT layer = obj->GetOwner()->GetLayerType();
+			auto iter = std::find(checkLayers.begin(), checkLayers.end(), layer); //무시 목록에 존재하면 점프
+			if (iter == checkLayers.end())
+			{
+				continue;
+			}
+
+			float objNear;
+			const Maths::Vector2 pos = obj->GetOwner()->GetTransformComponent()->GetPos() + obj->GetOffset();
+			const Maths::Vector2 halfSize = obj->GetSize() * 0.5f;
+
+			rect.max = pos + halfSize;
+			rect.min = pos - halfSize;
+
+			if (rect.Intersects(ray, objNear) && objNear < closestHit)
+			{
+				closestHit = objNear;
+				hitObject = obj;
+				hit = true;
+			}
+		}
+
+		if (m_vecChildren.size() != 0)  // 자식들 순회
+		{
+			for (const auto& child : m_vecChildren)
+			{
+				if (child)
+				{
+					hit |= child->Raycast(ray, closestHit, hitObject, checkLayers);
 				}
 			}
 		}

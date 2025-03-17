@@ -1,6 +1,7 @@
 #include "CScene.h"
 #include "Enums.h"
 #include "CLayer.h"
+#include "CGameObject.h"
 
 //#include "CInputManager.h"
 //#include "CCollisionManager.h"

@@ -34,6 +34,7 @@ namespace Framework
 		const UINT fullSize = size * size;
 		m_bArryCollision = new bool [fullSize];
 		memset(m_bArryCollision, 0, sizeof(bool) * fullSize);
+
 	}
 
 	void CCollisionManager::SetCollisionLayerState(UINT left, UINT right, bool enable)
@@ -363,6 +364,7 @@ namespace Framework
 
 	bool CCollisionManager::GetLayerState(UINT left, UINT right)
 	{
+
 		const UINT size = SCENE::GetLayerSize();
 		return m_bArryCollision[(size * left) + right];
 	}
