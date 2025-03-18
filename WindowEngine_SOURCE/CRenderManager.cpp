@@ -135,7 +135,7 @@ namespace Framework
 			0);
 		CreateBackBuffer(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight);
 
-		Maths::Vector2 resolution(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight);
+		Maths::Vector2 resolution((float)m_iCurrentBufferBitmapWidth, (float)m_iCurrentBufferBitmapHeight);
 		Renderer::CRenderer::SetResolution(resolution);
 	}
 

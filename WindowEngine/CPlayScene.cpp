@@ -55,6 +55,8 @@ void Framework::CPlayScene::Initialize()
 	//pObj->AddComponent<CPlayerInput>();
 	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
 
+
+
 	CCollisionManager::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
 
 
@@ -68,17 +70,7 @@ void Framework::CPlayScene::Initialize()
 	Object::DontDestoryOnLoad(pCameraObj);
 	
 	Renderer::CRenderer::SetMainCamera(pCamera);
-	//pCamera->SetTarget(pObj);
-
-	//pSr->ImageLoad(L"Resources\\Room.png");
-
-
-	CColliderComponent** ppCol = nullptr;
-	CColliderComponent* pCol = new CColliderComponent;
-	*(ppCol) = pCol;
-
-	auto it = *ppCol;
-
+	
 }
 
 void Framework::CPlayScene::Tick()
@@ -86,6 +78,17 @@ void Framework::CPlayScene::Tick()
 	if (INPUT::GetKeyDown(eKeyCode::B))
 	{
 		EVENT::LoadScene((UINT)eMap::Title, 1);
+	}
+	
+	if (INPUT::GetKeyDown(eKeyCode::V))
+	{
+		if (m_list.size() != 0)
+		{
+			for (auto pObj : m_list)
+			{
+				Object::Destroy(pObj);
+			}
+		}
 	}
 }
 
@@ -103,8 +106,28 @@ void Framework::CPlayScene::Release()
 
 void Framework::CPlayScene::OnEnter()
 {
+	for (size_t i = 0; i < 10; i++)
+	{
+		CGameObject* pObj = 
+			Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
+		CBoxColliderComponent* pBoxColl = 
+			pObj->AddComponent<CBoxColliderComponent>();
+		CRigidbodyComponent* pRigid = 
+			pObj->AddComponent<CRigidbodyComponent>();
+
+		pRigid->SetGround(true);
+		pObj->AddComponent<CPlayerInput>();
+
+		pObj->GetTransformComponent()->SetPos(Maths::Vector2((float)(100 + i * 10), (float)(100 + i * 10)));
+
+		m_list.push_back(pObj);
+	}
 }
 
 void Framework::CPlayScene::OnExit()
+{
+}
+
+void Framework::CPlayScene::LastRender(HDC hdc)
 {
 }

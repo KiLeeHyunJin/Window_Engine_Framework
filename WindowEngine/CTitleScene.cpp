@@ -69,3 +69,7 @@ void Framework::CTitleScene::OnExit()
 	UI::Pop(Enums::eUIType::Size);
 	UI::Pop(Enums::eUIType::Button);
 }
+
+void Framework::CTitleScene::LastRender(HDC hdc)
+{
+}

@@ -2,25 +2,28 @@
 #include "CEntity.h"
 #include "Enums.h"
 
-namespace Framework::Resource
+namespace Framework//::Resource
 {
-
-	class CResource : public CEntity
+	namespace Resource
 	{
-	public:
-		virtual HRESULT Load(const std::wstring& wstrPath)	 = 0;
-		const std::wstring& GetPath()				{ return m_wstrPath; }
-		void SetPath(const std::wstring& wstrPath)	{ m_wstrPath = wstrPath; }
+		class CResource : public CEntity
+		{
+		public:
+			virtual HRESULT Load(const std::wstring& wstrPath) = 0;
+			const std::wstring& GetPath() { return m_wstrPath; }
+			void SetPath(const std::wstring& wstrPath) { m_wstrPath = wstrPath; }
 
-		friend class CResourceManager;
-	protected:
-		CResource(Enums::eResourceType e_type);
-		virtual ~CResource();
+			friend class CResourceManager;
+		protected:
+			CResource(Enums::eResourceType e_type);
+			virtual ~CResource();
 
-	private:
-		Enums::eResourceType m_eResourceType;
-		std::wstring m_wstrPath;
-	};
+		private:
+			Enums::eResourceType m_eResourceType;
+			std::wstring m_wstrPath;
+		};
 
+	}
+	
 	
 }

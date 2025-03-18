@@ -48,20 +48,22 @@ namespace Framework
 
 	void CScene::SceneTick()
 	{
+		Tick();
+
 		for (CLayer* pLayer : m_vecLayer)
 		{
 			pLayer->Tick();
 		}
-		Tick();
 	}
 
 	void CScene::SceneLastTick()
 	{
+		LastTick();
+
 		for (CLayer* pLayer : m_vecLayer)
 		{
 			pLayer->LastTick();
 		}
-		LastTick();
 	}
 
 	void CScene::SceneDestroy()

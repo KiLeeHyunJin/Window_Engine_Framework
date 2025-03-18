@@ -22,7 +22,7 @@ namespace Framework
 
 		functions[(int)eTimeType::Tick]			= CTimeManager::TimeTick;
 		functions[(int)eTimeType::Performance]	= CTimeManager::TimePerformance;
-		functions[(int)eTimeType::Chrono]		= CTimeManager::TimeChrono;
+		//functions[(int)eTimeType::Chrono]		= CTimeManager::TimeChrono;
 	}
 
 	void CTimeManager::Tick()
@@ -101,8 +101,9 @@ namespace Framework
 	}
 
 	/// <summary>
-	/// C++11 이후 표준 라이브러리
+	/// C++17 이후 표준 라이브러리
 	/// </summary>
+	/*
 	void CTimeManager::TimeChrono()
 	{
 		static std::chrono::high_resolution_clock::time_point curTime	= {};
@@ -115,6 +116,7 @@ namespace Framework
 
 		m_fDeltaTime = std::clamp(elapsed.count(), 0.0f, 0.1f);
 	}
+	*/
 
 
 }

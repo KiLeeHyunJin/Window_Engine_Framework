@@ -21,8 +21,7 @@ namespace Framework
 	}
 
 	CQuadTreeNode::~CQuadTreeNode()
-	{
-	}
+	{	}
 	
 	void CQuadTreeNode::InsertAtDepth(CColliderComponent* item, int targetDepth)
 	{
@@ -76,7 +75,7 @@ namespace Framework
 	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores)
 	{
 		float tEnter = 0;
-		check = false;
+		//check = false;
 		if (!bounds.Intersects(ray, tEnter) || tEnter > closestHit) //해당 노드와의 충돌 검사
 		{
 			return false;
@@ -87,20 +86,13 @@ namespace Framework
 		}
 		
 		bool hit = false;
-		check = true;
+		//check = true;
 
-		std::unordered_set<CColliderComponent*> ignoreSet(ignores.begin(), ignores.end());
+		//std::unordered_set<CColliderComponent*> ignoreSet(ignores.begin(), ignores.end());
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
-			//auto iter = std::find(ignores.begin(), ignores.end(), obj); 
-
-			//if (iter != ignores.end())
-			//{
-			//	continue;
-			//}
-
-			if (ignoreSet.find(obj) != ignoreSet.end()) //무시 목록에 존재하면 점프
+			if (std::find(ignores.begin(), ignores.end(), obj) != ignores.end())
 			{
 				continue;
 			}
@@ -139,7 +131,7 @@ namespace Framework
 	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayers)
 	{
 		float tEnter = 0;
-		check = false;
+		//check = false;
 		if (!bounds.Intersects(ray, tEnter) || tEnter > closestHit) //해당 노드와의 충돌 검사
 		{
 			return false;
@@ -151,7 +143,7 @@ namespace Framework
 
 		bool hit = false;
 		Rect rect;
-		check = true;
+		//check = true;
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
@@ -317,7 +309,6 @@ namespace Framework
 			{
 				node->Render(hdc);
 			}
-
 		}
 		else
 		{

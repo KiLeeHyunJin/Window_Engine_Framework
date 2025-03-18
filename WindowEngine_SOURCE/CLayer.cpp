@@ -1,6 +1,8 @@
 #include "CLayer.h"
 #include "CGameObject.h"
 
+#include "CSceneManager.h"
+#include "CInputManager.h"
 
 namespace Framework
 {
@@ -32,29 +34,46 @@ namespace Framework
 			delete pObj;
 		}
 		m_listGameObject.clear();
+
+		for (CGameObject* pObj : m_listRemoveGameObject)
+		{
+			pObj->Release();
+			delete pObj;
+		}
+		m_listRemoveGameObject.clear();
 	}
 
 	void CLayer::Tick()
 	{
-		for (CGameObject* pObj : m_listGameObject)
-		{
-			const bool state = pObj->GetActive();
-			if (state)
-			{
-				pObj->Tick();
-			}
-		}
+		//요소를 앞으로 밀어내면서 한 번만 erase()를 호출하므로 더 빠름
+		//std::vector<CGameObject*> toDelete; // 삭제할 객체를 저장하는 컨테이너
 
-		//for (auto iter = m_listGameObject.cbegin();
-		//	iter != m_listGameObject.cend();
-		//	iter++)
-		//{
-		//	const bool state = (*iter)->GetActive();
-		//	if (state)
-		//	{
-		//		(*iter)->Tick();
-		//	}
-		//}
+		auto newEnd = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
+			[=](CGameObject* target)
+			{
+				if (target->GetSafeToDelete()) 
+				{
+					m_listRemoveGameObject.push_back(target); // 삭제 대기 목록에 추가
+					return true;
+				}
+
+				if (target->GetReserveDelete()) 
+				{
+					target->SetSafeToDelete();
+				}
+				else if (target->GetActive()) 
+				{
+					target->Tick();
+				}
+
+				return false;
+			});
+
+
+
+		// 리스트 정리
+		m_listGameObject.erase(newEnd, m_listGameObject.end());
+
 	}
 
 	void CLayer::LastTick()
@@ -62,7 +81,16 @@ namespace Framework
 		// 삭제할 개체가 많을 가능성이 있다면 reserve()로 메모리 재할당 최적화
 		//m_listRemoveGameObject.reserve(m_listRemoveGameObject.size() + m_listGameObject.size());
 
-		for (auto iter = m_listGameObject.begin(); iter != m_listGameObject.end();)
+		for (CGameObject* pObj : m_listGameObject)
+		{
+			const bool state = pObj->GetActive();
+			if (state)
+			{
+				pObj->LastTick();
+			}
+		}
+
+		/*for (auto iter = m_listGameObject.begin(); iter != m_listGameObject.end();)
 		{
 			CGameObject* pObj = *iter;
 
@@ -81,7 +109,7 @@ namespace Framework
 				}
 				++iter;
 			}
-		}
+		}*/
 	}
 
 	void CLayer::Render(HDC hdc) const
@@ -101,16 +129,16 @@ namespace Framework
 	void CLayer::Destroy()
 	{
 		if (m_listRemoveGameObject.empty())
-			return; // 불필요한 연산 방지
+			return; 
 
-		for (CGameObject* pGameObject : m_listRemoveGameObject)
+		// 제거할 객체 삭제
+		for (CGameObject* pObj : m_listRemoveGameObject)
 		{
-			pGameObject->Release();
-			delete pGameObject;
+			pObj->Release();
+			delete pObj;
 		}
 
 		m_listRemoveGameObject.clear();
-		//m_listGameObject.shrink_to_fit(); // 필요할 경우 메모리 해제
 	}
 
 	void CLayer::AddGameObject(CGameObject* pGameObject)

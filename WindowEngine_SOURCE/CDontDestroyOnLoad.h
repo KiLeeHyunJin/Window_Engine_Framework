@@ -22,5 +22,9 @@ namespace Framework
 		virtual void OnEnter()		override;
 		virtual void OnExit()		override;
 
+
+		// CScene을(를) 통해 상속됨
+		void LastRender(HDC hdc) override;
+
 	};
 }

@@ -101,7 +101,7 @@ namespace Framework
 				vecImgs[0]->GetHDC(), 0, 0, SRCCOPY);
 
 		}
-		CreateAnimation(name, spriteSheet, Vector2::Zero, Vector2(imgWidth, imgHeigth), offset, fileCount, duration);
+		CreateAnimation(name, spriteSheet, Vector2::Zero, Vector2((float)imgWidth, (float)imgHeigth), offset, fileCount, duration);
 	}
 
 	CAnimation* CAnimatorComponent::FindAnimation(const std::wstring& name)

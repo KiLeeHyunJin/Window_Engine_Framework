@@ -28,10 +28,10 @@ namespace Framework
 
 	void CSceneManager::Tick()
 	{
-		Destroy();
-
 		m_pCurrentScene->SceneTick();
 		m_pDontDestroyScene->SceneTick();
+
+		Destroy();
 	}
 
 	void CSceneManager::LastTick()
@@ -48,6 +48,9 @@ namespace Framework
 
 	void CSceneManager::Render(HDC hDC)
 	{
+
+		m_pCurrentScene->Render(hDC);
+
 		for (UINT i = (UINT)Enums::eLayerType::None; i < (UINT)Enums::eLayerType::Size; i++)
 		{
 			const CLayer* pCurrentLayer = m_pCurrentScene->GetLayer(i);
@@ -56,7 +59,8 @@ namespace Framework
 			pCurrentLayer->Render(hDC);
 			pDontDestroyLayer->Render(hDC);
 		}
-		m_pCurrentScene->SceneRender(hDC);
+
+		m_pCurrentScene->LastRender(hDC);
 		
 		std::wstring str = m_pCurrentScene->GetName();
 		RENDER::DrawWText(hDC, 0, 15, str);

@@ -30,4 +30,7 @@ namespace Framework
 	void CDontDestroyOnLoad::OnExit()
 	{
 	}
+	void CDontDestroyOnLoad::LastRender(HDC hdc)
+	{
+	}
 }

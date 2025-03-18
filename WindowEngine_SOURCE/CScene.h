@@ -25,6 +25,7 @@ namespace Framework
 		virtual void LastTick()			= 0;
 
 		virtual void Render(HDC hdc)	= 0;
+		virtual void LastRender(HDC hdc) = 0;
 
 		virtual void OnEnter()			= 0;
 		virtual void OnExit()			= 0;

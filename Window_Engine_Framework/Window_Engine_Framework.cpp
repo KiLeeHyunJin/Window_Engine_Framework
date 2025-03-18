@@ -48,7 +48,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MyRegisterClass(hInstance);
 
 #pragma endregion Window_Process_Init
-    //_CrtSetBreakAlloc(516);  //메모리 할당을 디버그하는 데 사용(해당 번째 메모리 할당하때 중단되는것 같음)
+    //_CrtSetBreakAlloc(5372);  //메모리 할당을 디버그하는 데 사용(해당 번째 메모리 할당하때 중단되는것 같음)
 
     //app.Test();
     // 애플리케이션 초기화를 수행합니다:

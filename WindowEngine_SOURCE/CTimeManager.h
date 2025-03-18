@@ -13,7 +13,7 @@ namespace Framework
 		{
 			Tick,
 			Performance,
-			Chrono,
+			//Chrono,
 			Size
 		};
 		CTimeManager();
@@ -35,7 +35,7 @@ namespace Framework
 
 		static void TimeTick();
 		static void TimePerformance();
-		static void TimeChrono();
+		//static void TimeChrono();
 
 		static float m_fDeltaTime;
 		static bool m_bShowFPS;
