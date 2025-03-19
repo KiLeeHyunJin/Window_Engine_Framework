@@ -72,7 +72,7 @@ namespace Framework
 		}
 	}
 
-	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores)
+	bool CQuadTreeNode::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::unordered_map<UINT32, CColliderComponent*>& ignores)
 	{
 		float tEnter = 0;
 		//check = false;
@@ -92,7 +92,9 @@ namespace Framework
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
-			if (std::find(ignores.begin(), ignores.end(), obj) != ignores.end())
+			//ignores.find(obj->GetID())
+			auto it = ignores.find(obj->GetID());
+			if (it != ignores.end())
 			{
 				continue;
 			}

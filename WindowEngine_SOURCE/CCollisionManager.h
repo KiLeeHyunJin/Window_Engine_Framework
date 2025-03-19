@@ -42,7 +42,8 @@ namespace Framework
 		/// <summary>
 		/// 무시 목록에 존재하지 않은 방향의 근거리 객체를 가져온다.
 		/// </summary>
-		static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores);
+		static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, std::vector<CColliderComponent*>& ignores);
+
 
 		/// <summary>
 		/// 특정 레이어의 객체만 체크하여 가져온다.

@@ -28,7 +28,7 @@ namespace Framework
 		void Query(CColliderComponent* item, std::vector<CQuadTreeNode*>& possibleNodes);
 		void Query(const Maths::Vector2& center, const Maths::Vector2& size, std::vector<CQuadTreeNode*>& possibleNodes);
 
-		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores);
+		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::unordered_map<UINT32, CColliderComponent*>& ignores);
 		bool Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayers);
 
 

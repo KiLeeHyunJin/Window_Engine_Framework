@@ -32,17 +32,19 @@
 
 #pragma region STL
 //STL
-#include <vector>
-#include <list>
+#include <vector> // list
+#include <list> //linked list 
 
-#include <stack>
+#include <stack> 
 #include <queue>
 
-#include <map>
+#include <map> // tree
 #include <set>
 
-#include <unordered_map>
+#include <unordered_map> //hash
 #include <unordered_set>
+
+
 #pragma endregion  STL
 
 #include <dinput.h> //DX_Input

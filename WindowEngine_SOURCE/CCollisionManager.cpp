@@ -74,9 +74,15 @@ namespace Framework
 		return GetCollisionCollider(center, size);
 	}
 
-	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores)
+	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent*& hitObject, std::vector<CColliderComponent*>& ignores)
 	{
-		return CQuadTreeManager::Raycast(ray, hitObject, ignores);
+		std::unordered_map<UINT32, CColliderComponent*> umIgnores;
+		for (const auto obj : ignores)
+		{
+			umIgnores[obj->GetID()] = obj;
+		}
+	
+		return CQuadTreeManager::Raycast(ray, hitObject, umIgnores);
 	}
 
 	bool CCollisionManager::Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayer)

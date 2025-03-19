@@ -63,7 +63,7 @@ namespace Framework
 		return m_pCollisions;
 	}
 
-	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::vector<CColliderComponent*>& ignores)
+	bool CQuadTree::Raycast(const Ray& ray, float& closestHit, CColliderComponent*& hitObject, const std::unordered_map<UINT32, CColliderComponent*>& ignores)
 	{
 		return m_pRootNode->Raycast(ray, closestHit, hitObject, ignores);
 	}
