@@ -44,15 +44,14 @@ namespace Framework//::Resource
 		CTexture::CTexture() :
 			CResource(Enums::eResourceType::Texture),
 			m_uiHeight(0), m_uiWidth(0),
-			m_hBmp(0), m_hdc(0),
+			m_hBmp(0), m_hdc(0), m_eTextureType(CTexture::eTextureType::None),
 			m_pImg(nullptr), m_bAlpha(false)
-		{
-		}
+		{	}
 
 
 		CTexture::~CTexture()
-		{
-		}
+		{	}
+
 		HRESULT CTexture::Load(const std::wstring& wstrPath)
 		{
 			std::wstring ext = wstrPath.substr(wstrPath.find_last_of(L".") + 1);

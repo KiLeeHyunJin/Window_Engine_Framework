@@ -146,11 +146,11 @@ namespace Framework
 		m_listGameObject.push_back(pGameObject);
 	}
 
-	void CLayer::DeleteGameObject(CGameObject* pGameObject)
-	{
-		pGameObject->SetSafeToDelete();
-		m_listRemoveGameObject.push_back(pGameObject);
-	}
+	//void CLayer::DeleteGameObject(CGameObject* pGameObject)
+	//{
+	//	pGameObject->SetSafeToDelete();
+	//	m_listRemoveGameObject.push_back(pGameObject);
+	//}
 
 	bool CLayer::EraseInIndex(CGameObject* pGameObject)
 	{
