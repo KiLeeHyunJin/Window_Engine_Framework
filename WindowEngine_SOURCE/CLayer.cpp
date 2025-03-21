@@ -10,13 +10,10 @@ namespace Framework
 		m_listGameObject({}), 
 		m_listRemoveGameObject({}),
 		m_eLayer(layer)
-	{
-	}
+	{	}
 
 	CLayer::~CLayer()
-	{
-
-	}
+	{	}
 
 	void CLayer::Initialize()
 	{
@@ -53,19 +50,16 @@ namespace Framework
 			{
 				const bool isDelete = target->GetSafeToDelete();
 				if (isDelete)
-				{
+				{	
 					m_listRemoveGameObject.push_back(target); // 삭제 대기 목록에 추가
 				}
 				else
 				{
 					if (target->GetReserveDelete())
-					{
-						target->SetSafeToDelete();
-					}
-					else if (target->GetActive())
-					{
-						target->Tick();
-					}
+					{	target->SetSafeToDelete();	}
+					else 
+					if (target->GetActive())
+					{	target->Tick();				}
 				}
 
 				return isDelete;
@@ -87,8 +81,8 @@ namespace Framework
 
 		for (CGameObject* pObj : m_listGameObject)
 		{
-			const bool state = pObj->GetActive();
-			if (state)
+			if (pObj->GetActive() && 
+				pObj->GetReserveDelete() == false)
 			{
 				pObj->LastTick();
 			}

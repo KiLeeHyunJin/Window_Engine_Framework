@@ -73,8 +73,8 @@ namespace Framework
 	{
 		SCENE::LastTick();
 
-		EVENT::LastTick();
-		UI::LastTick();
+		EVENT::LastTick(); // ¾À ÀüÈ¯
+		//UI::LastTick();
 	}
 
 	void CApplication::Render()

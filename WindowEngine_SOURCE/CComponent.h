@@ -8,7 +8,7 @@ namespace Framework
         public CEntity
     {
     public :
-        __forceinline CGameObject* GetOwner()       const { return m_pOwner; }
+        __forceinline CGameObject* GetOwner()   const    { return m_pOwner; }
         //__forceinline Enums::eComponentType GetComponentType() const { return m_eComponentType; }
         virtual Enums::eComponentType GetComponentType() const = 0;
 

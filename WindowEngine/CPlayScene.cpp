@@ -51,10 +51,12 @@ void Framework::CPlayScene::Initialize()
 	pObj = Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
 	pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	pRigid = pObj->AddComponent<CRigidbodyComponent>();
+	
 	pRigid->SetGround(true);
-	//pObj->AddComponent<CPlayerInput>();
-	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
+	pBoxColl->SetSize(Maths::Vector2(50, 50));
 
+	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
+	pObj->GetTransformComponent()->SetScale(Maths::Vector2(50, 50));
 
 
 	CCollisionManager::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
@@ -106,7 +108,7 @@ void Framework::CPlayScene::Release()
 
 void Framework::CPlayScene::OnEnter()
 {
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 200; i++)
 	{
 		CGameObject* pObj = 
 			Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
@@ -118,7 +120,9 @@ void Framework::CPlayScene::OnEnter()
 		pRigid->SetGround(true);
 		pObj->AddComponent<CPlayerInput>();
 
+		pBoxColl->SetSize(Maths::Vector2(50,50));
 		pObj->GetTransformComponent()->SetPos(Maths::Vector2((float)(100 + i * 10), (float)(100 + i * 10)));
+		pObj->GetTransformComponent()->SetScale(Maths::Vector2(50, 50));
 
 		m_list.push_back(pObj);
 	}

@@ -50,11 +50,22 @@ namespace Framework
 		{
 			const CTransformComponent* pTr = item->GetOwner()->GetTransformComponent();
 			const Maths::Vector2 center = pTr->GetPos() + item->GetOffset();
-			const std::list<CQuadTreeNode*>& quads = GetQuads(center, item->GetSize()); //자식 노드들도 충돌 가능성이 있다면 저장시킨다.
-			for(const auto& quad : quads)
+
+			//std::list<CQuadTreeNode*> quads;
+
+			for (const auto& child : m_vecChildren)
 			{
-				quad->Query(item, possibleNodes);
+				if (Maths::Vector2::Intersects(child->GetCenter(), child->GetQSize(), center, item->GetSize())) //느슨한 노드를 기준으로 충돌 체크 실시
+				{
+					child->Query(item, possibleNodes);
+				}
 			}
+			//GetQuads(center, item->GetSize(), quads); //자식 노드들도 충돌 가능성이 있다면 참조 리스트에 저장시킨다.
+
+			//for(const auto& quad : quads)
+			//{
+			//	quad->Query(item, possibleNodes);
+			//}
 		}
 	}
 
@@ -64,10 +75,33 @@ namespace Framework
 
 		if (IsSplitted())
 		{
-			const std::list<CQuadTreeNode*>& quads = GetQuads(center, size); //자식 노드들도 충돌 가능성이 있다면 저장시킨다.
-			for (const auto& quad : quads)
+			//std::list<CQuadTreeNode*> quads;
+
+			for (const auto& child : m_vecChildren)
 			{
-				quad->Query(center, size, possibleNodes);
+				if (Maths::Vector2::Intersects(child->GetCenter(), child->GetQSize(), center, size)) //느슨한 노드를 기준으로 충돌 체크 실시
+				{
+					child->Query(center, size, possibleNodes);
+				}
+			}
+
+			//GetQuads(center, size, quads); //자식 노드 중도 충돌 가능성이 있다면 참조 리스트에 저장시킨다.
+
+			//for (const auto& quad : quads) //자식 노드들을 돌면서 
+			//{
+			//	quad->Query(center, size, possibleNodes);
+			//}
+		}
+	}
+
+
+	void CQuadTreeNode::GetQuads(const Vector2& center, const Vector2& size, std::list<CQuadTreeNode*>& possibles)
+	{
+		for (const auto& child : m_vecChildren)
+		{
+			if (Maths::Vector2::Intersects(child->GetCenter(), child->GetQSize(), center, size)) //느슨한 노드를 기준으로 충돌 체크 실시
+			{
+				possibles.push_back(child);
 			}
 		}
 	}
@@ -92,8 +126,7 @@ namespace Framework
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
-			auto pObj = obj->GetOwner();
-			if (pObj->GetReserveDelete())
+			if (GameObjectLifeCheck(obj))
 			{
 				continue;
 			}
@@ -156,8 +189,7 @@ namespace Framework
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
-			auto pObj = obj->GetOwner();
-			if (pObj->GetReserveDelete())
+			if (GameObjectLifeCheck(obj))
 			{
 				continue;
 			}
@@ -198,20 +230,13 @@ namespace Framework
 		return hit;
 	}
 
-
-	std::list<CQuadTreeNode*> CQuadTreeNode::GetQuads(const Vector2& center,const Vector2& size)
+	bool CQuadTreeNode::GameObjectLifeCheck(CColliderComponent* pCollider)
 	{
-		std::list<CQuadTreeNode*> quads;
-
-		for(const auto& child : m_vecChildren)
-		{
-			if (Maths::Vector2::Intersects(child->GetCenter(), child->GetQSize(), center, size)) //느슨한 노드를 기준으로 충돌 체크 실시
-			{
-				quads.push_back(child);
-			}
-		}
-		return quads;
+		const CGameObject* pObj = pCollider->GetOwner();
+		return pObj->GetReserveDelete();
 	}
+
+
 
 	CQuadTreeNode::NodeIndex CQuadTreeNode::TestRegion(Vector2 center) const //저장 시킬 노드의 위치를 정한다.
 	{

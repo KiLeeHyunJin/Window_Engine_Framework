@@ -11,12 +11,12 @@ namespace Framework
         __forceinline float GetY() const            { return m_vecPos.y; }
 
         __forceinline float GetRot()                const { return m_fRot; }
-        __forceinline Maths::Vector2 GetPos()       const { return m_vecPos; }
-        __forceinline Maths::Vector2 GetScale()     const { return m_vecScale; }
+        __forceinline const Maths::Vector2& GetPos()       const { return m_vecPos; }
+        __forceinline const Maths::Vector2& GetScale()     const { return m_vecScale; }
 
         inline void SetRot(float rot)              { m_fRot = rot; }
-        inline void SetPos(Maths::Vector2 pos)     { m_vecPos = pos; }
-        inline void SetScale(Maths::Vector2 pos)   { m_vecScale = pos; }
+        inline void SetPos(const Maths::Vector2& pos)     { m_vecPos = pos; }
+        inline void SetScale(const Maths::Vector2& pos)   { m_vecScale = pos; }
 
         static constexpr Enums::eComponentType StaticComponentType()    {   return Enums::eComponentType::Transform;    }
         Enums::eComponentType GetComponentType() const override         {   return StaticComponentType();   }

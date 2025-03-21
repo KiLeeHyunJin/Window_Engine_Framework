@@ -47,6 +47,7 @@ namespace Framework
 		/// 충돌중인 콜라이더를 담아서 반환하는 자료형
 		/// </summary>
 		std::vector<CColliderComponent*> m_pCollisions;
+		//std::vector<CQuadTreeNode*> m_pPossibleNodes;
 	};
 }
 

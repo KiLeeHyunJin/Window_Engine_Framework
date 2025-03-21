@@ -32,7 +32,7 @@ namespace Framework//::Maths
 				return Vector2(x, y);
 			}
 
-			static bool Intersects(Vector2 leftCenter, Vector2 leftSize, Vector2 rightCenter, Vector2 rightSize)
+			static bool Intersects(const Vector2& leftCenter, const Vector2& leftSize, const Vector2& rightCenter, const Vector2& rightSize)
 			{
 				float xDistance = Abs(leftCenter.x - rightCenter.x);
 				float xSize = Abs((leftSize.x + rightSize.x) * 0.5f);

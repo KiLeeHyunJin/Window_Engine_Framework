@@ -6,7 +6,7 @@ namespace Framework
 	class CCollisionManager;
 	class CColliderComponent;
 	class CQuadTree;
-	class CGameObjcet;
+	//class CGameObject;
 
 
 	class CQuadTreeManager

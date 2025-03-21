@@ -70,7 +70,7 @@ namespace Framework
 		}
 
 		CGameObject* pObj = m_pOwner->GetOwner();
-		CTransformComponent* pTr = pObj->GetComponent<CTransformComponent>();
+		const CTransformComponent* pTr = pObj->GetTransformComponent();
 
 		//Vector2 originPos =;
 		const Sprite sprite = m_vecSprites[m_iIndex];

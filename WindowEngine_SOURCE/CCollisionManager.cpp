@@ -111,20 +111,22 @@ namespace Framework
 
 	void CCollisionManager::Tick()
 	{
+		//return;
 		static float countTime = 0;
 		static float checkTime = 1 / 80;
+		
+		countTime += TIME::DeltaTime();
 		if (countTime < checkTime)
-		{
-			countTime += TIME::DeltaTime();
-			return;
-		}
+		{	return;		}
+
 		countTime = 0;
 
-		ClearGameObject();
-		CQuadTreeManager::Clear();
+		ClearGameObject(); //삭제 예정 삭제
+		CQuadTreeManager::Clear(); //쿼드 트리 초기화
 
 		CScene* pScene = SCENE::GetCurrentScene();
-		if (pScene == nullptr)				{	return;	}
+		if (pScene == nullptr)				
+		{	return;	}
 
 		//clock_t start, finish;
 		//start = clock();

@@ -31,7 +31,6 @@ namespace Framework
 		m_pCurrentScene->SceneTick();
 		m_pDontDestroyScene->SceneTick();
 
-		Destroy();
 	}
 
 	void CSceneManager::LastTick()
@@ -48,7 +47,6 @@ namespace Framework
 
 	void CSceneManager::Render(HDC hDC)
 	{
-
 		m_pCurrentScene->Render(hDC);
 
 		for (UINT i = (UINT)Enums::eLayerType::None; i < (UINT)Enums::eLayerType::Size; i++)

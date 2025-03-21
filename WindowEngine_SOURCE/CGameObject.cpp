@@ -1,5 +1,6 @@
 #pragma once
 #include "CGameObject.h"
+#include "CRenderer.h"
 
 #include "CInputManager.h"
 #include "CTimeManager.h"
@@ -70,6 +71,9 @@ namespace Framework
 	
 	void CGameObject::Render(HDC hdc) const
 	{
+		if (RenderCheck() == false) //화면 안에 없으면 렌더 실행 취소
+		{	return;		}
+
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
@@ -83,6 +87,19 @@ namespace Framework
 		}
 
 	}
+	bool CGameObject::RenderCheck() const
+	{
+		Vector2 pos = m_pTransform->GetPos();
+		const CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
+		if (mainCam != nullptr)
+		{
+			pos = mainCam->CaluatePosition(pos);
+			const bool result = mainCam->ScreenInCheck(pos, m_pTransform->m_vecScale); //화면 안에 있는지 결과를 반환
+			return result;
+		}
+		return true;
+	}
+
 	void CGameObject::Release()
 	{
 		for (CComponent* pCom : m_vecComponents)

@@ -174,7 +174,7 @@ namespace Framework
 		__forceinline void SetReserveDelete()								{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
 		__forceinline void SetDontDestroy(bool state)						{ m_bDontDestroy = state; }
 		__forceinline void SetLayerType(const UINT layerType)				{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
-
+		__forceinline bool RenderCheck() const;
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;
 

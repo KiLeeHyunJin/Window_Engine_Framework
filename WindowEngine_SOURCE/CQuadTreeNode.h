@@ -36,24 +36,21 @@ namespace Framework
 		void Release();
 		void Render(HDC hdc);
 		
-		Vector2 GetCenter() const { return m_vecCenter; }
-		Vector2 GetSize()	const { return m_vecSize; }
-		Vector2 GetQSize()	const { return m_vecQSize; }
+		const Vector2& GetCenter()  const { return m_vecCenter; }
+		const Vector2& GetSize()	const { return m_vecSize; }
+		const Vector2& GetQSize()	const { return m_vecQSize; }
 
-		std::list<CColliderComponent*> GetItemList() { return m_listItems; }
+		std::list<CColliderComponent*>& GetItemList() { return m_listItems; }
 
 	private:
-		std::list<CQuadTreeNode*> GetQuads(const Vector2& center, const Vector2& size);
+		void GetQuads(const Vector2& center, const Vector2& size, std::list<CQuadTreeNode*>& possibles);
 
-		NodeIndex TestRegion(Vector2 center) const;
-		bool Intersects(Vector2 center1, Vector2 size1, Vector2 center2, Vector2 size2);
+		__forceinline NodeIndex TestRegion(Vector2 center) const;
+		__forceinline bool Intersects(Vector2 center1, Vector2 size1, Vector2 center2, Vector2 size2);
+		__forceinline bool GameObjectLifeCheck(CColliderComponent* pCollider);
+		__forceinline bool Split();
 
-		bool Split();
-
-		bool IsSplitted()
-		{
-			return m_vecChildren.size() != 0;
-		}
+		__forceinline bool IsSplitted()		const	{	return m_vecChildren.size() != 0;	}
 
 		std::vector<CQuadTreeNode*> m_vecChildren;
 		std::list<CColliderComponent*> m_listItems;
