@@ -92,12 +92,19 @@ namespace Framework
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
+			auto pObj = obj->GetOwner();
+			if (pObj->GetReserveDelete())
+			{
+				continue;
+			}
+
 			//ignores.find(obj->GetID())
 			auto it = ignores.find(obj->GetID());
 			if (it != ignores.end())
 			{
 				continue;
 			}
+
 
 			float objNear;
 			const Maths::Vector2 pos = obj->GetOwner()->GetTransformComponent()->GetPos() + obj->GetOffset();
@@ -149,6 +156,12 @@ namespace Framework
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
+			auto pObj = obj->GetOwner();
+			if (pObj->GetReserveDelete())
+			{
+				continue;
+			}
+
 			const UINT layer = obj->GetOwner()->GetLayerType();
 			auto iter = std::find(checkLayers.begin(), checkLayers.end(), layer); //무시 목록에 존재하면 점프
 			if (iter == checkLayers.end())

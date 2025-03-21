@@ -61,12 +61,12 @@ namespace Framework
 		INPUT::Tick();
 		TIME::Tick();
 
-		SCENE::Tick();
+		SCENE::Tick(); // 업데이트
 
-		EVENT::Tick();
+		EVENT::Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
 		UI::Tick();
 
-		COLLISION::Tick();
+		COLLISION::Tick(); // 1초에 80번 업데이트
 	}
 
 	void CApplication::LastTick()

@@ -1,6 +1,7 @@
 #include "CCollisionManager.h"
 #include "CSceneManager.h"
 #include "CQuadTreeManager.h"
+#include "CTimeManager.h"
 
 #include "CLayer.h"
 #include "CGameObject.h"
@@ -35,6 +36,11 @@ namespace Framework
 		m_bArryCollision = new bool [fullSize];
 		memset(m_bArryCollision, 0, sizeof(bool) * fullSize);
 
+	}
+
+	void CCollisionManager::ClearGameObject()
+	{
+		SCENE::Destroy();
 	}
 
 	void CCollisionManager::SetCollisionLayerState(UINT left, UINT right, bool enable)
@@ -105,6 +111,16 @@ namespace Framework
 
 	void CCollisionManager::Tick()
 	{
+		static float countTime = 0;
+		static float checkTime = 1 / 80;
+		if (countTime < checkTime)
+		{
+			countTime += TIME::DeltaTime();
+			return;
+		}
+		countTime = 0;
+
+		ClearGameObject();
 		CQuadTreeManager::Clear();
 
 		CScene* pScene = SCENE::GetCurrentScene();
@@ -277,7 +293,8 @@ namespace Framework
 
 			for (auto& pGameObject : vecObj)
 			{
-				if (pGameObject->GetActive())
+				if (pGameObject->GetActive() && 
+					pGameObject->GetReserveDelete() == false)
 				{
 					CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
 					InsertGameObject(pCollider);
@@ -285,7 +302,8 @@ namespace Framework
 			}
 			for (const auto& pGameObject : vecDontDestroyObj)
 			{
-				if (pGameObject->GetActive())
+				if (pGameObject->GetActive() &&
+					pGameObject->GetReserveDelete() == false)
 				{
 					CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
 					InsertGameObject(pCollider);

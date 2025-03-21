@@ -51,28 +51,32 @@ namespace Framework
 		auto newEnd = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
 			[=](CGameObject* target)
 			{
-				if (target->GetSafeToDelete()) 
+				const bool isDelete = target->GetSafeToDelete();
+				if (isDelete)
 				{
 					m_listRemoveGameObject.push_back(target); // 삭제 대기 목록에 추가
-					return true;
+				}
+				else
+				{
+					if (target->GetReserveDelete())
+					{
+						target->SetSafeToDelete();
+					}
+					else if (target->GetActive())
+					{
+						target->Tick();
+					}
 				}
 
-				if (target->GetReserveDelete()) 
-				{
-					target->SetSafeToDelete();
-				}
-				else if (target->GetActive()) 
-				{
-					target->Tick();
-				}
-
-				return false;
+				return isDelete;
 			});
 
 
-
-		// 리스트 정리
-		m_listGameObject.erase(newEnd, m_listGameObject.end());
+		if (newEnd != m_listGameObject.end())
+		{
+			// 리스트 정리 //필요없는 뒷 부분부터 마지막 까지 
+			m_listGameObject.erase(newEnd, m_listGameObject.end());
+		}
 
 	}
 
@@ -119,14 +123,15 @@ namespace Framework
 
 		for (const CGameObject* pGameObject : m_listGameObject)
 		{
-			if (pGameObject->GetActive())
+			if (pGameObject->GetActive() && 
+				pGameObject->GetReserveDelete() == false)
 			{
 				pGameObject->Render(hdc);;
 			}
 		}
 	}
 
-	void CLayer::Destroy()
+	void CLayer::Destroy() //CCollisionManager에서 삭제 예약을 한꺼번에 제거
 	{
 		if (m_listRemoveGameObject.empty())
 			return; 
@@ -146,24 +151,18 @@ namespace Framework
 		m_listGameObject.push_back(pGameObject);
 	}
 
-	//void CLayer::DeleteGameObject(CGameObject* pGameObject)
-	//{
-	//	pGameObject->SetSafeToDelete();
-	//	m_listRemoveGameObject.push_back(pGameObject);
-	//}
-
 	bool CLayer::EraseInIndex(CGameObject* pGameObject)
 	{
-		bool result = false;
 		auto iter = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
 			[pGameObject](CGameObject* obj) 
 			{ return obj == pGameObject; });
 
-		if (iter != m_listGameObject.end()) 
+		const bool result = iter != m_listGameObject.end();
+		if (result)
 		{
 			m_listGameObject.erase(iter, m_listGameObject.end());
-			result = true;
 		}
+
 		return result;
 	}
 

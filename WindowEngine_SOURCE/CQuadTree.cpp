@@ -57,6 +57,12 @@ namespace Framework
 			const std::list<CColliderComponent*>& items = node->GetItemList();
 			for (const auto& item : items)
 			{
+				auto pObj = item->GetOwner();
+				if (pObj->GetReserveDelete())
+				{
+					continue;
+				}
+
 				m_pCollisions.push_back(item);
 			}
 		}

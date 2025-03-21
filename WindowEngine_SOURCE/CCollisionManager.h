@@ -70,10 +70,11 @@ namespace Framework
 
 		static void InitCollisionLayer();
 
+		static void ClearGameObject();
 		//static bool Raycast(Ray& ray, CColliderComponent& hitObject);
 
 		__forceinline static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
-
+	
 
 		__forceinline static void InsertCollision();
 		__forceinline static void InsertGameObject(CColliderComponent* pCollider);
