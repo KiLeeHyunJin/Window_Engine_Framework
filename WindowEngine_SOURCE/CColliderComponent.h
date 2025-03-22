@@ -19,11 +19,11 @@ namespace Framework
 		inline const eColliderType GetColliderType() const { return m_eColliderType; }
 
 		inline const UINT32 GetID()			const { return m_collId; }
-		inline Maths::Vector2 GetOffset()	const { return m_vecOffset; }
-		inline Maths::Vector2 GetSize()		const { return m_vecSize; }
+		inline const Maths::Vector2& GetOffset()	const { return m_vecOffset; }
+		inline const Maths::Vector2& GetSize()		const { return m_vecSize; }
 
-		inline void SetOffset(Maths::Vector2 offset){ m_vecOffset = offset; }
-		inline void SetSize(Maths::Vector2 size)	{ m_vecSize = size; }
+		inline void SetOffset(const Maths::Vector2& offset){ m_vecOffset = offset; }
+		inline void SetSize(const Maths::Vector2& size)	{ m_vecSize = size; }
 
 		virtual void OnCollisionEnter(CColliderComponent* other);
 		virtual void OnCollisionStay(CColliderComponent* other);

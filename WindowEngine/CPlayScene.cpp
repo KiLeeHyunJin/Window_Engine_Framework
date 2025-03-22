@@ -82,7 +82,7 @@ void Framework::CPlayScene::Tick()
 		EVENT::LoadScene((UINT)eMap::Title, 1);
 	}
 	
-	if (INPUT::GetKeyDown(eKeyCode::V))
+	/*if (INPUT::GetKeyDown(eKeyCode::V))
 	{
 		if (m_list.size() != 0)
 		{
@@ -91,7 +91,7 @@ void Framework::CPlayScene::Tick()
 				Object::Destroy(pObj);
 			}
 		}
-	}
+	}*/
 }
 
 void Framework::CPlayScene::LastTick()

@@ -45,6 +45,9 @@ namespace Framework
 		{
 			static_assert(std::is_base_of<CComponent, T>::value, "T is not from CComponent");
 
+			if (m_bReserveDelete)
+				return nullptr;
+
 			T* getCom = GetComponent<T>();
 			if (getCom != nullptr)
 			{
@@ -73,6 +76,8 @@ namespace Framework
 		{
 			//const T def{};
 			static_assert(std::is_base_of<CComponent, T>::value, "T is not from CComponent");
+			if (m_bReserveDelete)
+				return nullptr;
 
 			const Enums::eComponentType componentType = T::StaticComponentType();
 			T* getCom = nullptr;

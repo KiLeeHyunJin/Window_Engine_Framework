@@ -66,7 +66,7 @@ namespace Framework
 
 		for (CGameObject* pObj : m_listGameObject)
 		{
-			if (pObj->GetReserveDelete() == false)
+			if (pObj->GetReserveDelete())
 			{
 				pObj->SetSafeToDelete();
 			}

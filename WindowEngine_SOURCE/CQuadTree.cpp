@@ -39,8 +39,8 @@ namespace Framework
 	{
 		const CTransformComponent* pTr = queryItem->GetOwner()->GetTransformComponent();
 
-		const Maths::Vector2 center = pTr->GetPos() + queryItem->GetOffset();
-		const Maths::Vector2 size = queryItem->GetSize();
+		const Maths::Vector2& center = pTr->GetPos() + queryItem->GetOffset();
+		const Maths::Vector2& size = queryItem->GetSize();
 
 		return Query(center, size);
 	}
