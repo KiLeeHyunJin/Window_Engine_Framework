@@ -42,43 +42,46 @@ namespace Framework
 
 	void CLayer::Tick()
 	{
-		//요소를 앞으로 밀어내면서 한 번만 erase()를 호출하므로 더 빠름
-		//std::vector<CGameObject*> toDelete; // 삭제할 객체를 저장하는 컨테이너
+		//삭제하지 않을 요소를 앞으로 밀어내고, 한번만 erase()를 호출
 
-		auto newEnd = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
-			[=](CGameObject* target)
+		//알고리즘의 본래 목적과 코드의 명확성을 위해 부수 효과를 최소화고 분리
+		auto newEnd = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(), 
+			[this](CGameObject* target)
 			{
 				const bool isDelete = target->GetSafeToDelete();
 				if (isDelete)
-				{	
+				{
 					m_listRemoveGameObject.push_back(target); // 삭제 대기 목록에 추가
 				}
-				else
-				{
-					if (target->GetReserveDelete())
-					{	target->SetSafeToDelete();	}
-					else 
-					if (target->GetActive())
-					{	target->Tick();				}
-				}
-
 				return isDelete;
 			});
 
 
-		if (newEnd != m_listGameObject.end())
+		if (newEnd != m_listGameObject.end()) //살아있는 게임 오브젝트만 정리
 		{
 			// 리스트 정리 //필요없는 뒷 부분부터 마지막 까지 
 			m_listGameObject.erase(newEnd, m_listGameObject.end());
 		}
 
+
+		for (CGameObject* pObj : m_listGameObject)
+		{
+			if (pObj->GetReserveDelete() == false)
+			{
+				pObj->SetSafeToDelete();
+			}
+			else
+			{
+				if (pObj->GetActive())
+				{
+					pObj->Tick();
+				}
+			}
+		}
 	}
 
 	void CLayer::LastTick()
 	{
-		// 삭제할 개체가 많을 가능성이 있다면 reserve()로 메모리 재할당 최적화
-		//m_listRemoveGameObject.reserve(m_listRemoveGameObject.size() + m_listGameObject.size());
-
 		for (CGameObject* pObj : m_listGameObject)
 		{
 			if (pObj->GetActive() && 
