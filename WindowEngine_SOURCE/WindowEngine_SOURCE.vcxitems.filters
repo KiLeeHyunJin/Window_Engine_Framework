@@ -101,7 +101,7 @@
       <Filter>Asset\Scene\Layer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp">
-      <Filter>Asset\Scene</Filter>
+      <Filter>Asset\Scene\DontDestroyScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,9 +112,6 @@
       <Filter>Asset\Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Component.h">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
@@ -226,7 +223,7 @@
       <Filter>Asset\Scene\Layer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h">
-      <Filter>Asset\Scene</Filter>
+      <Filter>Asset\Scene\DontDestroyScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +343,9 @@
     </Filter>
     <Filter Include="Asset\Scene\Layer">
       <UniqueIdentifier>{3ca6ca2a-b6d0-4b67-84f9-41fe558d41ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Asset\Scene\DontDestroyScene">
+      <UniqueIdentifier>{7805b108-7185-49e9-aa92-5ae08bc5cd92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

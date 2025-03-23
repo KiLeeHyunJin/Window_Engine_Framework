@@ -20,6 +20,7 @@ namespace Framework
 	std::unordered_map<UINT64, bool>	CCollisionManager::m_unmapCollisions		= {};
 	std::vector<CColliderComponent*>	CCollisionManager::m_vecCollider			= {};
 	bool* CCollisionManager::m_bArryCollision = nullptr;
+	INT CCollisionManager::m_iCollTickFPS = 0;
 
 	CCollisionManager::CCollisionManager()	//사용안함
 	{	}
@@ -113,11 +114,26 @@ namespace Framework
 	{
 		//return;
 		static float countTime = 0;
-		static float checkTime = 1 / 80;
+		static float checkTime = (float)1 / (float)80;
+		static float timeCheck = 0;
+		static INT fpsCheck = 0;
 		
+		timeCheck += TIME::DeltaTime();
 		countTime += TIME::DeltaTime();
+
 		if (countTime < checkTime)
 		{	return;		}
+
+		if (timeCheck >= 1.0f)
+		{
+			m_iCollTickFPS = fpsCheck;
+			fpsCheck = 0;
+			timeCheck = 0;
+		}
+		else
+		{
+			fpsCheck += 1;
+		}
 
 		countTime = 0;
 
@@ -143,13 +159,14 @@ namespace Framework
 
 	void CCollisionManager::Render(HDC hdc)
 	{
-		//CQuadTreeManager::Render(hdc);
-		//wchar_t str[50] = L"";
-		//swprintf_s(str, 50, L"FPS : %d", (int)(duration * 1000));
-		//int len = (int)wcsnlen_s(str, 50);
+		wchar_t str[50] = L"";
+		swprintf_s(str, 50, L"CollFPS : %d", (int)(m_iCollTickFPS));
+		int len = (int)wcsnlen_s(str, 50);
 
-		//const Maths::Vector2 resolution = application.GetResolution();
-		//TextOut(hdc, ((int)resolution.x - 100), ((int)resolution.y - 20), str, len);
+		const Maths::Vector2 resolution = application.GetResolution();// - Maths::Vector2(100, 70);
+		TextOut(hdc, ((int)resolution.x - 130), 20, str, len);
+		//CQuadTreeManager::Render(hdc);
+		//
 	}
 
 #pragma region NoUsed

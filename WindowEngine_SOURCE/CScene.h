@@ -34,6 +34,7 @@ namespace Framework
 		friend CSceneManager;
 		friend CEventManager;
 	private:
+		//씬 매니저
 		void SceneInitialize();
 		void SceneRelease();
 
@@ -43,6 +44,8 @@ namespace Framework
 		void SceneDestroy();
 		void SceneRender(HDC hdc);
 
+
+		//이벤트 매니저 
 		void AddGameObject(CGameObject* pGameObject);
 		bool EraseInLayer(CGameObject* pGameObject);
 

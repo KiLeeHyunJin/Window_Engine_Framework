@@ -99,7 +99,7 @@ namespace Framework
 		/// </summary>
 		static std::vector<CColliderComponent*> m_vecCollider;
 		static bool* m_bArryCollision;
-
+		static INT m_iCollTickFPS;
 	};
 	using COLLISION = CCollisionManager;
 }

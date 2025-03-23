@@ -150,15 +150,19 @@ namespace Framework
 
 	bool CLayer::EraseInIndex(CGameObject* pGameObject)
 	{
-		auto iter = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
-			[pGameObject](CGameObject* obj) 
-			{ return obj == pGameObject; });
-
+		auto iter = std::find(m_listGameObject.begin(), m_listGameObject.end(), pGameObject);
 		const bool result = iter != m_listGameObject.end();
+
 		if (result)
 		{
-			m_listGameObject.erase(iter, m_listGameObject.end());
+			m_listGameObject.erase(iter);
 		}
+
+		/*auto iter = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
+			[pGameObject](CGameObject* obj) 
+			{ return obj == pGameObject; });*/
+
+		
 
 		return result;
 	}

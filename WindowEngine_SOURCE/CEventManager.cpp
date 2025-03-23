@@ -156,10 +156,10 @@ namespace Framework
 	{
 		if (pObj->GetReserveDelete()) //파괴 예정이라면
 		{	return;		}
-		const bool result = pScene->EraseInLayer(pObj);
-		if (result)
+		const bool result = pScene->EraseInLayer(pObj); //레이어에서 제거 요청
+		if (result) //제거가 성공적으로 일어났다면
 		{
-			pObj->SetLayerType(layer);
+			pObj->SetLayerType(layer); //오브젝트에 레이어 변경
 			pScene->AddGameObject(pObj);
 		}
 	}

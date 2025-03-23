@@ -69,10 +69,10 @@ namespace Framework
 	void CRenderManager::Render()
 	{
 		BeginDraw();
-		COLLISION::Render(m_BackHDC);
 
 		SCENE::Render(m_BackHDC);
 		UI::Render(m_BackHDC);
+		COLLISION::Render(m_BackHDC);
 
 		TIME::Render(m_BackHDC);
 
