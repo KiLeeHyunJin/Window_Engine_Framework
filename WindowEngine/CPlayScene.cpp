@@ -108,6 +108,8 @@ void Framework::CPlayScene::Release()
 
 void Framework::CPlayScene::OnEnter()
 {
+	COLLISION::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
+
 	for (size_t i = 0; i < 200; i++)
 	{
 		CGameObject* pObj = 
