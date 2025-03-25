@@ -3,6 +3,7 @@
 #include "CSceneManager.h"
 #include "CUIManager.h"
 #include "CCollisionManager.h"
+#include "CInputManager.h"
 
 #include "CRenderer.h"
 
@@ -14,15 +15,21 @@ namespace Framework
 	HDC CRenderManager::m_BackHDC		= nullptr;
 	HBITMAP CRenderManager::m_BmpBuffer = nullptr;
 
-	int CRenderManager::m_iWindowWidth	= 0;	//창모드 사이즈
-	int CRenderManager::m_iWindowHeight = 0;
 
-	int CRenderManager::m_iScreenWidth	= 0; //화면 해상도
-	int CRenderManager::m_iScreenHeight = 0;
+	Maths::Vector2 CRenderManager::m_vecWinSize				= Maths::Vector2::Zero;
+	Maths::Vector2 CRenderManager::m_vecCurrentBufferSize	= Maths::Vector2::Zero;
+	Maths::Vector2 CRenderManager::m_vecScreenSize			= Maths::Vector2::Zero;
 
-	int CRenderManager::m_iCurrentBufferBitmapWidth		= 0;
-	int CRenderManager::m_iCurrentBufferBitmapHeight	= 0;
+	//int CRenderManager::m_iWindowWidth	= 0;	//창모드 사이즈
+	//int CRenderManager::m_iWindowHeight = 0;
+	//
+	//int CRenderManager::m_iScreenWidth	= 0; //화면 해상도
+	//int CRenderManager::m_iScreenHeight = 0;
+	//
+	//int CRenderManager::m_iCurrentBufferBitmapWidth		= 0;
+	//int CRenderManager::m_iCurrentBufferBitmapHeight	= 0;
 
+	DWORD CRenderManager::m_winStyle = 0;
 	bool CRenderManager::m_bScreenState = false;
 
 
@@ -31,7 +38,7 @@ namespace Framework
 	CRenderManager::~CRenderManager()
 	{}
 
-	void CRenderManager::DrawRectangle(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale)
+	void CRenderManager::DrawRectangle(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale)
 	{
 		Rectangle(hdc,
 			(UINT)(position.x - (scale.x * 0.5f)),
@@ -40,7 +47,7 @@ namespace Framework
 			(UINT)(position.y + (scale.y * 0.5f)));
 	}
 
-	void CRenderManager::DrawEllipse(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale)
+	void CRenderManager::DrawEllipse(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale)
 	{
 		Ellipse(hdc,
 			(UINT)(position.x - (scale.x * 0.5f)),
@@ -76,18 +83,20 @@ namespace Framework
 
 		TIME::Render(m_BackHDC);
 
+		INPUT::Render(m_BackHDC, 300, 300);
+
 		EndDraw();
 	}
 
 	void CRenderManager::BeginDraw()
 	{
-		Rectangle(m_BackHDC, -1, -1, m_iCurrentBufferBitmapWidth + 1, m_iCurrentBufferBitmapHeight + 1);
+		Rectangle(m_BackHDC, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1);
 	}
 
 	void CRenderManager::EndDraw()
 	{
 		BitBlt(
-			m_hDC, 0, 0, m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,
+			m_hDC, 0, 0, (int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y,
 			m_BackHDC, 0, 0, SRCCOPY);
 	}
 
@@ -96,47 +105,86 @@ namespace Framework
 		m_hWnd = hWnd;
 		m_hDC = GetDC(m_hWnd);
 
-		m_iWindowWidth = width;
-		m_iWindowHeight = height;
+		m_vecWinSize.x = (float)width;
+		m_vecWinSize.y = (float)height;
+		m_winStyle = winStyle;
 
-		m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-		m_iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
+		m_vecScreenSize.x = (float)GetSystemMetrics(SM_CXSCREEN);
+		m_vecScreenSize.y = (float)GetSystemMetrics(SM_CYSCREEN);
+		//m_iWindowWidth = width;
+		//m_iWindowHeight = height;
+
+		//m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+		//m_iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 		RECT rect = { 0, 0, width, height };
-		AdjustWindowRect(&rect, winStyle, false);
-		SetWindowPos(m_hWnd, nullptr, xPos, yPos, ((int)width), ((int)height), 0);
-		ShowWindow(m_hWnd, true);
+		AdjustWindowRect(&rect, m_winStyle, false);
+
+		int adjustedWidth = rect.right - rect.left;
+		int adjustedHeight = rect.bottom - rect.top;
+
+		SetWindowPos(m_hWnd, nullptr, 
+			xPos - rect.left, yPos - rect.top, 
+			adjustedWidth, adjustedHeight, 
+			SWP_NOZORDER | SWP_NOACTIVATE);
+
+		ShowWindow(m_hWnd, SW_SHOW);
 	}
 
 	void CRenderManager::ChangeScreenSize(bool maximumScale)
-	{
+	{	
 		m_bScreenState = maximumScale;
-		int xPos, yPos;
+
 		if (maximumScale)
 		{
-			m_iCurrentBufferBitmapWidth = m_iScreenWidth;
-			m_iCurrentBufferBitmapHeight = m_iScreenHeight;
+			m_vecCurrentBufferSize = m_vecScreenSize;
+			//m_vecCurrentBufferSize.x = m_vecScreenSize.x;
+			//m_iCurrentBufferBitmapHeight = m_vecScreenSize.y;
+		}
+		else
+		{
+			m_vecCurrentBufferSize = m_vecWinSize;
+			//m_iCurrentBufferBitmapWidth = m_vecWinSize.x;
+			//m_iCurrentBufferBitmapHeight = m_vecWinSize.y;
+		}
 
+		RECT rect = { 0, 0, (LONG)m_vecCurrentBufferSize.x, (LONG)m_vecCurrentBufferSize.y };
+		int xPos, yPos = 0;
+
+		AdjustWindowRect(&rect, m_winStyle, false);
+
+		if (maximumScale)
+		{
 			xPos = 0;
 			yPos = 0;
 		}
 		else
 		{
-			m_iCurrentBufferBitmapWidth = m_iWindowWidth;
-			m_iCurrentBufferBitmapHeight = m_iWindowHeight;
+			//AdjustWindowRect(&rect, m_winStyle, false);
 
-			xPos = (m_iScreenWidth - m_iWindowWidth)	>> 1;
-			yPos = (m_iScreenHeight - m_iWindowHeight)	>> 1;
+			xPos = ((int)(m_vecScreenSize.x - m_vecCurrentBufferSize.x) >> 1) - rect.left;
+			yPos = ((int)(m_vecScreenSize.y - m_vecCurrentBufferSize.y) >> 1) - rect.top;
 		}
 
-		SetWindowPos(m_hWnd, NULL,
-			xPos, yPos,
-			m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,
-			0);
-		CreateBackBuffer(m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight);
+		const int adjustedWidth  = (rect.right - rect.left);
+		const int adjustedHeight = (rect.bottom - rect.top);
 
-		Maths::Vector2 resolution((float)m_iCurrentBufferBitmapWidth, (float)m_iCurrentBufferBitmapHeight);
-		Renderer::CRenderer::SetResolution(resolution);
+		//m_vecCurrentBufferSize.x = adjustedWidth;
+		//m_vecCurrentBufferSize.y = adjustedHeight;
+
+		SetWindowPos(m_hWnd, nullptr, 
+			xPos, yPos , 
+			adjustedWidth, adjustedHeight, 
+			SWP_NOZORDER | SWP_NOACTIVATE);
+
+		//SetWindowPos(m_hWnd, NULL,
+		//	xPos, yPos,
+		//	m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,
+		//	0);
+		CreateBackBuffer((int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y);
+
+		//Maths::Vector2 resolution((float)m_vecCurrentBufferSize.x, (float)m_vecCurrentBufferSize.y);
+		Renderer::CRenderer::SetResolution(m_vecCurrentBufferSize);
 	}
 
 	void CRenderManager::CreateBackBuffer(int width, int height)

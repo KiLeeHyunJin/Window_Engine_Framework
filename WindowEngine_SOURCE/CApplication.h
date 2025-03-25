@@ -15,11 +15,12 @@ namespace Framework
 		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen = false);
 		void Release();
 
-		const Maths::Vector2 GetResolution() const 
+		const Maths::Vector2& GetResolution() const 
 		{ 
-			return  Maths::Vector2(
-				(float)CRenderManager::m_iCurrentBufferBitmapWidth, 
-				(float)CRenderManager::m_iCurrentBufferBitmapHeight); 
+			return  RENDER::m_vecCurrentBufferSize;
+				//Maths::Vector2(
+				//(float)CRenderManager::m_iCurrentBufferBitmapWidth, 
+				//(float)CRenderManager::m_iCurrentBufferBitmapHeight); 
 		}
 
 		HDC GetHDC() const							{ return CRenderManager::GetHDC(); }

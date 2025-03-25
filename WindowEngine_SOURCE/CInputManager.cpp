@@ -7,6 +7,8 @@ namespace Framework
 {
 	std::vector<CInputManager::Key> CInputManager::m_vecKeys = {};
 	Maths::Vector2 CInputManager::m_vecMousePos = Maths::Vector2::One;
+	Maths::Vector2 CInputManager::m_vecWinResolution = Maths::Vector2::Zero;
+
 	int ASCII[] =
 	{
 		'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', // 9
@@ -100,6 +102,10 @@ namespace Framework
 		POINT point = {};
 		GetCursorPos(&point);
 		ScreenToClient(application.GetHWND(), &point);
+		if (point.x < 0 || point.x > m_vecWinResolution.x ||
+			point.y < 0 || point.y > m_vecWinResolution.y)
+		{	return;		}
+
 		m_vecMousePos = Maths::Vector2((float)point.x, (float)point.y);
 	}
 
@@ -134,6 +140,18 @@ namespace Framework
 				key.bPressed = false;
 			}
 		}
+	}
+
+	void CInputManager::Render(HDC hdc, int posX, int posY)
+	{
+		const Maths::Vector2 mousePos = CInputManager::GetMousePosition();
+
+		const UINT mouseXPos = (UINT)mousePos.x;
+		const UINT mouseYPos = (UINT)mousePos.y;
+
+		std::wstring pointStr = L"X : " + std::to_wstring(mouseXPos) + L", Y : " + std::to_wstring(mouseYPos);
+		UINT lenPos = (UINT)wcsnlen_s(pointStr.c_str(), 50);
+		TextOut(hdc, posX, posY, pointStr.c_str(), lenPos);
 	}
 
 }

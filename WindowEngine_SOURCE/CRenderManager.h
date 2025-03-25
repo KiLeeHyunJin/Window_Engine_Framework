@@ -9,10 +9,11 @@ namespace Framework
 	class CRenderManager
 	{
 	public:
-		static void DrawRectangle(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale);
-		static void DrawEllipse(HDC hdc, Maths::Vector2 position, Maths::Vector2 scale);
+		static void DrawRectangle(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale);
+		static void DrawEllipse(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale);
 		static void DrawWText(HDC hdc, int x, int y, const std::wstring& text);
 
+		static const Maths::Vector2& GetResolution() { return m_vecCurrentBufferSize; }
 		friend CApplication;
 	private:
 		CRenderManager();
@@ -38,15 +39,20 @@ namespace Framework
 		static HDC m_BackHDC;
 		static HBITMAP m_BmpBuffer;
 
-		static int m_iWindowWidth;	//창모드 사이즈
-		static int m_iWindowHeight;
+		static Maths::Vector2 m_vecWinSize;
+		static Maths::Vector2 m_vecCurrentBufferSize;
+		static Maths::Vector2 m_vecScreenSize;
 
-		static int m_iScreenWidth; //화면 해상도
-		static int m_iScreenHeight;
+		//static int m_iWindowWidth;	//창모드 사이즈
+		//static int m_iWindowHeight;
+		//
+		//static int m_iScreenWidth; //화면 해상도
+		//static int m_iScreenHeight;
+		//
+		//static int m_iCurrentBufferBitmapWidth; 
+		//static int m_iCurrentBufferBitmapHeight;
 
-		static int m_iCurrentBufferBitmapWidth;
-		static int m_iCurrentBufferBitmapHeight;
-
+		static DWORD m_winStyle;
 		static bool m_bScreenState;
 	};
 	using RENDER = CRenderManager;

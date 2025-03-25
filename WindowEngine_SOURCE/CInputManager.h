@@ -46,6 +46,7 @@ namespace Framework
 		__forceinline static bool GetKeyUp(eKeyCode key)		{ return m_vecKeys[(UINT)key].state == eKeyState::Up;		}
 		__forceinline static bool GetKeyPressed(eKeyCode key)	{ return m_vecKeys[(UINT)key].state == eKeyState::Pressed;	}
 		__forceinline static Maths::Vector2 GetMousePosition()	{ return m_vecMousePos; }
+		static void Render(HDC hdc, int posX, int posY);
 
 		friend CApplication;
 	private:
@@ -59,9 +60,10 @@ namespace Framework
 
 		static void UpdateKey();
 		static void ClearKey();
+		static void SetResolution(const Maths::Vector2& resolution) { m_vecWinResolution = resolution; }
 
+		static Maths::Vector2 m_vecWinResolution;
 		static Maths::Vector2 m_vecMousePos;
-
 		static std::vector<Key> m_vecKeys;
 	};
 	using INPUT = CInputManager;

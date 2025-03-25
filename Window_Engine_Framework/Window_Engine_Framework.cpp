@@ -11,16 +11,17 @@
 
 #pragma comment (lib,"..\\x64\\Debug\\WindowEngine.lib" )
 
-const int MAX_LOADSTRING = 100;
+//const int MAX_LOADSTRING = 100;
 
 // 전역 변수:
-HINSTANCE hInst;                                // 현재 인스턴스입니다.
-WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
-WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+HINSTANCE hInst;                                    // 현재 인스턴스입니다.
+//WCHAR szTitle[MAX_LOADSTRING];                    // 제목 표시줄 텍스트입니다.
+//WCHAR szWindowClass[MAX_LOADSTRING];              // 기본 창 클래스 이름입니다.
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
-ATOM                MyRegisterClass(HINSTANCE hInstance);
-BOOL                InitInstance(HINSTANCE, int);
+ATOM                MyRegisterClass(HINSTANCE hInstance, const WCHAR className[]);
+BOOL                InitInstance(HINSTANCE, int, const WCHAR className[]);
+
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
@@ -43,16 +44,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     setlocale(LC_ALL, "Korean");                                    //지역 설정
 
     // 전역 문자열을 초기화합니다.
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_WINDOWENGINEFRAMEWORK, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+   
+    //LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+    //LoadStringW(hInstance, IDC_WINDOWENGINEFRAMEWORK, szWindowClass, MAX_LOADSTRING);
+    
+    const WCHAR className[] = L"Framework";
+
+    MyRegisterClass(hInstance, className);
 
 #pragma endregion Window_Process_Init
+    
     //_CrtSetBreakAlloc(5372);  //메모리 할당을 디버그하는 데 사용(해당 번째 메모리 할당하때 중단되는것 같음)
 
-    //app.Test();
     // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance (hInstance, nCmdShow))    {   return FALSE;   }
+    if (!InitInstance (hInstance, nCmdShow, className))    
+    {   return FALSE;   }
 
     // TODO: 여기에 코드를 입력합니다.
 
@@ -65,8 +71,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))// 단축키 처리 하지만, 단축키가 아닐 경우
             {
-                TranslateMessage(&msg); // 입력 메시지 번역
-                DispatchMessage(&msg); // 입력 메시지 처리, WinProc에서 전달된 메시지 처리
+                ::TranslateMessage(&msg); // 입력 메시지 번역
+                ::DispatchMessage(&msg); // 입력 메시지 처리, WinProc에서 전달된 메시지 처리
             }
         }
         else
@@ -86,7 +92,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 //  용도: 창 클래스를 등록합니다.
 //
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM MyRegisterClass(HINSTANCE hInstance, const WCHAR className[])
 {
     WNDCLASSEXW wcex = {};
 
@@ -100,9 +106,9 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWENGINEFRAMEWORK));
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName   = nullptr;//MAKEINTRESOURCEW(IDC_WINDOWENGINEFRAMEWORK);
-    wcex.lpszClassName  = szWindowClass;
+    wcex.lpszClassName  = className;
 
     return RegisterClassExW(&wcex);
 }
@@ -117,7 +123,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //        이 함수를 통해 인스턴스 핸들을 전역 변수에 저장하고
 //        주 프로그램 창을 만든 다음 표시합니다.
 //
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow, const WCHAR className[])
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
@@ -133,12 +139,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    int screenScaleY = GetSystemMetrics(SM_CYSCREEN);
 
    HWND hWnd = CreateWindowW(
-       szWindowClass,
-       szTitle,
+       className,
+       L"Client",
        myStyle,
 
        0, 
-       0,               //Start Pos Y //CW_DEFAULT
+       0,   //Start Pos Y //CW_DEFAULT
 
        0,   //Size X
        0,   //Size Y
@@ -157,7 +163,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    application.Initialize(
        hWnd, 
        WINSIZEX , WINSIZEY, 
-       (screenScaleX - WINSIZEX) >> 1,
+       (screenScaleX - WINSIZEX) >> 1, 
        (screenScaleY - WINSIZEY) >> 1,
        myStyle, false, 
        false
@@ -214,9 +220,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
+            ::BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-            EndPaint(hWnd, &ps);
+            ::EndPaint(hWnd, &ps);
         }
         break;
     case WM_DESTROY:

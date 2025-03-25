@@ -32,6 +32,8 @@ namespace Framework
 		SCENE::Initialize();
 		COLLISION::Initialize();
 		EVENT::Initialize();
+
+		INPUT::SetResolution(RENDER::GetResolution());
 	}
 
 	void CApplication::Release()
@@ -90,6 +92,7 @@ namespace Framework
 	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
 		RENDER::ChangeScreenSize(maximumScale);
+		INPUT::SetResolution(RENDER::GetResolution());
 	}
 
 }
