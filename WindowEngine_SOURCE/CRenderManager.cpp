@@ -20,15 +20,6 @@ namespace Framework
 	Maths::Vector2 CRenderManager::m_vecCurrentBufferSize	= Maths::Vector2::Zero;
 	Maths::Vector2 CRenderManager::m_vecScreenSize			= Maths::Vector2::Zero;
 
-	//int CRenderManager::m_iWindowWidth	= 0;	//창모드 사이즈
-	//int CRenderManager::m_iWindowHeight = 0;
-	//
-	//int CRenderManager::m_iScreenWidth	= 0; //화면 해상도
-	//int CRenderManager::m_iScreenHeight = 0;
-	//
-	//int CRenderManager::m_iCurrentBufferBitmapWidth		= 0;
-	//int CRenderManager::m_iCurrentBufferBitmapHeight	= 0;
-
 	DWORD CRenderManager::m_winStyle = 0;
 	bool CRenderManager::m_bScreenState = false;
 
@@ -111,11 +102,6 @@ namespace Framework
 
 		m_vecScreenSize.x = (float)GetSystemMetrics(SM_CXSCREEN);
 		m_vecScreenSize.y = (float)GetSystemMetrics(SM_CYSCREEN);
-		//m_iWindowWidth = width;
-		//m_iWindowHeight = height;
-
-		//m_iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-		//m_iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 		RECT rect = { 0, 0, width, height };
 		AdjustWindowRect(&rect, m_winStyle, false);
@@ -138,14 +124,10 @@ namespace Framework
 		if (maximumScale)
 		{
 			m_vecCurrentBufferSize = m_vecScreenSize;
-			//m_vecCurrentBufferSize.x = m_vecScreenSize.x;
-			//m_iCurrentBufferBitmapHeight = m_vecScreenSize.y;
 		}
 		else
 		{
 			m_vecCurrentBufferSize = m_vecWinSize;
-			//m_iCurrentBufferBitmapWidth = m_vecWinSize.x;
-			//m_iCurrentBufferBitmapHeight = m_vecWinSize.y;
 		}
 
 		RECT rect = { 0, 0, (LONG)m_vecCurrentBufferSize.x, (LONG)m_vecCurrentBufferSize.y };
@@ -160,17 +142,12 @@ namespace Framework
 		}
 		else
 		{
-			//AdjustWindowRect(&rect, m_winStyle, false);
-
 			xPos = ((int)(m_vecScreenSize.x - m_vecCurrentBufferSize.x) >> 1) - rect.left;
 			yPos = ((int)(m_vecScreenSize.y - m_vecCurrentBufferSize.y) >> 1) - rect.top;
 		}
 
 		const int adjustedWidth  = (rect.right - rect.left);
 		const int adjustedHeight = (rect.bottom - rect.top);
-
-		//m_vecCurrentBufferSize.x = adjustedWidth;
-		//m_vecCurrentBufferSize.y = adjustedHeight;
 
 		SetWindowPos(m_hWnd, nullptr, 
 			xPos, yPos , 
@@ -183,7 +160,6 @@ namespace Framework
 		//	0);
 		CreateBackBuffer((int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y);
 
-		//Maths::Vector2 resolution((float)m_vecCurrentBufferSize.x, (float)m_vecCurrentBufferSize.y);
 		Renderer::CRenderer::SetResolution(m_vecCurrentBufferSize);
 	}
 

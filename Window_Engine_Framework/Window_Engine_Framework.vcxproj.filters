@@ -5,12 +5,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="99.Headers">
+      <UniqueIdentifier>{19e58a21-4423-4203-bc01-b5908284a34b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Headers\Andromeda">
+      <UniqueIdentifier>{113cc84b-8521-4f68-a4c1-b325d5e4d256}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window_Engine_Framework.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
+    <ClInclude Include="framework.h">
+      <Filter>99.Headers\Andromeda</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>99.Headers\Andromeda</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>99.Headers\Andromeda</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Window_Engine_Framework.rc">

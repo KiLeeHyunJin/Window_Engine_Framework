@@ -27,6 +27,7 @@ namespace Framework
 
 	void CTimeManager::Tick()
 	{
+		//델타 타임 계산
 		functions[(UINT)timeType]();
 		
 		//지연에 의한 순간이동 현상을 억제

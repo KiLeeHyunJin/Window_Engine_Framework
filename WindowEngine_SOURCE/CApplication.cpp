@@ -13,20 +13,22 @@
 
 namespace Framework
 {
-	CApplication::CApplication() : m_bRelease(true)
-	{
-	}
+
+	CApplication::CApplication() : m_hwnc(), m_hdc()
+	{	}
 
 	CApplication::~CApplication()
-	{
-	}
+	{	}
 
 	void CApplication::Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
-		m_bRelease = false;
+		//m_bRelease = false;
+		m_hwnc = hWnd;
+		m_hdc = ::GetDC(m_hwnc);
+
 		RENDER::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
 
-		INPUT::Initialize();
+		INPUT::Initialize(hWnd);
 		TIME::Initialize();
 		UI::Initialize();
 		SCENE::Initialize();
@@ -92,6 +94,12 @@ namespace Framework
 	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
 		RENDER::ChangeScreenSize(maximumScale);
+		const Maths::Vector2& resolution = RENDER::GetResolution();
+		CCameraComponent* cam = Renderer::CRenderer::GetMainCamera();
+		if (cam != nullptr)
+		{
+			cam->SetResolution(resolution);
+		}
 		INPUT::SetResolution(RENDER::GetResolution());
 	}
 

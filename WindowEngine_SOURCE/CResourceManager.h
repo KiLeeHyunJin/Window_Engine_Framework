@@ -52,6 +52,9 @@ namespace Framework//::Resource
 
 			friend class CApplication;
 		private:
+			CResourceManager();
+			~CResourceManager();
+
 			static void Release()
 			{
 				for (const auto& pair : m_mapResoucres)

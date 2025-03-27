@@ -61,13 +61,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {   return FALSE;   }
 
     // TODO: 여기에 코드를 입력합니다.
+    ShowCursor(false);
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINDOWENGINEFRAMEWORK));
-    MSG msg;
+    MSG msg = {};
     processState = true;
+
     while (processState)
     {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        if (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))// 단축키 처리 하지만, 단축키가 아닐 경우
             {

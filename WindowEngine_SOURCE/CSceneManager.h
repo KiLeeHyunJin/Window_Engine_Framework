@@ -15,8 +15,7 @@ namespace Framework
 	class CSceneManager
 	{
 	public:
-		CSceneManager();
-		virtual ~CSceneManager();
+
 
 		template<typename T>
 		static CScene* CreateScene(const std::wstring& name, const UINT idx )//씬은 씬매니저가 생성하게하자
@@ -56,6 +55,9 @@ namespace Framework
 		friend CCollisionManager;
 		friend CEventManager;
 	private:
+		CSceneManager();
+		~CSceneManager();
+
 		static void Initialize();
 		static void Release();
 

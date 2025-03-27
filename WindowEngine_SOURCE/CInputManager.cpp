@@ -1,5 +1,6 @@
 #include "CInputManager.h"
 #include "CApplication.h"
+#include "Utils.h"
 
 extern Framework::CApplication application;
 
@@ -8,6 +9,7 @@ namespace Framework
 	std::vector<CInputManager::Key> CInputManager::m_vecKeys = {};
 	Maths::Vector2 CInputManager::m_vecMousePos = Maths::Vector2::One;
 	Maths::Vector2 CInputManager::m_vecWinResolution = Maths::Vector2::Zero;
+	HWND CInputManager::m_hwnd = {};
 
 	int ASCII[] =
 	{
@@ -42,10 +44,18 @@ namespace Framework
 		VK_OEM_PLUS, //+
 	};
 
-	void CInputManager::Initialize()
+	CInputManager::CInputManager()
+	{
+	}
+
+	CInputManager::~CInputManager()
+	{
+	}
+
+	void CInputManager::Initialize(HWND hwnd)
 	{
 		m_vecKeys.resize((UINT)eKeyCode::END);
-
+		m_hwnd = hwnd;
 		for (UINT i = 0; i < (UINT)eKeyCode::END; i++)
 		{
 			m_vecKeys[i].state = eKeyState::None;
@@ -66,36 +76,8 @@ namespace Framework
 		}
 	}
 
-	bool CInputManager::IsKeyDown(eKeyCode key)
-	{
-		return GetAsyncKeyState(ASCII[(UINT)key]) & 0x8000;
-	}
 
-	void CInputManager::UpdateKeyDown(Key& key)
-	{
-		if (key.bPressed)
-		{
-			key.state = eKeyState::Pressed;
-		}
-		else
-		{
-			key.state = eKeyState::Down;
-			key.bPressed = true;
-		}
-	}
 
-	void CInputManager::UpdateKeyUp(Key& key)
-	{
-		if (key.bPressed)
-		{
-			key.state = eKeyState::Up;
-			key.bPressed = false;
-		}
-		else
-		{
-			key.state = eKeyState::None;
-		}
-	}
 
 	void CInputManager::UpdateCursorPosition()
 	{
@@ -125,6 +107,44 @@ namespace Framework
 		UpdateCursorPosition();
 	}
 
+	bool CInputManager::IsKeyDown(eKeyCode key)
+	{
+		return GetAsyncKeyState(ASCII[(UINT)key]) & 0x8000;
+	}
+
+
+	void CInputManager::UpdateKeyDown(Key& key)
+	{
+		if (key.bPressed)
+		{
+			if (key.state != eKeyState::Pressed)
+			{
+				key.state = eKeyState::Pressed;
+			}
+		}
+		else
+		{
+			key.state = eKeyState::Down;
+			key.bPressed = true;
+		}
+	}
+
+	void CInputManager::UpdateKeyUp(Key& key)
+	{
+		if (key.bPressed)
+		{
+			key.state = eKeyState::Up;
+			key.bPressed = false;
+		}
+		else
+		{
+			if (key.state != eKeyState::None)
+			{
+				key.state = eKeyState::None;
+			}
+		}
+	}
+
 	void CInputManager::ClearKey()
 	{
 		for (Key& key : m_vecKeys)
@@ -137,7 +157,10 @@ namespace Framework
 			else if (key.state == eKeyState::Up)
 			{
 				key.state = eKeyState::None;
-				key.bPressed = false;
+				if (key.bPressed)
+				{
+					key.bPressed = false;
+				}
 			}
 		}
 	}
@@ -152,6 +175,8 @@ namespace Framework
 		std::wstring pointStr = L"X : " + std::to_wstring(mouseXPos) + L", Y : " + std::to_wstring(mouseYPos);
 		UINT lenPos = (UINT)wcsnlen_s(pointStr.c_str(), 50);
 		TextOut(hdc, posX, posY, pointStr.c_str(), lenPos);
+
+		Utils::DrawCircle(hdc, CInputManager::GetMousePosition(), 5);
 	}
 
 }

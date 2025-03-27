@@ -1,57 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Scene">
+    <Filter Include="00.Scene">
       <UniqueIdentifier>{b45ffb2f-8a6a-45ac-8ecc-6ef1e1a66921}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Load">
-      <UniqueIdentifier>{92693911-01df-448e-81a0-406b094eac51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script">
+    <Filter Include="01.Script">
       <UniqueIdentifier>{96ce5319-3e93-4ccb-b6c2-5f226ec531a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DataStruct">
+    <Filter Include="02.Load">
+      <UniqueIdentifier>{92693911-01df-448e-81a0-406b094eac51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.DataStruct">
       <UniqueIdentifier>{0f8a2bcb-4b3f-42e9-8a9d-31f8a3410609}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPlayScene.h">
-      <Filter>Scene</Filter>
+      <Filter>00.Scene</Filter>
     </ClInclude>
     <ClInclude Include="CTitleScene.h">
-      <Filter>Scene</Filter>
+      <Filter>00.Scene</Filter>
     </ClInclude>
     <ClInclude Include="LoadScene.h">
-      <Filter>Load</Filter>
+      <Filter>02.Load</Filter>
     </ClInclude>
     <ClInclude Include="LoadResource.h">
-      <Filter>Load</Filter>
+      <Filter>02.Load</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerInput.h">
-      <Filter>Script</Filter>
+      <Filter>01.Script</Filter>
     </ClInclude>
     <ClInclude Include="LoadUI.h">
-      <Filter>Load</Filter>
+      <Filter>02.Load</Filter>
     </ClInclude>
     <ClInclude Include="CDummy.h">
-      <Filter>Script</Filter>
+      <Filter>01.Script</Filter>
     </ClInclude>
     <ClInclude Include="MapEnums.h">
-      <Filter>DataStruct</Filter>
+      <Filter>99.DataStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>99.DataStruct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlayScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>00.Scene</Filter>
     </ClCompile>
     <ClCompile Include="CTitleScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>00.Scene</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerInput.cpp">
-      <Filter>Script</Filter>
+      <Filter>01.Script</Filter>
     </ClCompile>
     <ClCompile Include="CDummy.cpp">
-      <Filter>Script</Filter>
+      <Filter>01.Script</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

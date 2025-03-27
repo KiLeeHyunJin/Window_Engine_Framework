@@ -16,8 +16,6 @@ namespace Framework
 			//Chrono,
 			Size
 		};
-		CTimeManager();
-		virtual ~CTimeManager();
 
 		__forceinline static void SetTimeType(eTimeType type)		{ timeType = type; }
 		__forceinline static float DeltaTime()						{ return m_fDeltaTime; }
@@ -29,6 +27,9 @@ namespace Framework
 		friend CApplication;
 		friend CRenderManager;
 	private:
+		CTimeManager();
+		~CTimeManager();
+
 		static void Initialize();
 		static void Tick();
 		static void Render(HDC hdc);

@@ -15,15 +15,9 @@ namespace Framework
 		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen = false);
 		void Release();
 
-		const Maths::Vector2& GetResolution() const 
-		{ 
-			return  RENDER::m_vecCurrentBufferSize;
-				//Maths::Vector2(
-				//(float)CRenderManager::m_iCurrentBufferBitmapWidth, 
-				//(float)CRenderManager::m_iCurrentBufferBitmapHeight); 
-		}
+		__forceinline const Maths::Vector2& GetResolution() const { return  RENDER::m_vecCurrentBufferSize;	}
 
-		HDC GetHDC() const							{ return CRenderManager::GetHDC(); }
+		__forceinline HDC GetHDC() const			{ return CRenderManager::GetHDC(); }
 		__forceinline bool GetScreenState() const	{ return CRenderManager::m_bScreenState; };
 		__forceinline HWND GetHWND() const			{ return CRenderManager::m_hWnd; }
 
@@ -32,7 +26,9 @@ namespace Framework
 		void LastTick();
 		//void Destroy();
 		void Render();
-		bool m_bRelease;
+		HWND m_hwnc;
+		HDC m_hdc;
+		//bool m_bRelease;
 	};
 
 }
