@@ -4,7 +4,7 @@
 #include "CRenderManager.h"
 #include "CCollisionManager.h"
 #include "CUIManager.h"
-//#include "CEventManager.h"
+#include "Utils.h"
 
 namespace Framework
 {
@@ -61,7 +61,7 @@ namespace Framework
 		m_pCurrentScene->LastRender(hDC);
 		
 		std::wstring str = m_pCurrentScene->GetName();
-		RENDER::DrawWText(hDC, 0, 15, str);
+		Utils::DrawTxt(hDC, Maths::Vector2(0, 15), str);
 	}
 
 	void CSceneManager::Release()

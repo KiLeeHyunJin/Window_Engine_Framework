@@ -9,9 +9,6 @@ namespace Framework
 	class CRenderManager
 	{
 	public:
-		static void DrawRectangle(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale);
-		static void DrawEllipse(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale);
-		static void DrawWText(HDC hdc, int x, int y, const std::wstring& text);
 
 		static const Maths::Vector2& GetResolution() { return m_vecCurrentBufferSize; }
 		friend CApplication;

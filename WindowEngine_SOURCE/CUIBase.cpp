@@ -7,6 +7,7 @@
 
 #include "CRenderer.h"
 #include "CCameraComponent.h"
+#include "Utils.h"
 
 namespace Framework
 {
@@ -45,7 +46,7 @@ namespace Framework
 
 	void CUIBase::OnRender(HDC hdc) const 
 	{ 
-		RENDER::DrawRectangle(hdc, m_vecRenderPos, m_vecSize); 
+		Utils::DrawRect(hdc, m_vecRenderPos, m_vecSize); 
 	}
 	void CUIBase::OnClear()			{	}
 

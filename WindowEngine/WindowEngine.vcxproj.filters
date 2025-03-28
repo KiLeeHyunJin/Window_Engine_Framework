@@ -10,17 +10,17 @@
     <Filter Include="02.Load">
       <UniqueIdentifier>{92693911-01df-448e-81a0-406b094eac51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.DataStruct">
+    <Filter Include="99.Headers">
       <UniqueIdentifier>{0f8a2bcb-4b3f-42e9-8a9d-31f8a3410609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Scene\Dev">
+      <UniqueIdentifier>{028128f8-86a4-4ef3-a6cd-0e8fe0013e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Scene\Game">
+      <UniqueIdentifier>{d8fbaaf7-40e1-4252-888a-af46953536e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CPlayScene.h">
-      <Filter>00.Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="CTitleScene.h">
-      <Filter>00.Scene</Filter>
-    </ClInclude>
     <ClInclude Include="LoadScene.h">
       <Filter>02.Load</Filter>
     </ClInclude>
@@ -36,25 +36,37 @@
     <ClInclude Include="CDummy.h">
       <Filter>01.Script</Filter>
     </ClInclude>
-    <ClInclude Include="MapEnums.h">
-      <Filter>99.DataStruct</Filter>
+    <ClInclude Include="ContentsEnums.h">
+      <Filter>99.Headers</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
-      <Filter>99.DataStruct</Filter>
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayScene.h">
+      <Filter>00.Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CTitleScene.h">
+      <Filter>00.Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CDevScene.h">
+      <Filter>00.Scene\Dev</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPlayScene.cpp">
-      <Filter>00.Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="CTitleScene.cpp">
-      <Filter>00.Scene</Filter>
-    </ClCompile>
     <ClCompile Include="CPlayerInput.cpp">
       <Filter>01.Script</Filter>
     </ClCompile>
     <ClCompile Include="CDummy.cpp">
       <Filter>01.Script</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayScene.cpp">
+      <Filter>00.Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CTitleScene.cpp">
+      <Filter>00.Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CDevScene.cpp">
+      <Filter>00.Scene\Dev</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

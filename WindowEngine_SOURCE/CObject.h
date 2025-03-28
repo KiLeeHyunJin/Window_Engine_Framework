@@ -4,17 +4,22 @@
 
 #include "Enums.h"
 #include "CGameObject.h"
+//#include "CComponent.h"
 
 //#include "CLayer.h"
 
 
 namespace Framework//::Object
 {
+	class CComponent;
+
 	namespace Object
 	{
 		template <typename T>
-		static T* Instantiate(UINT layerType, std::wstring name, bool dontDestory = false)
+		static T* Instantiate(UINT layerType, const std::wstring& name, bool dontDestory = false)
 		{
+			static_assert(std::is_base_of<CComponent, T>::value,L"Is Not Component");
+
 			CScene* pCurScene = CSceneManager::GetCurrentScene();
 			if (pCurScene == nullptr)
 			{
@@ -28,7 +33,7 @@ namespace Framework//::Object
 			return pComponent;
 		};
 
-		static CGameObject* Instantiate(UINT layerType, std::wstring name, bool dontDestory = false)
+		static CGameObject* Instantiate(UINT layerType, const std::wstring& name, bool dontDestory = false)
 		{
 			CScene* pCurScene = CSceneManager::GetCurrentScene();
 			if (pCurScene == nullptr)
@@ -43,10 +48,11 @@ namespace Framework//::Object
 
 		static void Destroy(CGameObject* pObj)
 		{
-			if (pObj->GetReserveDelete() == false)
-			{
-				EVENT::DeleteGameObject(pObj);
-			}
+			const bool reserveDel = pObj->GetReserveDelete();
+			if (reserveDel)
+			{	return;		}
+
+			EVENT::DeleteGameObject(pObj);
 		}
 
 		static void DontDestoryOnLoad(CGameObject* pGameObject, bool state = true)

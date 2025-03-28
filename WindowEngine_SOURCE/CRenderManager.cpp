@@ -29,35 +29,12 @@ namespace Framework
 	CRenderManager::~CRenderManager()
 	{}
 
-	void CRenderManager::DrawRectangle(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale)
-	{
-		Rectangle(hdc,
-			(UINT)(position.x - (scale.x * 0.5f)),
-			(UINT)(position.y - (scale.y * 0.5f)),
-			(UINT)(position.x + (scale.x * 0.5f)),
-			(UINT)(position.y + (scale.y * 0.5f)));
-	}
-
-	void CRenderManager::DrawEllipse(HDC hdc, const Maths::Vector2& position, const Maths::Vector2& scale)
-	{
-		Ellipse(hdc,
-			(UINT)(position.x - (scale.x * 0.5f)),
-			(UINT)(position.y - (scale.y * 0.5f)),
-			(UINT)(position.x + (scale.x * 0.5f)),
-			(UINT)(position.y + (scale.y * 0.5f)));
-	}
-
-	void CRenderManager::DrawWText(HDC hdc, int x, int y, const std::wstring& text)
-	{
-		const int INT = (int)wcsnlen_s(text.c_str(), 50);
-		TextOut(hdc, 0, 15, text.c_str(), INT);
-	}
 
 	void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 	{
 		CRenderManager::AdjustWindow(hWnd, width, height, xPos, yPos, winStyle, menu);
-		m_BackHDC = CreateCompatibleDC(m_hDC);
-		ChangeScreenSize(screen);
+		m_BackHDC = CreateCompatibleDC(m_hDC); //DC생성
+		ChangeScreenSize(screen); //윈도우 크기 변경 및 비트맵 생성
 	}
 
 	void CRenderManager::Release()
@@ -73,7 +50,6 @@ namespace Framework
 		COLLISION::Render(m_BackHDC);
 
 		TIME::Render(m_BackHDC);
-
 		INPUT::Render(m_BackHDC, 300, 300);
 
 		EndDraw();
@@ -87,8 +63,15 @@ namespace Framework
 	void CRenderManager::EndDraw()
 	{
 		BitBlt(
-			m_hDC, 0, 0, (int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y,
-			m_BackHDC, 0, 0, SRCCOPY);
+			m_hDC, //출력
+			0, 0,  //Start
+			(int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y, //Size
+
+			m_BackHDC, //복사내용
+			0, 0, //Start
+			SRCCOPY);
+		//흰색으로 밀어버린다.
+		PatBlt(m_BackHDC, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1, WHITENESS);
 	}
 
 	void CRenderManager::AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu)
@@ -154,10 +137,8 @@ namespace Framework
 			adjustedWidth, adjustedHeight, 
 			SWP_NOZORDER | SWP_NOACTIVATE);
 
-		//SetWindowPos(m_hWnd, NULL,
-		//	xPos, yPos,
-		//	m_iCurrentBufferBitmapWidth, m_iCurrentBufferBitmapHeight,
-		//	0);
+		
+		//새로운 사이즈의 비트맵 생성
 		CreateBackBuffer((int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y);
 
 		Renderer::CRenderer::SetResolution(m_vecCurrentBufferSize);

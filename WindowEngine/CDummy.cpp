@@ -9,6 +9,7 @@
 #include "CEventManager.h"
 
 #include "CGameObject.h"
+#include "Utils.h"
 
 namespace Framework
 {
@@ -85,7 +86,7 @@ namespace Framework
 		CColliderComponent* coll = GetOwner()->GetComponent<CColliderComponent>();
 		Maths::Vector2 pos = GetOwner()->GetTransformComponent()->GetPos();
 		Maths::Vector2 size = coll->GetSize();
-		CRenderManager::DrawRectangle(hdc, pos, size);
+		Utils::DrawRect(hdc, pos, size);
 
 		MoveToEx(hdc,
 			(INT)pos.x,

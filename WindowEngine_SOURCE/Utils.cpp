@@ -24,6 +24,17 @@ namespace Framework
 			static_cast<INT>(pos.y + halfY));
 	}
 
+	void Utils::DrawRect(HDC hdc, const Maths::Vector2& pos, const Maths::Vector2& size)
+	{
+		const float halfX = size.x * 0.5f;
+		const float halfY = size.y * 0.5f;
+		::Rectangle(hdc,
+			static_cast<INT>(pos.x - halfX),
+			static_cast<INT>(pos.y - halfY),
+			static_cast<INT>(pos.x + halfX),
+			static_cast<INT>(pos.y + halfY));
+	}
+
 	void Utils::DrawCircle(HDC hdc, const Maths::Vector2& pos, INT radius)
 	{
 		::Ellipse(hdc, 

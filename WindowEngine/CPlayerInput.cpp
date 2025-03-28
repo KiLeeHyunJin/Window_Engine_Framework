@@ -11,6 +11,8 @@
 #include "Structs.h"
 #include "CGameObject.h"
 #include "CObject.h"
+#include "Utils.h"
+
 namespace Framework
 {
 	int CPlayerInput::temp = 0;
@@ -111,7 +113,7 @@ namespace Framework
 		CColliderComponent* coll = GetOwner()->GetComponent<CColliderComponent>();
 		Maths::Vector2 pos = GetOwner()->GetTransformComponent()->GetPos();
 		Maths::Vector2 size = coll->GetSize();
-		CRenderManager::DrawRectangle(hdc, pos, size);
+		Utils::DrawRect(hdc, pos, size);
 
 		MoveToEx(hdc, 
 			(INT)pos.x, 

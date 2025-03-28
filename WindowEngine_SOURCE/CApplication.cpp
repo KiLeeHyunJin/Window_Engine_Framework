@@ -40,10 +40,6 @@ namespace Framework
 
 	void CApplication::Release()
 	{
-		//if (m_bRelease)
-		//{	return;	}
-		//m_bRelease = true;
-
 		SCENE::Release();
 		Resource::RESOURCE::Release();
 		UI::Release();
@@ -51,6 +47,8 @@ namespace Framework
 		EVENT::Release();
 
 		RENDER::Release();
+		
+
 	}
 
 	void CApplication::Run()
@@ -62,8 +60,8 @@ namespace Framework
 
 	void CApplication::Tick()
 	{
-		INPUT::Tick();
 		TIME::Tick();
+		INPUT::Tick();
 
 		SCENE::Tick(); // 업데이트
 

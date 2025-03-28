@@ -13,14 +13,14 @@
 #include "CBoxColliderComponent.h"
 #include "CRigidbodyComponent.h"
 
-
 #include "CGameObject.h"
 #include "CRenderer.h"
-
 #include "CTexture.h"
+
 #include "CPlayerInput.h"
 #include "CDummy.h"
-#include "MapEnums.h"
+
+#include "ContentsEnums.h"
 
 Framework::CPlayScene::CPlayScene()
 {

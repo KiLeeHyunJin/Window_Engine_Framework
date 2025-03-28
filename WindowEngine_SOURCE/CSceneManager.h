@@ -20,6 +20,8 @@ namespace Framework
 		template<typename T>
 		static CScene* CreateScene(const std::wstring& name, const UINT idx )//씬은 씬매니저가 생성하게하자
 		{
+			static_assert(std::is_base_of<CScene, T>::value, L"T Type is Not Scene");
+
 			CScene* pScene = FindScene(idx);
 			if (pScene != nullptr)
 			{	return pScene;	}
@@ -47,7 +49,7 @@ namespace Framework
 
 		__forceinline static CScene* GetCurrentScene()		{ return m_pCurrentScene;		}
 		__forceinline static CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene;	}
-		__forceinline static const UINT	 GetLayerSize()		{	return m_uiLayerSize;		}
+		__forceinline static const UINT	 GetLayerSize()		{ return m_uiLayerSize;		}
 		//static std::vector<CGameObject*> GetGameObject(Enums::eLayerType layer);
 
 		friend CApplication;

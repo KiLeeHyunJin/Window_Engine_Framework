@@ -36,14 +36,6 @@ namespace Framework
 	class CInputManager
 	{
 	public:
-		struct Key
-		{
-			eKeyCode	keyCode;
-			eKeyState	state;
-			bool		bPressed;
-		};
-
-
 		__forceinline static bool GetKeyDown(eKeyCode key)				{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down;	}
 		__forceinline static bool GetKeyUp(eKeyCode key)				{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up;		}
 		__forceinline static bool GetKeyPressed(eKeyCode key)			{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed;	}
@@ -52,6 +44,13 @@ namespace Framework
 		friend CApplication;
 		friend CRenderManager;
 	private:
+		struct Key
+		{
+			eKeyCode	keyCode;
+			eKeyState	state;
+			bool		bPressed;
+		};
+
 		CInputManager();
 		~CInputManager();
 
@@ -59,13 +58,13 @@ namespace Framework
 		static void Tick();
 		static void Render(HDC hdc, int posX, int posY);
 
-		__forceinline static bool IsKeyDown(eKeyCode key);
-		__forceinline static void UpdateKeyDown(Key& key);
-		__forceinline static void UpdateKeyUp(Key& key);
-		__forceinline static void UpdateCursorPosition();
+		static bool IsKeyDown(eKeyCode key);
+		static void UpdateKeyDown(Key& key);
+		static void UpdateKeyUp(Key& key);
+		static void UpdateCursorPosition();
 
-		__forceinline static void UpdateKey();
-		__forceinline static void ClearKey();
+		static void UpdateKey();
+		static void ClearKey();
 		static void SetResolution(const Maths::Vector2& resolution) { m_vecWinResolution = resolution; }
 
 		static Maths::Vector2 m_vecWinResolution;

@@ -144,17 +144,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CDevScene.h" />
     <ClInclude Include="CDummy.h" />
     <ClInclude Include="CPlayerInput.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CTitleScene.h" />
-    <ClInclude Include="MapEnums.h" />
+    <ClInclude Include="ContentsEnums.h" />
     <ClInclude Include="LoadResource.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="LoadUI.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CDevScene.cpp" />
     <ClCompile Include="CDummy.cpp" />
     <ClCompile Include="CPlayerInput.cpp" />
     <ClCompile Include="CPlayScene.cpp" />

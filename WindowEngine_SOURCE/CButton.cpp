@@ -1,6 +1,6 @@
 #include "CButton.h"
 #include "CInputManager.h"
-
+#include "Utils.h"
 namespace Framework
 {
 	CButton::CButton() : 
@@ -40,7 +40,7 @@ namespace Framework
 		HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
 		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 		
-		RENDER::DrawRectangle(hdc, m_vecRenderPos, GetScale());
+		Utils::DrawRect(hdc, m_vecRenderPos, GetScale());
 
 		(HBRUSH)SelectObject(hdc, oldBrush);
 		DeleteObject(newBrush);

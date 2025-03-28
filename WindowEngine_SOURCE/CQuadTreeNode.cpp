@@ -7,7 +7,7 @@
 #include "CTransformComponent.h"
 
 #include "CGameObject.h"
-
+#include "Utils.h"
 namespace Framework
 {
 	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, Vector2 center, Vector2 size, int depth)
@@ -364,7 +364,7 @@ namespace Framework
 			HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 
 
-			CRenderManager::DrawRectangle(hdc, m_vecCenter, m_vecSize);
+			Utils::DrawRect(hdc, m_vecCenter, m_vecSize);
 
 
 			(HBRUSH)SelectObject(hdc, oldBrush);
