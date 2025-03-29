@@ -149,7 +149,11 @@ namespace Framework
 
 	void CEventManager::EventDeleteGameObject::operator() ()
 	{
-		pObj->SetReserveDelete();
+		const bool reserveDel = pObj->GetReserveDelete();
+		if (reserveDel == false)
+		{
+			pObj->SetReserveDelete();
+		}
 	}
 
 	void CEventManager::EventChangeLayerGameObject::operator() ()

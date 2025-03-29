@@ -39,7 +39,7 @@ namespace Framework
 		}
 	}
 
-	void CGameObject::Tick()
+	bool CGameObject::Tick()
 	{
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -48,13 +48,20 @@ namespace Framework
 				pCom->Tick();
 			}
 		}
+
+		bool state = true;
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
-			pCom->Tick();
+			const bool currentComResult = pCom->Tick();
+			if (state && currentComResult == false)
+			{
+				state = false;
+			}
 		}
+		return state;
 	}
 
-	void CGameObject::LastTick()
+	bool CGameObject::LastTick()
 	{
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -63,10 +70,18 @@ namespace Framework
 				pCom->LastTick();
 			}
 		}
+
+		bool state = true;
+
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
-			pCom->LastTick();
+			const bool currentComResult = pCom->LastTick();
+			if (state && currentComResult == false)
+			{
+				state = false;
+			}
 		}
+		return state;
 	}
 	
 	void CGameObject::Render(HDC hdc) const

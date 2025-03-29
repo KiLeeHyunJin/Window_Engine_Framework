@@ -25,11 +25,13 @@ namespace Framework
 	void CCustomComponent::Release()
 	{
 	}
-	void CCustomComponent::Tick()
+	bool CCustomComponent::Tick()
 	{
+		return true;
 	}
-	void CCustomComponent::LastTick()
+	bool CCustomComponent::LastTick()
 	{
+		return true;
 	}
 	void CCustomComponent::Render(HDC hdc)
 	{

@@ -1,5 +1,6 @@
 #include "CLayer.h"
 #include "CGameObject.h"
+#include "Object.h"
 
 #include "CSceneManager.h"
 #include "CInputManager.h"
@@ -74,7 +75,11 @@ namespace Framework
 			{
 				if (pObj->GetActive())
 				{
-					pObj->Tick();
+					const bool result = pObj->Tick();
+					if (result == false)
+					{
+						Object::Destroy(pObj);
+					}
 				}
 			}
 		}
@@ -87,7 +92,11 @@ namespace Framework
 			if (pObj->GetActive() && 
 				pObj->GetReserveDelete() == false)
 			{
-				pObj->LastTick();
+				const bool result = pObj->LastTick();
+				if (result == false)
+				{
+					Object::Destroy(pObj);
+				}
 			}
 		}
 

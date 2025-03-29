@@ -10,7 +10,8 @@
 #include "CRenderManager.h"
 #include "Structs.h"
 #include "CGameObject.h"
-#include "CObject.h"
+
+#include "Object.h"
 #include "Utils.h"
 
 namespace Framework
@@ -30,11 +31,11 @@ namespace Framework
 	void CPlayerInput::Release()
 	{
 	}
-	void CPlayerInput::Tick()
+	bool CPlayerInput::Tick()
 	{
 		if (id >= 1)
 		{
-			return;
+			return true;
 		}
 
 		CGameObject* owner = GetOwner();
@@ -101,9 +102,11 @@ namespace Framework
 				int a = 1;
 			}
 		}*/
+		return true;
 	}
-	void CPlayerInput::LastTick()
+	bool CPlayerInput::LastTick()
 	{
+		return true;
 	}
 	void CPlayerInput::Render(HDC hdc)
 	{

@@ -54,8 +54,8 @@ public CComponent
 		virtual ~CAnimatorComponent();
 
 		void Initialize()	override;
-		void Tick()			override;
-		void LastTick()		override;
+		bool Tick()			override;
+		bool LastTick()		override;
 
 		void Render(HDC hdc)override;
 

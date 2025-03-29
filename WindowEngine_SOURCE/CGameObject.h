@@ -168,8 +168,8 @@ namespace Framework
 		void Initialize();
 		void Release();
 
-		void Tick();
-		void LastTick();
+		bool Tick();
+		bool LastTick();
 		
 		void Render(HDC hdc) const;
 

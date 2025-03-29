@@ -47,8 +47,8 @@ namespace Framework
 
 		// CComponent을(를) 통해 상속됨
 		
-		virtual void Tick() override;
-		virtual void LastTick() override;
+		virtual bool Tick() override;
+		virtual bool LastTick() override;
 		virtual void Render(HDC hdc) override;
 		static UINT32 m_collId;
 

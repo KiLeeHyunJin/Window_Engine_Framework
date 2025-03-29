@@ -1,5 +1,5 @@
 #include "CPlayScene.h"
-#include "..\\WindowEngine_SOURCE\\CObject.h"
+#include "..\\WindowEngine_SOURCE\\Object.h"
 
 #include "CInputManager.h"
 #include "CSceneManager.h"
@@ -72,6 +72,7 @@ void Framework::CPlayScene::Initialize()
 	Object::DontDestoryOnLoad(pCameraObj);
 	
 	Renderer::CRenderer::SetMainCamera(pCamera);
+
 	
 }
 
@@ -82,7 +83,7 @@ void Framework::CPlayScene::Tick()
 		EVENT::LoadScene((UINT)eMap::Title, 1);
 	}
 	
-	/*if (INPUT::GetKeyDown(eKeyCode::V))
+	if (INPUT::GetKeyDown(eKeyCode::V))
 	{
 		if (m_list.size() != 0)
 		{
@@ -91,7 +92,8 @@ void Framework::CPlayScene::Tick()
 				Object::Destroy(pObj);
 			}
 		}
-	}*/
+		m_list.clear();
+	}
 }
 
 void Framework::CPlayScene::LastTick()
@@ -112,26 +114,28 @@ void Framework::CPlayScene::OnEnter()
 
 	for (size_t i = 0; i < 200; i++)
 	{
-		CGameObject* pObj = 
+		CGameObject* pObj =
 			Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
-		CBoxColliderComponent* pBoxColl = 
+		CBoxColliderComponent* pBoxColl =
 			pObj->AddComponent<CBoxColliderComponent>();
-		CRigidbodyComponent* pRigid = 
+		CRigidbodyComponent* pRigid =
 			pObj->AddComponent<CRigidbodyComponent>();
 
 		pRigid->SetGround(true);
 		pObj->AddComponent<CPlayerInput>();
 
-		pBoxColl->SetSize(Maths::Vector2(50,50));
+		pBoxColl->SetSize(Maths::Vector2(50, 50));
 		pObj->GetTransformComponent()->SetPos(Maths::Vector2((float)(100 + i * 10), (float)(100 + i * 10)));
 		pObj->GetTransformComponent()->SetScale(Maths::Vector2(50, 50));
 
 		m_list.push_back(pObj);
 	}
+	
 }
 
 void Framework::CPlayScene::OnExit()
 {
+	//m_list.clear();
 }
 
 void Framework::CPlayScene::LastRender(HDC hdc)

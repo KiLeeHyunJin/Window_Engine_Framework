@@ -26,7 +26,7 @@ namespace Framework
 	{
 	}
 
-	void CRigidbodyComponent::Tick()
+	bool CRigidbodyComponent::Tick()
 	{
 		VelocityCompute();
 		
@@ -36,9 +36,11 @@ namespace Framework
 		{
 			ChangePosition();
 		}
+		return true;
 	}
-	void CRigidbodyComponent::LastTick()
+	bool CRigidbodyComponent::LastTick()
 	{
+		return true;
 	}
 	void CRigidbodyComponent::Render(HDC hdc)
 	{

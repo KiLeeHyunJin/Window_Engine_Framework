@@ -27,11 +27,13 @@ namespace Framework
 	void CColliderComponent::Release()
 	{
 	}
-	void CColliderComponent::Tick()
+	bool CColliderComponent::Tick()
 	{
+		return true;
 	}
-	void CColliderComponent::LastTick()
+	bool CColliderComponent::LastTick()
 	{
+		return true;
 	}
 	void CColliderComponent::Render(HDC hdc)
 	{

@@ -6,7 +6,7 @@
 #include "CUIManager.h"
 #include "CEventManager.h"
 
-#include "CObject.h"
+#include "Object.h"
 #include "CGameObject.h"
 #include "CRenderer.h"
 

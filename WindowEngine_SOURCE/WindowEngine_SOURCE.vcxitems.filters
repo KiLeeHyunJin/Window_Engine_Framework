@@ -123,7 +123,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Enums.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Object.h">
       <Filter>02.Asset\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">

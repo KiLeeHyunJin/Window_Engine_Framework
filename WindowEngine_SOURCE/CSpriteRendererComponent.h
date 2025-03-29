@@ -28,8 +28,8 @@ namespace Framework
 		// CComponent을(를) 통해 상속됨
 		void Initialize() override;
 		void Release() override;
-		void Tick() override;
-		void LastTick() override;
+		bool Tick() override;
+		bool LastTick() override;
 		void Render(HDC hdc) override;
 
 		CTexture* m_pTexture;

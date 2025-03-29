@@ -14,12 +14,14 @@ void Framework::CComponent::Initialize()
 {
 }
 
-void Framework::CComponent::Tick()
+bool Framework::CComponent::Tick()
 {
+	return true;
 }
 
-void Framework::CComponent::LastTick()
+bool Framework::CComponent::LastTick()
 {
+	return true;
 }
 
 void Framework::CComponent::Release()

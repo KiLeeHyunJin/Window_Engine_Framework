@@ -21,7 +21,7 @@ HINSTANCE hInst;                                    // 현재 인스턴스입니
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance, const WCHAR className[]);
 BOOL                InitInstance(HINSTANCE, int, const WCHAR className[]);
-
+void                CheckMemoryLeaks();
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
@@ -40,6 +40,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
 #pragma region  Window_Process_Init
+
+    //atexit(CheckMemoryLeaks);  // 프로그램 종료 직전에 실행될 함수 등록
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);         //메모리 누수 체크
     
     setlocale(LC_ALL, "Korean");                                    //지역 설정
@@ -90,6 +92,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //_CrtDumpMemoryLeaks();
 
     return (int) msg.wParam;
+}
+
+void CheckMemoryLeaks() 
+{
+    _CrtDumpMemoryLeaks();
 }
 
 //

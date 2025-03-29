@@ -23,7 +23,7 @@ namespace Framework
 	void CCameraComponent::Release()
 	{
 	}
-	void CCameraComponent::Tick()
+	bool CCameraComponent::Tick()
 	{
 		CGameObject* pTarget = 
 			m_pTarget != nullptr ? 
@@ -32,11 +32,12 @@ namespace Framework
 		CTransformComponent* pTr = pTarget->GetComponent<CTransformComponent>();
 		m_vecLookPosition = pTr->GetPos();
 		m_vecDistance = m_vecLookPosition - (m_vecDistance * 0.5f);
+		return true;
 	}
 	 
-	void CCameraComponent::LastTick()
+	bool CCameraComponent::LastTick()
 	{
-
+		return true;
 	}
 
 	void CCameraComponent::Render(HDC hdc)

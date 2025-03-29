@@ -19,7 +19,7 @@ namespace Framework
 	void CDummy::Release()
 	{
 	}
-	void CDummy::Tick()
+	bool CDummy::Tick()
 	{
 		CGameObject* owner = GetOwner();
 
@@ -76,6 +76,7 @@ namespace Framework
 		{
 			EVENT::ChangeLayer(GetOwner(), (UINT)Enums::eLayerType::Particle);
 		}
+		return true;
 	}
 
 	void CDummy::Render(HDC hdc)

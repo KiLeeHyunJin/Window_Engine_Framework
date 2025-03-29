@@ -21,11 +21,13 @@ namespace Framework
 	void CCircleColliderComponent::Release()
 	{
 	}
-	void CCircleColliderComponent::Tick()
+	bool CCircleColliderComponent::Tick()
 	{
+		return true;
 	}
-	void CCircleColliderComponent::LastTick()
+	bool CCircleColliderComponent::LastTick()
 	{
+		return true;
 	}
 	void CCircleColliderComponent::Render(HDC hdc)
 	{

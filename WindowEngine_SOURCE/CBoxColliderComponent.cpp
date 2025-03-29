@@ -26,12 +26,14 @@ namespace Framework
 	{
 	}
 
-	void CBoxColliderComponent::Tick()
+	bool CBoxColliderComponent::Tick()
 	{
+		return true;
 	}
 
-	void CBoxColliderComponent::LastTick()
+	bool CBoxColliderComponent::LastTick()
 	{
+		return true;
 	}
 
 	void CBoxColliderComponent::Render(HDC hdc)

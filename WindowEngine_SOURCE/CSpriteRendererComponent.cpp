@@ -22,12 +22,14 @@ void Framework::CSpriteRendererComponent::Release()
 {
 }
 
-void Framework::CSpriteRendererComponent::Tick()
+bool Framework::CSpriteRendererComponent::Tick()
 {
+	return true;
 }
 
-void Framework::CSpriteRendererComponent::LastTick()
+bool Framework::CSpriteRendererComponent::LastTick()
 {
+	return true;
 }
 
 void Framework::CSpriteRendererComponent::Render(HDC hdc)

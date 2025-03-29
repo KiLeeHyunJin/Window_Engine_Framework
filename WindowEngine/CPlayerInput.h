@@ -16,8 +16,8 @@ namespace Framework
 		void Initialize() override;
 		void Release() override;
 
-		void Tick() override;
-		void LastTick() override;
+		bool Tick() override;
+		bool LastTick() override;
 
 		void Render(HDC hdc) override;
 

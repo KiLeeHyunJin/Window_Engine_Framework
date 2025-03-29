@@ -18,12 +18,14 @@ void Framework::CTransformComponent::Release()
 {
 }
 
-void Framework::CTransformComponent::Tick()
+bool Framework::CTransformComponent::Tick()
 {
+	return true;
 }
 
-void Framework::CTransformComponent::LastTick()
+bool Framework::CTransformComponent::LastTick()
 {
+	return true;
 }
 
 void Framework::CTransformComponent::Render(HDC hdc)

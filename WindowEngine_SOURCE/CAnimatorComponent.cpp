@@ -22,7 +22,7 @@ namespace Framework
 	{
 	}
 
-	void CAnimatorComponent::Tick()
+	bool CAnimatorComponent::Tick()
 	{
 		if (m_pCurrentAnimation)
 		{
@@ -40,10 +40,12 @@ namespace Framework
 				}
 			}
 		}
+		return true;
 	}
 
-	void CAnimatorComponent::LastTick()
+	bool CAnimatorComponent::LastTick()
 	{
+		return true;
 	}
 
 	void CAnimatorComponent::Render(HDC hdc)
