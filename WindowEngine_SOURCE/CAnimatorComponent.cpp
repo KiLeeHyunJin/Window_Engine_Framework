@@ -2,6 +2,11 @@
 #include "CAnimatorComponent.h"
 #include "CResourceManager.h"
 
+#include <windows.h>
+
+#include <fcntl.h>
+#include <io.h>
+
 namespace Framework
 {
 
@@ -56,7 +61,7 @@ namespace Framework
 		}
 	}
 
-	void CAnimatorComponent::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, Vector2 leftTop, Vector2 size, Vector2 offset, UINT spriteLength, float duration)
+	void CAnimatorComponent::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop, const Vector2& size, const Vector2& offset, UINT spriteLength, float duration)
 	{
 		CAnimation* pAnim = nullptr;
 		pAnim = FindAnimation(name);
@@ -78,32 +83,76 @@ namespace Framework
 		{
 			return;
 		}
-		int fileCount = 0;
-		std::filesystem::path fs(path);
-		std::vector<Resource::CTexture*> vecImgs = {};
-		for (auto& p : std::filesystem::recursive_directory_iterator(fs))
-		{
-			std::wstring fileName = p.path().filename();
-			std::wstring fullName = p.path();
-			fileCount++;
+		CTexture* spriteSheet = Resource::CResourceManager::Find<CTexture>(name);
 
-			CTexture* pTexture = CResourceManager::Load<CTexture>(fileName, fullName);
-			vecImgs.push_back(pTexture);
+		UINT size;
+		UINT imgWidth;
+		UINT imgHeigth;
+
+		if (spriteSheet == nullptr)
+		{
+			std::vector<Resource::CTexture*> vecImgs = {};
+			const std::wstring searchPath = path + L"\\*";
+
+			WIN32_FIND_DATAW findFileData;
+			HANDLE hFind = FindFirstFileW(searchPath.c_str(), &findFileData);
+
+			if (hFind != INVALID_HANDLE_VALUE)
+			{
+				do
+				{
+					std::wstring wstrName = findFileData.cFileName;
+
+					if (wstrName == L"." || wstrName == L"..")
+					{
+						continue;
+					}
+
+					if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+					{
+						const std::wstring fileName = wstrName;
+						const std::wstring fullName = path + wstrName;
+
+						CTexture* pTexture = CResourceManager::Load<CTexture>(fileName, fullName);
+						if (pTexture != nullptr)
+						{
+							vecImgs.push_back(pTexture);
+						}
+					}
+
+				} 
+				while (FindNextFileW(hFind, &findFileData) != 0);
+				FindClose(hFind);
+			}
+			else
+			{	assert(1);	}
+
+			size = (UINT)vecImgs.size();
+			if (size == 0)
+			{	assert(1);	}
+
+			imgWidth = vecImgs[0]->GetWidth();
+			imgHeigth = vecImgs[0]->GetHeight();
+
+			spriteSheet = CTexture::Create(name, imgWidth * size, imgHeigth, size);
+			for (UINT i = 0; i < size; i++)
+			{
+				BitBlt(spriteSheet->GetHDC(), 
+					imgWidth * i, 0,
+					vecImgs[i]->GetWidth(), vecImgs[i]->GetHeight(),
+					vecImgs[i]->GetHDC(), 0, 0, SRCCOPY);
+			}
+		}
+		else
+		{
+			size = spriteSheet->GetCount();
+			imgWidth = spriteSheet->GetWidth();
+			imgHeigth = spriteSheet->GetHeight();
 		}
 
-		const UINT imgWidth		= vecImgs[0]->GetWidth();
-		const UINT imgHeigth	= vecImgs[0]->GetHeight();
-		
-		CTexture* spriteSheet	= CTexture::Create(name , imgWidth * fileCount, imgHeigth);
-		UINT size = (UINT)vecImgs.size();
-		for (UINT i = 0; i < size; i++)
-		{
-			BitBlt(spriteSheet->GetHDC(), i * imgWidth, 0, 
-				vecImgs[i]->GetWidth(), vecImgs[i]->GetHeight(), 
-				vecImgs[0]->GetHDC(), 0, 0, SRCCOPY);
-
-		}
-		CreateAnimation(name, spriteSheet, Vector2::Zero, Vector2((float)imgWidth, (float)imgHeigth), offset, fileCount, duration);
+		CreateAnimation(name, spriteSheet, 
+			Vector2::Zero, Vector2((float)imgWidth, (float)imgHeigth), 
+			offset, size, duration);
 	}
 
 	CAnimation* CAnimatorComponent::FindAnimation(const std::wstring& name)

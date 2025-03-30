@@ -1,6 +1,6 @@
 #pragma once
 #include "CResource.h"
-
+#include "CommonInclude.h"
 
 namespace Framework//::Resource
 {
@@ -19,19 +19,19 @@ namespace Framework//::Resource
 				None,
 			};
 
-			static CTexture* Create(std::wstring name, UINT width, UINT height);
+			static CTexture* Create(std::wstring name, UINT width, UINT height, UINT count = 1);
 
 
 
-			HRESULT Load(const std::wstring& wstrPath) override;
+			HRESULT		Load(const std::wstring& wstrPath) override;
 			inline UINT	GetWidth()	const { return m_uiWidth; }
 			inline UINT	GetHeight()	const { return m_uiWidth; }
 			inline bool	GetAlpha()	const { return m_bAlpha; }
+			inline UINT GetCount() const { return m_uiCount; }
 
 			inline HDC	GetHDC()	const { return m_hdc; }
 			inline const eTextureType	GetTextureType() const { return m_eTextureType; }
 			inline Gdiplus::Image* GetImage()	const { return m_pImg; }
-
 
 			friend CResourceManager;
 		private:
@@ -47,6 +47,7 @@ namespace Framework//::Resource
 
 			UINT m_uiWidth;
 			UINT m_uiHeight;
+			UINT m_uiCount;
 			eTextureType m_eTextureType;
 
 			bool m_bAlpha;

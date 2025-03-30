@@ -20,7 +20,7 @@
 #include <string>
 #include <cmath>
 #include <functional>
-#include <filesystem>
+//#include <filesystem>
 #pragma endregion
 
 
@@ -65,6 +65,7 @@
 #pragma comment(lib, "winmm.lib")
 
 #include <gdiplus.h>
+#include <gdiplusheaders.h>
 #pragma comment(lib, "gdiplus.lib")
 #pragma endregion
 

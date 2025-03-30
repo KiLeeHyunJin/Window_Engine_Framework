@@ -19,7 +19,7 @@ namespace Framework
         inline void SetScale(const Maths::Vector2& pos)   { m_vecScale = pos; }
 
         static constexpr Enums::eComponentType StaticComponentType()    {   return Enums::eComponentType::Transform;    }
-        Enums::eComponentType GetComponentType() const override         {   return StaticComponentType();   }
+        const Enums::eComponentType GetComponentType() const override         {   return StaticComponentType();   }
 
         friend CGameObject;
     private:

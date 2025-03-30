@@ -106,6 +106,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Utils.cpp">
       <Filter>99.Headers\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CDataManager.cpp">
+      <Filter>00.Core\Manager\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CData.cpp">
+      <Filter>02.Asset\Data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
@@ -234,6 +240,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Utils.h">
       <Filter>99.Headers\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CDataManager.h">
+      <Filter>00.Core\Manager\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CData.h">
+      <Filter>02.Asset\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -358,6 +370,12 @@
     </Filter>
     <Filter Include="99.Headers\Utils">
       <UniqueIdentifier>{0583fe41-24eb-4333-9c98-27cb20d8b907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Core\Manager\Data">
+      <UniqueIdentifier>{c34273a9-6a57-490b-bb00-f4a0cf4d1c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Data">
+      <UniqueIdentifier>{1e646d8f-b3ca-48ae-878a-4e54792c6b6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

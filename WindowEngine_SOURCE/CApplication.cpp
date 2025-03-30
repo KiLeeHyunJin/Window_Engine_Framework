@@ -8,6 +8,7 @@
 #include "CCollisionManager.h"
 #include "CUIManager.h"
 #include "CEventManager.h"
+#include "CDataManager.h"
 
 #include "CRenderer.h"
 
@@ -26,6 +27,7 @@ namespace Framework
 		m_hwnc = hWnd;
 		m_hdc = ::GetDC(m_hwnc);
 
+		DATA::Initialize();
 		RENDER::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
 
 		INPUT::Initialize(hWnd);

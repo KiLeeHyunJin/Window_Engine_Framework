@@ -23,7 +23,7 @@ namespace Framework
 		inline void SetResolution(Maths::Vector2 resolution)			{ m_vecResolution = resolution; }
 
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Camera; }
-		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
 		friend CGameObject;
 	private :

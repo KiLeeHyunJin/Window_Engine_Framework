@@ -38,6 +38,9 @@ void Framework::CPlayScene::Initialize()
 	CGameObject* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
+	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
+	pAnim->CreateAnimationByFolder(L"Temp", L"Resources\\", Maths::Vector2(0, 0), 2);
+	pAnim->PlayAnimation(L"Temp");
 	pRigid->SetGround(true);
 
 	//CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();

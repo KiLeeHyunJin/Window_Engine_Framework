@@ -42,7 +42,7 @@ namespace Framework
 		float GetFriction() const					{ return m_fFriction; }
 
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Rigidbody; }
-		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
 		friend CGameObject;
 	private:

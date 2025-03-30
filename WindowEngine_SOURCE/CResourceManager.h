@@ -23,25 +23,22 @@ namespace Framework//::Resource
 				{
 					return pResource;
 				}
-				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(new T());
-				if (FAILED(pParentResource->Load(path)))
+				pResource = new T();
+				if (FAILED(pResource->Load(path)))
 				{
 					assert(true);
+					delete(pResource);
 					//MessageBox(nullptr, key + L"Image Load Failed!", L"Error", MB_OK);
 					return nullptr;
 				}
-				pParentResource->SetName(key);
-				pParentResource->SetPath(path);
+				pResource->SetName(key);
+				pResource->SetPath(path);
+
+				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pResource);
 				m_mapResoucres.insert(std::make_pair(key, pParentResource));
+
 				return pResource;
 			}
-
-
-
-			friend class CApplication;
-		private:
-			CResourceManager();
-			~CResourceManager();
 
 			static void Insert(const std::wstring& key, CResource* pResource)
 			{
@@ -57,6 +54,13 @@ namespace Framework//::Resource
 				m_mapResoucres.insert(std::make_pair(key, pResource));
 			}
 
+
+			friend class CApplication;
+		private:
+			CResourceManager();
+			~CResourceManager();
+
+		
 			static void Release()
 			{
 				for (const auto& pair : m_mapResoucres)
@@ -66,7 +70,7 @@ namespace Framework//::Resource
 				m_mapResoucres.clear();
 			}
 
-			static std::map<std::wstring, Resource::CResource*> m_mapResoucres;
+			static std::map<const std::wstring, Resource::CResource*> m_mapResoucres;
 		};
 
 #define RESOURCE CResourceManager

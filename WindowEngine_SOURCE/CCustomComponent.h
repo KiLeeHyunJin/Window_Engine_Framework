@@ -13,7 +13,7 @@ namespace Framework
 		virtual ~CCustomComponent();
 
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Custom; }
-		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
 		friend CGameObject;
 		friend CColliderComponent;

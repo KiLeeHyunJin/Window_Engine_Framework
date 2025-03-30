@@ -15,10 +15,10 @@ namespace Framework
 		{
 			m_pTexture = Framework::CResourceManager::Find<CTexture>(wstrResourceKey);
 		};
-		void SetSize(Maths::Vector2 scale) { m_vecScale = scale; }
+		void SetSize(Maths::Vector2& scale) { m_vecScale = scale; }
 
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::SpriteRenderer; }
-		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
 		friend CGameObject;
 	private:

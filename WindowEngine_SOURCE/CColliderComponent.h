@@ -30,7 +30,7 @@ namespace Framework
 		virtual void OnCollisionExit(CColliderComponent* other);
 
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Collider; }
-		Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
+		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
 	protected:
 		CColliderComponent(eColliderType colliderType);

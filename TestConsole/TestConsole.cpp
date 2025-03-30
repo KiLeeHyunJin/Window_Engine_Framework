@@ -3,96 +3,68 @@
 
 #include <iostream>
 #include <vector>
-class CustomVector {
-private:
-    std::vector<int> data;
+#include <string>
 
-public:
-    // 데이터 추가
-    void add(int value) 
-    {
-        data.push_back(value);
+#include <fstream>
+#include <windows.h>
 
-        int size = data.size();
+#include <fcntl.h>
+#include <io.h>
+
+ std::vector<std::wstring> getFilesInDirectory(const std::wstring& path) {
+    std::vector<std::wstring> fileList;
+    std::wstring searchPath = path + L"\\*";  // 모든 파일과 폴더 검색
+
+    WIN32_FIND_DATAW findFileData;
+    HANDLE hFind = FindFirstFileW(searchPath.c_str(), &findFileData);
+
+    if (hFind != INVALID_HANDLE_VALUE) {
+        do {
+            std::wstring name = findFileData.cFileName;
+
+            // "." 및 ".." 제외
+            if (name == L"." || name == L"..") {
+                continue;
+            }
+
+            // 파일인지 확인 (디렉터리는 제외)
+            if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+                fileList.push_back(name);
+            }
+
+        } while (FindNextFileW(hFind, &findFileData) != 0);
+        FindClose(hFind);
     }
-
-    // 특정 값을 삭제 (O(N))
-    void remove(int value) 
-    {
-        auto it = std::find(data.begin(), data.end(), value);
-        if (it != data.end()) 
-        {
-            data.erase(it);
-        }
+    else {
+        std::wcerr << L"Failed to open directory: " << path << std::endl;
     }
+    return fileList;
+}
 
-    // 특정 값을 가장 뒤로 이동 (O(N))
-    void moveToBack(int value) 
-    {
-        const int endIdx = data.size();
-        if (endIdx <= 1)
-        {
-            return;
-        }
 
-        int currentIdx = value;
-
-        auto iter = data.cbegin() + currentIdx;//std::find(data.cbegin(), data.cend(), currentIdx);
-        if (iter != data.cend() && iter != data.cend() - 1)
-        { // 마지막 요소면 이동 불필요
-            int temp = *iter;
-            data.erase(iter);               // 요소 삭제 (O(N))
-            data.push_back(temp);          // 뒤에 추가 (O(1))
-        }
-
-        //for (int i = currentIdx; i < endIdx; i++)
-        //{
-        //    data[i]->SetUIIndex(i);
-        //}
-    }
-
-    // 특정 값을 특정 위치로 이동 (O(N))
-    void move(int value, size_t new_index) {
-        if (new_index >= data.size()) return;
-
-        auto it = std::find(data.begin(), data.end(), value);
-        if (it != data.end()) {
-            int temp = *it;
-            data.erase(it);
-            data.insert(data.begin() + new_index, temp);
-        }
-    }
-
-    // 데이터 출력
-    void display() const {
-        for (int num : data) {
-            std::cout << num << " ";
-        }
-        std::cout << std::endl;
-    }
-};
+std::wstring getCurrentDirectory() {
+    wchar_t buffer[MAX_PATH];
+    GetCurrentDirectoryW(MAX_PATH, buffer);
+    return std::wstring(buffer);
+}
 
 int main()
 {
-    CustomVector arr;
-    arr.add(1);
-    arr.add(2);
-    arr.add(3);
-    arr.add(4);
-    arr.add(5);
+    SetConsoleOutputCP(CP_UTF8);
+    int prevCode = _setmode(_fileno(stdout), _O_U16TEXT);
 
-    arr.display();  // 출력: 1 2 3 4 5
 
-    arr.moveToBack(2);
-    arr.display();  // 출력: 1 3 4 5 2
+    std::wcout << L"Current Directory: " << getCurrentDirectory() << std::endl;
 
-    arr.move(3, 0);
-    arr.display();  // 출력: 3 1 4 5 2
 
-    arr.remove(4);
-    arr.display();  // 출력: 3 1 5 2 (4 삭제됨)
+    std::wstring path = L".";  // 현재 디렉터리
+    std::vector<std::wstring> files = getFilesInDirectory(path);
 
-    return 0;
+    for (const auto& file : files) {
+        std::wcout << file.c_str() << std::endl;
+    }
+
+    return 1;
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴

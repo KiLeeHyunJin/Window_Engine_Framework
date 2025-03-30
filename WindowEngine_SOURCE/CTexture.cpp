@@ -8,7 +8,7 @@ namespace Framework//::Resource
 {
 	namespace Resource
 	{
-		CTexture* CTexture::Create(std::wstring name, UINT width, UINT height)
+		CTexture* CTexture::Create(std::wstring name, UINT width, UINT height, UINT count)
 		{
 			CTexture* pTexture = CResourceManager::Find<CTexture>(name);
 			if (pTexture != nullptr)
@@ -19,7 +19,7 @@ namespace Framework//::Resource
 			pTexture->SetName(name);
 			pTexture->SetHeight(height);
 			pTexture->SetWidth(width);
-
+			
 			const HDC hdc = application.GetHDC();
 			//HWND hwnd = application.GetHWND();
 
@@ -44,7 +44,7 @@ namespace Framework//::Resource
 		CTexture::CTexture() :
 			CResource(Enums::eResourceType::Texture),
 			m_uiHeight(0), m_uiWidth(0),
-			m_hBmp(0), m_hdc(0), m_eTextureType(CTexture::eTextureType::None),
+			m_hBmp(0), m_hdc(0), m_eTextureType(CTexture::eTextureType::Bmp), m_uiCount(1),
 			m_pImg(nullptr), m_bAlpha(false)
 		{	}
 
@@ -59,11 +59,13 @@ namespace Framework//::Resource
 			if (ext == L"png")
 			{
 				m_eTextureType = eTextureType::Png;
+				Gdiplus::Bitmap* pngImage = new Gdiplus::Bitmap(wstrPath.c_str());
 				m_pImg = Gdiplus::Image::FromFile(wstrPath.c_str());
 				if (m_pImg == nullptr)
 				{
 					return S_FALSE;
 				}
+				pngImage->GetHBITMAP(Gdiplus::Color::White, &m_hBmp);
 
 				m_uiWidth = m_pImg->GetWidth();
 				m_uiHeight = m_pImg->GetHeight();
@@ -81,12 +83,13 @@ namespace Framework//::Resource
 				m_uiHeight = info.bmHeight;
 				m_uiWidth = info.bmWidth;
 				m_bAlpha = info.bmBitsPixel == 32;
-				HDC mainDC = application.GetHDC();
-				m_hdc = CreateCompatibleDC(mainDC);
-				HBITMAP oldBmp = (HBITMAP)SelectObject(m_hdc, m_hBmp);
-				DeleteObject(oldBmp);
+
 			}
 
+			HDC mainDC = application.GetHDC();
+			m_hdc = CreateCompatibleDC(mainDC);
+			HBITMAP oldBmp = (HBITMAP)SelectObject(m_hdc, m_hBmp);
+			DeleteObject(oldBmp);
 
 			return S_OK;
 		}
