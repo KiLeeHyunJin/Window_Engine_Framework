@@ -2,16 +2,16 @@
 
 namespace Framework
 {
-	std::unordered_map<std::wstring, std::wstring> CDataManager::_unData = {};
+	std::unordered_map<std::wstring, CData*> CDataManager::_unData = {};
 
 	void CDataManager::Load(const std::wstring& key, const std::wstring& path)
 	{
 
 	}
 
-	void CDataManager::GetData(const std::wstring& key)
+	CData* CDataManager::GetData(const std::wstring& key)
 	{
-
+		return nullptr;
 	}
 	
 	void CDataManager::Initialize()

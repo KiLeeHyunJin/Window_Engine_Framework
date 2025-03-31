@@ -29,10 +29,10 @@ public CComponent
 
 
 		void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
-			const Vector2& leftTop, const Vector2& size, const Vector2& offset,
+			const Vector2& leftTop/*, const Vector2& size, const Vector2& offset*/,
 			UINT spriteLength, float duration);
 
-		void CreateAnimationByFolder(const std::wstring& name, const std::wstring& path, Vector2 offset, float duration);
+		void CreateAnimationByFolder(const std::wstring& name, const std::wstring& path,const Vector2& offset,const float duration);
 
 		CAnimation* FindAnimation(const std::wstring& name);
 		void PlayAnimation(const std::wstring& name, bool loop = true);

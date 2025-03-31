@@ -4,12 +4,13 @@
 namespace Framework
 {
 	class CApplication;
+	class CData;
 
 	class CDataManager
 	{
 	public:
 		static void Load(const std::wstring& key, const std::wstring& path);
-		static void GetData(const std::wstring& key);
+		static CData* GetData(const std::wstring& key);
 
 
 		friend CApplication;
@@ -20,7 +21,7 @@ namespace Framework
 		CDataManager();
 		~CDataManager();
 
-		static std::unordered_map<std::wstring, std::wstring> _unData;
+		static std::unordered_map<std::wstring, CData*> _unData;
 	};
 	using DATA = CDataManager;
 }

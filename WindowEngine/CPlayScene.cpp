@@ -34,12 +34,14 @@ void Framework::CPlayScene::Initialize()
 {
 	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 
-
 	CGameObject* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	pAnim->CreateAnimationByFolder(L"Temp", L"Resources\\", Maths::Vector2(0, 0), 2);
+	pAnim->CreateAnimationByFolder(L"Temp", L"Resources\\", Maths::Vector2::Zero, 1);
+
+	//pAnim->CreateAnimation(L"Temp", pTexture, Maths::Vector2(0, 50), 3, 2);
+
 	pAnim->PlayAnimation(L"Temp");
 	pRigid->SetGround(true);
 

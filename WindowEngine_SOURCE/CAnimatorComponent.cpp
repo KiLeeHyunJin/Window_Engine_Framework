@@ -61,7 +61,7 @@ namespace Framework
 		}
 	}
 
-	void CAnimatorComponent::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop, const Vector2& size, const Vector2& offset, UINT spriteLength, float duration)
+	void CAnimatorComponent::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop/*, const Vector2& size, const Vector2& offset*/, UINT spriteLength, float duration)
 	{
 		CAnimation* pAnim = nullptr;
 		pAnim = FindAnimation(name);
@@ -70,12 +70,13 @@ namespace Framework
 			return;
 		}
 		pAnim = new CAnimation();
-		pAnim->CreateAnimation(name, spriteSheet, leftTop, size, offset, spriteLength, duration);
+		pAnim->CreateAnimation(name, spriteSheet, leftTop/*, size, offset*/, spriteLength, duration);
 		pAnim->SetOwner(this);
 		m_mapAnimations.insert(std::make_pair(name,pAnim));
 	}
 
-	void CAnimatorComponent::CreateAnimationByFolder(const std::wstring& name, const std::wstring& path, Vector2 offset, float duration)
+
+	void CAnimatorComponent::CreateAnimationByFolder(const std::wstring& name, const std::wstring& path, const Vector2& offset, const float duration)
 	{
 		CAnimation* pAnim = nullptr;
 		pAnim = FindAnimation(name);
@@ -86,12 +87,12 @@ namespace Framework
 		CTexture* spriteSheet = Resource::CResourceManager::Find<CTexture>(name);
 
 		UINT size;
-		UINT imgWidth;
-		UINT imgHeigth;
+		UINT imgWidth = 0;
+		UINT imgHeigth = 0;
 
 		if (spriteSheet == nullptr)
 		{
-			std::vector<Resource::CTexture*> vecImgs = {};
+			std::vector<const Resource::CTexture*> vecImgs = {};
 			const std::wstring searchPath = path + L"\\*";
 
 			WIN32_FIND_DATAW findFileData;
@@ -101,25 +102,18 @@ namespace Framework
 			{
 				do
 				{
-					std::wstring wstrName = findFileData.cFileName;
-
+					const std::wstring wstrName = findFileData.cFileName;
 					if (wstrName == L"." || wstrName == L"..")
-					{
-						continue;
-					}
+					{	continue;	}
 
 					if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 					{
 						const std::wstring fileName = wstrName;
 						const std::wstring fullName = path + wstrName;
-
-						CTexture* pTexture = CResourceManager::Load<CTexture>(fileName, fullName);
+						const CTexture* pTexture = CResourceManager::Load<CTexture>(fileName, fullName);
 						if (pTexture != nullptr)
-						{
-							vecImgs.push_back(pTexture);
-						}
+						{	vecImgs.push_back(pTexture);	}
 					}
-
 				} 
 				while (FindNextFileW(hFind, &findFileData) != 0);
 				FindClose(hFind);
@@ -131,37 +125,52 @@ namespace Framework
 			if (size == 0)
 			{	assert(1);	}
 
-			imgWidth = vecImgs[0]->GetWidth();
-			imgHeigth = vecImgs[0]->GetHeight();
+			std::vector<Maths::Vector2> sizes = {};
+			for (const auto& img : vecImgs)
+			{
+				sizes.push_back(Maths::Vector2((float)img->GetWidth(), (float)img->GetHeight()));
+				imgWidth += img->GetWidth();
+				if (imgHeigth < img->GetHeight())
+				{
+					imgHeigth = img->GetHeight();
+				}
+			}
 
-			spriteSheet = CTexture::Create(name, imgWidth * size, imgHeigth, size);
+			spriteSheet = CTexture::Create(name, imgWidth, imgHeigth, sizes);
+
+			float stackWidth = 0;
 			for (UINT i = 0; i < size; i++)
 			{
-				BitBlt(spriteSheet->GetHDC(), 
-					imgWidth * i, 0,
-					vecImgs[i]->GetWidth(), vecImgs[i]->GetHeight(),
-					vecImgs[i]->GetHDC(), 0, 0, SRCCOPY);
+				BitBlt(spriteSheet->GetHDC(), (UINT)stackWidth, 0,
+					(UINT)sizes[i].x, (UINT)sizes[i].y, vecImgs[i]->GetHDC(), 0, 0, SRCCOPY);
+				stackWidth += sizes[i].x;
 			}
 		}
 		else
 		{
-			size = spriteSheet->GetCount();
-			imgWidth = spriteSheet->GetWidth();
-			imgHeigth = spriteSheet->GetHeight();
+			for (const auto& img : spriteSheet->GetSpriteSize())
+			{
+				imgWidth += (UINT)img.x;
+				if (imgHeigth < (UINT)img.y)
+				{
+					imgHeigth = (UINT)img.y;
+				}
+			}
+
+			size = (UINT)spriteSheet->GetSpriteSize().size();
 		}
 
 		CreateAnimation(name, spriteSheet, 
-			Vector2::Zero, Vector2((float)imgWidth, (float)imgHeigth), 
-			offset, size, duration);
+			Vector2::Zero, 
+			/*Vector2((float)imgWidth, (float)imgHeigth), offset, */
+			size, duration);
 	}
 
 	CAnimation* CAnimatorComponent::FindAnimation(const std::wstring& name)
 	{
 		auto iter = m_mapAnimations.find(name);
 		if (iter == m_mapAnimations.end())
-		{
-			return nullptr;
-		}
+		{	return nullptr;		}
 		return iter->second;
 	}
 
@@ -171,9 +180,7 @@ namespace Framework
 		if (pAnim != nullptr)
 		{
 			if (m_bLoop != loop)
-			{
-				m_bLoop = loop;
-			}
+			{	m_bLoop = loop;	}
 			EndAnimation();
 			StartAnimation(pAnim);
 		}
