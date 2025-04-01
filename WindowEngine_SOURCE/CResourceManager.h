@@ -1,11 +1,12 @@
 #pragma once
 #include "CResource.h"
-#include "CTexture.h"
+//#include "CTexture.h"
 
 namespace Framework//::Resource
 {
 	namespace Resource
 	{
+		class CTexture;
 
 		class CResourceManager
 		{
@@ -17,28 +18,37 @@ namespace Framework//::Resource
 				return iter == m_mapResoucres.end() ? nullptr : dynamic_cast<T*>(iter->second);
 			}
 
+			static void Insert(const std::wstring& key, CResource* pResource)
+			{
+				if (pResource == nullptr)
+				{
+					return;
+				}
+				auto iter = m_mapResoucres.find(key);
+				if (iter == m_mapResoucres.end())
+				{
+					m_mapResoucres.insert(std::make_pair(key, pResource));
+				}
+			}
+			
 			template<typename CTexture>
-			static const CTexture* Load(
-				const std::wstring& key, const std::wstring& path,
-				const UINT count, const Maths::Vector2& offset, const Maths::Vector2& size)
+			static const CTexture* Load( const std::wstring& key, const std::wstring& path, 
+				const UINT horizontalCount, const Maths::Vector2& offset, const Maths::Vector2& size)
 			{
 				CTexture* pResource = CResourceManager::Find<CTexture>(key);
 				if (pResource != nullptr)
-				{
-					return pResource;
-				}
-				pResource = new CTexture();
-				pResource->SetCount(count);
-				pResource->SetOffset(offset);
+				{	return pResource;	}
 
-				for (size_t i = 0; i < count; i++)
-				{
-					pResource->PushBackSize(size);
-				}
+				pResource = new CTexture();
+				pResource->SetCount(horizontalCount);
+				//pResource->SetOffset(offset);
+
+				for (size_t i = 0; i < horizontalCount; i++)
+				{	pResource->PushBackSize(size);	}
 
 				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pResource);
-				LoadResource(pParentResource, key, path);
-
+				if (LoadResource(pParentResource, key, path) == nullptr)
+				{	return nullptr;	};
 				return pResource;
 			}
 
@@ -47,24 +57,11 @@ namespace Framework//::Resource
 			{
 				T* pResource = CResourceManager::Find<T>(key);
 				if (pResource != nullptr)
-				{
-					return pResource;
-				}
+				{	return pResource;	}
 				pResource = new T();
-
 				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pResource);
 				pParentResource = LoadResource(pParentResource, key, path);
 				return pResource;
-			}
-
-			static void Insert(const std::wstring& key, CResource* pResource)
-			{
-				if (pResource == nullptr)
-				{	return;	}
-				auto iter = m_mapResoucres.find(key);
-				if (iter != m_mapResoucres.end())
-				{	return;	}
-				m_mapResoucres.insert(std::make_pair(key, pResource));
 			}
 
 

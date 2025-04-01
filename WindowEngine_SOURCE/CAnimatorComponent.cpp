@@ -24,12 +24,11 @@ namespace Framework
 	}
 
 	void CAnimatorComponent::Initialize()
-	{
-	}
+	{	}
 
 	bool CAnimatorComponent::Tick()
 	{
-		if (m_pCurrentAnimation)
+		if (m_pCurrentAnimation != nullptr)
 		{
 			m_pCurrentAnimation->Tick();
 			Events* events = FindEvents(m_pCurrentAnimation->GetName());
@@ -49,26 +48,22 @@ namespace Framework
 	}
 
 	bool CAnimatorComponent::LastTick()
-	{
-		return true;
-	}
+	{	return true;	}
 
 	void CAnimatorComponent::Render(HDC hdc)
 	{
-		if (m_pCurrentAnimation)
+		if (m_pCurrentAnimation != nullptr)
 		{
 			m_pCurrentAnimation->Render(hdc);
 		}
 	}
 
-	void CAnimatorComponent::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop/*, const Vector2& size, const Vector2& offset*/, UINT spriteLength, float duration)
+	void CAnimatorComponent::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop
+		/*, const Vector2& size, const Vector2& offset*/, UINT spriteLength, float duration)
 	{
-		CAnimation* pAnim = nullptr;
-		pAnim = FindAnimation(name);
+		CAnimation* pAnim = FindAnimation(name);
 		if (pAnim != nullptr)
-		{
-			return;
-		}
+		{	return;		}
 		pAnim = new CAnimation();
 		pAnim->CreateAnimation(name, spriteSheet, leftTop/*, size, offset*/, spriteLength, duration);
 		pAnim->SetOwner(this);
@@ -76,23 +71,19 @@ namespace Framework
 	}
 
 
-	void CAnimatorComponent::CreateAnimationByFolder(const std::wstring& name, const std::wstring& path, const Vector2& offset, const float duration)
+	void CAnimatorComponent::CreateAnimationByFolder(const std::wstring& name, const std::wstring& path, const float duration)
 	{
-		CAnimation* pAnim = nullptr;
-		pAnim = FindAnimation(name);
+		const CAnimation* pAnim = FindAnimation(name);
 		if (pAnim != nullptr)
-		{
-			return;
-		}
+		{	return;	}
+		UINT size = 0;
 		CTexture* spriteSheet = Resource::CResourceManager::Find<CTexture>(name);
-
-		UINT size;
-		UINT imgWidth = 0;
-		UINT imgHeigth = 0;
 
 		if (spriteSheet == nullptr)
 		{
 			std::vector<const Resource::CTexture*> vecImgs = {};
+
+#pragma region  LoadImg
 			const std::wstring searchPath = path + L"\\*";
 
 			WIN32_FIND_DATAW findFileData;
@@ -104,7 +95,9 @@ namespace Framework
 				{
 					const std::wstring wstrName = findFileData.cFileName;
 					if (wstrName == L"." || wstrName == L"..")
-					{	continue;	}
+					{
+						continue;
+					}
 
 					if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 					{
@@ -112,32 +105,35 @@ namespace Framework
 						const std::wstring fullName = path + wstrName;
 						const CTexture* pTexture = CResourceManager::Load<CTexture>(fileName, fullName);
 						if (pTexture != nullptr)
-						{	vecImgs.push_back(pTexture);	}
+						{
+							vecImgs.push_back(pTexture);
+						}
 					}
-				} 
-				while (FindNextFileW(hFind, &findFileData) != 0);
+				} while (FindNextFileW(hFind, &findFileData) != 0);
 				FindClose(hFind);
 			}
 			else
-			{	assert(1);	}
+			{
+				assert(1);
+			}
+#pragma endregion
 
 			size = (UINT)vecImgs.size();
 			if (size == 0)
 			{	assert(1);	}
 
+			UINT imgWidth = 0;
+			UINT imgHeigth = 0;
 			std::vector<Maths::Vector2> sizes = {};
 			for (const auto& img : vecImgs)
 			{
 				sizes.push_back(Maths::Vector2((float)img->GetWidth(), (float)img->GetHeight()));
 				imgWidth += img->GetWidth();
 				if (imgHeigth < img->GetHeight())
-				{
-					imgHeigth = img->GetHeight();
-				}
+				{	imgHeigth = img->GetHeight();	}
 			}
 
 			spriteSheet = CTexture::Create(name, imgWidth, imgHeigth, sizes);
-
 			float stackWidth = 0;
 			for (UINT i = 0; i < size; i++)
 			{
@@ -148,22 +144,10 @@ namespace Framework
 		}
 		else
 		{
-			for (const auto& img : spriteSheet->GetSpriteSize())
-			{
-				imgWidth += (UINT)img.x;
-				if (imgHeigth < (UINT)img.y)
-				{
-					imgHeigth = (UINT)img.y;
-				}
-			}
-
 			size = (UINT)spriteSheet->GetSpriteSize().size();
 		}
 
-		CreateAnimation(name, spriteSheet, 
-			Vector2::Zero, 
-			/*Vector2((float)imgWidth, (float)imgHeigth), offset, */
-			size, duration);
+		CreateAnimation(name, spriteSheet, Vector2::Zero, size, duration);
 	}
 
 	CAnimation* CAnimatorComponent::FindAnimation(const std::wstring& name)

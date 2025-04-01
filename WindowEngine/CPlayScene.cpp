@@ -38,7 +38,7 @@ void Framework::CPlayScene::Initialize()
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	pAnim->CreateAnimationByFolder(L"Temp", L"Resources\\", Maths::Vector2::Zero, 1);
+	pAnim->CreateAnimationByFolder(L"Temp", L"Resources\\", 1);
 
 	//pAnim->CreateAnimation(L"Temp", pTexture, Maths::Vector2(0, 50), 3, 2);
 

@@ -18,10 +18,13 @@ namespace Framework
 		};
 
 		__forceinline static void SetTimeType(eTimeType type)		{ timeType = type; }
-		__forceinline static float DeltaTime()						{ return m_fDeltaTime; }
+		__forceinline static float DeltaTime()						{ return m_fDeltaTime * m_fTimeScale; }
+		__forceinline static float RealDeltaTime()						{ return m_fDeltaTime; }
 		__forceinline static UINT FPS()								{ return m_uiFPS; }
 		__forceinline static void SetShowFPS(bool state)			{ m_bShowFPS = state; }
 		__forceinline static bool GetShowFPS()						{ return m_bShowFPS; }
+		__forceinline static float GetTimeScale()					{return m_fTimeScale;	}
+		__forceinline static void SetTimeScale(float scale)			{ m_fTimeScale = scale; }
 		//__forceinline static ULONGLONG TickTime()					{ return m_fDeltaTime; }
 
 		friend CApplication;
@@ -39,6 +42,7 @@ namespace Framework
 		//static void TimeChrono();
 
 		static float m_fDeltaTime;
+		static float m_fTimeScale;
 		static bool m_bShowFPS;
 		static UINT m_uiFPS;
 		static eTimeType timeType;

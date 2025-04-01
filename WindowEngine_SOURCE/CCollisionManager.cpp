@@ -118,8 +118,8 @@ namespace Framework
 		static float timeCheck = 0;
 		static INT fpsCheck = 0;
 		
-		timeCheck += TIME::DeltaTime();
-		countTime += TIME::DeltaTime();
+		timeCheck += TIME::RealDeltaTime();
+		countTime += TIME::RealDeltaTime();
 
 		if (countTime < checkTime)
 		{	return;		}

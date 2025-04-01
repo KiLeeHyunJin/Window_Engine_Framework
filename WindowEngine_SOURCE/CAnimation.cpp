@@ -70,7 +70,7 @@ namespace Framework
 
 		const CGameObject* pObj = m_pOwner->GetOwner();
 		const CTransformComponent* pTr = pObj->GetTransformComponent();
-		Vector2 pos = pTr->GetPos() + m_pTexture->GetOffset();
+		Vector2 pos = pTr->GetPos();// + m_pTexture->GetOffset();
 
 
 		const CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
@@ -152,7 +152,7 @@ namespace Framework
 			nullptr);
 	}
 
-	void  CAnimation::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, Vector2 leftTop, 
+	void  CAnimation::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop,
 		/*Vector2 size, Vector2 offset,*/ UINT spriteLength, float duration)
 	{
 		m_pTexture = spriteSheet;
@@ -163,7 +163,6 @@ namespace Framework
 		SetName(name);
 		const auto& sizes = m_pTexture->GetSpriteSize();
 		const bool isCreate = m_pTexture->OnCreate();
-		//const Maths::Vector2& offset = m_pTexture->GetOffset();
 		m_vecSprites.reserve(spriteLength);
 
 		float stackWidth = 0;
@@ -173,12 +172,13 @@ namespace Framework
 			if (isCreate)
 			{
 				sprite.leftTop = Vector2(stackWidth , leftTop.y);
-				stackWidth += sizes[i].x;
 			}
 			else
 			{
-				sprite.leftTop = Vector2(leftTop.x + (sizes[i].x * i), leftTop.y);
+				sprite.leftTop = Vector2(leftTop.x + stackWidth, leftTop.y);
 			}
+			stackWidth += sizes[i].x;
+
 			m_vecSprites.push_back(sprite);
 		}
 

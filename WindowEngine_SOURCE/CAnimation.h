@@ -40,7 +40,7 @@ namespace Framework
         void Render(HDC hdc);
 
         void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
-            Vector2 leftTop, /*Vector2 size, Vector2 offset,*/
+            const Vector2& leftTop, /*Vector2 size, Vector2 offset,*/
             UINT spriteLength, float duration);
 
         inline bool IsCompleted() const { return m_bCompleted; }
