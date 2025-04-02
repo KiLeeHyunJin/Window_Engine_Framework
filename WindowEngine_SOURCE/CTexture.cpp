@@ -8,14 +8,14 @@ namespace Framework//::Resource
 {
 	namespace Resource
 	{
-		CTexture* CTexture::Create(const std::wstring& name, UINT width, UINT height, std::vector<Maths::Vector2>& sizes)
+		const CTexture* CTexture::Create(const std::wstring& name, UINT width, UINT height, std::vector<Maths::Vector2>& sizes)
 		{
-			CTexture* pTexture = CResourceManager::Find<CTexture>(name);
-			if (pTexture != nullptr)
+			const CTexture* pFindTexture = CResourceManager::Find<CTexture>(name);
+			if (pFindTexture != nullptr)
 			{
-				return pTexture;
+				return pFindTexture;
 			}
-			pTexture = new CTexture();
+			CTexture*  pTexture = new CTexture();
 			const UINT size = (UINT)sizes.size();
 			pTexture->SetCreateState();
 			pTexture->SetCount(size);

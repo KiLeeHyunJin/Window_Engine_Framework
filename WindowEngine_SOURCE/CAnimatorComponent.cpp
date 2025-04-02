@@ -58,7 +58,7 @@ namespace Framework
 		}
 	}
 
-	void CAnimatorComponent::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop
+	void CAnimatorComponent::CreateAnimation(const std::wstring& name,const CTexture* spriteSheet, const Vector2& leftTop
 		/*, const Vector2& size, const Vector2& offset*/, UINT spriteLength, float duration)
 	{
 		CAnimation* pAnim = FindAnimation(name);
@@ -77,7 +77,7 @@ namespace Framework
 		if (pAnim != nullptr)
 		{	return;	}
 		UINT size = 0;
-		CTexture* spriteSheet = Resource::CResourceManager::Find<CTexture>(name);
+		const CTexture* spriteSheet = Resource::CResourceManager::Find<CTexture>(name);
 
 		if (spriteSheet == nullptr)
 		{

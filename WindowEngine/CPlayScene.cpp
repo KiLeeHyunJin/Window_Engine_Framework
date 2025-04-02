@@ -32,13 +32,13 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
-	CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
+	const CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 
 	CGameObject* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	pAnim->CreateAnimationByFolder(L"Temp", L"Resources\\", 1);
+	pAnim->CreateAnimationByFolder(L"Temp", L"..\\Resources\\", 1);
 
 	//pAnim->CreateAnimation(L"Temp", pTexture, Maths::Vector2(0, 50), 3, 2);
 

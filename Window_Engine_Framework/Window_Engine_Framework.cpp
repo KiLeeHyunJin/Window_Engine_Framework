@@ -9,7 +9,7 @@
 #include "..\\WindowEngine\\LoadResource.h"
 #include "..\\WindowEngine\\LoadUI.h"
 
-#pragma comment (lib,"..\\x64\\Debug\\WindowEngine.lib" )
+#pragma comment (lib,"..\\Library\\x64\\Debug\\WindowEngine.lib" )
 
 //const int MAX_LOADSTRING = 100;
 

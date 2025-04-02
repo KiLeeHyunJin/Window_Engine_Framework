@@ -26,7 +26,7 @@ public CComponent
 			Event m_EndEvent;
 		};
 
-		void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
+		void CreateAnimation(const std::wstring& name, const CTexture* spriteSheet,
 			const Vector2& leftTop/*, const Vector2& size, const Vector2& offset*/,
 			UINT spriteLength, float duration);
 

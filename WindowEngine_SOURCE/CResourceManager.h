@@ -12,7 +12,7 @@ namespace Framework//::Resource
 		{
 		public:
 			template<typename T>
-			static T* Find(const std::wstring& key)
+			static const T* Find(const std::wstring& key)
 			{
 				auto iter = m_mapResoucres.find(key);
 				return iter == m_mapResoucres.end() ? nullptr : dynamic_cast<T*>(iter->second);
@@ -35,33 +35,32 @@ namespace Framework//::Resource
 			static const CTexture* Load( const std::wstring& key, const std::wstring& path, 
 				const UINT horizontalCount, const Maths::Vector2& offset, const Maths::Vector2& size)
 			{
-				CTexture* pResource = CResourceManager::Find<CTexture>(key);
-				if (pResource != nullptr)
-				{	return pResource;	}
+				const CTexture* pLoadResource = CResourceManager::Find<CTexture>(key);
+				if (pLoadResource != nullptr)
+				{	return pLoadResource;	}
 
-				pResource = new CTexture();
-				pResource->SetCount(horizontalCount);
-				//pResource->SetOffset(offset);
+				CTexture* pCreateResource = new CTexture();
+				pCreateResource->SetCount(horizontalCount);
 
 				for (size_t i = 0; i < horizontalCount; i++)
-				{	pResource->PushBackSize(size);	}
+				{	pCreateResource->PushBackSize(size);	}
 
-				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pResource);
+				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pCreateResource);
 				if (LoadResource(pParentResource, key, path) == nullptr)
 				{	return nullptr;	};
-				return pResource;
+				return pCreateResource;
 			}
 
 			template<typename T>
 			static const T* Load(const std::wstring& key, const std::wstring& path)
 			{
-				T* pResource = CResourceManager::Find<T>(key);
-				if (pResource != nullptr)
-				{	return pResource;	}
-				pResource = new T();
-				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pResource);
+				const T* pFindResource = CResourceManager::Find<T>(key);
+				if (pFindResource != nullptr)
+				{	return pFindResource;	}
+				T* pCreateResource = new T();
+				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pCreateResource);
 				pParentResource = LoadResource(pParentResource, key, path);
-				return pResource;
+				return pCreateResource;
 			}
 
 
@@ -75,7 +74,7 @@ namespace Framework//::Resource
 				if (FAILED(pResource->Load(path)))
 				{
 					assert(true);
-					delete(pResource);
+					SAFE_DELETE(pResource);
 					return nullptr;
 				}
 				pResource->SetName(key);

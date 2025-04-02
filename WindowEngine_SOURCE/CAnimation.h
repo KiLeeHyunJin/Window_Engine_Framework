@@ -39,7 +39,7 @@ namespace Framework
         void Tick();
         void Render(HDC hdc);
 
-        void CreateAnimation(const std::wstring& name, CTexture* spriteSheet,
+        void CreateAnimation(const std::wstring& name,const CTexture* spriteSheet,
             const Vector2& leftTop, /*Vector2 size, Vector2 offset,*/
             UINT spriteLength, float duration);
 

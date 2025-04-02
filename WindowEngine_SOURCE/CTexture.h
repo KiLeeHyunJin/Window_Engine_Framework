@@ -19,7 +19,7 @@ namespace Framework//::Resource
 				None,
 			};
 
-			static CTexture* Create(const std::wstring& name, UINT width, UINT height, std::vector<Maths::Vector2>& sizes);
+			static const CTexture* Create(const std::wstring& name, UINT width, UINT height, std::vector<Maths::Vector2>& sizes);
 
 			HRESULT		Load(const std::wstring& wstrPath) override;
 			inline UINT	GetWidth()	const { return m_uiWidth; }
@@ -29,7 +29,7 @@ namespace Framework//::Resource
 			inline bool	GetAlpha()	const { return m_bAlpha; }
 			inline bool OnCreate() const { return m_bCreate; }
 
-			inline const std::vector<Maths::Vector2>& GetSpriteSize() { return m_vecSizes; }
+			inline const std::vector<Maths::Vector2>& GetSpriteSize() const { return m_vecSizes; }
 			inline const eTextureType	GetTextureType() const { return m_eTextureType; }
 			inline Gdiplus::Image* GetImage()	const { return m_pImg; }
 			inline HDC	GetHDC()	const { return m_hdc; }

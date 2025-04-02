@@ -152,10 +152,10 @@ namespace Framework
 			nullptr);
 	}
 
-	void  CAnimation::CreateAnimation(const std::wstring& name, CTexture* spriteSheet, const Vector2& leftTop,
+	void  CAnimation::CreateAnimation(const std::wstring& name,const CTexture* spriteSheet, const Vector2& leftTop,
 		/*Vector2 size, Vector2 offset,*/ UINT spriteLength, float duration)
 	{
-		m_pTexture = spriteSheet;
+		m_pTexture = const_cast<CTexture*>(spriteSheet);
 		m_fDuration = duration;
 		if (m_pTexture->GetCount() < spriteLength)
 		{	assert(true);	}
