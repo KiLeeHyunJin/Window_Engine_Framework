@@ -47,6 +47,7 @@ namespace Framework//::Enums
 			AudioClip,
 			Prefab,
 			Animation,
+			Sprite,
 
 			Size,
 		};

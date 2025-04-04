@@ -64,6 +64,7 @@ namespace Framework//::Resource
 			}
 
 
+
 			friend class CApplication;
 		private:
 			CResourceManager();

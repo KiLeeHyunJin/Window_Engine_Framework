@@ -7,6 +7,9 @@ namespace Framework//::Maths
 
 	namespace Maths
 	{
+
+		struct Vector2Int;
+
 		float const PI = 3.142592f; //이펙티브 C++ 에서 Define보단 const를 사용하라고 했는데 
 		//여기서 이렇게 한다고 크게 달라지겠냐만, 그래도 습관들면 좋으니까
 
@@ -15,6 +18,7 @@ namespace Framework//::Maths
 
 		__inline static float RadianToDegree(const float radian) { return (radian * (180 / PI)); }
 
+#pragma region Vector2 Float
 		struct Vector2
 		{
 #pragma region  Static
@@ -91,6 +95,7 @@ namespace Framework//::Maths
 			Vector2(float x, float y) : x(x), y(y)
 			{
 			}
+			Vector2(const Vector2Int& other);// : x(other.x), y(other.y) {}
 			//Vector2(int x, int y)		: x((float)x), y((float)y)
 			//{}
 		/*	explicit Vector2(UINT x, UINT y)	: x((float)x), y((float)y)
@@ -219,6 +224,8 @@ namespace Framework//::Maths
 				return *this;
 			}
 
+
+
 			void Clear()
 			{
 				x = 0;
@@ -289,10 +296,49 @@ namespace Framework//::Maths
 				return Vector2(_x, _y);
 			}
 
-
 			float x;
 			float y;
 		};
+#pragma endregion
+
+#pragma region Vector2 INT
+		struct  Vector2Int
+		{
+			Vector2Int(int _x, int _y) : x(_x),y(_y){}
+			Vector2Int() :x(0),y(0){}
+			Vector2Int(const Vector2& other);
+			Vector2 ConvertVector()
+			{
+				return Maths::Vector2((float)x, (float)y);
+			}
+
+			Vector2Int operator + (const Vector2Int& other)
+			{
+				int returnX = this->x + other.x;
+				int returnY = this->y + other.y;
+				return Vector2Int(returnX, returnY);
+			}
+
+			Vector2Int operator - (const Vector2Int& other)
+			{
+				int returnX = this->x - other.x;
+				int returnY = this->y - other.y;
+				return Vector2Int(returnX, returnY);
+			}
+
+			int x;
+			int y;
+
+			static Vector2Int One;
+			static Vector2Int Zero;
+
+			static Vector2Int Right;
+			static Vector2Int Left;
+			static Vector2Int Up;
+			static Vector2Int Down;
+		};
+#pragma endregion
+
 
 	}
 	

@@ -112,6 +112,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CData.cpp">
       <Filter>02.Asset\Data</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSprite.cpp">
+      <Filter>02.Asset\Resource\Sprite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
@@ -246,6 +249,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CData.h">
       <Filter>02.Asset\Data</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h">
+      <Filter>02.Asset\Resource\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -376,6 +382,9 @@
     </Filter>
     <Filter Include="02.Asset\Data">
       <UniqueIdentifier>{1e646d8f-b3ca-48ae-878a-4e54792c6b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Resource\Sprite">
+      <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
