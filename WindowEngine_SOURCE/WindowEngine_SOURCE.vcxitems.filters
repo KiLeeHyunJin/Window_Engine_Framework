@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CActor.cpp">
-      <Filter>02.Asset\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
       <Filter>02.Asset\Scene</Filter>
     </ClCompile>
@@ -115,11 +112,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CSprite.cpp">
       <Filter>02.Asset\Resource\Texture\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CActor.cpp">
+      <Filter>02.Asset\Actor\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteActor.cpp">
+      <Filter>02.Asset\Actor\SpriteActor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CActor.h">
-      <Filter>02.Asset\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
       <Filter>02.Asset\Scene</Filter>
     </ClInclude>
@@ -251,6 +251,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h">
       <Filter>02.Asset\Resource\Texture\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CActor.h">
+      <Filter>02.Asset\Actor\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSpriteActor.h">
+      <Filter>02.Asset\Actor\SpriteActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +391,12 @@
     </Filter>
     <Filter Include="02.Asset\Resource\Texture\Sprite">
       <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Actor\SpriteActor">
+      <UniqueIdentifier>{b6c52bb5-fdb2-42be-bf78-437e18f50e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Actor\Actor">
+      <UniqueIdentifier>{36cdcdfc-c7c5-420b-8b62-56834079ce56}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

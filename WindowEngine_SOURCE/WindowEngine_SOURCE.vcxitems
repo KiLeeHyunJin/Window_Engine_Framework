@@ -56,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CResourceManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSpriteActor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Structs.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Types.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utils.h" />
@@ -98,6 +99,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteActor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Utils.cpp" />
   </ItemGroup>
 </Project>

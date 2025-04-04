@@ -19,3 +19,4 @@ if(ptr)										\
 	ptr = nullptr;							\
 }											
 
+#define SUPER_PARENT(classname) using SUPER = classname;	\

@@ -34,26 +34,26 @@ void Framework::CPlayScene::Initialize()
 {
 	const CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 
-	CActor* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
-	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
-	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
-	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	pAnim->CreateAnimationByFolder(L"Temp", L"..\\Resources\\", 1);
+	//CActor* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
+	//CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
+	//CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
+	//CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
+	//pAnim->CreateAnimationByFolder(L"Temp", L"..\\Resources\\", 1);
 
-	//pAnim->CreateAnimation(L"Temp", pTexture, Maths::Vector2(0, 50), 3, 2);
+	////pAnim->CreateAnimation(L"Temp", pTexture, Maths::Vector2(0, 50), 3, 2);
 
-	pAnim->PlayAnimation(L"Temp");
-	pRigid->SetGround(true);
+	//pAnim->PlayAnimation(L"Temp");
+	//pRigid->SetGround(true);
 
-	//CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
-	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
+	////CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
+	//pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
 
 	//CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
 	//pAnim->CreateAnimation(L"Room", pTexture, Vector2::Zero, Vector2(50, 50), Vector2::Zero, 5, 0.2f);
 	//pAnim->PlayAnimation(L"Room", true);
 
 
-	pObj = Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
+	/*pObj = Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
 	pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	
@@ -64,19 +64,19 @@ void Framework::CPlayScene::Initialize()
 	pObj->GetTransformComponent()->SetScale(Maths::Vector2(50, 50));
 
 
-	CCollisionManager::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
+	CCollisionManager::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);*/
 
 
 	//pObj->AddComponent<CPlayerInput>();
 
 
-	CActor* pCameraObj = Object::Instantiate((UINT)Enums::eLayerType::None, L"Cam");
+	//CActor* pCameraObj = Object::Instantiate((UINT)Enums::eLayerType::None, L"Cam");
 	
-	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
+	//CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
 
-	Object::DontDestoryOnLoad(pCameraObj);
+	//Object::DontDestoryOnLoad(pCameraObj);
 	
-	Renderer::CRenderer::SetMainCamera(pCamera);
+	//Renderer::CRenderer::SetMainCamera(pCamera);
 
 	
 }
@@ -117,24 +117,24 @@ void Framework::CPlayScene::OnEnter()
 {
 	COLLISION::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
 
-	for (size_t i = 0; i < 200; i++)
-	{
-		CActor* pObj =
-			Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
-		CBoxColliderComponent* pBoxColl =
-			pObj->AddComponent<CBoxColliderComponent>();
-		CRigidbodyComponent* pRigid =
-			pObj->AddComponent<CRigidbodyComponent>();
+	//for (size_t i = 0; i < 200; i++)
+	//{
+	//	CActor* pObj =
+	//		Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
+	//	CBoxColliderComponent* pBoxColl =
+	//		pObj->AddComponent<CBoxColliderComponent>();
+	//	CRigidbodyComponent* pRigid =
+	//		pObj->AddComponent<CRigidbodyComponent>();
 
-		pRigid->SetGround(true);
-		pObj->AddComponent<CPlayerInput>();
+	//	pRigid->SetGround(true);
+	//	pObj->AddComponent<CPlayerInput>();
 
-		pBoxColl->SetSize(Maths::Vector2(50, 50));
-		pObj->GetTransformComponent()->SetPos(Maths::Vector2((float)(100 + i * 10), (float)(100 + i * 10)));
-		pObj->GetTransformComponent()->SetScale(Maths::Vector2(50, 50));
+	//	pBoxColl->SetSize(Maths::Vector2(50, 50));
+	//	pObj->GetTransformComponent()->SetPos(Maths::Vector2((float)(100 + i * 10), (float)(100 + i * 10)));
+	//	pObj->GetTransformComponent()->SetScale(Maths::Vector2(50, 50));
 
-		m_list.push_back(pObj);
-	}
+	//	m_list.push_back(pObj);
+	//}
 	
 }
 

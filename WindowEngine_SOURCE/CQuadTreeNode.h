@@ -47,7 +47,7 @@ namespace Framework
 
 		__forceinline NodeIndex TestRegion(Vector2 center) const;
 		__forceinline bool Intersects(Vector2 center1, Vector2 size1, Vector2 center2, Vector2 size2);
-		__forceinline bool GameObjectLifeCheck(CColliderComponent* pCollider);
+		__forceinline bool ActorLifeCheck(CColliderComponent* pCollider);
 		__forceinline bool Split();
 
 		__forceinline bool IsSplitted()		const	{	return m_vecChildren.size() != 0;	}

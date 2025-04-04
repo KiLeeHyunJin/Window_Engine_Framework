@@ -126,7 +126,7 @@ namespace Framework
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
-			if (GameObjectLifeCheck(obj))
+			if (ActorLifeCheck(obj))
 			{
 				continue;
 			}
@@ -189,7 +189,7 @@ namespace Framework
 
 		for (auto obj : m_listItems)  // 오브젝트 충돌 검사
 		{
-			if (GameObjectLifeCheck(obj))
+			if (ActorLifeCheck(obj))
 			{
 				continue;
 			}
@@ -230,7 +230,7 @@ namespace Framework
 		return hit;
 	}
 
-	bool CQuadTreeNode::GameObjectLifeCheck(CColliderComponent* pCollider)
+	bool CQuadTreeNode::ActorLifeCheck(CColliderComponent* pCollider)
 	{
 		const CActor* pObj = pCollider->GetOwner();
 		return pObj->GetReserveDelete();

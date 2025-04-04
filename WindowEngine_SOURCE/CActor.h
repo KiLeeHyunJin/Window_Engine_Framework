@@ -164,22 +164,23 @@ namespace Framework
 
 		friend CLayer;
 		friend CEventManager;
-	private:
-		void BeginPlay();
-		void Release();
+	protected:
+		virtual void BeginPlay() = 0;
+		virtual void Release() = 0;
 
-		bool Tick();
-		bool LastTick();
+		virtual bool Tick() = 0;
+		virtual bool LastTick() = 0;
 		
-		void Render(HDC hdc) const;
+		virtual void Render(HDC hdc) const = 0;
+		__forceinline bool RenderCheck() const;
 
+	private:
 		//void AddTransform();
 
 		__forceinline void SetSafeToDelete()								{ if (m_bSafeToDelete == false)  m_bSafeToDelete  = true; }
 		__forceinline void SetReserveDelete()								{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
 		__forceinline void SetDontDestroy(bool state)						{ m_bDontDestroy = state; }
 		__forceinline void SetLayerType(const UINT layerType)				{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
-		__forceinline bool RenderCheck() const;
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;
 
