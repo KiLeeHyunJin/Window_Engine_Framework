@@ -21,12 +21,12 @@ namespace Framework
         static constexpr Enums::eComponentType StaticComponentType()    {   return Enums::eComponentType::Transform;    }
         const Enums::eComponentType GetComponentType() const override         {   return StaticComponentType();   }
 
-        friend CGameObject;
+        friend CActor;
     private:
         CTransformComponent();
         virtual ~CTransformComponent();
         // CComponent을(를) 통해 상속됨
-        void Initialize() override;
+        void BeginPlay() override;
         void Release() override;
 
         bool Tick() override;

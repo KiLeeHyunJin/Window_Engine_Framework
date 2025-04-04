@@ -25,7 +25,7 @@ namespace Framework
 	class CLayer;
 
 
-	class CGameObject : public CEntity
+	class CActor : public CEntity
 	{
 	public:
 		enum class eState
@@ -34,8 +34,8 @@ namespace Framework
 			Disable,
 		};
 
-		CGameObject(UINT layerType);
-		virtual ~CGameObject();
+		CActor(UINT layerType);
+		virtual ~CActor();
 
 		CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
@@ -56,7 +56,7 @@ namespace Framework
 			T* newCom = new T;
 			CComponent* pCom = static_cast<CComponent*>(newCom);
 
-			pCom->Initialize();
+			pCom->BeginPlay();
 			pCom->SetOwner(this);
 
 			const Enums::eComponentType componentType = pCom->GetComponentType();
@@ -165,7 +165,7 @@ namespace Framework
 		friend CLayer;
 		friend CEventManager;
 	private:
-		void Initialize();
+		void BeginPlay();
 		void Release();
 
 		bool Tick();

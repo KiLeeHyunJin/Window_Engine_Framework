@@ -10,7 +10,7 @@ Framework::CComponent::~CComponent()
 {
 }
 
-void Framework::CComponent::Initialize()
+void Framework::CComponent::BeginPlay()
 {
 }
 

@@ -13,7 +13,7 @@ namespace Framework
 		virtual ~CPlayerInput();
 
 	private:
-		void Initialize() override;
+		void BeginPlay() override;
 		void Release() override;
 
 		bool Tick() override;

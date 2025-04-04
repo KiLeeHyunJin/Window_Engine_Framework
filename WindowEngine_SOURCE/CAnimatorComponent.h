@@ -6,7 +6,7 @@ using namespace Framework::Resource;
 
 namespace Framework
 {
-	class CGameObject;
+	class CActor;
 	class CAnimatorComponent :
 public CComponent
 	{
@@ -46,12 +46,12 @@ public CComponent
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Animator; }
 		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
-		friend CGameObject;
+		friend CActor;
 	private:
 		CAnimatorComponent();
 		virtual ~CAnimatorComponent();
 
-		void Initialize()	override;
+		void BeginPlay()	override;
 		bool Tick()			override;
 		bool LastTick()		override;
 

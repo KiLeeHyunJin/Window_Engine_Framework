@@ -2,7 +2,7 @@
 #include "CCircleColliderComponent.h"
 #include "CTransformComponent.h"
 
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CRenderer.h"
 
 namespace Framework
@@ -14,7 +14,7 @@ namespace Framework
 	CCircleColliderComponent::~CCircleColliderComponent()
 	{
 	}
-	void CCircleColliderComponent::Initialize()
+	void CCircleColliderComponent::BeginPlay()
 	{
 		//CColliderComponent::Initialize();
 	}

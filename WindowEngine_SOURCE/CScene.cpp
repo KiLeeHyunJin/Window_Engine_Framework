@@ -1,11 +1,11 @@
 #include "CScene.h"
 #include "Enums.h"
 #include "CLayer.h"
-#include "CGameObject.h"
+#include "CActor.h"
 
 //#include "CInputManager.h"
 //#include "CCollisionManager.h"
-//#include "CGameObject.h"
+//#include "CActor.h"
 
 namespace Framework
 {
@@ -94,21 +94,21 @@ namespace Framework
 		return m_vecLayer[layer];
 	}
 
-	void CScene::AddGameObject(CGameObject* pGameObject)
+	void CScene::AddActor(CActor* pActor)
 	{
-		const UINT layer = pGameObject->GetLayerType();
-		m_vecLayer[layer]->AddGameObject(pGameObject);
+		const UINT layer = pActor->GetLayerType();
+		m_vecLayer[layer]->AddActor(pActor);
 	}
 
-	bool CScene::EraseInLayer(CGameObject* pGameObject)
+	bool CScene::EraseInLayer(CActor* pActor)
 	{
-		const UINT objectLayer = pGameObject->GetLayerType();
-		const bool result = m_vecLayer[objectLayer]->EraseInIndex(pGameObject);
+		const UINT objectLayer = pActor->GetLayerType();
+		const bool result = m_vecLayer[objectLayer]->EraseInIndex(pActor);
 		return result;
 	}
-	//void CScene::EraseGameObject(CGameObject* pGameObject)
+	//void CScene::EraseActor(CActor* pActor)
 	//{
-	//	const Enums::eLayerType objectLayer = pGameObject->GetLayerType();
-	//	m_vecLayer[(UINT)objectLayer]->EraseGameObject(pGameObject);
+	//	const Enums::eLayerType objectLayer = pActor->GetLayerType();
+	//	m_vecLayer[(UINT)objectLayer]->EraseActor(pActor);
 	//}
 }

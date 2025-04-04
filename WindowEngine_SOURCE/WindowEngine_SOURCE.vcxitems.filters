@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp">
-      <Filter>02.Asset\GameObject</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CActor.cpp">
+      <Filter>02.Asset\Actor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
       <Filter>02.Asset\Scene</Filter>
@@ -110,15 +110,15 @@
       <Filter>00.Core\Manager\Data</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CData.cpp">
-      <Filter>02.Asset\Data</Filter>
+      <Filter>02.Asset\Resource\Data</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSprite.cpp">
-      <Filter>02.Asset\Resource\Sprite</Filter>
+      <Filter>02.Asset\Resource\Texture\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
-      <Filter>02.Asset\GameObject</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CActor.h">
+      <Filter>02.Asset\Actor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
       <Filter>02.Asset\Scene</Filter>
@@ -133,7 +133,7 @@
       <Filter>99.Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h">
-      <Filter>02.Asset\GameObject</Filter>
+      <Filter>02.Asset\Actor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
       <Filter>02.Asset\Resource</Filter>
@@ -247,10 +247,10 @@
       <Filter>00.Core\Manager\Data</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CData.h">
-      <Filter>02.Asset\Data</Filter>
+      <Filter>02.Asset\Resource\Data</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h">
-      <Filter>02.Asset\Resource\Sprite</Filter>
+      <Filter>02.Asset\Resource\Texture\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,9 +332,6 @@
     <Filter Include="02.Asset">
       <UniqueIdentifier>{27c7c084-fbec-4fbd-bb3b-1a78796946f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Asset\GameObject">
-      <UniqueIdentifier>{d050dd29-9c10-4fea-bdb3-1bbc0b267fe7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Asset\Scene">
       <UniqueIdentifier>{9424293a-d966-4c38-85c7-1d0b96f312cd}</UniqueIdentifier>
     </Filter>
@@ -380,10 +377,13 @@
     <Filter Include="00.Core\Manager\Data">
       <UniqueIdentifier>{c34273a9-6a57-490b-bb00-f4a0cf4d1c22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Asset\Data">
+    <Filter Include="02.Asset\Actor">
+      <UniqueIdentifier>{d050dd29-9c10-4fea-bdb3-1bbc0b267fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Resource\Data">
       <UniqueIdentifier>{1e646d8f-b3ca-48ae-878a-4e54792c6b6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Asset\Resource\Sprite">
+    <Filter Include="02.Asset\Resource\Texture\Sprite">
       <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

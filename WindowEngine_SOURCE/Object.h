@@ -3,7 +3,7 @@
 #include "CEventManager.h"
 
 #include "Enums.h"
-#include "CGameObject.h"
+#include "CActor.h"
 //#include "CComponent.h"
 
 //#include "CLayer.h"
@@ -25,39 +25,39 @@ namespace Framework//::Object
 			{
 				return nullptr;
 			}
-			CGameObject* pGameObject = new CGameObject(layerType);
-			EVENT::AddGameObject(pCurScene, pGameObject, dontDestory);
-			pGameObject->SetName(name);
+			CActor* pActor = new CActor(layerType);
+			EVENT::AddActor(pCurScene, pActor, dontDestory);
+			pActor->SetName(name);
 
-			T* pComponent = pGameObject->AddComponent<T>();
+			T* pComponent = pActor->AddComponent<T>();
 			return pComponent;
 		};
 
-		static CGameObject* Instantiate(UINT layerType, const std::wstring& name, bool dontDestory = false)
+		static CActor* Instantiate(UINT layerType, const std::wstring& name, bool dontDestory = false)
 		{
 			CScene* pCurScene = CSceneManager::GetCurrentScene();
 			if (pCurScene == nullptr)
 			{
 				return nullptr;
 			}
-			CGameObject* pGameObject = new CGameObject(layerType);
-			EVENT::AddGameObject(pCurScene, pGameObject, dontDestory);
-			pGameObject->SetName(name);
-			return pGameObject;
+			CActor* pActor = new CActor(layerType);
+			EVENT::AddActor(pCurScene, pActor, dontDestory);
+			pActor->SetName(name);
+			return pActor;
 		};
 
-		static void Destroy(CGameObject* pObj)
+		static void Destroy(CActor* pObj)
 		{
 			const bool reserveDel = pObj->GetReserveDelete();
 			if (reserveDel)
 			{	return;		}
 
-			EVENT::DeleteGameObject(pObj);
+			EVENT::DeleteActor(pObj);
 		}
 
-		static void DontDestoryOnLoad(CGameObject* pGameObject, bool state = true)
+		static void DontDestoryOnLoad(CActor* pActor, bool state = true)
 		{
-			EVENT::SetDontDestroyGameObject(pGameObject, state);
+			EVENT::SetDontDestroyActor(pActor, state);
 		}
 	}
 	

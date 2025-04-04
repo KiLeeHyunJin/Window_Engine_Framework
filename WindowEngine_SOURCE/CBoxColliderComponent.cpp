@@ -2,7 +2,7 @@
 #include "CBoxColliderComponent.h"
 #include "CTransformComponent.h"
 #include "CRenderer.h"
-#include "CGameObject.h"
+#include "CActor.h"
 
 namespace Framework
 {
@@ -17,7 +17,7 @@ namespace Framework
 	{
 	}
 
-	void CBoxColliderComponent::Initialize()
+	void CBoxColliderComponent::BeginPlay()
 	{
 		//CColliderComponent::Initialize();
 	}

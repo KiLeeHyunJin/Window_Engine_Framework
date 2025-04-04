@@ -1,5 +1,5 @@
 #include "CLayer.h"
-#include "CGameObject.h"
+#include "CActor.h"
 #include "Object.h"
 
 #include "CSceneManager.h"
@@ -8,8 +8,8 @@
 namespace Framework
 {
 	CLayer::CLayer(UINT layer) :
-		m_listGameObject({}), 
-		m_listRemoveGameObject({}),
+		m_listActor({}), 
+		m_listRemoveActor({}),
 		m_eLayer(layer)
 	{	}
 
@@ -18,27 +18,27 @@ namespace Framework
 
 	void CLayer::Initialize()
 	{
-		for (CGameObject* pObj : m_listGameObject)
+		for (CActor* pObj : m_listActor)
 		{
-			pObj->Initialize();
+			pObj->BeginPlay();
 		}
 	}
 
 	void CLayer::Release()
 	{
-		for (CGameObject* pObj : m_listGameObject)
+		for (CActor* pObj : m_listActor)
 		{
 			pObj->Release();
 			delete pObj;
 		}
-		m_listGameObject.clear();
+		m_listActor.clear();
 
-		for (CGameObject* pObj : m_listRemoveGameObject)
+		for (CActor* pObj : m_listRemoveActor)
 		{
 			pObj->Release();
 			delete pObj;
 		}
-		m_listRemoveGameObject.clear();
+		m_listRemoveActor.clear();
 	}
 
 	void CLayer::Tick()
@@ -46,26 +46,26 @@ namespace Framework
 		//삭제하지 않을 요소를 앞으로 밀어내고, 한번만 erase()를 호출
 
 		//알고리즘의 본래 목적과 코드의 명확성을 위해 부수 효과를 최소화고 분리
-		auto newEnd = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(), 
-			[this](CGameObject* target)
+		auto newEnd = std::remove_if(m_listActor.begin(), m_listActor.end(), 
+			[this](CActor* target)
 			{
 				const bool isDelete = target->GetSafeToDelete();
 				if (isDelete)
 				{
-					m_listRemoveGameObject.push_back(target); // 삭제 대기 목록에 추가
+					m_listRemoveActor.push_back(target); // 삭제 대기 목록에 추가
 				}
 				return isDelete;
 			});
 
 
-		if (newEnd != m_listGameObject.end()) //살아있는 게임 오브젝트만 정리
+		if (newEnd != m_listActor.end()) //살아있는 게임 오브젝트만 정리
 		{
 			// 리스트 정리 //필요없는 뒷 부분부터 마지막 까지 
-			m_listGameObject.erase(newEnd, m_listGameObject.end());
+			m_listActor.erase(newEnd, m_listActor.end());
 		}
 
 
-		for (CGameObject* pObj : m_listGameObject)
+		for (CActor* pObj : m_listActor)
 		{
 			if (pObj->GetReserveDelete())
 			{
@@ -87,7 +87,7 @@ namespace Framework
 
 	void CLayer::LastTick()
 	{
-		for (CGameObject* pObj : m_listGameObject)
+		for (CActor* pObj : m_listActor)
 		{
 			if (pObj->GetActive() && 
 				pObj->GetReserveDelete() == false)
@@ -100,15 +100,15 @@ namespace Framework
 			}
 		}
 
-		/*for (auto iter = m_listGameObject.begin(); iter != m_listGameObject.end();)
+		/*for (auto iter = m_listActor.begin(); iter != m_listActor.end();)
 		{
-			CGameObject* pObj = *iter;
+			CActor* pObj = *iter;
 
 			///삭제 예정이라면 삭제 목록으로 추가
 			if (pObj->GetReserveDelete()) 
 			{
-				DeleteGameObject(pObj);
-				iter = m_listGameObject.erase(iter);
+				DeleteActor(pObj);
+				iter = m_listActor.erase(iter);
 			}
 			///활성화 되어있는 게임 오브젝트만 라스트 틱 호출
 			else 
@@ -124,52 +124,52 @@ namespace Framework
 
 	void CLayer::Render(HDC hdc) const
 	{
-		if (m_listGameObject.empty())
+		if (m_listActor.empty())
 			return;
 
-		for (const CGameObject* pGameObject : m_listGameObject)
+		for (const CActor* pActor : m_listActor)
 		{
-			if (pGameObject->GetActive() && 
-				pGameObject->GetReserveDelete() == false)
+			if (pActor->GetActive() && 
+				pActor->GetReserveDelete() == false)
 			{
-				pGameObject->Render(hdc);;
+				pActor->Render(hdc);;
 			}
 		}
 	}
 
 	void CLayer::Destroy() //CCollisionManager에서 삭제 예약을 한꺼번에 제거
 	{
-		if (m_listRemoveGameObject.empty())
+		if (m_listRemoveActor.empty())
 			return; 
 
 		// 제거할 객체 삭제
-		for (CGameObject* pObj : m_listRemoveGameObject)
+		for (CActor* pObj : m_listRemoveActor)
 		{
 			pObj->Release();
 			delete pObj;
 		}
 
-		m_listRemoveGameObject.clear();
+		m_listRemoveActor.clear();
 	}
 
-	void CLayer::AddGameObject(CGameObject* pGameObject)
+	void CLayer::AddActor(CActor* pActor)
 	{
-		m_listGameObject.push_back(pGameObject);
+		m_listActor.push_back(pActor);
 	}
 
-	bool CLayer::EraseInIndex(CGameObject* pGameObject)
+	bool CLayer::EraseInIndex(CActor* pActor)
 	{
-		auto iter = std::find(m_listGameObject.begin(), m_listGameObject.end(), pGameObject);
-		const bool result = iter != m_listGameObject.end();
+		auto iter = std::find(m_listActor.begin(), m_listActor.end(), pActor);
+		const bool result = iter != m_listActor.end();
 
 		if (result)
 		{
-			m_listGameObject.erase(iter);
+			m_listActor.erase(iter);
 		}
 
-		/*auto iter = std::remove_if(m_listGameObject.begin(), m_listGameObject.end(),
-			[pGameObject](CGameObject* obj) 
-			{ return obj == pGameObject; });*/
+		/*auto iter = std::remove_if(m_listActor.begin(), m_listActor.end(),
+			[pActor](CActor* obj) 
+			{ return obj == pActor; });*/
 
 		
 
@@ -177,12 +177,12 @@ namespace Framework
 	}
 
 
-	//void CLayer::EraseGameObject(CGameObject* pGameObject)
+	//void CLayer::EraseActor(CActor* pActor)
 	//{
-	//	std::erase_if(m_listGameObject, 
-	//		[=](CGameObject* pObj) 
+	//	std::erase_if(m_listActor, 
+	//		[=](CActor* pObj) 
 	//		{
-	//			return pObj == pGameObject;
+	//			return pObj == pActor;
 	//		});
 	//}
 }

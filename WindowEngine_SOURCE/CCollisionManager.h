@@ -9,7 +9,7 @@ namespace Framework
 	class CScene;
 	class CColliderComponent;
 	class CSceneManager;
-	class CGameObject;
+	class CActor;
 
 	union CollisionID
 	{
@@ -70,19 +70,19 @@ namespace Framework
 
 		static void InitCollisionLayer();
 
-		static void ClearGameObject();
+		static void ClearActor();
 		//static bool Raycast(Ray& ray, CColliderComponent& hitObject);
 
 		__forceinline static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 	
 
 		__forceinline static void InsertCollision();
-		__forceinline static void InsertGameObject(CColliderComponent* pCollider);
+		__forceinline static void InsertActor(CColliderComponent* pCollider);
 
 		__forceinline static void CollisionCircuit();
 
 		//static void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
-		//static void CollisionCheck(const std::vector<CGameObject*>& lefts, const std::vector<CGameObject*>& rights);
+		//static void CollisionCheck(const std::vector<CActor*>& lefts, const std::vector<CActor*>& rights);
 
 		__forceinline static void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
 

@@ -19,7 +19,7 @@ namespace Framework
 	void CCustomComponent::OnCollisionExit(CColliderComponent* other)
 	{
 	}
-	void CCustomComponent::Initialize()
+	void CCustomComponent::BeginPlay()
 	{
 	}
 	void CCustomComponent::Release()

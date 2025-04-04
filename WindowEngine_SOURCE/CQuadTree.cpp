@@ -4,7 +4,7 @@
 #include "CCircleColliderComponent.h"
 #include "CBoxColliderComponent.h"
 #include "CTransformComponent.h"
-#include "CGameObject.h"
+#include "CActor.h"
 
 namespace Framework
 {

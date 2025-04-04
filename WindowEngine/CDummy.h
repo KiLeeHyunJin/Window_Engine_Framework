@@ -9,7 +9,7 @@ namespace Framework
 		public CCustomComponent
 	{
 	public: 
-		void Initialize() override;
+		void BeginPlay() override;
 		void Release() override;
 
 		bool Tick() override;

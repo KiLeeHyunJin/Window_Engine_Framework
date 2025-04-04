@@ -7,7 +7,7 @@ namespace Framework
 	class CCollisionManager;
 	class CSceneManager;
 	class CScene;
-	class CGameObject;
+	class CActor;
 
 	class CLayer :
 		public CEntity
@@ -30,16 +30,16 @@ namespace Framework
 
 		void Render(HDC hdc) const;
 
-		void AddGameObject(CGameObject* pGameObject);
-		bool EraseInIndex(CGameObject* pGameObject);
+		void AddActor(CActor* pActor);
+		bool EraseInIndex(CActor* pActor);
 
-		const std::vector<CGameObject*>& GetGameObject() const { return m_listGameObject; }
+		const std::vector<CActor*>& GetActor() const { return m_listActor; }
 
 		void Destroy();
 
 		UINT m_eLayer;
-		std::vector<CGameObject*> m_listGameObject;
-		std::vector<CGameObject*> m_listRemoveGameObject;
+		std::vector<CActor*> m_listActor;
+		std::vector<CActor*> m_listRemoveActor;
 	};
 }
 

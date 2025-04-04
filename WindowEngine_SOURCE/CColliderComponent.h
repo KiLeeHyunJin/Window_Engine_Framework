@@ -3,7 +3,7 @@
 
 namespace Framework
 {
-	class CGameObject;
+	class CActor;
 	class CColliderComponent :
 		public CComponent
 	{
@@ -35,14 +35,14 @@ namespace Framework
 	protected:
 		CColliderComponent(eColliderType colliderType);
 
-		virtual void Initialize() override;
+		virtual void BeginPlay() override;
 		virtual void Release() override;
 
 		Maths::Vector2 m_vecOffset;
 		Maths::Vector2 m_vecSize;
 		UINT32 m_iColliderId;
 
-		friend CGameObject;
+		friend CActor;
 	private:
 
 		// CComponent을(를) 통해 상속됨

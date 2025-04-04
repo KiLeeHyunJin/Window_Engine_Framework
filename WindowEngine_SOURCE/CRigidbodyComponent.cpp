@@ -1,6 +1,6 @@
 ﻿#include "CRigidbodyComponent.h"
 #include "CTransformComponent.h"
-#include "CGameObject.h"
+#include "CActor.h"
 
 #include "CTimeManager.h"
 
@@ -18,7 +18,7 @@ namespace Framework
 	{
 	}
 	
-	void CRigidbodyComponent::Initialize()
+	void CRigidbodyComponent::BeginPlay()
 	{
 	}
 	

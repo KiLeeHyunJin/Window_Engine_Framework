@@ -3,19 +3,19 @@
 
 namespace Framework
 {
-	class CGameObject;
+	class CActor;
 	class CBoxColliderComponent :
 		public CColliderComponent
 	{
 	public:
 
-		friend CGameObject;
+		friend CActor;
 	private:
 		CBoxColliderComponent();
 		virtual ~CBoxColliderComponent();
 
 		// CComponent을(를) 통해 상속됨
-		virtual void Initialize() override;
+		virtual void BeginPlay() override;
 		virtual void Release() override;
 		virtual bool Tick() override;
 		virtual bool LastTick() override;

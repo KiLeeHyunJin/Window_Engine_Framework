@@ -1,6 +1,6 @@
 #include "CAnimation.h"
 
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CRenderer.h"
 
 #include "CTransformComponent.h"
@@ -68,7 +68,7 @@ namespace Framework
 		if (m_pTexture == nullptr)
 		{	return;	 }
 
-		const CGameObject* pObj = m_pOwner->GetOwner();
+		const CActor* pObj = m_pOwner->GetOwner();
 		const CTransformComponent* pTr = pObj->GetTransformComponent();
 		Vector2 pos = pTr->GetPos();// + m_pTexture->GetOffset();
 

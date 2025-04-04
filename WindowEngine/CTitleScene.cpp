@@ -7,7 +7,7 @@
 #include "CEventManager.h"
 
 #include "Object.h"
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CRenderer.h"
 
 #include "CCameraComponent.h"
@@ -28,13 +28,13 @@ Framework::CTitleScene::~CTitleScene()
 
 void Framework::CTitleScene::Initialize()
 {
-	//CGameObject* pCameraObj = Object::Instantiate<CGameObject>(Enums::eLayerType::None);
+	//CActor* pCameraObj = Object::Instantiate<CActor>(Enums::eLayerType::None);
 	//pCameraObj->AddComponent<CPlayerInput>();
 	//CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
 
 	//Renderer::mainCamera = pCamera;
 
-	//Object::Instantiate<CGameObject>(Enums::eLayerType::BackGround);
+	//Object::Instantiate<CActor>(Enums::eLayerType::BackGround);
 }
 
 void Framework::CTitleScene::Tick()

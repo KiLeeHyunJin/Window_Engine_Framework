@@ -10,7 +10,7 @@ Framework::CTransformComponent::~CTransformComponent()
 {
 }
 
-void Framework::CTransformComponent::Initialize()
+void Framework::CTransformComponent::BeginPlay()
 {
 }
 

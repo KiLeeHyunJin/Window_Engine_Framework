@@ -6,7 +6,7 @@
 
 namespace Framework
 {
-	class CGameObject;
+	class CActor;
 
 	class CRigidbodyComponent :
 		public CComponent
@@ -44,12 +44,12 @@ namespace Framework
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Rigidbody; }
 		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
-		friend CGameObject;
+		friend CActor;
 	private:
 		CRigidbodyComponent();
 		virtual ~CRigidbodyComponent();
 		// CComponent을(를) 통해 상속됨
-		virtual void Initialize() override;
+		virtual void BeginPlay() override;
 		virtual void Release() override;
 		virtual bool Tick() override;
 		virtual bool LastTick() override;

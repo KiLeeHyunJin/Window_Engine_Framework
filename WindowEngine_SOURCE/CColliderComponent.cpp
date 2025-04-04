@@ -1,5 +1,5 @@
 #include "CColliderComponent.h"
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CCustomComponent.h"
 
 namespace Framework
@@ -21,7 +21,7 @@ namespace Framework
 	CColliderComponent::~CColliderComponent()
 	{
 	}
-	void CColliderComponent::Initialize()
+	void CColliderComponent::BeginPlay()
 	{
 	}
 	void CColliderComponent::Release()

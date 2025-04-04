@@ -8,12 +8,12 @@
 #include "CRenderManager.h"
 #include "CEventManager.h"
 
-#include "CGameObject.h"
+#include "CActor.h"
 #include "Utils.h"
 
 namespace Framework
 {
-	void CDummy::Initialize()
+	void CDummy::BeginPlay()
 	{
 	}
 	void CDummy::Release()
@@ -21,7 +21,7 @@ namespace Framework
 	}
 	bool CDummy::Tick()
 	{
-		CGameObject* owner = GetOwner();
+		CActor* owner = GetOwner();
 
 		/*CColliderComponent outColl;
 		Ray ray;

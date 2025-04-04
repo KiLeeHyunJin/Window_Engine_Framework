@@ -4,7 +4,7 @@
 namespace Framework
 {
 	class CApplication;
-	class CGameObject;
+	class CActor;
 	class CScene;
 
 	class CEventManager
@@ -19,62 +19,62 @@ namespace Framework
 			virtual void operator () () = 0;
 		};
 
-		class EventAddGameObject : public EventJob
+		class EventAddActor : public EventJob
 		{
 		public :
-			EventAddGameObject(CGameObject* _pObj, CScene* _pScene, bool _bDontDestroy) :
+			EventAddActor(CActor* _pObj, CScene* _pScene, bool _bDontDestroy) :
 				pObj(_pObj), pScene(_pScene), bDontDestroy(_bDontDestroy)
 			{}
-			virtual ~EventAddGameObject()
+			virtual ~EventAddActor()
 			{}
 			virtual void operator () ();
 			
 		private :
-			CGameObject* pObj;
+			CActor* pObj;
 			CScene* pScene;
 			bool bDontDestroy;
 		};
 
-		class EventDeleteGameObject : public EventJob
+		class EventDeleteActor : public EventJob
 		{
 		public:
-			EventDeleteGameObject(CGameObject* _pObj) :	
+			EventDeleteActor(CActor* _pObj) :	
 				pObj(_pObj)
 			{}
-			virtual ~EventDeleteGameObject()
+			virtual ~EventDeleteActor()
 			{}
 			virtual void operator () ();
 		private:
-			CGameObject* pObj;
+			CActor* pObj;
 		};
 
-		class EventChangeLayerGameObject : public EventJob
+		class EventChangeLayerActor : public EventJob
 		{
 		public:
-			EventChangeLayerGameObject(CGameObject* _pObj, CScene* _pScene, UINT _layer) :
+			EventChangeLayerActor(CActor* _pObj, CScene* _pScene, UINT _layer) :
 				pObj(_pObj), pScene(_pScene), layer(_layer)
 			{}
-			virtual ~EventChangeLayerGameObject()
+			virtual ~EventChangeLayerActor()
 			{}
 			virtual void operator () ();
 		private:
-			CGameObject* pObj;
+			CActor* pObj;
 			CScene* pScene;
 			const UINT layer;
 		};
 
-		class EventSetDontDestoryGameObject : public EventJob
+		class EventSetDontDestoryActor : public EventJob
 		{
 		public :
-			EventSetDontDestoryGameObject(CGameObject* _pObj, CScene* _pCurrentScene, bool _bChangeState) :
+			EventSetDontDestoryActor(CActor* _pObj, CScene* _pCurrentScene, bool _bChangeState) :
 				pObj(_pObj), pCurrentScene(_pCurrentScene), bChangeState(_bChangeState)
 			{ }
-			virtual ~EventSetDontDestoryGameObject()
+			virtual ~EventSetDontDestoryActor()
 			{ }
 			virtual void operator() ();
 			
 		private:
-			CGameObject* pObj;
+			CActor* pObj;
 			CScene* pCurrentScene;
 			const bool bChangeState;
 		};
@@ -89,23 +89,23 @@ namespace Framework
 		/// <summary>
 		/// LastTick俊辑 贸府
 		/// </summary>
-		static void ChangeLayer(CGameObject* pObj, UINT layerType);
+		static void ChangeLayer(CActor* pObj, UINT layerType);
 
 		/// <summary>
 		/// LastTick俊辑 贸府
 		/// </summary>
 		/// <param name="pObj"></param>
-		static void SetDontDestroyGameObject(CGameObject* pObj, bool state);
+		static void SetDontDestroyActor(CActor* pObj, bool state);
 
 		/// <summary>
 		/// Tick俊辑 贸府
 		/// </summary>
-		static void AddGameObject(CScene* pTargetScene, CGameObject* pObj, bool dontDestroy);
+		static void AddActor(CScene* pTargetScene, CActor* pObj, bool dontDestroy);
 		
 		/// <summary>
 		/// Tick俊辑 贸府
 		/// </summary>
-		static void DeleteGameObject(CGameObject* pObj);
+		static void DeleteActor(CActor* pObj);
 		
 		static void Clear();
 

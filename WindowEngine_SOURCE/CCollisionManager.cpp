@@ -4,7 +4,7 @@
 #include "CTimeManager.h"
 
 #include "CLayer.h"
-#include "CGameObject.h"
+#include "CActor.h"
 
 #include "CTransformComponent.h"
 #include "CColliderComponent.h"
@@ -39,7 +39,7 @@ namespace Framework
 
 	}
 
-	void CCollisionManager::ClearGameObject()
+	void CCollisionManager::ClearActor()
 	{
 		SCENE::Destroy();
 	}
@@ -137,7 +137,7 @@ namespace Framework
 
 		countTime = 0;
 
-		ClearGameObject(); //삭제 예정 삭제
+		ClearActor(); //삭제 예정 삭제
 		CQuadTreeManager::Clear(); //쿼드 트리 초기화
 
 		CScene* pScene = SCENE::GetCurrentScene();
@@ -172,10 +172,10 @@ namespace Framework
 #pragma region NoUsed
 	/*void CCollisionManager::CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right)
 	{
-		const std::vector<CGameObject*>& lefts = CSceneManager::GetGameObject(left);
-		const std::vector<CGameObject*>& rights = CSceneManager::GetGameObject(right);
-		const std::vector<CGameObject*>& dontDestroyLefts = CSceneManager::GetDontDestroyGameObject(left);
-		const std::vector<CGameObject*>& dontDestroyrights = CSceneManager::GetDontDestroyGameObject(right);
+		const std::vector<CActor*>& lefts = CSceneManager::GetActor(left);
+		const std::vector<CActor*>& rights = CSceneManager::GetActor(right);
+		const std::vector<CActor*>& dontDestroyLefts = CSceneManager::GetDontDestroyActor(left);
+		const std::vector<CActor*>& dontDestroyrights = CSceneManager::GetDontDestroyActor(right);
 
 		CollisionCheck(lefts, rights);
 		CollisionCheck(dontDestroyLefts, rights);
@@ -183,9 +183,9 @@ namespace Framework
 		CollisionCheck(dontDestroyLefts, dontDestroyrights);
 	}*/
 
-	/*void CCollisionManager::CollisionCheck(const std::vector<CGameObject*>& lefts, const std::vector<CGameObject*>& rights)
+	/*void CCollisionManager::CollisionCheck(const std::vector<CActor*>& lefts, const std::vector<CActor*>& rights)
 	{
-		for (CGameObject* leftObj : lefts)
+		for (CActor* leftObj : lefts)
 		{
 			if (leftObj == nullptr)
 			{
@@ -201,7 +201,7 @@ namespace Framework
 				continue;
 			}
 
-			for (CGameObject* rightObj : rights)
+			for (CActor* rightObj : rights)
 			{
 				if (leftObj == rightObj)
 				{
@@ -304,34 +304,34 @@ namespace Framework
 
 		for (UINT layer = 0; layer < SCENE::GetLayerSize(); layer++)
 		{
-			const std::vector<CGameObject*>& vecDontDestroyObj 
-				= SCENE::GetDontDestroyGameObject(layer);
+			const std::vector<CActor*>& vecDontDestroyObj 
+				= SCENE::GetDontDestroyActor(layer);
 
-			const std::vector<CGameObject*>& vecObj 
-				= SCENE::GetGameObject(layer);
+			const std::vector<CActor*>& vecObj 
+				= SCENE::GetActor(layer);
 
-			for (auto& pGameObject : vecObj)
+			for (auto& pActor : vecObj)
 			{
-				if (pGameObject->GetActive() && 
-					pGameObject->GetReserveDelete() == false)
+				if (pActor->GetActive() && 
+					pActor->GetReserveDelete() == false)
 				{
-					CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
-					InsertGameObject(pCollider);
+					CColliderComponent* pCollider = pActor->GetComponent<CColliderComponent>();
+					InsertActor(pCollider);
 				}
 			}
-			for (const auto& pGameObject : vecDontDestroyObj)
+			for (const auto& pActor : vecDontDestroyObj)
 			{
-				if (pGameObject->GetActive() &&
-					pGameObject->GetReserveDelete() == false)
+				if (pActor->GetActive() &&
+					pActor->GetReserveDelete() == false)
 				{
-					CColliderComponent* pCollider = pGameObject->GetComponent<CColliderComponent>();
-					InsertGameObject(pCollider);
+					CColliderComponent* pCollider = pActor->GetComponent<CColliderComponent>();
+					InsertActor(pCollider);
 				}
 			}
 		}
 	}
 
-	void CCollisionManager::InsertGameObject(CColliderComponent* pCollider)
+	void CCollisionManager::InsertActor(CColliderComponent* pCollider)
 	{
 		if (pCollider != nullptr)
 		{

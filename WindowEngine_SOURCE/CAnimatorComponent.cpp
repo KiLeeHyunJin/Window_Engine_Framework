@@ -23,7 +23,7 @@ namespace Framework
 
 	}
 
-	void CAnimatorComponent::Initialize()
+	void CAnimatorComponent::BeginPlay()
 	{	}
 
 	bool CAnimatorComponent::Tick()

@@ -81,14 +81,14 @@ namespace Framework
 		m_pDontDestroyScene = nullptr;
 	}
 
-	//const std::vector<CGameObject*>& CSceneManager::GetDontDestroyGameObject(UINT layer)
+	//const std::vector<CActor*>& CSceneManager::GetDontDestroyActor(UINT layer)
 	//{
-	//	return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();
+	//	return m_pDontDestroyScene->GetLayer(layer)->GetActor();
 	//}
 
-	//const std::vector<CGameObject*>& CSceneManager::GetGameObject(UINT layer)
+	//const std::vector<CActor*>& CSceneManager::GetActor(UINT layer)
 	//{
-	//	return  m_pCurrentScene->GetLayer(layer)->GetGameObject();
+	//	return  m_pCurrentScene->GetLayer(layer)->GetActor();
 	//}
 
 	CScene* CSceneManager::LoadScene(const UINT idx)

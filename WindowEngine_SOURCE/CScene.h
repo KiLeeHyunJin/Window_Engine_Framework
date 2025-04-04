@@ -4,7 +4,7 @@
 
 namespace Framework
 {
-	class CGameObject;
+	class CActor;
 	class CSceneManager;
 	class CEventManager;
 	class CLayer;
@@ -46,8 +46,8 @@ namespace Framework
 
 
 		//이벤트 매니저 
-		void AddGameObject(CGameObject* pGameObject);
-		bool EraseInLayer(CGameObject* pGameObject);
+		void AddActor(CActor* pActor);
+		bool EraseInLayer(CActor* pActor);
 
 		const CLayer* GetLayer(UINT layer) const ;
 

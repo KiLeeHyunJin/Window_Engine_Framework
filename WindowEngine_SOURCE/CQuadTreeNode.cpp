@@ -6,7 +6,7 @@
 #include "CColliderComponent.h"
 #include "CTransformComponent.h"
 
-#include "CGameObject.h"
+#include "CActor.h"
 #include "Utils.h"
 namespace Framework
 {
@@ -232,7 +232,7 @@ namespace Framework
 
 	bool CQuadTreeNode::GameObjectLifeCheck(CColliderComponent* pCollider)
 	{
-		const CGameObject* pObj = pCollider->GetOwner();
+		const CActor* pObj = pCollider->GetOwner();
 		return pObj->GetReserveDelete();
 	}
 

@@ -15,14 +15,14 @@ namespace Framework
 		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Custom; }
 		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
-		friend CGameObject;
+		friend CActor;
 		friend CColliderComponent;
 	private:
 		virtual void OnCollisionEnter(CColliderComponent* other);
 		virtual void OnCollisionStay(CColliderComponent* other);
 		virtual void OnCollisionExit(CColliderComponent* other);
 
-		void Initialize() override;
+		void BeginPlay() override;
 		void Release() override;
 
 		bool Tick() override;

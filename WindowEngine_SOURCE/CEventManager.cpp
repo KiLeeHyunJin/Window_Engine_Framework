@@ -3,7 +3,7 @@
 #include "CSceneManager.h"
 #include "CTimeManager.h"
 
-#include "CGameObject.h"
+#include "CActor.h"
 
 namespace Framework
 {
@@ -61,22 +61,22 @@ namespace Framework
 		}
 	}
 
-	void CEventManager::AddGameObject(CScene* pTargetScene, CGameObject* pObj, bool dontDestroy)
+	void CEventManager::AddActor(CScene* pTargetScene, CActor* pObj, bool dontDestroy)
 	{
 		CScene* pScene = SCENE::GetCurrentScene();
 
-		EventAddGameObject* newJob = new EventAddGameObject(pObj, pScene, dontDestroy);
+		EventAddActor* newJob = new EventAddActor(pObj, pScene, dontDestroy);
 		EventJob* parentJob = static_cast<EventJob*>(newJob);
 		m_quequeEventJob.push(parentJob);
 	}
 
-	void CEventManager::DeleteGameObject(CGameObject* pObj)
+	void CEventManager::DeleteActor(CActor* pObj)
 	{
 		if (pObj->GetReserveDelete()) //파괴 예정이라면
 		{	return;		}
 		CScene* pScene = SCENE::GetCurrentScene();
 
-		EventDeleteGameObject* newJob = new EventDeleteGameObject(pObj);
+		EventDeleteActor* newJob = new EventDeleteActor(pObj);
 		EventJob* parentJob = static_cast<EventJob*>(newJob);
 		m_quequeEventJob.push(parentJob);
 	}
@@ -95,7 +95,7 @@ namespace Framework
 		}
 	}
 
-	void CEventManager::ChangeLayer(CGameObject* pObj, UINT layerType)
+	void CEventManager::ChangeLayer(CActor* pObj, UINT layerType)
 	{
 		if (pObj->GetReserveDelete()) //파괴 예정이라면
 		{	return;		}
@@ -104,18 +104,18 @@ namespace Framework
 			SCENE::GetDontDestoryScene() :
 			SCENE::GetCurrentScene();
 
-		EventChangeLayerGameObject* newJob = new EventChangeLayerGameObject(pObj, currentScene, layerType);
+		EventChangeLayerActor* newJob = new EventChangeLayerActor(pObj, currentScene, layerType);
 		EventJob* parentJob = static_cast<EventJob*>(newJob);
 		m_quequeEventJob.push(parentJob);
 	}
 
-	void CEventManager::SetDontDestroyGameObject(CGameObject* pObj, bool state)
+	void CEventManager::SetDontDestroyActor(CActor* pObj, bool state)
 	{
 		if (pObj->GetReserveDelete() || pObj->GetDontDestroy() == state) //파괴 예정이거나 이미 현재 상태라면
 		{	return;		}
 
 		CScene* currentScene = SCENE::GetCurrentScene(); //변경해야할 씬 저장
-		EventSetDontDestoryGameObject* newJob = new EventSetDontDestoryGameObject(pObj, currentScene, state);
+		EventSetDontDestoryActor* newJob = new EventSetDontDestoryActor(pObj, currentScene, state);
 		EventJob* parentJob = static_cast<EventJob*>(newJob);
 		m_quequeEventJob.push(parentJob);
 	}
@@ -137,17 +137,17 @@ namespace Framework
 		m_pChangeScene = nullptr;
 	}
 
-	void CEventManager::EventAddGameObject::operator() ()
+	void CEventManager::EventAddActor::operator() ()
 	{
 		pObj->SetDontDestroy(bDontDestroy);
 		if (bDontDestroy)
 		{
 			pScene = SCENE::GetDontDestoryScene();
 		}
-		pScene->AddGameObject(pObj);
+		pScene->AddActor(pObj);
 	}
 
-	void CEventManager::EventDeleteGameObject::operator() ()
+	void CEventManager::EventDeleteActor::operator() ()
 	{
 		const bool reserveDel = pObj->GetReserveDelete();
 		if (reserveDel == false)
@@ -156,7 +156,7 @@ namespace Framework
 		}
 	}
 
-	void CEventManager::EventChangeLayerGameObject::operator() ()
+	void CEventManager::EventChangeLayerActor::operator() ()
 	{
 		if (pObj->GetReserveDelete()) //파괴 예정이라면
 		{	return;		}
@@ -164,11 +164,11 @@ namespace Framework
 		if (result) //제거가 성공적으로 일어났다면
 		{
 			pObj->SetLayerType(layer); //오브젝트에 레이어 변경
-			pScene->AddGameObject(pObj);
+			pScene->AddActor(pObj);
 		}
 	}
 
-	void CEventManager::EventSetDontDestoryGameObject::operator() ()
+	void CEventManager::EventSetDontDestoryActor::operator() ()
 	{
 		if (pObj->GetReserveDelete()) //파괴 예정이라면
 		{	return;		}
@@ -190,7 +190,7 @@ namespace Framework
 
 		const bool result = removeIn->EraseInLayer(pObj);
 		if (result)
-		{	addIn->AddGameObject(pObj);		}
+		{	addIn->AddActor(pObj);		}
 	}
 
 }

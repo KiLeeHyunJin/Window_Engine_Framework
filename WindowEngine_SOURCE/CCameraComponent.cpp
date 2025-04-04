@@ -1,5 +1,5 @@
 #include "CCameraComponent.h"
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CTransformComponent.h"
 #include "CApplication.h"
 
@@ -16,7 +16,7 @@ namespace Framework
 	{
 	}
 
-	void CCameraComponent::Initialize()
+	void CCameraComponent::BeginPlay()
 	{
 		SetResolution(application.GetResolution());
 	}
@@ -25,7 +25,7 @@ namespace Framework
 	}
 	bool CCameraComponent::Tick()
 	{
-		CGameObject* pTarget = 
+		CActor* pTarget = 
 			m_pTarget != nullptr ? 
 			m_pTarget : GetOwner();
 

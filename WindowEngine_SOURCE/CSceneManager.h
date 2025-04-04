@@ -10,7 +10,7 @@ namespace Framework
 	class CRenderManager;
 	class CCollisionManager;
 	class CEventManager;
-	class CGameObject;
+	class CActor;
 
 	class CSceneManager
 	{
@@ -50,7 +50,7 @@ namespace Framework
 		__forceinline static CScene* GetCurrentScene()		{ return m_pCurrentScene;		}
 		__forceinline static CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene;	}
 		__forceinline static const UINT	 GetLayerSize()		{ return m_uiLayerSize;		}
-		//static std::vector<CGameObject*> GetGameObject(Enums::eLayerType layer);
+		//static std::vector<CActor*> GetActor(Enums::eLayerType layer);
 
 		friend CApplication;
 		friend CRenderManager;
@@ -75,11 +75,11 @@ namespace Framework
 		static CScene* FindScene(const UINT idx);
 
 
-		__forceinline static const std::vector<CGameObject*>& GetDontDestroyGameObject(UINT layer)
-		{		return m_pDontDestroyScene->GetLayer(layer)->GetGameObject();		}
+		__forceinline static const std::vector<CActor*>& GetDontDestroyActor(UINT layer)
+		{		return m_pDontDestroyScene->GetLayer(layer)->GetActor();		}
 
-		__forceinline static const std::vector<CGameObject*>& GetGameObject(UINT layer)
-		{		return  m_pCurrentScene->GetLayer(layer)->GetGameObject();			}
+		__forceinline static const std::vector<CActor*>& GetActor(UINT layer)
+		{		return  m_pCurrentScene->GetLayer(layer)->GetActor();			}
 
 		static bool** m_bArrCollisionState;
 

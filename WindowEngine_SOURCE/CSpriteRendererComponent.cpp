@@ -1,7 +1,7 @@
 #pragma once
 #include "CSpriteRendererComponent.h"
 #include "CTransformComponent.h"
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CRenderer.h"
 
 Framework::CSpriteRendererComponent::CSpriteRendererComponent() :
@@ -14,7 +14,7 @@ Framework::CSpriteRendererComponent::~CSpriteRendererComponent()
 {
 }
 
-void Framework::CSpriteRendererComponent::Initialize()
+void Framework::CSpriteRendererComponent::BeginPlay()
 {
 }
 

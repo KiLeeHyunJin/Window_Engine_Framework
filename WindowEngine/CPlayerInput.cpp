@@ -9,7 +9,7 @@
 #include "CColliderComponent.h"
 #include "CRenderManager.h"
 #include "Structs.h"
-#include "CGameObject.h"
+#include "CActor.h"
 
 #include "Object.h"
 #include "Utils.h"
@@ -24,7 +24,7 @@ namespace Framework
 	CPlayerInput::~CPlayerInput()
 	{
 	}
-	void CPlayerInput::Initialize()
+	void CPlayerInput::BeginPlay()
 	{
 		id = temp++;
 	}
@@ -38,7 +38,7 @@ namespace Framework
 			return true;
 		}
 
-		CGameObject* owner = GetOwner();
+		CActor* owner = GetOwner();
 
 	/*	CColliderComponent outColl;
 		Ray ray;

@@ -13,7 +13,7 @@
 #include "CBoxColliderComponent.h"
 #include "CRigidbodyComponent.h"
 
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CRenderer.h"
 #include "CTexture.h"
 
@@ -34,7 +34,7 @@ void Framework::CPlayScene::Initialize()
 {
 	const CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
 
-	CGameObject* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
+	CActor* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
 	CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
 	CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
 	CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
@@ -70,7 +70,7 @@ void Framework::CPlayScene::Initialize()
 	//pObj->AddComponent<CPlayerInput>();
 
 
-	CGameObject* pCameraObj = Object::Instantiate((UINT)Enums::eLayerType::None, L"Cam");
+	CActor* pCameraObj = Object::Instantiate((UINT)Enums::eLayerType::None, L"Cam");
 	
 	CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
 
@@ -119,7 +119,7 @@ void Framework::CPlayScene::OnEnter()
 
 	for (size_t i = 0; i < 200; i++)
 	{
-		CGameObject* pObj =
+		CActor* pObj =
 			Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
 		CBoxColliderComponent* pBoxColl =
 			pObj->AddComponent<CBoxColliderComponent>();

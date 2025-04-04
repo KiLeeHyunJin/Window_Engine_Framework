@@ -1,5 +1,5 @@
 #pragma once
-#include "CGameObject.h"
+#include "CActor.h"
 #include "CRenderer.h"
 
 #include "CInputManager.h"
@@ -12,7 +12,7 @@
 
 namespace Framework
 {
-	CGameObject::CGameObject(UINT layerType) :
+	CActor::CActor(UINT layerType) :
 		m_eState(eState::Enable), m_eLayerType(layerType), 
 		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),
 		m_pTransform(new CTransformComponent)
@@ -21,25 +21,25 @@ namespace Framework
 		m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
 	}
 
-	CGameObject::~CGameObject()
+	CActor::~CActor()
 	{	}
 	
-	void CGameObject::Initialize()
+	void CActor::BeginPlay()
 	{
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
-				pCom->Initialize();
+				pCom->BeginPlay();
 			}
 		}
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
-			pCom->Initialize();
+			pCom->BeginPlay();
 		}
 	}
 
-	bool CGameObject::Tick()
+	bool CActor::Tick()
 	{
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -61,7 +61,7 @@ namespace Framework
 		return state;
 	}
 
-	bool CGameObject::LastTick()
+	bool CActor::LastTick()
 	{
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -84,7 +84,7 @@ namespace Framework
 		return state;
 	}
 	
-	void CGameObject::Render(HDC hdc) const
+	void CActor::Render(HDC hdc) const
 	{
 		if (RenderCheck() == false) //화면 안에 없으면 렌더 실행 취소
 		{	return;		}
@@ -102,7 +102,7 @@ namespace Framework
 		}
 
 	}
-	bool CGameObject::RenderCheck() const
+	bool CActor::RenderCheck() const
 	{
 		Vector2 pos = m_pTransform->GetPos();
 		const CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
@@ -115,7 +115,7 @@ namespace Framework
 		return true;
 	}
 
-	void CGameObject::Release()
+	void CActor::Release()
 	{
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -137,7 +137,7 @@ namespace Framework
 		m_vecComponents.clear();
 	}
 
-	void CGameObject::ChangeLayer(const UINT layerType)
+	void CActor::ChangeLayer(const UINT layerType)
 	{
 		if (layerType != m_eLayerType)
 		{
@@ -145,7 +145,7 @@ namespace Framework
 		}
 	}
 
-	//void CGameObject::AddTransform()
+	//void CActor::AddTransform()
 	//{
 	//	if (m_pTransform == nullptr)
 	//	{
