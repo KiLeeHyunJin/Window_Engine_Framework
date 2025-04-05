@@ -13,7 +13,7 @@ namespace Framework
 	public:
 		inline void SetTexture(const std::wstring& wstrResourceKey)
 		{
-			m_pTexture = const_cast<CTexture*>(Framework::CResourceManager::Find<CTexture>(wstrResourceKey));
+			m_pTexture = const_cast<CTexture*>(Framework::CResourceManager::FindTexture(wstrResourceKey));
 		};
 		void SetSize(Maths::Vector2& scale) { m_vecScale = scale; }
 

@@ -4,7 +4,6 @@
 namespace Framework
 {
 
-
 	enum class eKeyState	{	Up, Down, Pressed, None		};
 	enum class eKeyCode		
 	{	
@@ -30,7 +29,7 @@ namespace Framework
 	};
 
 
-	class CApplication;
+	//class CApplication;
 	class CRenderManager;
 
 	class CInputManager
@@ -41,7 +40,7 @@ namespace Framework
 		__forceinline static bool GetKeyPressed(eKeyCode key)			{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed;	}
 		__forceinline static const Maths::Vector2& GetMousePosition()	{ return m_vecMousePos; }
 
-		friend CApplication;
+		friend class CApplication;
 		friend CRenderManager;
 	private:
 		struct Key

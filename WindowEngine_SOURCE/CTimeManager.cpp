@@ -1,4 +1,5 @@
 #include "CTimeManager.h"
+#include "CApplication.h"
 
 namespace Framework
 {

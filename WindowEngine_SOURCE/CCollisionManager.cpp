@@ -365,11 +365,11 @@ namespace Framework
 
 	bool CCollisionManager::BoxCollisionStateUpdate(const CColliderComponent* left,const CColliderComponent* right)
 	{
-		const CTransformComponent* leftTr = left->GetOwner()->GetTransformComponent();
-		const CTransformComponent* rightTr = right->GetOwner()->GetTransformComponent();
+		//const CTransformComponent* leftTr = left->GetOwner()->GetTransformComponent();
+		//const CTransformComponent* rightTr = right->GetOwner()->GetTransformComponent();
 
-		const Maths::Vector2 leftPos = leftTr->GetPos() + left->GetOffset();
-		const Maths::Vector2 rightPos = rightTr->GetPos() + right->GetOffset();
+		const Maths::Vector2 leftPos = left->GetOwner()->GetPosition() + left->GetOffset();
+		const Maths::Vector2 rightPos = right->GetOwner()->GetPosition() + right->GetOffset();
 
 		const Maths::Vector2 leftSize = left->GetSize();
 		const Maths::Vector2 rightSize = right->GetSize();

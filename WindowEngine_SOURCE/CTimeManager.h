@@ -3,7 +3,7 @@
 
 namespace Framework
 {
-	class CApplication;
+	//class CApplication;
 	class CRenderManager;
 
 	class CTimeManager
@@ -27,7 +27,7 @@ namespace Framework
 		__forceinline static void SetTimeScale(float scale)			{ m_fTimeScale = scale; }
 		//__forceinline static ULONGLONG TickTime()					{ return m_fDeltaTime; }
 
-		friend CApplication;
+		friend class CApplication;
 		friend CRenderManager;
 	private:
 		CTimeManager();

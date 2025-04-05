@@ -6,12 +6,7 @@
 #include "CResourceManager.h"
 #include "CCollisionManager.h"
 
-#include "CTransformComponent.h"
-#include "CSpriteRendererComponent.h"
 #include "CCameraComponent.h"
-#include "CAnimatorComponent.h"
-#include "CBoxColliderComponent.h"
-#include "CRigidbodyComponent.h"
 
 #include "CActor.h"
 #include "CRenderer.h"
@@ -21,6 +16,9 @@
 #include "CDummy.h"
 
 #include "ContentsEnums.h"
+#include "CSpriteActor.h"
+#include "CFlipbook.h"
+#include "CFlipbookActor.h"
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -32,7 +30,7 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
-	const CTexture* pTexture = Framework::CResourceManager::Find<CTexture>(L"Room");
+	const Resource::CTexture* pTexture = Resource::CResourceManager::FindTexture(L"Room");
 
 	//CActor* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
 	//CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
@@ -116,6 +114,31 @@ void Framework::CPlayScene::Release()
 void Framework::CPlayScene::OnEnter()
 {
 	COLLISION::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
+
+	const Resource::CTexture* pTexture = Resource::CResourceManager::FindTexture(L"Room");
+	const Resource::CTexture* pTexture1 = Resource::CResourceManager::FindTexture(L"Room1");
+	const Resource::CTexture* pTexture2 = Resource::CResourceManager::FindTexture(L"Room2");
+
+	Resource::CResourceManager::CreateSprite(pTexture, L"Room", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	Resource::CResourceManager::CreateSprite(pTexture1, L"Room1", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	Resource::CResourceManager::CreateSprite(pTexture2, L"Room2", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+
+	Resource::CResourceManager::CreateFlipbook(L"Room", false);
+	const Resource::CFlipbook* flipBook = Resource::CResourceManager::FindFlipbook(L"Room");
+
+	const Resource::CSprite* sprite1 = Resource::CResourceManager::FindSprite(L"Room");
+	const Resource::CSprite* sprite2 = Resource::CResourceManager::FindSprite(L"Room1");
+	const Resource::CSprite* sprite3 = Resource::CResourceManager::FindSprite(L"Room2");
+
+	Resource::CResourceManager::InsertSprite(flipBook, sprite1);
+	Resource::CResourceManager::InsertSprite(flipBook, sprite2);
+	Resource::CResourceManager::InsertSprite(flipBook, sprite3);
+
+	CFlipbookActor* pSpriteActor = new CFlipbookActor(3);
+	pSpriteActor->SetPosition(Maths::Vector2(50, 50));
+	CEventManager::AddActor(CSceneManager::GetCurrentScene(), pSpriteActor, false);
+
+	pSpriteActor->SetFlipbook(flipBook);
 
 	//for (size_t i = 0; i < 200; i++)
 	//{

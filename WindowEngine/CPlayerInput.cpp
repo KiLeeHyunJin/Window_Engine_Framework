@@ -114,7 +114,7 @@ namespace Framework
 		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 
 		CColliderComponent* coll = GetOwner()->GetComponent<CColliderComponent>();
-		Maths::Vector2 pos = GetOwner()->GetTransformComponent()->GetPos();
+		Maths::Vector2 pos = GetOwner()->GetPosition();
 		Maths::Vector2 size = coll->GetSize();
 		Utils::DrawRect(hdc, pos, size);
 

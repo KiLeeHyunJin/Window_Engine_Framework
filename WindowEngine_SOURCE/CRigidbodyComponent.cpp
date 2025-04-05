@@ -44,8 +44,8 @@ namespace Framework
 	}
 	void CRigidbodyComponent::Render(HDC hdc)
 	{
-		const CTransformComponent* pTr = GetOwner()->GetTransformComponent();
-		Maths::Vector2 pos = pTr->GetPos();
+		//const CTransformComponent* pTr = ;
+		Maths::Vector2 pos = GetOwner()->GetPosition();
 		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam != nullptr)
 		{
@@ -135,10 +135,10 @@ namespace Framework
 
 		m_vecVelocity += friction; //속도에 마찰력 합산하여 속도 감소
 
-		CTransformComponent* pTr = GetOwner()->GetTransformComponent();
-		Maths::Vector2 pos = pTr->GetPos();
+		//CTransformComponent* pTr = GetOwner()->GetTransformComponent();
+		Maths::Vector2 pos = GetOwner()->GetPosition();
 		pos = pos + (m_vecVelocity * tickTime);
-		pTr->SetPos(pos); //현재 위치에서 이동 방향으로 이동
+		GetOwner()->SetPosition(pos); //현재 위치에서 이동 방향으로 이동
 
 		if (m_vecForce.HasValue())
 		{

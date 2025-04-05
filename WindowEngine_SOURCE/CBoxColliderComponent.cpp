@@ -38,8 +38,8 @@ namespace Framework
 
 	void CBoxColliderComponent::Render(HDC hdc)
 	{
-		const CTransformComponent* pTr = GetOwner()->GetTransformComponent();
-		Maths::Vector2 pos = pTr->GetPos();
+		//const CTransformComponent* pTr = GetOwner()->GetTransformComponent();
+		Maths::Vector2 pos = GetOwner()->GetPosition();
 		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam != nullptr)
 		{

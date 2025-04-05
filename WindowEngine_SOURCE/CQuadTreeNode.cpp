@@ -29,8 +29,8 @@ namespace Framework
 		{
 			if (Split())
 			{
-				const CTransformComponent* pTr = item->GetOwner()->GetTransformComponent();
-				Vector2 pos = pTr->GetPos();
+				//const CTransformComponent* pTr = item->GetOwner()->GetTransformComponent();
+				Vector2 pos = item->GetOwner()->GetPosition();
 				Vector2 offset = item->GetOffset();
 
 				m_vecChildren[(int)TestRegion(offset + pos)]->InsertAtDepth(item, targetDepth);
@@ -48,8 +48,8 @@ namespace Framework
 
 		if (IsSplitted())
 		{
-			const CTransformComponent* pTr = item->GetOwner()->GetTransformComponent();
-			const Maths::Vector2 center = pTr->GetPos() + item->GetOffset();
+			//const CTransformComponent* pTr = item->GetOwner()->GetTransformComponent();
+			const Maths::Vector2 center = item->GetOwner()->GetPosition() + item->GetOffset();
 
 			//std::list<CQuadTreeNode*> quads;
 
@@ -140,7 +140,7 @@ namespace Framework
 
 
 			float objNear;
-			const Maths::Vector2 pos = obj->GetOwner()->GetTransformComponent()->GetPos() + obj->GetOffset();
+			const Maths::Vector2 pos = obj->GetOwner()->GetPosition() + obj->GetOffset();
 			const Maths::Vector2 halfSize = obj->GetSize() * 0.5f;
 
 			Rect rect;
@@ -202,7 +202,7 @@ namespace Framework
 			}
 
 			float objNear;
-			const Maths::Vector2 pos = obj->GetOwner()->GetTransformComponent()->GetPos() + obj->GetOffset();
+			const Maths::Vector2 pos = obj->GetOwner()->GetPosition() + obj->GetOffset();
 			const Maths::Vector2 halfSize = obj->GetSize() * 0.5f;
 
 			rect.max = pos + halfSize;

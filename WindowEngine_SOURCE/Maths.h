@@ -163,6 +163,8 @@ namespace Framework//::Maths
 				return *this;
 			}
 
+			Vector2 operator * (const Vector2Int& rhs) const;
+
 			Vector2& operator /= (const Vector2& rhs)
 			{
 				x /= rhs.x;
@@ -205,7 +207,9 @@ namespace Framework//::Maths
 			template<typename T>
 			Vector2 operator * (const T& rhs) const
 			{
-				return Vector2(x * rhs, y * rhs);
+				const float _x = this->x * rhs;
+				const float _y = this->y * rhs;
+				return Vector2(_x, _y);
 			}
 
 			template<typename T>
@@ -325,6 +329,15 @@ namespace Framework//::Maths
 				int returnY = this->y - other.y;
 				return Vector2Int(returnX, returnY);
 			}
+
+			Vector2 operator * (const Vector2& rhs) const
+			{
+				const float _x = this->x * rhs.x;
+				const float _y = this->y * rhs.y;
+				return Vector2(_x, _y);
+			}
+
+			//Vector2 operator * (const Vector2& rhs);
 
 			int x;
 			int y;

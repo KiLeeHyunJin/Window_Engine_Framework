@@ -37,7 +37,7 @@ namespace Framework
 		CActor(UINT layerType);
 		virtual ~CActor();
 
-		CTransformComponent* GetTransformComponent() const { return m_pTransform; }
+		//CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
 
 		template<typename T>
@@ -161,17 +161,26 @@ namespace Framework
 		__forceinline const bool GetDontDestroy()				const	{ return m_bDontDestroy; }
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
+		__forceinline const Maths::Vector2& GetPosition()		const	{ return m_vecPosition; }
+		__forceinline void SetPosition(const Maths::Vector2& position)	{ m_vecPosition = position; }
+
+
+		__forceinline const Maths::Vector2& GetScale()			const	{ return m_vecScale; }
+		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale; }
+
+		__forceinline const float GetRotate() const						{	return m_fRotatate;	}
+		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate; }
 
 		friend CLayer;
 		friend CEventManager;
 	protected:
-		virtual void BeginPlay() = 0;
-		virtual void Release() = 0;
+		virtual void BeginPlay()			= 0;
+		virtual void Release()				= 0;
 
-		virtual bool Tick() = 0;
-		virtual bool LastTick() = 0;
+		virtual bool Tick()					= 0;
+		virtual bool LastTick()				= 0;
 		
-		virtual void Render(HDC hdc) const = 0;
+		virtual void Render(HDC hdc) const	= 0;
 		__forceinline bool RenderCheck() const;
 
 	private:
@@ -181,10 +190,15 @@ namespace Framework
 		__forceinline void SetReserveDelete()								{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
 		__forceinline void SetDontDestroy(bool state)						{ m_bDontDestroy = state; }
 		__forceinline void SetLayerType(const UINT layerType)				{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
+		
+		Maths::Vector2 m_vecPosition;
+		Maths::Vector2 m_vecScale;
+		float m_fRotatate;
+
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;
 
-		CTransformComponent* m_pTransform;
+		//CTransformComponent* m_pTransform;
 
 		UINT m_eLayerType;
 		eState m_eState;

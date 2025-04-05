@@ -37,9 +37,9 @@ namespace Framework
 
 	const std::vector<CColliderComponent*>& CQuadTree::Query(CColliderComponent* queryItem)
 	{
-		const CTransformComponent* pTr = queryItem->GetOwner()->GetTransformComponent();
+		//const CTransformComponent* pTr = queryItem->GetOwner()->GetTransformComponent();
 
-		const Maths::Vector2& center = pTr->GetPos() + queryItem->GetOffset();
+		const Maths::Vector2& center = queryItem->GetOwner()->GetPosition() + queryItem->GetOffset();
 		const Maths::Vector2& size = queryItem->GetSize();
 
 		return Query(center, size);

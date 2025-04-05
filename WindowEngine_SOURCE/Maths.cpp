@@ -22,6 +22,12 @@ namespace Framework//::Maths
 
 		Vector2::Vector2(const Vector2Int& other) : x((float)other.x) , y((float)other.y)	{	}
 		Vector2Int::Vector2Int(const Vector2& other) : x((int)other.x), y((int)other.y) {}
+
+		Vector2 Vector2::operator * (const Vector2Int& rhs) const
+		{
+			return Vector2(x * rhs.x, y * rhs.y);
+		}
+
 	}
 
 }

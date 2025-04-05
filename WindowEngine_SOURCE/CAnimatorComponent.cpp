@@ -58,14 +58,13 @@ namespace Framework
 		}
 	}
 
-	void CAnimatorComponent::CreateAnimation(const std::wstring& name,const CTexture* spriteSheet, const Vector2& leftTop
-		/*, const Vector2& size, const Vector2& offset*/, UINT spriteLength, float duration)
+	void CAnimatorComponent::CreateAnimation(const std::wstring& name,const CTexture* spriteSheet, const Vector2& leftTop, UINT spriteLength, float duration)
 	{
 		CAnimation* pAnim = FindAnimation(name);
 		if (pAnim != nullptr)
 		{	return;		}
 		pAnim = new CAnimation();
-		pAnim->CreateAnimation(name, spriteSheet, leftTop/*, size, offset*/, spriteLength, duration);
+		pAnim->CreateAnimation(name, true);
 		pAnim->SetOwner(this);
 		m_mapAnimations.insert(std::make_pair(name,pAnim));
 	}
@@ -77,7 +76,7 @@ namespace Framework
 		if (pAnim != nullptr)
 		{	return;	}
 		UINT size = 0;
-		const CTexture* spriteSheet = Resource::CResourceManager::Find<CTexture>(name);
+		const CTexture* spriteSheet = Resource::CResourceManager::FindTexture(name);
 
 		if (spriteSheet == nullptr)
 		{
@@ -103,7 +102,7 @@ namespace Framework
 					{
 						const std::wstring fileName = wstrName;
 						const std::wstring fullName = path + wstrName;
-						const CTexture* pTexture = CResourceManager::Load<CTexture>(fileName, fullName);
+						const Resource::CTexture* pTexture = CResourceManager::LoadTexture(fileName, fullName);
 						if (pTexture != nullptr)
 						{
 							vecImgs.push_back(pTexture);
@@ -133,18 +132,18 @@ namespace Framework
 				{	imgHeigth = img->GetHeight();	}
 			}
 
-			spriteSheet = CTexture::Create(name, imgWidth, imgHeigth, sizes);
+			/*spriteSheet = CTexture::Create(name, imgWidth, imgHeigth, sizes);
 			float stackWidth = 0;
 			for (UINT i = 0; i < size; i++)
 			{
 				BitBlt(spriteSheet->GetHDC(), (UINT)stackWidth, 0,
 					(UINT)sizes[i].x, (UINT)sizes[i].y, vecImgs[i]->GetHDC(), 0, 0, SRCCOPY);
 				stackWidth += sizes[i].x;
-			}
+			}*/
 		}
 		else
 		{
-			size = (UINT)spriteSheet->GetSpriteSize().size();
+			//size = (UINT)spriteSheet->GetSpriteSize().size();
 		}
 
 		CreateAnimation(name, spriteSheet, Vector2::Zero, size, duration);

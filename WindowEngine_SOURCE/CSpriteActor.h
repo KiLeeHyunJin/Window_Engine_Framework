@@ -5,11 +5,14 @@
 
 namespace Framework
 {
-	class SpriteActor : public CActor
+	class CSpriteActor : public CActor
 	{
 		SUPER_PARENT(CActor)
+	public:
+		CSpriteActor(UINT layer);
+		virtual ~CSpriteActor();
 
-		void SetSprite(Resource::CSprite* pSprite) { m_pSprite = pSprite; }
+		void SetSprite( const Resource::CSprite* pSprite) { m_pSprite = const_cast<Resource::CSprite*>(pSprite); }
 
 	protected:
 		// CActor을(를) 통해 상속됨

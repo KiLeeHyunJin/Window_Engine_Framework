@@ -3,6 +3,10 @@
 
 namespace Framework
 {
+	namespace Resource
+	{
+		class CSprite;
+	}
 
 	class Utils
 	{
@@ -14,7 +18,8 @@ namespace Framework
 		static void DrawRect	(HDC hdc, const Maths::Vector2& pos, const Maths::Vector2& size);
 		static void DrawCircle	(HDC hdc, const Maths::Vector2& pos, INT radius);
 
-
+		static void UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2Int& size, const Resource::CSprite* sprite);
+		static void UtilBitBlt	(HDC hdc, const Maths::Vector2& start, const Maths::Vector2& size, const Resource::CSprite* sprite);
 	private:
 		Utils();
 	};

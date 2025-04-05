@@ -29,7 +29,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEventManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbook.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbookActor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ColliderStruct.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
@@ -77,6 +79,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEventManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbook.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTree.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeNode.cpp" />
@@ -98,6 +101,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CResourceManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbookActor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteActor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Utils.cpp" />

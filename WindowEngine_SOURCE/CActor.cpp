@@ -14,11 +14,11 @@ namespace Framework
 {
 	CActor::CActor(UINT layerType) :
 		m_eState(eState::Enable), m_eLayerType(layerType), 
-		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),
-		m_pTransform(new CTransformComponent)
+		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false)//,
+		/*m_pTransform(new CTransformComponent)*/
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
-		m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
+		//m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
 	}
 
 	CActor::~CActor()
@@ -104,12 +104,12 @@ namespace Framework
 	}
 	bool CActor::RenderCheck() const
 	{
-		Vector2 pos = m_pTransform->GetPos();
+		const Maths::Vector2& pos = GetPosition();
 		const CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
 		if (mainCam != nullptr)
 		{
-			pos = mainCam->CaluatePosition(pos);
-			const bool result = mainCam->ScreenInCheck(pos, m_pTransform->m_vecScale); //화면 안에 있는지 결과를 반환
+			const Maths::Vector2& absolutePos = mainCam->CaluatePosition(pos);
+			const bool result = mainCam->ScreenInCheck(absolutePos, GetScale()); //화면 안에 있는지 결과를 반환
 			return result;
 		}
 		return true;

@@ -118,6 +118,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteActor.cpp">
       <Filter>02.Asset\Actor\SpriteActor</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbookActor.cpp">
+      <Filter>02.Asset\Actor\FlipbookActor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbook.cpp">
+      <Filter>02.Asset\Resource\Flipbook</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
@@ -258,6 +264,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CSpriteActor.h">
       <Filter>02.Asset\Actor\SpriteActor</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbookActor.h">
+      <Filter>02.Asset\Actor\FlipbookActor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbook.h">
+      <Filter>02.Asset\Resource\Flipbook</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -397,6 +409,12 @@
     </Filter>
     <Filter Include="02.Asset\Actor\Actor">
       <UniqueIdentifier>{36cdcdfc-c7c5-420b-8b62-56834079ce56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Actor\FlipbookActor">
+      <UniqueIdentifier>{e5bf3da9-1708-497d-9df2-9ec2ec70cb60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Resource\Flipbook">
+      <UniqueIdentifier>{d07f61d4-d955-432d-ba16-b6b12c3b1f99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

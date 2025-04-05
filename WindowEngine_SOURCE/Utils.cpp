@@ -1,7 +1,9 @@
 #include "Utils.h"
+#include "CSprite.h"
 
 namespace Framework
 {
+
 	Utils::Utils()
 	{	}
 
@@ -43,6 +45,20 @@ namespace Framework
 			static_cast<INT>(pos.x + radius), 
 			static_cast<INT>(pos.y + radius));
 	}
+
+	void Utils::UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2Int& size, const Resource::CSprite* sprite)
+	{
+		HDC srcHdc = sprite->GetHDC();
+		const Maths::Vector2Int& leftTop = sprite->GetLeftTop();
+		BitBlt(hdc, (INT)start.x, (INT)start.y, size.x, size.y, srcHdc, leftTop.x, leftTop.y, SRCCOPY);
+	}
+	void Utils::UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2& size, const Resource::CSprite* sprite)
+	{
+		HDC srcHdc = sprite->GetHDC();
+		const Maths::Vector2Int& leftTop = sprite->GetLeftTop();
+		BitBlt(hdc, (INT)start.x, (INT)start.y, (INT)size.x, (INT)size.y, srcHdc, leftTop.x, leftTop.y, SRCCOPY);
+	}
+
 
 	void Utils::DrawLine(HDC hdc, const Maths::Vector2& from, const Maths::Vector2& to)
 	{

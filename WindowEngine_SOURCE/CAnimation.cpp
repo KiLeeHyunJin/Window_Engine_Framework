@@ -6,17 +6,20 @@
 #include "CTransformComponent.h"
 #include "CAnimatorComponent.h"
 #include "CCameraComponent.h"
+#include "CResourceManager.h"
 
 #include "CTimeManager.h"
 #include "CInputManager.h"
+#include "CSprite.h"
+
 
 namespace Framework
 {
 
 	 CAnimation::CAnimation() :
 		CResource(Enums::eResourceType::Animation),
-		m_pOwner(nullptr), m_pTexture(nullptr), m_vecSprites{},m_fDuration(0),
-		m_iIndex(-1), m_fTime(0), m_bCompleted(false) //, m_bLoop(false)
+		m_pOwner(nullptr), m_vecSprites{},
+		m_iIndex(-1), m_fTime(0), m_bCompleted(false), m_bLoop(false)
 	{
 		RenderFunc[(int)CTexture::eTextureType::Bmp] = &CAnimation::RenderBMP;
 		RenderFunc[(int)CTexture::eTextureType::Png] = &CAnimation::RenderPNG;
@@ -27,10 +30,11 @@ namespace Framework
 	{
 	}
 
-	HRESULT  CAnimation::Load(const std::wstring& wstrPath)
-	{
-		return E_NOTIMPL;
-	}
+	 void CAnimation::CreateAnimation(const std::wstring& name, bool loop)
+	 {
+		 SetName(name);
+		 m_bLoop = loop;
+	 }
 
 	void  CAnimation::Reset()
 	{
@@ -45,8 +49,14 @@ namespace Framework
 		{
 			return;
 		}
+		if (m_vecSprites.size() == 0)
+		{
+			return;
+		}
+
 		m_fTime += DELTATIME;
-		if (m_fDuration < m_fTime)
+		const float duration = m_vecSprites[m_iIndex].second;
+		if (duration < m_fTime)
 		{
 			m_fTime = 0;
 			if (m_iIndex < (INT)m_vecSprites.size() - 1)
@@ -65,36 +75,40 @@ namespace Framework
 
 	void  CAnimation::Render(HDC hdc)
 	{
-		if (m_pTexture == nullptr)
+		if (m_vecSprites.size() == 0)
 		{	return;	 }
 
 		const CActor* pObj = m_pOwner->GetOwner();
-		const CTransformComponent* pTr = pObj->GetTransformComponent();
-		Vector2 pos = pTr->GetPos();// + m_pTexture->GetOffset();
+		Vector2 pos = pObj->GetPosition();
 
 
 		const CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
 		if (mainCam != nullptr)
 		{	pos = mainCam->CaluatePosition(pos);	}
 
-		const int idx = (int)m_pTexture->GetTextureType();
-		const Sprite& sprite = m_vecSprites[m_iIndex];
-		const Vector2& scale = pTr->GetScale();
-		const float rot = pTr->GetRot();
+		const Resource::CSprite* sprite = m_vecSprites[m_iIndex].first;
+		const int idx = (int)sprite->GetTextureType();
 
-		(this->*RenderFunc[idx])(hdc, rot, pos, scale, sprite);
+		const Vector2& scale = pObj->GetScale();
+		const float rot = pObj->GetRotate();
+
+		(this->*RenderFunc[idx])(hdc, rot, pos, scale);
 
 	}
 
 
 
-	void  CAnimation::RenderBMP(HDC hdc, float rot, const Maths::Vector2& pos, const Maths::Vector2& scale, const Sprite& sprite) const
+	void  CAnimation::RenderBMP(HDC hdc, float rot, const Maths::Vector2& pos, const Maths::Vector2& scale) const
 	{
-		HDC imgHdc = m_pTexture->GetHDC();
-		const auto& sizes = m_pTexture->GetSpriteSize();
-		const Maths::Vector2 vecSize = sizes[m_iIndex] * scale;;
+		//const auto& sizes = 0;//m_pTexture->GetSpriteSize();
+		const Resource::CSprite* sprite = m_vecSprites[m_iIndex].first;
+		HDC imgHdc = sprite->GetHDC();
 
-		if (m_pTexture->GetAlpha())
+		const Maths::Vector2Int& leftTop = sprite->GetLeftTop();
+		const Maths::Vector2Int& spriteSize = sprite->GetSize();
+		const Maths::Vector2 vecSize = spriteSize * scale;// (scale.x * spriteSize.x, scale.y * spriteSize.y);
+
+		if (sprite->GetAlpha())
 		{
 			BLENDFUNCTION func = {};
 			func.BlendOp = AC_SRC_OVER;
@@ -106,8 +120,8 @@ namespace Framework
 				(UINT)pos.x , (UINT)pos.y,
 				(UINT)(vecSize.x), (UINT)(vecSize.y),
 				imgHdc,
-				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
-				(UINT)sizes[m_iIndex].x, (UINT)sizes[m_iIndex].y,
+				(UINT)leftTop.x, (UINT)leftTop.y,
+				(UINT)spriteSize.x, (UINT)spriteSize.y,
 				func);
 		}
 		else
@@ -116,13 +130,13 @@ namespace Framework
 				(UINT)pos.x, (UINT)pos.y,
 				(UINT)(vecSize.x), (UINT)(vecSize.y),
 				imgHdc,
-				(UINT)sprite.leftTop.x, (UINT)sprite.leftTop.y,
-				(UINT)sizes[m_iIndex].x, (UINT)sizes[m_iIndex].y,
+				(UINT)leftTop.x, (UINT)leftTop.y,
+				(UINT)spriteSize.x, (UINT)spriteSize.y,
 				RGB(255, 0, 255));
 		}
 	}
 
-	void  CAnimation::RenderPNG(HDC hdc, float rot,const Maths::Vector2& pos, const Maths::Vector2& scale, const Sprite& sprite) const
+	void  CAnimation::RenderPNG(HDC hdc, float rot,const Maths::Vector2& pos, const Maths::Vector2& scale) const
 	{
 		//Gdiplus::ImageAttributes imgAtt = {};
 		//imgAtt.SetColorKey(Gdiplus::Color(100, 100, 100), Gdiplus::Color(255, 255, 255));
@@ -133,8 +147,12 @@ namespace Framework
 		graphics.RotateTransform(rot);
 		graphics.TranslateTransform(-pos.x, -pos.y);
 
-		const auto& sizes = m_pTexture->GetSpriteSize();
-		const Maths::Vector2 vecSize = sizes[m_iIndex] * scale;
+		const Resource::CSprite* sprite = m_vecSprites[m_iIndex].first;
+		HDC imgHdc = sprite->GetHDC();
+
+		const Maths::Vector2Int& leftTop = sprite->GetLeftTop();
+		const Maths::Vector2Int& spriteSize = sprite->GetSize();
+		const Maths::Vector2 vecSize = scale * spriteSize;
 
 		Gdiplus::Rect rect = Gdiplus::Rect(
 			(UINT)(pos.x - (vecSize.x * 0.5f)),
@@ -142,47 +160,46 @@ namespace Framework
 			(UINT)vecSize.x,
 			(UINT)vecSize.y);
 
-		graphics.DrawImage(m_pTexture->GetImage(),
+		graphics.DrawImage(sprite->GetImage(),
 			rect,
-			(UINT)sprite.leftTop.x, 
-			(UINT)sprite.leftTop.y,
+			(UINT)leftTop.x,
+			(UINT)leftTop.y,
 			(UINT)vecSize.x, 
 			(UINT)vecSize.y,
 			Gdiplus::UnitPixel,
 			nullptr);
 	}
 
-	void  CAnimation::CreateAnimation(const std::wstring& name,const CTexture* spriteSheet, const Vector2& leftTop,
-		/*Vector2 size, Vector2 offset,*/ UINT spriteLength, float duration)
-	{
-		m_pTexture = const_cast<CTexture*>(spriteSheet);
-		m_fDuration = duration;
-		if (m_pTexture->GetCount() < spriteLength)
-		{	assert(true);	}
+	//void  CAnimation::CreateAnimation(const std::wstring& name, bool loop)
+	//{
+	//	m_pTexture = const_cast<CTexture*>(spriteSheet);
+	//	m_fDuration = duration;
+	//	if (m_pTexture->GetCount() < spriteLength)
+	//	{	assert(true);	}
 
-		SetName(name);
-		const auto& sizes = m_pTexture->GetSpriteSize();
-		const bool isCreate = m_pTexture->OnCreate();
-		m_vecSprites.reserve(spriteLength);
+	//	SetName(name);
+	//	const auto& sizes = m_pTexture->GetSpriteSize();
+	//	const bool isCreate = m_pTexture->OnCreate();
+	//	m_vecSprites.reserve(spriteLength);
 
-		float stackWidth = 0;
-		for (UINT i = 0; i < spriteLength; i++)
-		{
-			Sprite sprite	= {};
-			if (isCreate)
-			{
-				sprite.leftTop = Vector2(stackWidth , leftTop.y);
-			}
-			else
-			{
-				sprite.leftTop = Vector2(leftTop.x + stackWidth, leftTop.y);
-			}
-			stackWidth += sizes[i].x;
+	//	float stackWidth = 0;
+	//	for (UINT i = 0; i < spriteLength; i++)
+	//	{
+	//		Maths::Vector2 vec	= {};
+	//		if (isCreate)
+	//		{
+	//			vec = Vector2(stackWidth , leftTop.y);
+	//		}
+	//		else
+	//		{
+	//			vec = Vector2(leftTop.x + stackWidth, leftTop.y);
+	//		}
+	//		stackWidth += sizes[i].x;
 
-			m_vecSprites.push_back(sprite);
-		}
+	//		m_vecVectors.push_back(vec);
+	//	}
 
-	}
+	//}
 
 }
 
