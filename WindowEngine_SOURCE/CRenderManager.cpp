@@ -4,6 +4,7 @@
 #include "CUIManager.h"
 #include "CCollisionManager.h"
 #include "CInputManager.h"
+#include "CObjectManager.h"
 
 #include "CRenderer.h"
 
@@ -46,7 +47,10 @@ namespace Framework
 		BeginDraw();
 
 		SCENE::Render(m_BackHDC);
+		OBJECT::Render(m_BackHDC);
+		
 		UI::Render(m_BackHDC);
+
 		COLLISION::Render(m_BackHDC);
 
 		TIME::Render(m_BackHDC);

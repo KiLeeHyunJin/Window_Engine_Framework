@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEventManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbook.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbookActor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEventManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbook.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CObjectManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTree.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeNode.cpp" />

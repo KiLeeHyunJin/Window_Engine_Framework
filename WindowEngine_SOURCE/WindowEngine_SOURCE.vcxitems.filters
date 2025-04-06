@@ -124,6 +124,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbook.cpp">
       <Filter>02.Asset\Resource\Flipbook</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CObjectManager.cpp">
+      <Filter>00.Core\Manager\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
@@ -270,6 +273,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbook.h">
       <Filter>02.Asset\Resource\Flipbook</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h">
+      <Filter>00.Core\Manager\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -415,6 +421,9 @@
     </Filter>
     <Filter Include="02.Asset\Resource\Flipbook">
       <UniqueIdentifier>{d07f61d4-d955-432d-ba16-b6b12c3b1f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Core\Manager\Object">
+      <UniqueIdentifier>{295832d0-0435-46fe-8ef4-c8045f2e2dcb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

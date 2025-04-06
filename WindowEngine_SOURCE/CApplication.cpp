@@ -9,6 +9,7 @@
 #include "CUIManager.h"
 #include "CEventManager.h"
 #include "CDataManager.h"
+#include "CObjectManager.h"
 
 #include "CRenderer.h"
 
@@ -36,13 +37,15 @@ namespace Framework
 		SCENE::Initialize();
 		COLLISION::Initialize();
 		EVENT::Initialize();
-
+		OBJECT::Initialize();
 		INPUT::SetResolution(RENDER::GetResolution());
 	}
 
 	void CApplication::Release()
 	{
 		SCENE::Release();
+		OBJECT::Initialize();
+
 		Resource::RESOURCE::Release();
 		UI::Release();
 		COLLISION::Release();
@@ -66,6 +69,7 @@ namespace Framework
 		INPUT::Tick();
 
 		SCENE::Tick(); // 업데이트
+		OBJECT::Tick();
 
 		EVENT::Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
 		UI::Tick();
@@ -76,6 +80,7 @@ namespace Framework
 	void CApplication::LastTick()
 	{
 		SCENE::LastTick();
+		OBJECT::LastTick();
 
 		EVENT::LastTick(); // 씬 전환
 		//UI::LastTick();

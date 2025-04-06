@@ -1,5 +1,5 @@
 #include "CSpriteActor.h"
-
+#include "Utils.h"
 
 
 namespace Framework
@@ -38,6 +38,8 @@ namespace Framework
 		const Maths::Vector2Int& spriteSize = m_pSprite->GetSize();
 		const Maths::Vector2Int& spriteLeftTop = m_pSprite->GetLeftTop();
 		HDC spriteHdc = m_pSprite->GetHDC();
-		BitBlt(hdc, position.x, position.y, spriteSize.x, spriteSize.y, spriteHdc, spriteLeftTop.x, spriteLeftTop.y, SRCCOPY);
+
+		Utils::UtilBitBlt(hdc, position, spriteSize, m_pSprite);
+		//BitBlt(hdc, position.x, position.y, spriteSize.x, spriteSize.y, spriteHdc, spriteLeftTop.x, spriteLeftTop.y, SRCCOPY);
 	}
 }

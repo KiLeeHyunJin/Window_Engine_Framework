@@ -38,6 +38,7 @@ namespace Framework
 	void CFlipbookActor::Render(HDC hdc) const
 	{
 		SUPER::Render(hdc);
+
 		if (m_pFlipbook == nullptr)
 		{
 			return;
