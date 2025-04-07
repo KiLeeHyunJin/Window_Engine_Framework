@@ -21,11 +21,11 @@ namespace Framework
 	void CCircleColliderComponent::Release()
 	{
 	}
-	bool CCircleColliderComponent::Tick()
+	bool CCircleColliderComponent::TickComponent()
 	{
 		return true;
 	}
-	bool CCircleColliderComponent::LastTick()
+	bool CCircleColliderComponent::LastTickComponent()
 	{
 		return true;
 	}
@@ -67,5 +67,26 @@ namespace Framework
 
 
 
+	}
+
+
+	bool CCircleColliderComponent::CheckCollision(CColliderComponent* other)
+	{
+		CColliderComponent::eColliderType colliderType = other->GetColliderType();
+		switch (colliderType)
+		{
+		case Framework::CColliderComponent::eColliderType::Box:
+			return CColliderComponent::CheckCollisionBoxToCircle(other, this);
+
+		case Framework::CColliderComponent::eColliderType::Circle:
+			return CColliderComponent::CheckCollisionCircleToCircle(this, other);
+
+		case Framework::CColliderComponent::eColliderType::None:
+			assert(true);
+			break;
+		default:
+			break;
+		}
+		return false;
 	}
 }

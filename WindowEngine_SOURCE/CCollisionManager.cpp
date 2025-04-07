@@ -8,6 +8,7 @@
 
 #include "CTransformComponent.h"
 #include "CColliderComponent.h"
+#include "CObjectManager.h"
 #include "CApplication.h"
 //#include 
 extern Framework::CApplication application;
@@ -20,7 +21,7 @@ namespace Framework
 	std::unordered_map<UINT64, bool>	CCollisionManager::m_unmapCollisions		= {};
 	std::vector<CColliderComponent*>	CCollisionManager::m_vecCollider			= {};
 	bool* CCollisionManager::m_bArryCollision = nullptr;
-	INT CCollisionManager::m_iCollTickFPS = 0;
+	INT CCollisionManager::m_iCollTickComponentFPS = 0;
 
 	CCollisionManager::CCollisionManager()	//사용안함
 	{	}
@@ -32,7 +33,7 @@ namespace Framework
 		if (m_bArryCollision != nullptr)
 		{	return;		}
 
-		const UINT size = SCENE::GetLayerSize();
+		const UINT size = OBJECT::GetLayerSize();
 		const UINT fullSize = size * size;
 		m_bArryCollision = new bool [fullSize];
 		memset(m_bArryCollision, 0, sizeof(bool) * fullSize);
@@ -46,7 +47,7 @@ namespace Framework
 
 	void CCollisionManager::SetCollisionLayerState(UINT left, UINT right, bool enable)
 	{
-		const UINT size = SCENE::GetLayerSize();
+		const UINT size = OBJECT::GetLayerSize();
 		if (left > size || right > size ||
 			m_bArryCollision == nullptr)
 		{
@@ -110,7 +111,7 @@ namespace Framework
 		m_bArryCollision = nullptr;
 	}
 
-	void CCollisionManager::Tick()
+	void CCollisionManager::TickComponent()
 	{
 		//return;
 		static float countTime = 0;
@@ -126,7 +127,7 @@ namespace Framework
 
 		if (timeCheck >= 1.0f)
 		{
-			m_iCollTickFPS = fpsCheck;
+			m_iCollTickComponentFPS = fpsCheck;
 			fpsCheck = 0;
 			timeCheck = 0;
 		}
@@ -144,88 +145,24 @@ namespace Framework
 		if (pScene == nullptr)				
 		{	return;	}
 
-		//clock_t start, finish;
-		//start = clock();
-
 		InsertCollision();
 		CollisionCircuit();
-		
-		//finish = clock();
-		//duration = (double)(finish - start) / CLOCKS_PER_SEC;
 	}
 
-	void CCollisionManager::LastTick()
+	void CCollisionManager::LastTickComponent()
 	{	}
 
 	void CCollisionManager::Render(HDC hdc)
 	{
 		wchar_t str[50] = L"";
-		swprintf_s(str, 50, L"CollFPS : %d", (int)(m_iCollTickFPS));
+		swprintf_s(str, 50, L"CollFPS : %d", (int)(m_iCollTickComponentFPS));
 		int len = (int)wcsnlen_s(str, 50);
 
 		const Maths::Vector2 resolution = application.GetResolution();// - Maths::Vector2(100, 70);
 		TextOut(hdc, ((int)resolution.x - 130), 20, str, len);
 		//CQuadTreeManager::Render(hdc);
-		//
 	}
 
-#pragma region NoUsed
-	/*void CCollisionManager::CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right)
-	{
-		const std::vector<CActor*>& lefts = CSceneManager::GetActor(left);
-		const std::vector<CActor*>& rights = CSceneManager::GetActor(right);
-		const std::vector<CActor*>& dontDestroyLefts = CSceneManager::GetDontDestroyActor(left);
-		const std::vector<CActor*>& dontDestroyrights = CSceneManager::GetDontDestroyActor(right);
-
-		CollisionCheck(lefts, rights);
-		CollisionCheck(dontDestroyLefts, rights);
-
-		CollisionCheck(dontDestroyLefts, dontDestroyrights);
-	}*/
-
-	/*void CCollisionManager::CollisionCheck(const std::vector<CActor*>& lefts, const std::vector<CActor*>& rights)
-	{
-		for (CActor* leftObj : lefts)
-		{
-			if (leftObj == nullptr)
-			{
-				continue;
-			}
-			if (leftObj->GetActive() == false)
-			{
-				continue;
-			}
-			CColliderComponent* leftCollider = leftObj->GetComponent<CColliderComponent>();
-			if (leftCollider == nullptr)
-			{
-				continue;
-			}
-
-			for (CActor* rightObj : rights)
-			{
-				if (leftObj == rightObj)
-				{
-					continue;
-				}
-				if (rightObj == nullptr)
-				{
-					continue;
-				}
-				if (rightObj->GetActive() == false)
-				{
-					continue;
-				}
-				CColliderComponent* rightCollider = rightObj->GetComponent<CColliderComponent>();
-				if (rightCollider == nullptr)
-				{
-					continue;
-				}
-				CollisionStateUpdate(leftCollider, rightCollider);
-			}
-		}
-	}
-*/
-#pragma endregion
 
 	void CCollisionManager::CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider)
 	{
@@ -239,7 +176,7 @@ namespace Framework
 			iter = m_unmapCollisions.find(collId.id);
 		}
 
-		if (Intersect(leftCollider, rightCollider))
+		if (leftCollider->CheckCollision(rightCollider))
 		{
 			if (iter->second == false) //첫 충돌
 			{
@@ -273,70 +210,39 @@ namespace Framework
 		m_vecCollider.clear();
 		m_vecCollider.shrink_to_fit();
 
-		const UINT size = SCENE::GetLayerSize();
+		const UINT size = OBJECT::GetLayerSize();
 		memset(m_bArryCollision, 0, sizeof(bool) * size * size);
 	}
 
-
-
-	const bool CCollisionManager::Intersect(const CColliderComponent* left, const CColliderComponent* right)
-	{
-		const CColliderComponent::eColliderType leftType  = left->GetColliderType();
-		const CColliderComponent::eColliderType rightType = right->GetColliderType();
-
-		if ( leftType == CColliderComponent::eColliderType::Box &&
-			rightType == CColliderComponent::eColliderType::Box)
-		{
-			return BoxCollisionStateUpdate(left, right);
-		}
-		else if 
-			(leftType == CColliderComponent::eColliderType::Circle &&
-			rightType == CColliderComponent::eColliderType::Circle)
-		{
-			return CircleCollisionStateUpdate(left, right);
-		}
-		return false;
-	}
 
 	void CCollisionManager::InsertCollision()
 	{
 		m_vecCollider.clear();
 
-		for (UINT layer = 0; layer < SCENE::GetLayerSize(); layer++)
+		for (UINT layer = 0; layer < OBJECT::GetLayerSize(); layer++)
 		{
-			const std::vector<CActor*>& vecDontDestroyObj 
-				= SCENE::GetDontDestroyActor(layer);
+			const std::vector<CActor*>& vecDontDestroyObj	= SCENE::GetDontDestroyActor(layer);
+			const std::vector<CActor*>& vecObj				= SCENE::GetActor(layer);
 
-			const std::vector<CActor*>& vecObj 
-				= SCENE::GetActor(layer);
-
-			for (auto& pActor : vecObj)
-			{
-				if (pActor->GetActive() && 
-					pActor->GetReserveDelete() == false)
-				{
-					CColliderComponent* pCollider = pActor->GetComponent<CColliderComponent>();
-					InsertActor(pCollider);
-				}
-			}
-			for (const auto& pActor : vecDontDestroyObj)
-			{
-				if (pActor->GetActive() &&
-					pActor->GetReserveDelete() == false)
-				{
-					CColliderComponent* pCollider = pActor->GetComponent<CColliderComponent>();
-					InsertActor(pCollider);
-				}
-			}
+			InsertActor(vecDontDestroyObj);
+			InsertActor(vecObj);
 		}
 	}
 
-	void CCollisionManager::InsertActor(CColliderComponent* pCollider)
+	void CCollisionManager::InsertActor(const std::vector<CActor*>& vecObjs)
 	{
-		if (pCollider != nullptr)
+		for (const auto& pActor : vecObjs)
 		{
-			CQuadTreeManager::Insert(pCollider);
-			m_vecCollider.push_back(pCollider);
+			if (pActor->GetActive() &&
+				pActor->GetReserveDelete() == false)
+			{
+				CColliderComponent* pCollider = pActor->GetComponent<CColliderComponent>();
+				if (pCollider != nullptr)
+				{
+					CQuadTreeManager::Insert(pCollider);
+					m_vecCollider.push_back(pCollider);
+				}
+			}
 		}
 	}
 
@@ -353,7 +259,7 @@ namespace Framework
 				if (pCollider != possibleColl)
 				{
 					const UINT rightLayer = (UINT)possibleColl->GetOwner()->GetLayerType();
-					if (GetLayerState(leftLayer, rightLayer))
+					if (GetLayerState(leftLayer, rightLayer)) //서로 충돌 가능 레이어인지 비교
 					{
 						CollisionStateUpdate(pCollider, possibleColl);
 					}
@@ -362,53 +268,9 @@ namespace Framework
 		}
 	}
 
-
-	bool CCollisionManager::BoxCollisionStateUpdate(const CColliderComponent* left,const CColliderComponent* right)
-	{
-		//const CTransformComponent* leftTr = left->GetOwner()->GetTransformComponent();
-		//const CTransformComponent* rightTr = right->GetOwner()->GetTransformComponent();
-
-		const Maths::Vector2 leftPos = left->GetOwner()->GetPosition() + left->GetOffset();
-		const Maths::Vector2 rightPos = right->GetOwner()->GetPosition() + right->GetOffset();
-
-		const Maths::Vector2 leftSize = left->GetSize();
-		const Maths::Vector2 rightSize = right->GetSize();
-
-		if (Maths::Abs(leftPos.x - rightPos.x) < Maths::Abs((leftSize.x + rightSize.x) * 0.5f) &&
-			Maths::Abs(leftPos.y - rightPos.y) < Maths::Abs((leftSize.y + rightSize.y) * 0.5f))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	bool CCollisionManager::CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right)
-	{
-		const CTransformComponent* leftTr = left->GetOwner()->GetComponent<CTransformComponent>();
-		const CTransformComponent* rightTr = right->GetOwner()->GetComponent<CTransformComponent>();
-
-		Maths::Vector2 leftPos = leftTr->GetPos() + left->GetOffset();
-		Maths::Vector2 rightPos = rightTr->GetPos() + right->GetOffset();
-
-		Maths::Vector2 leftSize = left->GetSize() * 100;
-		Maths::Vector2 rightSize = right->GetSize() * 100;
-
-		const Maths::Vector2 leftCirclePos	= leftPos  + (leftSize * 0.5f);
-		const Maths::Vector2 rightCirclePos = rightPos + (rightSize * 0.5f);
-
-		const float lenght = (Maths::Vector2(leftCirclePos.x + rightCirclePos.x, leftCirclePos.y + rightCirclePos.y)).Length();
-
-		if (lenght <= (leftSize.x + rightSize.x) * 0.5f)
-		{
-			return true;
-		}
-		return false;
-	}
-
 	bool CCollisionManager::GetLayerState(UINT left, UINT right)
 	{
-
-		const UINT size = SCENE::GetLayerSize();
+		const UINT size = OBJECT::GetLayerSize();
 		return m_bArryCollision[(size * left) + right];
 	}
 

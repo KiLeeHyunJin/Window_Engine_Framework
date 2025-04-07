@@ -3,6 +3,7 @@
 #include "..\\WindowEngine_SOURCE\\CSceneManager.h"
 #include "..\\WindowEngine_SOURCE\\CEventManager.h"
 //#include "..\\WindowEngine_SOURCE\\CDontDestroyOnLoad.h"
+#include "..\\WindowEngine_SOURCE\\CObjectManager.h"
 
 #include "CPlayScene.h"
 #include "CTitleScene.h"
@@ -15,7 +16,8 @@ namespace Framework
 {
 	void CreateScenes()
 	{
-		CSceneManager::InitDataSize((UINT)eMap::Size, (UINT)eLayer::Size);
+		Framework::CObjectManager::InitLayerSize((UINT)eLayer::Size);
+		CSceneManager::InitSceneSize((UINT)eMap::Size);
 
 		CSceneManager::CreateScene<CDevScene>(L"DevScene", (UINT)eMap::Dev);
 		CSceneManager::CreateScene<CTitleScene>(L"TitleScene", (UINT)eMap::Title);

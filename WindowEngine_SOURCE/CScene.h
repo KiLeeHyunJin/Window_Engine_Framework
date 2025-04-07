@@ -21,8 +21,8 @@ namespace Framework
 		virtual void Initialize()		= 0;
 		virtual void Release()			= 0;
 		
-		virtual void Tick()				= 0;
-		virtual void LastTick()			= 0;
+		virtual void TickComponent()				= 0;
+		virtual void LastTickComponent()			= 0;
 
 		virtual void Render(HDC hdc)	= 0;
 		virtual void LastRender(HDC hdc) = 0;
@@ -38,8 +38,8 @@ namespace Framework
 		void SceneInitialize();
 		void SceneRelease();
 
-		void SceneTick();
-		void SceneLastTick();
+		void SceneTickComponent();
+		void SceneLastTickComponent();
 
 		void SceneDestroy();
 		void SceneRender(HDC hdc);

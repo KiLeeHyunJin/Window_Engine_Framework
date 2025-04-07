@@ -41,8 +41,8 @@ namespace Framework
 	void CUIBase::OnRelease()		{	}
 	void CUIBase::OnActive()		{	}
 	void CUIBase::OnInActive()		{	}
-	void CUIBase::OnTick()			{	}
-	void CUIBase::OnLastTick()		{	}
+	void CUIBase::OnTickComponent()			{	}
+	void CUIBase::OnLastTickComponent()		{	}
 
 	void CUIBase::OnRender(HDC hdc) const 
 	{ 
@@ -124,23 +124,23 @@ namespace Framework
 		}
 	}
 
-	void CUIBase::Tick()
+	void CUIBase::TickComponent()
 	{
-		OnTick();
+		OnTickComponent();
 		UpdatePosition();
 		MouseOnCheck();
 		for (auto& child : m_vecChilds)
 		{
-			child->Tick();
+			child->TickComponent();
 		}
 	}
 	
-	void CUIBase::LastTick()
+	void CUIBase::LastTickComponent()
 	{
-		OnLastTick();
+		OnLastTickComponent();
 		for (auto& child : m_vecChilds)
 		{
-			child->LastTick();
+			child->LastTickComponent();
 		}
 	}
 	

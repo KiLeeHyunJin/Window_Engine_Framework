@@ -26,11 +26,11 @@ namespace Framework
 	void CAnimatorComponent::BeginPlay()
 	{	}
 
-	bool CAnimatorComponent::Tick()
+	bool CAnimatorComponent::TickComponent()
 	{
 		if (m_pCurrentAnimation != nullptr)
 		{
-			m_pCurrentAnimation->Tick();
+			m_pCurrentAnimation->TickComponent();
 			Events* events = FindEvents(m_pCurrentAnimation->GetName());
 			if (m_pCurrentAnimation->IsCompleted())
 			{
@@ -47,7 +47,7 @@ namespace Framework
 		return true;
 	}
 
-	bool CAnimatorComponent::LastTick()
+	bool CAnimatorComponent::LastTickComponent()
 	{	return true;	}
 
 	void CAnimatorComponent::Render(HDC hdc)

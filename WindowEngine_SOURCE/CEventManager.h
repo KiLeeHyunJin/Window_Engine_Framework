@@ -80,30 +80,30 @@ namespace Framework
 		};
 
 		/// <summary>
-		/// LastTick에서 처리
+		/// LastTickComponent에서 처리
 		/// </summary>
 		/// <param name="loadSceneID">Enum값으로 지정하는것을 추천</param>
 		/// <param name="changeTime">전환 예약 시간</param>
 		static void LoadScene(UINT loadSceneID, float changeTime = 0);
 
 		/// <summary>
-		/// LastTick에서 처리
+		/// LastTickComponent에서 처리
 		/// </summary>
 		static void ChangeLayer(CActor* pObj, UINT layerType);
 
 		/// <summary>
-		/// LastTick에서 처리
+		/// LastTickComponent에서 처리
 		/// </summary>
 		/// <param name="pObj"></param>
 		static void SetDontDestroyActor(CActor* pObj, bool state);
 
 		/// <summary>
-		/// Tick에서 처리
+		/// TickComponent에서 처리
 		/// </summary>
 		static void AddActor(CScene* pTargetScene, CActor* pObj, bool dontDestroy);
 		
 		/// <summary>
-		/// Tick에서 처리
+		/// TickComponent에서 처리
 		/// </summary>
 		static void DeleteActor(CActor* pObj);
 		
@@ -117,8 +117,8 @@ namespace Framework
 		static void Initialize();
 		static void Release();
 
-		static void Tick();
-		static void LastTick();
+		static void TickComponent();
+		static void LastTickComponent();
 
 		static void Job();
 		

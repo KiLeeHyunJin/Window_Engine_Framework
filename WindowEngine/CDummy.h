@@ -12,7 +12,7 @@ namespace Framework
 		void BeginPlay() override;
 		void Release() override;
 
-		bool Tick() override;
+		bool TickComponent() override;
 		void Render(HDC hdc) override;
 
 		virtual void OnCollisionEnter(CColliderComponent* other) override;

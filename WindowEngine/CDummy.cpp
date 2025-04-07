@@ -19,7 +19,7 @@ namespace Framework
 	void CDummy::Release()
 	{
 	}
-	bool CDummy::Tick()
+	bool CDummy::TickComponent()
 	{
 		CActor* owner = GetOwner();
 
@@ -43,7 +43,7 @@ namespace Framework
 		//}
 
 		const float speed = 20;
-		//const float tickTime = TIME::DeltaTime();
+		//const float TickComponentTime = TIME::DeltaTime();
 		const float movePower = speed * 5;
 		CRigidbodyComponent* rigid = owner->GetComponent<CRigidbodyComponent>();
 		Maths::Vector2 addForceDir;

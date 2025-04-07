@@ -23,12 +23,12 @@ namespace Framework
 		Clear();
 	}
 
-	void CEventManager::Tick()
+	void CEventManager::TickComponent()
 	{
 		Job(); //예약 실행
 	}
 
-	void CEventManager::LastTick()
+	void CEventManager::LastTickComponent()
 	{
 		ChangeScene(); // 씬 전환
 	}

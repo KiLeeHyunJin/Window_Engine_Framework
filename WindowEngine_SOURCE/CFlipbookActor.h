@@ -36,7 +36,7 @@ namespace Framework
         void Render(HDC hdc) const override;
 
     private:
-        void AnimationTick();
+        void AnimationTickComponent();
 
         Resource::CFlipbook* m_pFlipbook;
         float m_fSumTime;

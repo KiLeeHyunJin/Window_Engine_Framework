@@ -38,8 +38,8 @@ namespace Framework
 		static void Initialize();
 		static void Release();
 
-		static void Tick();
-		static void LastTick();
+		static void TickComponent();
+		static void LastTickComponent();
 
 		static void Render(HDC hdc);
 

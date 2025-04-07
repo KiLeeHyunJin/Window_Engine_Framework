@@ -46,23 +46,23 @@ namespace Framework
 		Release();
 	}
 
-	void CScene::SceneTick()
+	void CScene::SceneTickComponent()
 	{
-		Tick();
+		TickComponent();
 
 		for (CLayer* pLayer : m_vecLayer)
 		{
-			pLayer->Tick();
+			pLayer->TickComponent();
 		}
 	}
 
-	void CScene::SceneLastTick()
+	void CScene::SceneLastTickComponent()
 	{
-		LastTick();
+		LastTickComponent();
 
 		for (CLayer* pLayer : m_vecLayer)
 		{
-			pLayer->LastTick();
+			pLayer->LastTickComponent();
 		}
 	}
 

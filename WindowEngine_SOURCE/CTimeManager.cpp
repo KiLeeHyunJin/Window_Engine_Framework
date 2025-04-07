@@ -22,12 +22,12 @@ namespace Framework
 		QueryPerformanceFrequency(&m_liCpuFrequency);
 		QueryPerformanceCounter(&m_liPrevFrequency);
 
-		functions[(int)eTimeType::Tick]			= CTimeManager::TimeTick;
+		functions[(int)eTimeType::TickComponent]			= CTimeManager::TimeTickComponent;
 		functions[(int)eTimeType::Performance]	= CTimeManager::TimePerformance;
 		//functions[(int)eTimeType::Chrono]		= CTimeManager::TimeChrono;
 	}
 
-	void CTimeManager::Tick()
+	void CTimeManager::TickComponent()
 	{
 		//델타 타임 계산
 		functions[(UINT)timeType]();
@@ -41,19 +41,19 @@ namespace Framework
 #pragma region FPS
 
 		static float stackDeltaTime = 0;
-		static UINT tickCount = 0;
+		static UINT TickComponentCount = 0;
 
 		stackDeltaTime += m_fDeltaTime;
 
 		if (stackDeltaTime >= 1.0f)
 		{
-			m_uiFPS = tickCount;
+			m_uiFPS = TickComponentCount;
 			stackDeltaTime = 0;
-			tickCount = 1;
+			TickComponentCount = 1;
 		}
 		else
 		{
-			tickCount += 1;
+			TickComponentCount += 1;
 		}
 #pragma endregion
 	}
@@ -78,15 +78,15 @@ namespace Framework
 	/// <summary>
 	/// OS 타이머 기반
 	/// </summary>
-	void CTimeManager::TimeTick()
+	void CTimeManager::TimeTickComponent()
 	{
-		static ULONGLONG m_fPrevTick	= 0;
+		static ULONGLONG m_fPrevTickComponent	= 0;
 
-		const  ULONGLONG currentTick	= GetTickCount64();
-		const  ULONGLONG m_fDeltaTick	= currentTick - m_fPrevTick;
-		m_fPrevTick = currentTick;
+		const  ULONGLONG currentTickComponent	= GetTickCount64();
+		const  ULONGLONG m_fDeltaTickComponent	= currentTickComponent - m_fPrevTickComponent;
+		m_fPrevTickComponent = currentTickComponent;
 
-		m_fDeltaTime = m_fDeltaTick * 0.001f;
+		m_fDeltaTime = m_fDeltaTickComponent * 0.001f;
 	}
 
 	/// <summary>

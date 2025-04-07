@@ -25,11 +25,11 @@ namespace Framework
 	{
 	}
 
-	void CButton::OnTick()
+	void CButton::OnTickComponent()
 	{
 	}
 
-	void CButton::OnLastTick()
+	void CButton::OnLastTickComponent()
 	{
 	}
 	void CButton::OnClear()

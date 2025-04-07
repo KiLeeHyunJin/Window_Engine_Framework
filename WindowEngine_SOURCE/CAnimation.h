@@ -29,7 +29,7 @@ namespace Framework
         HRESULT Load(const std::wstring& wstrPath) override;
 
         void Reset();
-        void Tick();
+        void TickComponent();
         void Render(HDC hdc);
 
         inline bool IsCompleted() const { return m_bCompleted; }

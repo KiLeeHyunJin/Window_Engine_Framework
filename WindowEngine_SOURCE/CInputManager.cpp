@@ -64,7 +64,7 @@ namespace Framework
 	}
 
 
-	void CInputManager::Tick()
+	void CInputManager::TickComponent()
 	{
 		if(GetFocus())
 		{

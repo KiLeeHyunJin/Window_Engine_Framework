@@ -79,7 +79,7 @@ void Framework::CPlayScene::Initialize()
 	
 }
 
-void Framework::CPlayScene::Tick()
+void Framework::CPlayScene::TickComponent()
 {
 	if (INPUT::GetKeyDown(eKeyCode::B))
 	{
@@ -99,7 +99,7 @@ void Framework::CPlayScene::Tick()
 	}
 }
 
-void Framework::CPlayScene::LastTick()
+void Framework::CPlayScene::LastTickComponent()
 {
 }
 

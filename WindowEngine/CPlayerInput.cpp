@@ -31,7 +31,7 @@ namespace Framework
 	void CPlayerInput::Release()
 	{
 	}
-	bool CPlayerInput::Tick()
+	bool CPlayerInput::TickComponent()
 	{
 		if (id >= 1)
 		{
@@ -60,7 +60,7 @@ namespace Framework
 		}*/
 
 		const float speed = 20;
-		//const float tickTime = TIME::DeltaTime();
+		//const float TickComponentTime = TIME::DeltaTime();
 		const float movePower = speed * 5;
 		CRigidbodyComponent* rigid = owner->GetComponent<CRigidbodyComponent>();
 		Maths::Vector2 addForceDir;
@@ -104,7 +104,7 @@ namespace Framework
 		}*/
 		return true;
 	}
-	bool CPlayerInput::LastTick()
+	bool CPlayerInput::LastTickComponent()
 	{
 		return true;
 	}

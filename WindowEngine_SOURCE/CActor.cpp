@@ -14,7 +14,7 @@ namespace Framework
 {
 	CActor::CActor(UINT layerType) :
 		m_eState(eState::Enable), m_eLayerType(layerType), 
-		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false)//,
+		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),m_fRotatate(0)
 		/*m_pTransform(new CTransformComponent)*/
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
@@ -45,14 +45,14 @@ namespace Framework
 		{
 			if (pCom != nullptr)
 			{
-				pCom->Tick();
+				pCom->TickComponent();
 			}
 		}
 
 		bool state = true;
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
-			const bool currentComResult = pCom->Tick();
+			const bool currentComResult = pCom->TickComponent();
 			if (state && currentComResult == false)
 			{
 				state = false;
@@ -67,7 +67,7 @@ namespace Framework
 		{
 			if (pCom != nullptr)
 			{
-				pCom->LastTick();
+				pCom->LastTickComponent();
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace Framework
 
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
-			const bool currentComResult = pCom->LastTick();
+			const bool currentComResult = pCom->LastTickComponent();
 			if (state && currentComResult == false)
 			{
 				state = false;

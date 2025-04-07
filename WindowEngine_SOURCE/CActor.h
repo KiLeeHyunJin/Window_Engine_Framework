@@ -155,6 +155,7 @@ namespace Framework
 		//__forceinline const eState GetState()					const	{ return m_eState; }
 		__forceinline const bool GetActive()					const	{ return m_eState == eState::Enable; }
 		__forceinline const bool GetDisable()					const	{ return m_eState == eState::Disable; }
+		__forceinline UINT32	 GetID()						const	{ return m_uiID; }
 
 		__forceinline const bool GetReserveDelete()				const	{ return m_bReserveDelete; }
 		__forceinline const bool GetSafeToDelete()				const	{ return m_bSafeToDelete; }
@@ -190,7 +191,8 @@ namespace Framework
 		__forceinline void SetReserveDelete()								{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
 		__forceinline void SetDontDestroy(bool state)						{ m_bDontDestroy = state; }
 		__forceinline void SetLayerType(const UINT layerType)				{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
-		
+		__forceinline void SetID(UINT32 newID)								{ m_uiID = newID; }
+
 		Maths::Vector2 m_vecPosition;
 		Maths::Vector2 m_vecScale;
 		float m_fRotatate;
@@ -201,6 +203,7 @@ namespace Framework
 		//CTransformComponent* m_pTransform;
 
 		UINT m_eLayerType;
+		UINT32 m_uiID;
 		eState m_eState;
 
 		bool m_bSafeToDelete;

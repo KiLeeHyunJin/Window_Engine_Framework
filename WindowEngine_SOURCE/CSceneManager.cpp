@@ -26,17 +26,17 @@ namespace Framework
 		InitDontDestroyScene();
 	}
 
-	void CSceneManager::Tick()
+	void CSceneManager::TickComponent()
 	{
-		m_pCurrentScene->SceneTick();
-		m_pDontDestroyScene->SceneTick();
+		m_pCurrentScene->SceneTickComponent();
+		m_pDontDestroyScene->SceneTickComponent();
 
 	}
 
-	void CSceneManager::LastTick()
+	void CSceneManager::LastTickComponent()
 	{
-		m_pCurrentScene->SceneLastTick();
-		m_pDontDestroyScene->SceneLastTick();
+		m_pCurrentScene->SceneLastTickComponent();
+		m_pDontDestroyScene->SceneLastTickComponent();
 	}
 
 	void CSceneManager::Destroy()
@@ -112,6 +112,10 @@ namespace Framework
 
 	CScene* CSceneManager::FindScene(const UINT idx)
 	{
+		if (m_vecScenes.size() <= idx)
+		{
+			assert(true);
+		}
 		CScene* pScene = m_vecScenes[idx];
 		//std::map<std::wstring, CScene*>::iterator iter = m_mapScene.find(name);
 		/*if (iter != m_mapScene.end())
@@ -129,10 +133,9 @@ namespace Framework
 		m_pDontDestroyScene->SceneInitialize();
 	}
 
-	void CSceneManager::InitDataSize(UINT size, UINT layerSize)
+	void CSceneManager::InitSceneSize(UINT size)
 	{
-		static bool sizeSet = false;
-		if (sizeSet)	//데이터가 설정되었을 경우 변경 불가
+		if (m_vecScenes.size() >= size)	
 		{
 			return;
 		}
@@ -142,8 +145,6 @@ namespace Framework
 			m_vecScenes.resize(size);
 			m_vecScenes[m_vecScenes.size() - 1] = m_pDontDestroyScene;
 		}
-		m_uiLayerSize = layerSize;
-		sizeSet = true;
-		COLLISION::InitCollisionLayer();
+		//COLLISION::InitCollisionLayer();
 	}
 }

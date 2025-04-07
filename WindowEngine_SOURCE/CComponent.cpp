@@ -14,12 +14,12 @@ void Framework::CComponent::BeginPlay()
 {
 }
 
-bool Framework::CComponent::Tick()
+bool Framework::CComponent::TickComponent()
 {
 	return true;
 }
 
-bool Framework::CComponent::LastTick()
+bool Framework::CComponent::LastTickComponent()
 {
 	return true;
 }

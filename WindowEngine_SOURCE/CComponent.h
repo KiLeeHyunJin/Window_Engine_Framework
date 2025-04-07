@@ -21,8 +21,8 @@ namespace Framework
         virtual void BeginPlay() = 0;
         virtual void Release() = 0;
 
-        virtual bool Tick() = 0;
-        virtual bool LastTick() = 0;
+        virtual bool TickComponent() = 0;
+        virtual bool LastTickComponent() = 0;
 
         virtual void Render(HDC hdc) = 0;
 

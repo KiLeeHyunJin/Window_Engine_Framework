@@ -15,10 +15,10 @@ namespace Framework
 	void CDontDestroyOnLoad::Release()
 	{
 	}
-	void CDontDestroyOnLoad::Tick()
+	void CDontDestroyOnLoad::TickComponent()
 	{
 	}
-	void CDontDestroyOnLoad::LastTick()
+	void CDontDestroyOnLoad::LastTickComponent()
 	{
 	}
 	void CDontDestroyOnLoad::Render(HDC hdc)

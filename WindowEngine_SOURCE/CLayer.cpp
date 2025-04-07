@@ -41,7 +41,7 @@ namespace Framework
 		m_listRemoveActor.clear();
 	}
 
-	void CLayer::Tick()
+	void CLayer::TickComponent()
 	{
 		//삭제하지 않을 요소를 앞으로 밀어내고, 한번만 erase()를 호출
 
@@ -85,7 +85,7 @@ namespace Framework
 		}
 	}
 
-	void CLayer::LastTick()
+	void CLayer::LastTickComponent()
 	{
 		for (CActor* pObj : m_listActor)
 		{
@@ -115,7 +115,7 @@ namespace Framework
 			{
 				if (pObj->GetActive())
 				{
-					pObj->LastTick();
+					pObj->LastTickComponent();
 				}
 				++iter;
 			}

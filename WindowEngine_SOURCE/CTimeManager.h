@@ -11,7 +11,7 @@ namespace Framework
 	public:
 		enum class eTimeType
 		{
-			Tick,
+			TickComponent,
 			Performance,
 			//Chrono,
 			Size
@@ -25,7 +25,7 @@ namespace Framework
 		__forceinline static bool GetShowFPS()						{ return m_bShowFPS; }
 		__forceinline static float GetTimeScale()					{return m_fTimeScale;	}
 		__forceinline static void SetTimeScale(float scale)			{ m_fTimeScale = scale; }
-		//__forceinline static ULONGLONG TickTime()					{ return m_fDeltaTime; }
+		//__forceinline static ULONGLONG TickComponentTime()					{ return m_fDeltaTime; }
 
 		friend class CApplication;
 		friend CRenderManager;
@@ -34,10 +34,10 @@ namespace Framework
 		~CTimeManager();
 
 		static void Initialize();
-		static void Tick();
+		static void TickComponent();
 		static void Render(HDC hdc);
 
-		static void TimeTick();
+		static void TimeTickComponent();
 		static void TimePerformance();
 		//static void TimeChrono();
 

@@ -28,6 +28,7 @@ namespace Framework
 	{
 	public:
 		static void SetCollisionLayerState(UINT left, UINT right, bool enable);
+		static void InitCollisionLayer();
 
 		/// <summary>
 		/// 해당 위치를 중심으로 size크기와 충돌한 객체를 가져온다.
@@ -61,23 +62,22 @@ namespace Framework
 		static void Initialize();
 		static void Release();
 		
-		static void Tick();
-		static void LastTick();
+		static void TickComponent();
+		static void LastTickComponent();
 
 		static void Render(HDC hdc);
 
 		static void Clear();
 
-		static void InitCollisionLayer();
 
 		static void ClearActor();
 		//static bool Raycast(Ray& ray, CColliderComponent& hitObject);
 
-		__forceinline static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
+		//__forceinline static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 	
 
 		__forceinline static void InsertCollision();
-		__forceinline static void InsertActor(CColliderComponent* pCollider);
+		__forceinline static void InsertActor(const std::vector<CActor*>& vecObjs);
 
 		__forceinline static void CollisionCircuit();
 
@@ -86,8 +86,8 @@ namespace Framework
 
 		__forceinline static void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
 
-		__forceinline static bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
-		__forceinline static bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
+		//__forceinline static bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
+		//__forceinline static bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
 
 		__forceinline static bool GetLayerState(UINT left, UINT right);
 
@@ -99,7 +99,7 @@ namespace Framework
 		/// </summary>
 		static std::vector<CColliderComponent*> m_vecCollider;
 		static bool* m_bArryCollision;
-		static INT m_iCollTickFPS;
+		static INT m_iCollTickComponentFPS;
 	};
 	using COLLISION = CCollisionManager;
 }

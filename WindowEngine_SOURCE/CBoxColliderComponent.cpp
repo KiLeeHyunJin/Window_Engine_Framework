@@ -26,12 +26,12 @@ namespace Framework
 	{
 	}
 
-	bool CBoxColliderComponent::Tick()
+	bool CBoxColliderComponent::TickComponent()
 	{
 		return true;
 	}
 
-	bool CBoxColliderComponent::LastTick()
+	bool CBoxColliderComponent::LastTickComponent()
 	{
 		return true;
 	}
@@ -66,6 +66,26 @@ namespace Framework
 		pen = (HPEN)SelectObject(hdc, oldPen);
 
 		DeleteObject(pen);
+	}
+
+	bool CBoxColliderComponent::CheckCollision(CColliderComponent* other)
+	{
+		CColliderComponent::eColliderType colliderType = other->GetColliderType();
+		switch (colliderType)
+		{
+		case Framework::CColliderComponent::eColliderType::Box:
+			return CColliderComponent::CheckCollisionBoxToBox(this, other);
+			break;
+		case Framework::CColliderComponent::eColliderType::Circle:
+			return CColliderComponent::CheckCollisionBoxToCircle(this, other);
+
+		case Framework::CColliderComponent::eColliderType::None:
+			assert(true);
+			break;
+		default:
+			break;
+		}
+		return false;
 	}
 
 }

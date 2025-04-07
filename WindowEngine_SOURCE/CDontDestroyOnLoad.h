@@ -14,8 +14,8 @@ namespace Framework
 		virtual void Initialize()	override;
 		virtual void Release()		override;
 
-		virtual void Tick()			override;
-		virtual void LastTick()		override;
+		virtual void TickComponent()			override;
+		virtual void LastTickComponent()		override;
 
 		virtual void Render(HDC hdc) override;
 

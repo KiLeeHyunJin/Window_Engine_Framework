@@ -26,7 +26,7 @@ namespace Framework
 	{
 	}
 
-	bool CRigidbodyComponent::Tick()
+	bool CRigidbodyComponent::TickComponent()
 	{
 		VelocityCompute();
 		
@@ -38,7 +38,7 @@ namespace Framework
 		}
 		return true;
 	}
-	bool CRigidbodyComponent::LastTick()
+	bool CRigidbodyComponent::LastTickComponent()
 	{
 		return true;
 	}
@@ -122,10 +122,10 @@ namespace Framework
 		{
 			return;
 		}
-		const float tickTime = TIME::DeltaTime();
+		const float TickComponentTime = TIME::DeltaTime();
 
 		Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //마찰력 방향
-		friction = friction * (m_fFriction * m_fMass * tickTime); //마찰력 계산
+		friction = friction * (m_fFriction * m_fMass * TickComponentTime); //마찰력 계산
 
 		if (m_vecVelocity.SqrLength() <= friction.SqrLength()) //속도가 마찰력보다 작거나 크면 정지
 		{
@@ -137,7 +137,7 @@ namespace Framework
 
 		//CTransformComponent* pTr = GetOwner()->GetTransformComponent();
 		Maths::Vector2 pos = GetOwner()->GetPosition();
-		pos = pos + (m_vecVelocity * tickTime);
+		pos = pos + (m_vecVelocity * TickComponentTime);
 		GetOwner()->SetPosition(pos); //현재 위치에서 이동 방향으로 이동
 
 		if (m_vecForce.HasValue())

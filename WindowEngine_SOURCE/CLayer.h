@@ -6,6 +6,7 @@ namespace Framework
 {
 	class CCollisionManager;
 	class CSceneManager;
+	class CObjectManager;
 	class CScene;
 	class CActor;
 
@@ -18,6 +19,7 @@ namespace Framework
 		friend CScene;
 		friend CCollisionManager;
 		friend CSceneManager;
+		friend CObjectManager;
 	private:
 		CLayer(UINT layer);
 		virtual ~CLayer();
@@ -25,8 +27,8 @@ namespace Framework
 		void Initialize();
 		void Release();
 
-		void Tick();
-		void LastTick();
+		void TickComponent();
+		void LastTickComponent();
 
 		void Render(HDC hdc) const;
 

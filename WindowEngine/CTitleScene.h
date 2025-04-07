@@ -15,8 +15,8 @@ namespace Framework
         virtual ~CTitleScene();
 
         void Initialize()		override;
-        void Tick()				override;
-        void LastTick()			override;
+        void TickComponent()				override;
+        void LastTickComponent()			override;
         void Render(HDC hdc)	override;
         void Release()			override;
 

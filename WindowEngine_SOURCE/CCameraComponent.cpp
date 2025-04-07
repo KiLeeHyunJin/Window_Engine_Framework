@@ -23,7 +23,7 @@ namespace Framework
 	void CCameraComponent::Release()
 	{
 	}
-	bool CCameraComponent::Tick()
+	bool CCameraComponent::TickComponent()
 	{
 		CActor* pTarget = 
 			m_pTarget != nullptr ? 
@@ -35,7 +35,7 @@ namespace Framework
 		return true;
 	}
 	 
-	bool CCameraComponent::LastTick()
+	bool CCameraComponent::LastTickComponent()
 	{
 		return true;
 	}

@@ -32,8 +32,8 @@ namespace Framework
 		virtual void OnActive()override;
 		virtual void OnInActive()override;
 		
-		virtual void OnTick()override;
-		virtual void OnLastTick()override;
+		virtual void OnTickComponent()override;
+		virtual void OnLastTickComponent()override;
 		
 		virtual void OnClear()override;
 		virtual void OnRender(HDC hdc) const override;

@@ -58,32 +58,32 @@ namespace Framework
 
 	void CApplication::Run()
 	{
-		Tick();
-		LastTick();
+		TickComponent();
+		LastTickComponent();
 		Render();
 	}
 
-	void CApplication::Tick()
+	void CApplication::TickComponent()
 	{
-		TIME::Tick();
-		INPUT::Tick();
+		TIME::TickComponent();
+		INPUT::TickComponent();
 
-		SCENE::Tick(); // 업데이트
-		OBJECT::Tick();
+		SCENE::TickComponent(); // 업데이트
+		OBJECT::TickComponent();
 
-		EVENT::Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
-		UI::Tick();
+		EVENT::TickComponent(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
+		UI::TickComponent();
 
-		COLLISION::Tick(); // 1초에 80번 업데이트
+		COLLISION::TickComponent(); // 1초에 80번 업데이트
 	}
 
-	void CApplication::LastTick()
+	void CApplication::LastTickComponent()
 	{
-		SCENE::LastTick();
-		OBJECT::LastTick();
+		SCENE::LastTickComponent();
+		OBJECT::LastTickComponent();
 
-		EVENT::LastTick(); // 씬 전환
-		//UI::LastTick();
+		EVENT::LastTickComponent(); // 씬 전환
+		//UI::LastTickComponent();
 	}
 
 	void CApplication::Render()

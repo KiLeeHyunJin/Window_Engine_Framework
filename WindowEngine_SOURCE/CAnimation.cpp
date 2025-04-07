@@ -43,7 +43,7 @@ namespace Framework
 		m_bCompleted = false;
 	}
 
-	void  CAnimation::Tick()
+	void  CAnimation::TickComponent()
 	{
 		if (m_bCompleted)
 		{

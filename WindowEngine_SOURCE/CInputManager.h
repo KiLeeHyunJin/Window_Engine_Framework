@@ -54,7 +54,7 @@ namespace Framework
 		~CInputManager();
 
 		static void Initialize(HWND hwnd);
-		static void Tick();
+		static void TickComponent();
 		static void Render(HDC hdc, int posX, int posY);
 
 		static bool IsKeyDown(eKeyCode key);

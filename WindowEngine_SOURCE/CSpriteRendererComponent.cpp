@@ -22,12 +22,12 @@ void Framework::CSpriteRendererComponent::Release()
 {
 }
 
-bool Framework::CSpriteRendererComponent::Tick()
+bool Framework::CSpriteRendererComponent::TickComponent()
 {
 	return true;
 }
 
-bool Framework::CSpriteRendererComponent::LastTick()
+bool Framework::CSpriteRendererComponent::LastTickComponent()
 {
 	return true;
 }

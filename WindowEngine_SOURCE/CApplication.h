@@ -22,8 +22,8 @@ namespace Framework
 		__forceinline HWND GetHWND() const			{ return CRenderManager::m_hWnd; }
 
 	private:
-		void Tick();
-		void LastTick();
+		void TickComponent();
+		void LastTickComponent();
 		//void Destroy();
 		void Render();
 		HWND m_hwnc;

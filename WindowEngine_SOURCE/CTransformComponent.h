@@ -29,8 +29,8 @@ namespace Framework
         void BeginPlay() override;
         void Release() override;
 
-        bool Tick() override;
-        bool LastTick() override;
+        bool TickComponent() override;
+        bool LastTickComponent() override;
 
         void Render(HDC hdc) override;
 

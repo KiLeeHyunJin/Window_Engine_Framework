@@ -33,8 +33,8 @@ namespace Framework
 		// CComponent을(를) 통해 상속됨
 		void BeginPlay() override;
 		void Release() override;
-		bool Tick() override;
-		bool LastTick() override;
+		bool TickComponent() override;
+		bool LastTickComponent() override;
 		void Render(HDC hdc) override;
 
 		std::vector<CActor*> m_veCActor;

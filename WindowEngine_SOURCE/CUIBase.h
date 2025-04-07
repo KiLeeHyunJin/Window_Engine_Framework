@@ -45,8 +45,8 @@ namespace Framework
 		void Initialize();
 		void Release();
 
-		void Tick();
-		void LastTick();
+		void TickComponent();
+		void LastTickComponent();
 
 		void Render(HDC hdc) const;
 #pragma endregion
@@ -73,8 +73,8 @@ namespace Framework
 		virtual void OnActive();
 		virtual void OnInActive();
 
-		virtual void OnTick();
-		virtual void OnLastTick();
+		virtual void OnTickComponent();
+		virtual void OnLastTickComponent();
 
 		virtual void OnRender(HDC hdc) const;
 		virtual void OnClear();

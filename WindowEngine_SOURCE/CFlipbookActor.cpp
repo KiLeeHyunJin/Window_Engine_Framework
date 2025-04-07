@@ -27,13 +27,13 @@ namespace Framework
 	bool CFlipbookActor::Tick()
 	{
 		SUPER::Tick();
-		AnimationTick();
+		AnimationTickComponent();
 	
 		return true;
 	}
 	bool CFlipbookActor::LastTick()
 	{
-		return SUPER::LastTick();
+		return SUPER::LastTick ();
 	}
 	void CFlipbookActor::Render(HDC hdc) const
 	{
@@ -58,7 +58,7 @@ namespace Framework
 	}
 
 
-	void CFlipbookActor::AnimationTick()
+	void CFlipbookActor::AnimationTickComponent()
 	{
 		if (m_pFlipbook == nullptr)
 		{

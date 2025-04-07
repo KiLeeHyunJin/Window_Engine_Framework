@@ -37,11 +37,11 @@ void Framework::CTitleScene::Initialize()
 	//Object::Instantiate<CActor>(Enums::eLayerType::BackGround);
 }
 
-void Framework::CTitleScene::Tick()
+void Framework::CTitleScene::TickComponent()
 {
 }
 
-void Framework::CTitleScene::LastTick()
+void Framework::CTitleScene::LastTickComponent()
 {
 	if (INPUT::GetKeyDown(eKeyCode::A))
 	{

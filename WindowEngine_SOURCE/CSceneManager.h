@@ -45,11 +45,11 @@ namespace Framework
 			return pScene;
 		}
 
-		static void InitDataSize(UINT size, UINT layerSize);
+		static void InitSceneSize(UINT size);
 
 		__forceinline static CScene* GetCurrentScene()		{ return m_pCurrentScene;		}
 		__forceinline static CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene;	}
-		__forceinline static const UINT	 GetLayerSize()		{ return m_uiLayerSize;		}
+		__forceinline static const UINT	 GetSceneSize()		{ return (UINT)m_vecScenes.size();		}
 		//static std::vector<CActor*> GetActor(Enums::eLayerType layer);
 
 		friend CApplication;
@@ -63,8 +63,8 @@ namespace Framework
 		static void Initialize();
 		static void Release();
 
-		static void Tick();
-		static void LastTick();
+		static void TickComponent();
+		static void LastTickComponent();
 
 		static void Destroy();
 		static void Render(HDC hDC);

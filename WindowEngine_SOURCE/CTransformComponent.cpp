@@ -18,12 +18,12 @@ void Framework::CTransformComponent::Release()
 {
 }
 
-bool Framework::CTransformComponent::Tick()
+bool Framework::CTransformComponent::TickComponent()
 {
 	return true;
 }
 
-bool Framework::CTransformComponent::LastTick()
+bool Framework::CTransformComponent::LastTickComponent()
 {
 	return true;
 }
