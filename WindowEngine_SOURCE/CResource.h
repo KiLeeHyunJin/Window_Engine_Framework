@@ -4,6 +4,11 @@
 
 namespace Framework//::Resource
 {
+	namespace Manager
+	{
+		class CResourceManager;
+	}
+
 	namespace Resource
 	{
 		class CResource : public CEntity
@@ -13,7 +18,7 @@ namespace Framework//::Resource
 			const std::wstring& GetPath() const { return m_wstrPath; }
 			void SetPath(const std::wstring& wstrPath) { m_wstrPath = wstrPath; }
 
-			friend class CResourceManager;
+			friend Manager::CResourceManager;
 		protected:
 			CResource(Enums::eResourceType e_type);
 			virtual ~CResource();

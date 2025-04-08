@@ -1,6 +1,6 @@
 #pragma once
-#include "CSceneManager.h"
 #include "CEventManager.h"
+#include "CObjectManager.h"
 
 #include "Enums.h"
 #include "CActor.h"
@@ -20,31 +20,11 @@ namespace Framework//::Object
 		{
 			static_assert(std::is_base_of<CActor, T>::value,L"Is Not Actor");
 
-			CScene* pCurScene = CSceneManager::GetCurrentScene();
-			if (pCurScene == nullptr)
-			{
-				return nullptr;
-			}
 			T* pActor = new T(layerType);
-			EVENT::AddActor(pCurScene, pActor, dontDestory);
+			EVENT::AddActor(pActor, dontDestory);
 			pActor->SetName(name);
-
-			//T* pComponent = pActor->AddComponent<T>();
 			return pActor;
 		};
-
-		//static CActor* Instantiate(UINT layerType, const std::wstring& name, bool dontDestory = false)
-		//{
-		//	CScene* pCurScene = CSceneManager::GetCurrentScene();
-		//	if (pCurScene == nullptr)
-		//	{
-		//		return nullptr;
-		//	}
-		//	CActor* pActor = new CActor(layerType);
-		//	EVENT::AddActor(pCurScene, pActor, dontDestory);
-		//	pActor->SetName(name);
-		//	return pActor;
-		//};
 
 		static void Destroy(CActor* pObj)
 		{
@@ -56,9 +36,10 @@ namespace Framework//::Object
 		}
 
 		static void DontDestoryOnLoad(CActor* pActor, bool state = true)
-		{
-			EVENT::SetDontDestroyActor(pActor, state);
-		}
+		{	EVENT::SetDontDestroyActor(pActor, state);	}
+
+		__forceinline static CActor* GetActor(UINT32 actorID)
+		{		return OBJECT::GetActor(actorID);		}
 	}
 	
 }

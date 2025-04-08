@@ -29,50 +29,55 @@ namespace Framework
 	};
 
 
-	//class CApplication;
-	class CRenderManager;
-
-	class CInputManager
+	namespace Manager
 	{
-	public:
-		__forceinline static bool GetKeyDown(eKeyCode key)				{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down;	}
-		__forceinline static bool GetKeyUp(eKeyCode key)				{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up;		}
-		__forceinline static bool GetKeyPressed(eKeyCode key)			{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed;	}
-		__forceinline static const Maths::Vector2& GetMousePosition()	{ return m_vecMousePos; }
+		//class CApplication;
+		class CRenderManager;
 
-		friend class CApplication;
-		friend CRenderManager;
-	private:
-		struct Key
+		class CInputManager
 		{
-			eKeyCode	keyCode;
-			eKeyState	state;
-			bool		bPressed;
+		public:
+			__forceinline static bool GetKeyDown(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down; }
+			__forceinline static bool GetKeyUp(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up; }
+			__forceinline static bool GetKeyPressed(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed; }
+			__forceinline static const Maths::Vector2& GetMousePosition() { return m_vecMousePos; }
+
+			friend class CApplication;
+			friend CRenderManager;
+		private:
+			struct Key
+			{
+				eKeyCode	keyCode;
+				eKeyState	state;
+				bool		bPressed;
+			};
+
+			CInputManager();
+			~CInputManager();
+
+			static void Initialize(HWND hwnd);
+			static void Tick();
+			static void Render(HDC hdc, int posX, int posY);
+
+			static bool IsKeyDown(eKeyCode key);
+			static void UpdateKeyDown(Key& key);
+			static void UpdateKeyUp(Key& key);
+			static void UpdateCursorPosition();
+
+			static void UpdateKey();
+			static void ClearKey();
+			//static void SetResolution(const Maths::Vector2& resolution) { m_vecWinResolution = resolution; }
+
+			//static Maths::Vector2 m_vecWinResolution;
+			static Maths::Vector2 m_vecMousePos;
+			static std::vector<Key> m_vecKeys;
+
+			static HWND m_hwnd;
 		};
+	}
 
-		CInputManager();
-		~CInputManager();
-
-		static void Initialize(HWND hwnd);
-		static void TickComponent();
-		static void Render(HDC hdc, int posX, int posY);
-
-		static bool IsKeyDown(eKeyCode key);
-		static void UpdateKeyDown(Key& key);
-		static void UpdateKeyUp(Key& key);
-		static void UpdateCursorPosition();
-
-		static void UpdateKey();
-		static void ClearKey();
-		static void SetResolution(const Maths::Vector2& resolution) { m_vecWinResolution = resolution; }
-
-		static Maths::Vector2 m_vecWinResolution;
-		static Maths::Vector2 m_vecMousePos;
-		static std::vector<Key> m_vecKeys;
-
-		static HWND m_hwnd;
-	};
-	using INPUT = CInputManager;
+	
+	using INPUT = Manager::CInputManager;
 //#define INPUT CInputManager
 
 

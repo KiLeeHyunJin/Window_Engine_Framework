@@ -37,11 +37,11 @@ void Framework::CTitleScene::Initialize()
 	//Object::Instantiate<CActor>(Enums::eLayerType::BackGround);
 }
 
-void Framework::CTitleScene::TickComponent()
+void Framework::CTitleScene::Tick()
 {
 }
 
-void Framework::CTitleScene::LastTickComponent()
+void Framework::CTitleScene::LastTick()
 {
 	if (INPUT::GetKeyDown(eKeyCode::A))
 	{
@@ -70,6 +70,6 @@ void Framework::CTitleScene::OnExit()
 	UI::Pop(Enums::eUIType::Button);
 }
 
-void Framework::CTitleScene::LastRender(HDC hdc)
-{
-}
+//void Framework::CTitleScene::LastRender(HDC hdc)
+//{
+//}

@@ -6,24 +6,29 @@ namespace Framework
 	class CApplication;
 	class CData;
 
-	class CDataManager
+	namespace Manager
 	{
-	public:
-		static void Load(const std::wstring& key, const std::wstring& path);
-		static CData* GetData(const std::wstring& key);
+		class CDataManager
+		{
+		public:
+			static void Load(const std::wstring& key, const std::wstring& path);
+			static CData* GetData(const std::wstring& key);
 
 
-		friend CApplication;
-	private:
-		static void Initialize();
-		static void Release();
+			friend CApplication;
+		private:
+			static void Initialize();
+			static void Release();
 
-		CDataManager();
-		~CDataManager();
+			CDataManager();
+			~CDataManager();
 
-		static std::unordered_map<std::wstring, CData*> _unData;
-	};
-	using DATA = CDataManager;
+			static std::unordered_map<std::wstring, CData*> _unData;
+		};
+	}
+
+	
+	using DATA = Manager::CDataManager;
 }
 
 

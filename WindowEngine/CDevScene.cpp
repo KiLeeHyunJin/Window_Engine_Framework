@@ -11,10 +11,10 @@ namespace Framework
 	void CDevScene::Initialize()
 	{
 	}
-	void CDevScene::TickComponent()
+	void CDevScene::Tick()
 	{
 	}
-	void CDevScene::LastTickComponent()
+	void CDevScene::LastTick()
 	{
 	}
 	void CDevScene::Render(HDC hdc)
@@ -29,7 +29,7 @@ namespace Framework
 	void CDevScene::OnExit()
 	{
 	}
-	void CDevScene::LastRender(HDC hdc)
-	{
-	}
+	//void CDevScene::LastRender(HDC hdc)
+	//{
+	//}
 }

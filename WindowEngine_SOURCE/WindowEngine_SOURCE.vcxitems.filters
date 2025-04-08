@@ -97,9 +97,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp">
       <Filter>02.Asset\Scene\Layer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp">
-      <Filter>02.Asset\Scene\DontDestroyScene</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Utils.cpp">
       <Filter>99.Headers\Utils</Filter>
     </ClCompile>
@@ -126,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CObjectManager.cpp">
       <Filter>00.Core\Manager\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CManagerBase.cpp">
+      <Filter>00.Core\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,9 +243,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h">
       <Filter>02.Asset\Scene\Layer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h">
-      <Filter>02.Asset\Scene\DontDestroyScene</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Types.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
@@ -275,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h">
       <Filter>00.Core\Manager\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CManagerBase.h">
+      <Filter>00.Core\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -361,9 +361,6 @@
     </Filter>
     <Filter Include="02.Asset\Scene\Layer">
       <UniqueIdentifier>{3ca6ca2a-b6d0-4b67-84f9-41fe558d41ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Scene\DontDestroyScene">
-      <UniqueIdentifier>{7805b108-7185-49e9-aa92-5ae08bc5cd92}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.Asset\Resource">
       <UniqueIdentifier>{39bc4c31-b606-48c4-9eb1-fc1cae01cf46}</UniqueIdentifier>

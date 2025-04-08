@@ -5,54 +5,50 @@ namespace Framework
 {
 	class CApplication;
 
-
-	class CRenderManager
+	namespace Manager
 	{
-	public:
+		class CRenderManager
+		{
+		public:
 
-		static const Maths::Vector2& GetResolution() { return m_vecCurrentBufferSize; }
-		friend CApplication;
-	private:
-		CRenderManager();
-		~CRenderManager();
-		static void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen);
-		static void Release();
+			__forceinline static const Maths::Vector2Int& GetResolution() { return m_vecCurrentBufferSize; }
 
-		static void Render();
+			friend CApplication;
+		private:
+			CRenderManager();
+			~CRenderManager();
+			static void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen);
+			static void Release();
 
-		static void BeginDraw();
-		static void EndDraw();
+			static void Render();
 
-		static void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
-		static void ChangeScreenSize(bool maximumScale);
+			static void BeginDraw();
+			static void EndDraw();
 
-		static void CreateBackBuffer(int width, int height);
+			static void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
+			static void ChangeScreenSize(bool maximumScale);
 
-		inline static HDC GetHDC() { return m_hDC; }
+			static void CreateBackBuffer(int width, int height);
 
-		static HWND m_hWnd;
-		static HDC m_hDC;
+			static HDC GetHDC() { return m_hDC; }
 
-		static HDC m_BackHDC;
-		static HBITMAP m_BmpBuffer;
+			static HWND m_hWnd;
+			static HDC m_hDC;
 
-		static Maths::Vector2 m_vecWinSize;
-		static Maths::Vector2 m_vecCurrentBufferSize;
-		static Maths::Vector2 m_vecScreenSize;
+			static HDC m_BackHDC;
+			static HBITMAP m_BmpBuffer;
 
-		//static int m_iWindowWidth;	//창모드 사이즈
-		//static int m_iWindowHeight;
-		//
-		//static int m_iScreenWidth; //화면 해상도
-		//static int m_iScreenHeight;
-		//
-		//static int m_iCurrentBufferBitmapWidth; 
-		//static int m_iCurrentBufferBitmapHeight;
+			static Maths::Vector2Int m_vecWinSize;
+			static Maths::Vector2Int m_vecCurrentBufferSize;
+			static Maths::Vector2Int m_vecScreenSize;
 
-		static DWORD m_winStyle;
-		static bool m_bScreenState;
-	};
-	using RENDER = CRenderManager;
+			static DWORD m_winStyle;
+			static bool m_bScreenState;
+		};
+	}
+
+	
+	using RENDER = Manager::CRenderManager;
 //#define RENDER CRenderManager
 
 }

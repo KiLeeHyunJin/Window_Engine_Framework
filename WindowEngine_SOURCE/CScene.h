@@ -5,9 +5,13 @@
 namespace Framework
 {
 	class CActor;
-	class CSceneManager;
-	class CEventManager;
 	class CLayer;
+
+	namespace Manager
+	{
+		class CSceneManager;
+		class CEventManager;
+	}
 
 	class CScene : public CEntity
 	{
@@ -21,37 +25,37 @@ namespace Framework
 		virtual void Initialize()		= 0;
 		virtual void Release()			= 0;
 		
-		virtual void TickComponent()				= 0;
-		virtual void LastTickComponent()			= 0;
+		virtual void Tick()				= 0;
+		virtual void LastTick()			= 0;
 
 		virtual void Render(HDC hdc)	= 0;
-		virtual void LastRender(HDC hdc) = 0;
+		//virtual void LastRender(HDC hdc) = 0;
 
 		virtual void OnEnter()			= 0;
 		virtual void OnExit()			= 0;
 
 
-		friend CSceneManager;
-		friend CEventManager;
+		friend Manager::CSceneManager;
+		friend Manager::CEventManager;
 	private:
 		//씬 매니저
 		void SceneInitialize();
 		void SceneRelease();
 
-		void SceneTickComponent();
-		void SceneLastTickComponent();
+		void SceneTick();
+		void SceneLastTick();
 
-		void SceneDestroy();
+		//void SceneDestroy();
 		void SceneRender(HDC hdc);
 
 
-		//이벤트 매니저 
-		void AddActor(CActor* pActor);
-		bool EraseInLayer(CActor* pActor);
+		////이벤트 매니저 
+		//void AddActor(CActor* pActor);
+		//bool EraseInLayer(CActor* pActor);
 
-		const CLayer* GetLayer(UINT layer) const ;
+		//const CLayer* GetLayer(UINT layer) const ;
 
-		std::vector<CLayer*> m_vecLayer;
+		//std::vector<CLayer*> m_vecLayer;
 	};
 
 }

@@ -9,7 +9,7 @@ namespace Framework
 		CUIBase* leftButton = new CUIBase();
 		CUIBase* rightButton = new CUIBase();
 
-		CUIManager::LoadUI(Enums::eUIType::Button, leftButton, true, true);
-		CUIManager::LoadUI(Enums::eUIType::Size, rightButton, true, false);
+		UI::LoadUI(Enums::eUIType::Button, leftButton, true, true);
+		UI::LoadUI(Enums::eUIType::Size, rightButton, true, false);
 	}
 }

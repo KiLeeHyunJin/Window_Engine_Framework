@@ -30,56 +30,12 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
-	const Resource::CTexture* pTexture = Resource::CResourceManager::FindTexture(L"Room");
-
-	//CActor* pObj = Object::Instantiate<CPlayerInput>((UINT)Enums::eLayerType::BackGround, L"Player")->GetOwner();
-	//CBoxColliderComponent* pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
-	//CRigidbodyComponent* pRigid = pObj->AddComponent<CRigidbodyComponent>();
-	//CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	//pAnim->CreateAnimationByFolder(L"Temp", L"..\\Resources\\", 1);
-
-	////pAnim->CreateAnimation(L"Temp", pTexture, Maths::Vector2(0, 50), 3, 2);
-
-	//pAnim->PlayAnimation(L"Temp");
-	//pRigid->SetGround(true);
-
-	////CPlayerInput* pInput = pObj->AddComponent<CPlayerInput>();
-	//pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
-
-	//CAnimatorComponent* pAnim = pObj->AddComponent<CAnimatorComponent>();
-	//pAnim->CreateAnimation(L"Room", pTexture, Vector2::Zero, Vector2(50, 50), Vector2::Zero, 5, 0.2f);
-	//pAnim->PlayAnimation(L"Room", true);
-
-
-	/*pObj = Object::Instantiate<CDummy>((UINT)Enums::eLayerType::BackGround, L"Dummy")->GetOwner();
-	pBoxColl = pObj->AddComponent<CBoxColliderComponent>();
-	pRigid = pObj->AddComponent<CRigidbodyComponent>();
-	
-	pRigid->SetGround(true);
-	pBoxColl->SetSize(Maths::Vector2(50, 50));
-
-	pObj->GetTransformComponent()->SetPos(Maths::Vector2(100, 100));
-	pObj->GetTransformComponent()->SetScale(Maths::Vector2(50, 50));
-
-
-	CCollisionManager::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);*/
-
-
-	//pObj->AddComponent<CPlayerInput>();
-
-
-	//CActor* pCameraObj = Object::Instantiate((UINT)Enums::eLayerType::None, L"Cam");
-	
-	//CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
-
-	//Object::DontDestoryOnLoad(pCameraObj);
-	
-	//Renderer::CRenderer::SetMainCamera(pCamera);
+	const Resource::CTexture* pTexture = RESOURCE::FindTexture(L"Room");
 
 	
 }
 
-void Framework::CPlayScene::TickComponent()
+void Framework::CPlayScene::Tick()
 {
 	if (INPUT::GetKeyDown(eKeyCode::B))
 	{
@@ -99,7 +55,7 @@ void Framework::CPlayScene::TickComponent()
 	}
 }
 
-void Framework::CPlayScene::LastTickComponent()
+void Framework::CPlayScene::LastTick()
 {
 }
 
@@ -115,28 +71,28 @@ void Framework::CPlayScene::OnEnter()
 {
 	COLLISION::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
 
-	const Resource::CTexture* pTexture = Resource::CResourceManager::FindTexture(L"Room");
-	const Resource::CTexture* pTexture1 = Resource::CResourceManager::FindTexture(L"Room1");
-	const Resource::CTexture* pTexture2 = Resource::CResourceManager::FindTexture(L"Room2");
+	const Resource::CTexture* pTexture = RESOURCE::FindTexture(L"Room");
+	const Resource::CTexture* pTexture1 = RESOURCE::FindTexture(L"Room1");
+	const Resource::CTexture* pTexture2 = RESOURCE::FindTexture(L"Room2");
 
-	Resource::CResourceManager::CreateSprite(pTexture, L"Room", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
-	Resource::CResourceManager::CreateSprite(pTexture1, L"Room1", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
-	Resource::CResourceManager::CreateSprite(pTexture2, L"Room2", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	RESOURCE::CreateSprite(pTexture, L"Room", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	RESOURCE::CreateSprite(pTexture1, L"Room1", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	RESOURCE::CreateSprite(pTexture2, L"Room2", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
 
-	Resource::CResourceManager::CreateFlipbook(L"Room", false);
-	const Resource::CFlipbook* flipBook = Resource::CResourceManager::FindFlipbook(L"Room");
+	RESOURCE::CreateFlipbook(L"Room", false);
+	const Resource::CFlipbook* flipBook = RESOURCE::FindFlipbook(L"Room");
 
-	const Resource::CSprite* sprite1 = Resource::CResourceManager::FindSprite(L"Room");
-	const Resource::CSprite* sprite2 = Resource::CResourceManager::FindSprite(L"Room1");
-	const Resource::CSprite* sprite3 = Resource::CResourceManager::FindSprite(L"Room2");
+	const Resource::CSprite* sprite1 = RESOURCE::FindSprite(L"Room");
+	const Resource::CSprite* sprite2 = RESOURCE::FindSprite(L"Room1");
+	const Resource::CSprite* sprite3 = RESOURCE::FindSprite(L"Room2");
 
-	Resource::CResourceManager::InsertSprite(flipBook, sprite1);
-	Resource::CResourceManager::InsertSprite(flipBook, sprite2);
-	Resource::CResourceManager::InsertSprite(flipBook, sprite3);
+	RESOURCE::InsertSprite(flipBook, sprite1);
+	RESOURCE::InsertSprite(flipBook, sprite2);
+	RESOURCE::InsertSprite(flipBook, sprite3);
 
-	CFlipbookActor* pSpriteActor = new CFlipbookActor(3);
+
+	CFlipbookActor* pSpriteActor = Object::Instantiate<CFlipbookActor>(3, L"SpriteActor");
 	pSpriteActor->SetPosition(Maths::Vector2(50, 50));
-	CEventManager::AddActor(CSceneManager::GetCurrentScene(), pSpriteActor, false);
 
 	pSpriteActor->SetFlipbook(flipBook);
 
@@ -166,6 +122,6 @@ void Framework::CPlayScene::OnExit()
 	//m_list.clear();
 }
 
-void Framework::CPlayScene::LastRender(HDC hdc)
-{
-}
+//void Framework::CPlayScene::LastRender(HDC hdc)
+//{
+//}

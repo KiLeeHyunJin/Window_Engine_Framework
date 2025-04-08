@@ -3,35 +3,40 @@
 
 namespace Framework
 {
-	class CCollisionManager;
+	namespace
+	{
+		class CCollisionManager;
+	}
 	class CColliderComponent;
 	class CQuadTree;
-	//class CActor;
 
-
-	class CQuadTreeManager
+	namespace Manager
 	{
-	public:
+		class CQuadTreeManager
+		{
+		public:
 
-		friend CCollisionManager;
-	private:
-		CQuadTreeManager();
-		~CQuadTreeManager();
+			friend CCollisionManager;
+		private:
+			CQuadTreeManager();
+			~CQuadTreeManager();
 
-		static void Initialize(const Maths::Vector2& size, int maxDepth, float constrantK);
-		static void Insert(CColliderComponent* pCollider);
+			static void Initialize(const Maths::Vector2& size, int maxDepth, float constrantK);
+			static void Insert(CColliderComponent* pCollider);
 
-		static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::unordered_map<UINT32, CColliderComponent*>& ignores);
-		static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayers);
+			static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::unordered_map<UINT32, CColliderComponent*>& ignores);
+			static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayers);
 
-		static const std::vector<CColliderComponent*>& Query(CColliderComponent* queryItem);
-		static const std::vector<CColliderComponent*>& Query(const Maths::Vector2& center, const Maths::Vector2& size);
+			static const std::vector<CColliderComponent*>& Query(CColliderComponent* queryItem);
+			static const std::vector<CColliderComponent*>& Query(const Maths::Vector2& center, const Maths::Vector2& size);
 
-		static void Clear();
-		static void Release();
-		static void Render(HDC hdc);
-		static CQuadTree* m_pQuadTree;
-	};
+			static void Clear();
+			static void Release();
+			static void Render(HDC hdc);
+			static CQuadTree* m_pQuadTree;
+		};
+	}
+	
 
 }
 

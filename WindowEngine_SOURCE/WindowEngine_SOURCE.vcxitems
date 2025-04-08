@@ -26,10 +26,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CDataManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CEventManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbook.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CManagerBase.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbookActor.h" />
@@ -77,10 +77,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CData.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CDataManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CDontDestroyOnLoad.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEventManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbook.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CManagerBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CObjectManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTree.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeManager.cpp" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
-#include "CRenderManager.h"
+
 namespace Framework
 {
 	class CApplication
@@ -15,15 +15,15 @@ namespace Framework
 		void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen = false);
 		void Release();
 
-		__forceinline const Maths::Vector2& GetResolution() const { return  RENDER::m_vecCurrentBufferSize;	}
+		//const Maths::Vector2& GetResolution();
 
-		__forceinline HDC GetHDC() const			{ return CRenderManager::GetHDC(); }
-		__forceinline bool GetScreenState() const	{ return CRenderManager::m_bScreenState; };
-		__forceinline HWND GetHWND() const			{ return CRenderManager::m_hWnd; }
+		HDC GetHDC() const			;
+		bool GetScreenState() const	;
+		HWND GetHWND() const		;
 
 	private:
-		void TickComponent();
-		void LastTickComponent();
+		void Tick();
+		void LastTick();
 		//void Destroy();
 		void Render();
 		HWND m_hwnc;

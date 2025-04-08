@@ -15,10 +15,10 @@ namespace Framework
 	void CDontDestroyOnLoad::Release()
 	{
 	}
-	void CDontDestroyOnLoad::TickComponent()
+	void CDontDestroyOnLoad::Tick()
 	{
 	}
-	void CDontDestroyOnLoad::LastTickComponent()
+	void CDontDestroyOnLoad::LastTick()
 	{
 	}
 	void CDontDestroyOnLoad::Render(HDC hdc)
@@ -30,7 +30,7 @@ namespace Framework
 	void CDontDestroyOnLoad::OnExit()
 	{
 	}
-	void CDontDestroyOnLoad::LastRender(HDC hdc)
-	{
-	}
+	//void CDontDestroyOnLoad::LastRender(HDC hdc)
+	//{
+	//}
 }

@@ -14,14 +14,14 @@ namespace Framework//::Renderer
 			static void SetMainCamera(CCameraComponent* cam)
 			{
 				m_mainCam = cam;
-				m_mainCam->SetResolution(m_vecResolution);
+				//m_mainCam->SetResolution(m_vecResolution);
 			}
 			static CCameraComponent* GetMainCamera() { return m_mainCam; }
-			static void SetResolution(Vector2 resolution) { m_vecResolution = resolution; }
+			//static void SetResolution(Vector2 resolution) { m_vecResolution = resolution; }
 
 		private:
 			static CCameraComponent* m_mainCam;
-			static Maths::Vector2 m_vecResolution;
+			//static Maths::Vector2 m_vecResolution;
 		};
 	}
 	

@@ -1,78 +1,98 @@
 #pragma once
 #include "CommonInclude.h"
 #include "CLayer.h"
+#include "CEventManager.h"
 
 namespace Framework
 {
 	class CApplication;
 	class CRenderManager;
-	class CColliderManager;
+	class CCollisionManager;
+	class CSceneManager;
 	class CActor;
 
-	class CObjectManager
+	namespace Manager
 	{
-	public:
-		template<typename T>
-		static T* CreateObject()
+		class CObjectManager
 		{
-			static_assert(std::is_base_of<CActor, T>::value, "T is not from CComponent");
-
-			T* object = new T();
-			object->BeginPlay();
-			return object;
-		}
-
-		static void AddActor(CActor* pActor);
-		static bool EraseInLayer(CActor* pActor);
-		static void Clear() { m_unObjects.clear(); }
-
-		static CActor* GetActor(UINT32 actorId)
-		{
-			auto iter = m_unObjects.find(actorId);
-			if (iter == m_unObjects.end())
+		public:
+			template<typename T>
+			static T* CreateObject(UINT layer, bool dontDestroy = false)
 			{
-				return nullptr;
+				static_assert(std::is_base_of<CActor, T>::value, "T is not from CComponent");
+
+				T* object = new T(layer);
+				EVENT::AddActor(object, dontDestroy);
+				return object;
 			}
-			return iter->second;
-		}
-		__forceinline static const UINT	 GetLayerSize() { return m_uiLayerSize; }
-		static void InitLayerSize(UINT layerSize);
+
+			__forceinline static CActor* GetActor(UINT32 actorId)
+			{
+				auto iter = m_unObjects.find(actorId);
+				return iter == m_unObjects.end() ? nullptr : iter->second;
+			}
+
+			__forceinline static const UINT	 GetLayerSize() { return m_uiLayerSize; }
+
+			static void InitLayerSize(UINT layerSize);
 
 
-		friend CApplication;
-		friend CRenderManager;
-		friend CColliderManager;
-	private:
-		CObjectManager();
-		~CObjectManager();
+			friend CApplication;		//매번 함수 실행을 위해 사용
+			friend CRenderManager;		//렌더를 위해 사용
+			friend CCollisionManager;	//충돌을 위해 오브젝트 가져오기위해 사용
+			friend CEventManager;		//레이어 변경 및 오브젝트 추가 삭제를 위해 사용
+			friend CSceneManager;		//씬 전환할때마다 오브젝트 삭제를 위해 사용
+		private:
+			CObjectManager();
+			~CObjectManager();
 
-		static void Initialize();
+			static void Initialize();									//Application
+			static void Release();										//Application
 
+			static void Tick();											//Application
+			static void LastTick();										//Application
 
-		static void Release();
+			static void Render(HDC hdc);								//RenderManager
 
-		static void TickComponent();
-		static void LastTickComponent();
-		static void Render(HDC hdc);
+			static void Clear(bool allClear = false);					//SceneManager
 
+			static void AddActorID(CActor* pActor);						//EventManager
+			static void AddActor(CActor* pActor);						//EventManager
 
-		__forceinline static const std::vector<CActor*>& GetDontDestroyActors(UINT layer)
-		{
-			return m_vecDontDestoryLayer[layer]->GetActor();
-		}
+			static void AddInLayer(CActor* pActor);						//EventManager
+			static bool EraseInLayer(CActor* pActor);					//EventManager
 
-		__forceinline static const std::vector<CActor*>& GetActors(UINT layer)
-		{
-			return m_vecLayer[layer]->GetActor();
-		}
+			static void Destroy();										//CollisionManager
 
-		static UINT m_uiLayerSize;
-		static std::unordered_map<UINT32, CActor*> m_unObjects;
+			__forceinline static void RemoveActor(UINT32 actorId) 		//EventManager
+			{
+				auto iter = m_unObjects.find(actorId);
+				if (iter != m_unObjects.end())
+				{
+					m_unObjects.erase(actorId);
+				}
+			}
 
-		static std::vector<CLayer*> m_vecLayer;
-		static std::vector<CLayer*> m_vecDontDestoryLayer;
-	};
-	using OBJECT = CObjectManager;
+			__forceinline static const std::vector<CActor*>& GetDontDestroyActors(UINT layer)	//CollisionManager
+			{
+				return m_vecDontDestoryLayer[layer]->GetActor();
+			}
+
+			__forceinline static const std::vector<CActor*>& GetActors(UINT layer)				//CollisionManager	
+			{
+				return m_vecLayer[layer]->GetActor();
+			}
+
+			static UINT m_uiLayerSize;
+			static std::unordered_map<UINT32, CActor*> m_unObjects;
+
+			static std::vector<CLayer*> m_vecLayer;
+			static std::vector<CLayer*> m_vecDontDestoryLayer;
+		};
+	}
+
+	
+	using OBJECT = Manager::CObjectManager;
 
 }
 

@@ -8,7 +8,6 @@ namespace Framework
     namespace Resource
     {
 
-        class CResourceManager;
 
         class CSprite : public CResource
         {
@@ -31,7 +30,7 @@ namespace Framework
             CSprite(CTexture* m_pTexture,const Maths::Vector2Int& start, const Maths::Vector2Int& size,const Maths::Vector2Int& pivot);
             virtual ~CSprite();
 
-            friend CResourceManager;
+            friend Manager::CResourceManager;
         private:
             Maths::Vector2Int m_vecStart;
             Maths::Vector2Int m_vecPivot;

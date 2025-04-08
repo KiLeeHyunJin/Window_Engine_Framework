@@ -3,20 +3,22 @@
 
 namespace Framework
 {
-    class CSceneManager;
-
+    namespace Manager
+    {
+        class CSceneManager;
+    }
 
     class CTitleScene :
         public CScene
     {
-        friend CSceneManager;
+        friend Manager::CSceneManager;
     private:
         CTitleScene();
         virtual ~CTitleScene();
 
         void Initialize()		override;
-        void TickComponent()				override;
-        void LastTickComponent()			override;
+        void Tick()				override;
+        void LastTick()			override;
         void Render(HDC hdc)	override;
         void Release()			override;
 
@@ -25,7 +27,7 @@ namespace Framework
         void OnExit() override;
 
         // CScene을(를) 통해 상속됨
-        void LastRender(HDC hdc) override;
+        //void LastRender(HDC hdc) override;
     };
 }
 

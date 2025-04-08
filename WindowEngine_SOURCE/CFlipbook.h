@@ -20,7 +20,7 @@ namespace Framework
             float GetDuration(UINT index) const                                 { return m_vecSprites[index].second; }
             const CSprite* GetSprite(UINT index) const                          { return m_vecSprites[index].first; }
 
-            friend CResourceManager;
+            friend Manager::CResourceManager;
         private:
             CFlipbook(bool loop);
             virtual ~CFlipbook();

@@ -2,35 +2,41 @@
 
 namespace Framework
 {
-	std::unordered_map<std::wstring, CData*> CDataManager::_unData = {};
 
-	void CDataManager::Load(const std::wstring& key, const std::wstring& path)
+	namespace Manager
 	{
+		std::unordered_map<std::wstring, CData*> CDataManager::_unData = {};
 
-	}
-
-	CData* CDataManager::GetData(const std::wstring& key)
-	{
-		return nullptr;
-	}
-	
-	void CDataManager::Initialize()
-	{
-	}
-	
-	void CDataManager::Release()
-	{
-		for (auto& data : _unData)
+		void CDataManager::Load(const std::wstring& key, const std::wstring& path)
 		{
 
 		}
-		_unData.clear();
+
+		CData* CDataManager::GetData(const std::wstring& key)
+		{
+			return nullptr;
+		}
+
+		void CDataManager::Initialize()
+		{
+		}
+
+		void CDataManager::Release()
+		{
+			for (auto& data : _unData)
+			{
+
+			}
+			_unData.clear();
+		}
+
+		CDataManager::CDataManager()
+		{
+		}
+		CDataManager::~CDataManager()
+		{
+		}
 	}
 
-	CDataManager::CDataManager()
-	{
-	}
-	CDataManager::~CDataManager()
-	{
-	}
+	
 }

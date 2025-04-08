@@ -18,7 +18,10 @@
 
 namespace Framework
 {
-	class CEventManager;
+	namespace Manager
+	{
+		class CEventManager;
+	}
 	class CAnimatorComponent;
 	class CTransformComponent;
 	class CComponent;
@@ -173,7 +176,7 @@ namespace Framework
 		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate; }
 
 		friend CLayer;
-		friend CEventManager;
+		friend Manager::CEventManager;
 	protected:
 		virtual void BeginPlay()			= 0;
 		virtual void Release()				= 0;

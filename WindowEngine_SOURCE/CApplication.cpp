@@ -33,57 +33,58 @@ namespace Framework
 
 		INPUT::Initialize(hWnd);
 		TIME::Initialize();
+
 		UI::Initialize();
 		SCENE::Initialize();
 		COLLISION::Initialize();
 		EVENT::Initialize();
 		OBJECT::Initialize();
-		INPUT::SetResolution(RENDER::GetResolution());
+
+		//INPUT::SetResolution(RENDER::GetResolution());
 	}
 
 	void CApplication::Release()
 	{
 		SCENE::Release();
-		OBJECT::Initialize();
+		OBJECT::Release();
 
-		Resource::RESOURCE::Release();
+		RESOURCE::Release();
 		UI::Release();
 		COLLISION::Release();
 		EVENT::Release();
 
 		RENDER::Release();
 		
-
 	}
 
 	void CApplication::Run()
 	{
-		TickComponent();
-		LastTickComponent();
+		Tick();
+		LastTick();
 		Render();
 	}
 
-	void CApplication::TickComponent()
+	void CApplication::Tick()
 	{
-		TIME::TickComponent();
-		INPUT::TickComponent();
+		TIME::Tick();
+		INPUT::Tick();
 
-		SCENE::TickComponent(); // 업데이트
-		OBJECT::TickComponent();
+		SCENE::Tick(); // 업데이트
+		OBJECT::Tick();
 
-		EVENT::TickComponent(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
-		UI::TickComponent();
+		EVENT::Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
+		UI::Tick();
 
-		COLLISION::TickComponent(); // 1초에 80번 업데이트
+		COLLISION::Tick(); // 1초에 80번 업데이트
 	}
 
-	void CApplication::LastTickComponent()
+	void CApplication::LastTick()
 	{
-		SCENE::LastTickComponent();
-		OBJECT::LastTickComponent();
+		SCENE::LastTick();
+		OBJECT::LastTick();
 
-		EVENT::LastTickComponent(); // 씬 전환
-		//UI::LastTickComponent();
+		EVENT::LastTick(); // 씬 전환
+		//UI::LastTick();
 	}
 
 	void CApplication::Render()
@@ -99,13 +100,32 @@ namespace Framework
 	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
 		RENDER::ChangeScreenSize(maximumScale);
-		const Maths::Vector2& resolution = RENDER::GetResolution();
-		CCameraComponent* cam = Renderer::CRenderer::GetMainCamera();
-		if (cam != nullptr)
-		{
-			cam->SetResolution(resolution);
-		}
-		INPUT::SetResolution(RENDER::GetResolution());
+
+		//CCameraComponent* cam = Renderer::CRenderer::GetMainCamera();
+		//if (cam != nullptr)
+		//{
+		//	const Maths::Vector2& resolution = RENDER::GetResolution();
+		//	cam->SetResolution(resolution);
+		//}
+		//INPUT::SetResolution(resolution);
+	}
+
+	//const Maths::Vector2& GetResolution()
+	//{
+	//	return RENDER::GetResolution();
+	//}
+
+	HDC CApplication::GetHDC() const
+	{
+		return RENDER::GetHDC();
+	}
+	bool CApplication::GetScreenState() const
+	{
+		return RENDER::m_bScreenState;
+	}
+	HWND CApplication::GetHWND() const
+	{
+		return RENDER::m_hWnd;
 	}
 
 }

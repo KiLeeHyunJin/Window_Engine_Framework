@@ -4,11 +4,16 @@
 
 namespace Framework
 {
-	class CCollisionManager;
-	class CSceneManager;
-	class CObjectManager;
+
 	class CScene;
 	class CActor;
+
+	namespace Manager
+	{
+		class CCollisionManager;
+		class CSceneManager;
+		class CObjectManager;
+	}
 
 	class CLayer :
 		public CEntity
@@ -17,9 +22,9 @@ namespace Framework
 
 
 		friend CScene;
-		friend CCollisionManager;
-		friend CSceneManager;
-		friend CObjectManager;
+		friend Manager::CCollisionManager;
+		friend Manager::CSceneManager;
+		friend Manager::CObjectManager;
 	private:
 		CLayer(UINT layer);
 		virtual ~CLayer();
@@ -27,21 +32,23 @@ namespace Framework
 		void Initialize();
 		void Release();
 
-		void TickComponent();
-		void LastTickComponent();
+		void Tick();
+		void LastTick();
 
 		void Render(HDC hdc) const;
 
 		void AddActor(CActor* pActor);
 		bool EraseInIndex(CActor* pActor);
 
-		const std::vector<CActor*>& GetActor() const { return m_listActor; }
+		void Clear();
+
+		const std::vector<CActor*>& GetActor() const { return m_vecActor; }
 
 		void Destroy();
 
 		UINT m_eLayer;
-		std::vector<CActor*> m_listActor;
-		std::vector<CActor*> m_listRemoveActor;
+		std::vector<CActor*> m_vecActor;
+		std::vector<CActor*> m_vecRemoveActor;
 	};
 }
 

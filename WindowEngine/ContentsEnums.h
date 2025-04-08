@@ -6,7 +6,7 @@ enum class eMap
 	Title,
 	Play,
 
-	DontDestroy,
+	//DontDestroy,
 	Size,
 };
 

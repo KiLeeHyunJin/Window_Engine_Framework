@@ -5,15 +5,16 @@
 
 namespace Framework//::Resource
 {
-	namespace Resource
+
+	namespace Manager
 	{
 		std::map<const std::wstring, Resource::CResource*> CResourceManager::m_mapResoucres = {};
 		std::map<const std::wstring, Resource::CTexture*>  CResourceManager::m_mapTextures = {};
 		std::map<const std::wstring, Resource::CSprite*>   CResourceManager::m_mapSprites = {};
 		std::map<const std::wstring, Resource::CFlipbook*> CResourceManager::m_mapFlipbooks = {};
 
-		CResourceManager::CResourceManager()	{}
-		CResourceManager::~CResourceManager()	{}
+		CResourceManager::CResourceManager() {}
+		CResourceManager::~CResourceManager() {}
 
 		CTexture* CResourceManager::LoadTexture(const std::wstring& key, const std::wstring& path)
 		{
@@ -38,7 +39,7 @@ namespace Framework//::Resource
 
 
 
-		const bool CResourceManager::CreateSprite(const CTexture* texture, const std::wstring& key, const Maths::Vector2Int& leftTop, const Maths::Vector2Int& size,const Maths::Vector2Int& pivot)
+		const bool CResourceManager::CreateSprite(const CTexture* texture, const std::wstring& key, const Maths::Vector2Int& leftTop, const Maths::Vector2Int& size, const Maths::Vector2Int& pivot)
 		{
 			const CSprite* pSprite = CResourceManager::FindSprite(key);
 			if (pSprite != nullptr)
@@ -139,6 +140,11 @@ namespace Framework//::Resource
 			m_mapFlipbooks.clear();
 
 		}
+	}
+
+	namespace Resource
+	{
+		
 	}
 
 

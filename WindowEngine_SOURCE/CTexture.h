@@ -4,9 +4,9 @@
 
 namespace Framework//::Resource
 {
+
 	namespace Resource
 	{
-		class CResourceManager;
 
 		class CTexture :
 			public CResource
@@ -29,7 +29,8 @@ namespace Framework//::Resource
 			inline const eTextureType	GetTextureType() const		{ return m_eTextureType; }
 			inline Gdiplus::Image*		GetImage()	const			{ return m_pImg; }
 			inline HDC					GetHDC()	const			{ return m_hdc; }
-			friend CResourceManager;
+
+			friend Manager::CResourceManager;
 		private:
 			CTexture();
 			virtual ~CTexture();

@@ -76,7 +76,7 @@ namespace Framework
 		if (pAnim != nullptr)
 		{	return;	}
 		UINT size = 0;
-		const CTexture* spriteSheet = Resource::CResourceManager::FindTexture(name);
+		const CTexture* spriteSheet = RESOURCE::FindTexture(name);
 
 		if (spriteSheet == nullptr)
 		{
@@ -102,7 +102,7 @@ namespace Framework
 					{
 						const std::wstring fileName = wstrName;
 						const std::wstring fullName = path + wstrName;
-						const Resource::CTexture* pTexture = CResourceManager::LoadTexture(fileName, fullName);
+						const Resource::CTexture* pTexture = RESOURCE::LoadTexture(fileName, fullName);
 						if (pTexture != nullptr)
 						{
 							vecImgs.push_back(pTexture);

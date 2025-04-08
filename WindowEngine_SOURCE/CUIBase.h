@@ -4,7 +4,10 @@
 
 namespace Framework
 {
-	class CUIManager;
+	namespace Manager
+	{
+		class CUIManager;
+	}
 
 	class CUIBase : public CEntity
 	{
@@ -38,7 +41,7 @@ namespace Framework
 		__inline bool GetDragable() const				{ return m_bDraggable; }
 		Maths::Vector2 m_vecRenderPos;
 
-		friend CUIManager;
+		friend Manager::CUIManager;
 	private:
 
 #pragma region  Basic Event
