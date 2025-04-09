@@ -1,0 +1,4 @@
+#define RELEASE_SINGLE public : static void DestroyInstance() { if (s_instance != nullptr) { s_instance->Release(); delete s_instance; s_instance = nullptr; } }
+#define DECLARE_SINGLE(classname) private : classname() {} static classname* s_instance; public : static classname& GetInstance() { if(s_instance == nullptr) { s_instance = new classname; } return *s_instance; }
+
+

@@ -36,11 +36,13 @@ namespace Framework
 
 		class CInputManager
 		{
+			DECLARE_SINGLE(CInputManager)
+			RELEASE_SINGLE
 		public:
-			__forceinline static bool GetKeyDown(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down; }
-			__forceinline static bool GetKeyUp(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up; }
-			__forceinline static bool GetKeyPressed(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed; }
-			__forceinline static const Maths::Vector2& GetMousePosition() { return m_vecMousePos; }
+			__forceinline bool GetKeyDown(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down; }
+			__forceinline bool GetKeyUp(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up; }
+			__forceinline bool GetKeyPressed(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed; }
+			__forceinline const Maths::Vector2& GetMousePosition() { return m_vecMousePos; }
 
 			friend class CApplication;
 			friend CRenderManager;
@@ -52,27 +54,29 @@ namespace Framework
 				bool		bPressed;
 			};
 
-			CInputManager();
+			//CInputManager();
 			~CInputManager();
 
-			static void Initialize(HWND hwnd);
-			static void Tick();
-			static void Render(HDC hdc, int posX, int posY);
+			void Initialize(HWND hwnd);
+			void Tick();
+			void Render(HDC hdc, int posX, int posY);
 
-			static bool IsKeyDown(eKeyCode key);
-			static void UpdateKeyDown(Key& key);
-			static void UpdateKeyUp(Key& key);
-			static void UpdateCursorPosition();
+			bool IsKeyDown(eKeyCode key);
+			void UpdateKeyDown(Key& key);
+			void UpdateKeyUp(Key& key);
+			void UpdateCursorPosition();
 
-			static void UpdateKey();
-			static void ClearKey();
-			//static void SetResolution(const Maths::Vector2& resolution) { m_vecWinResolution = resolution; }
+			void UpdateKey();
+			void ClearKey();
 
-			//static Maths::Vector2 m_vecWinResolution;
-			static Maths::Vector2 m_vecMousePos;
-			static std::vector<Key> m_vecKeys;
+			void Release(){}
+			//void SetResolution(const Maths::Vector2& resolution) { m_vecWinResolution = resolution; }
 
-			static HWND m_hwnd;
+			//Maths::Vector2 m_vecWinResolution;
+			Maths::Vector2 m_vecMousePos	= {};
+			std::vector<Key> m_vecKeys		= {};
+
+			HWND m_hwnd						= {};
 		};
 	}
 

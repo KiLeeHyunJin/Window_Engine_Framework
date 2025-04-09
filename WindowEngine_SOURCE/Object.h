@@ -21,7 +21,7 @@ namespace Framework//::Object
 			static_assert(std::is_base_of<CActor, T>::value,L"Is Not Actor");
 
 			T* pActor = new T(layerType);
-			EVENT::AddActor(pActor, dontDestory);
+			GET_SINGLE(EVENT).AddActor(pActor, dontDestory);
 			pActor->SetName(name);
 			return pActor;
 		};
@@ -32,14 +32,14 @@ namespace Framework//::Object
 			if (reserveDel)
 			{	return;		}
 
-			EVENT::DeleteActor(pObj);
+			GET_SINGLE(EVENT).DeleteActor(pObj);
 		}
 
 		static void DontDestoryOnLoad(CActor* pActor, bool state = true)
-		{	EVENT::SetDontDestroyActor(pActor, state);	}
+		{	GET_SINGLE(EVENT).SetDontDestroyActor(pActor, state);	}
 
 		__forceinline static CActor* GetActor(UINT32 actorID)
-		{		return OBJECT::GetActor(actorID);		}
+		{		return GET_SINGLE(OBJECT).GetActor(actorID);		}
 	}
 	
 }

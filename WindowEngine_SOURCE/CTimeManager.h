@@ -11,6 +11,8 @@ namespace Framework
 
 		class CTimeManager
 		{
+			DECLARE_SINGLE(CTimeManager)
+			RELEASE_SINGLE
 		public:
 			enum class eTimeType
 			{
@@ -20,42 +22,43 @@ namespace Framework
 				Size
 			};
 
-			__forceinline static void SetTimeType(eTimeType type) { timeType = type; }
-			__forceinline static float DeltaTime() { return m_fDeltaTime * m_fTimeScale; }
-			__forceinline static float RealDeltaTime() { return m_fDeltaTime; }
-			__forceinline static UINT FPS() { return m_uiFPS; }
-			__forceinline static void SetShowFPS(bool state) { m_bShowFPS = state; }
-			__forceinline static bool GetShowFPS() { return m_bShowFPS; }
-			__forceinline static float GetTimeScale() { return m_fTimeScale; }
-			__forceinline static void SetTimeScale(float scale) { m_fTimeScale = scale; }
-			//__forceinline static ULONGLONG TickTime()					{ return m_fDeltaTime; }
+			__forceinline void SetTimeType(eTimeType type)	{ timeType = type;						}
+			__forceinline float DeltaTime() const			{ return m_fDeltaTime * m_fTimeScale;	}
+			__forceinline float RealDeltaTime() const		{ return m_fDeltaTime;					}
+			__forceinline UINT FPS() const					{ return m_uiFPS;						}
+			__forceinline void SetShowFPS(bool state)		{ m_bShowFPS = state;					}
+			__forceinline bool GetShowFPS() const			{ return m_bShowFPS;					}
+			__forceinline float GetTimeScale() const		{ return m_fTimeScale;					}
+			__forceinline void SetTimeScale(float scale)	{ m_fTimeScale = scale;					}
+			//__forceinline ULONGLONG TickTime()					{ return m_fDeltaTime; }
 
 			friend class CApplication;
 			friend CRenderManager;
 		private:
-			CTimeManager();
+			//CTimeManager();
 			~CTimeManager();
 
-			static void Initialize();
-			static void Tick();
-			static void Render(HDC hdc);
+			void Initialize();
+			void Tick();
+			void Render(HDC hdc);
 
-			static void TimeTick();
-			static void TimePerformance();
-			//static void TimeChrono();
+			void TimeTick();
+			void TimePerformance();
+			void Release() {}
+			//void TimeChrono();
 
-			static float m_fDeltaTime;
-			static float m_fTimeScale;
-			static bool m_bShowFPS;
-			static UINT m_uiFPS;
-			static eTimeType timeType;
+			float m_fDeltaTime											= {};
+			float m_fTimeScale											= {};
+			bool m_bShowFPS												= {};
+			UINT m_uiFPS												= {};
+			eTimeType timeType											= {};
 
 			using TimeFuncPtr = void (*)();
-			static TimeFuncPtr functions[static_cast<int>(eTimeType::Size)];
+			TimeFuncPtr functions[static_cast<int>(eTimeType::Size)]	= {};
 
 			/// CPU Preformance
-			static LARGE_INTEGER m_liCpuFrequency;
-			static LARGE_INTEGER m_liPrevFrequency;
+			LARGE_INTEGER m_liCpuFrequency								= {};
+			LARGE_INTEGER m_liPrevFrequency								= {};
 		};
 	}
 	using TIME = Manager::CTimeManager;

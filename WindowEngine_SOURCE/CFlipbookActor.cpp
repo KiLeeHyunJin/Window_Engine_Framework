@@ -73,7 +73,7 @@ namespace Framework
 		}
 		else
 		{
-			m_fSumTime += TIME::DeltaTime();
+			m_fSumTime += GET_SINGLE(TIME).DeltaTime();
 			const auto& pair = m_pFlipbook->GetPair(m_uiIndex);
 
 			const float duration = pair.second;

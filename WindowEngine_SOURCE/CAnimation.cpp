@@ -54,7 +54,7 @@ namespace Framework
 			return;
 		}
 
-		m_fTime += DELTATIME;
+		m_fTime += GET_SINGLE(TIME).DELTATIME;
 		const float duration = m_vecSprites[m_iIndex].second;
 		if (duration < m_fTime)
 		{

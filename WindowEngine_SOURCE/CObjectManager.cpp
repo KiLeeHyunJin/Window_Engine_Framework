@@ -5,11 +5,13 @@ namespace Framework
 {
 	namespace Manager
 	{
-		UINT CObjectManager::m_uiLayerSize = 0;
-		std::unordered_map<UINT32, CActor*> CObjectManager::m_unObjects = {};
+		CObjectManager* CObjectManager::s_instance = nullptr;
 
-		std::vector<CLayer*> CObjectManager::m_vecLayer = {};
-		std::vector<CLayer*> CObjectManager::m_vecDontDestoryLayer = {};
+		//UINT CObjectManager::m_uiLayerSize = 0;
+		//std::unordered_map<UINT32, CActor*> CObjectManager::m_unObjects = {};
+		//
+		//std::vector<CLayer*> CObjectManager::m_vecLayer = {};
+		//std::vector<CLayer*> CObjectManager::m_vecDontDestoryLayer = {};
 
 		CObjectManager::~CObjectManager()
 		{
@@ -108,7 +110,7 @@ namespace Framework
 				m_vecLayer[i] = new CLayer(i);
 			}
 
-			COLLISION::InitCollisionLayer();
+			GET_SINGLE(COLLISION).InitCollisionLayer();
 		}
 
 		void CObjectManager::Initialize()

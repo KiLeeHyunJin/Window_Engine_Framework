@@ -79,7 +79,7 @@ namespace Framework
 	void CUIBase::MouseOnCheck()
 	{
 		const Maths::Vector2 halfSize = m_vecSize * 0.5f;
-		const auto& checkPos = INPUT::GetMousePosition();
+		const auto& checkPos = GET_SINGLE(INPUT).GetMousePosition();
 
 		if (m_vecRenderPos.x - halfSize.x <= checkPos.x &&
 			m_vecRenderPos.x + halfSize.x >= checkPos.x)
@@ -203,7 +203,7 @@ namespace Framework
 	{
 		if (m_bIsDrag)
 		{
-			Maths::Vector2 mousePos = INPUT::GetMousePosition();
+			Maths::Vector2 mousePos = GET_SINGLE(INPUT).GetMousePosition();
 			Maths::Vector2 vecDiff = mousePos - m_vecDragStartPos;
 
 			m_vecPos = m_vecPos + vecDiff;
@@ -226,7 +226,7 @@ namespace Framework
 			}
 			OnExit();
 		}
-		if (INPUT::GetKeyUp(eKeyCode::LBUTTON))
+		if (GET_SINGLE(INPUT).GetKeyUp(eKeyCode::LBUTTON))
 		{
 			m_bPrevMouseDown = false;
 		}
@@ -241,12 +241,12 @@ namespace Framework
 		}
 		if (m_bDraggable)
 		{
-			m_vecDragStartPos = INPUT::GetMousePosition();
+			m_vecDragStartPos = GET_SINGLE(INPUT).GetMousePosition();
 			m_bIsDrag = true;
 		}
 		if (m_bChangeHierarchy)
 		{
-			UI::SetLastSibling(this);
+			GET_SINGLE(UI).SetLastSibling(this);
 		}
 	}
 
@@ -261,7 +261,7 @@ namespace Framework
 		if (m_bIsDrag)
 		{
 			m_bIsDrag = false;
-			m_vecRenderPos = INPUT::GetMousePosition();
+			m_vecRenderPos = GET_SINGLE(INPUT).GetMousePosition();
 		}
 	}
 }

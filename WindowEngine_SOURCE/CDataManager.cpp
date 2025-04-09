@@ -5,7 +5,8 @@ namespace Framework
 
 	namespace Manager
 	{
-		std::unordered_map<std::wstring, CData*> CDataManager::_unData = {};
+		//std::unordered_map<std::wstring, CData*> CDataManager::_unData = {};
+		CDataManager* CDataManager::s_instance = nullptr;
 
 		void CDataManager::Load(const std::wstring& key, const std::wstring& path)
 		{
@@ -30,9 +31,6 @@ namespace Framework
 			_unData.clear();
 		}
 
-		CDataManager::CDataManager()
-		{
-		}
 		CDataManager::~CDataManager()
 		{
 		}

@@ -11,14 +11,15 @@ namespace Framework
 
 	namespace Manager
 	{
-		std::vector<CScene*>	CSceneManager::m_vecScenes = { nullptr };
-		CScene* CSceneManager::m_pCurrentScene = nullptr;
-		//CScene*	CSceneManager::m_pDontDestroyScene						= nullptr;
-		UINT	CSceneManager::m_uiLayerSize = 0;
-
-		CSceneManager::CSceneManager()
-		{
-		}
+		CSceneManager* CSceneManager::s_instance = nullptr;
+		//std::vector<CScene*>	CSceneManager::m_vecScenes = { nullptr };
+		//CScene* CSceneManager::m_pCurrentScene = nullptr;
+		////CScene*	CSceneManager::m_pDontDestroyScene						= nullptr;
+		//UINT	CSceneManager::m_uiLayerSize = 0;
+		//
+		//CSceneManager::CSceneManager()
+		//{
+		//}
 
 		CSceneManager::~CSceneManager()
 		{
@@ -77,13 +78,13 @@ namespace Framework
 				if (m_pCurrentScene != nullptr)
 				{
 					m_pCurrentScene->OnExit();
-					CCollisionManager::Clear();
-					CUIManager::Clear();
+					GET_SINGLE(COLLISION).Clear();
+					GET_SINGLE(UI).Clear();
 				}
 
 				m_pCurrentScene = pScene;
 				m_pCurrentScene->OnEnter();
-				OBJECT::Clear();
+				GET_SINGLE(OBJECT).Clear();
 				return m_pCurrentScene;
 			}
 			return nullptr;
@@ -116,7 +117,7 @@ namespace Framework
 				m_vecScenes.resize(size);
 				//m_vecScenes[m_vecScenes.size() - 1] = m_pDontDestroyScene;
 			}
-			//COLLISION::InitCollisionLayer();
+			//GET_SINGLE(COLLISION).InitCollisionLayer();
 		}
 	}
 

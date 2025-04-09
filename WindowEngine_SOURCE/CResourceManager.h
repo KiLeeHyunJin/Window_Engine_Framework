@@ -18,28 +18,30 @@ namespace Framework//::Resource
 
 		class CResourceManager
 		{
+			DECLARE_SINGLE(CResourceManager)
+			RELEASE_SINGLE
 		public:
 
-			static CTexture* LoadTexture(const std::wstring& key, const std::wstring& path);
-			static void		 LoadSound(const std::wstring& key);
+			CTexture* LoadTexture(const std::wstring& key, const std::wstring& path);
+			void		 LoadSound(const std::wstring& key);
 
-			static const bool CreateSprite(const CTexture* texture, const std::wstring& key, const Vector2Int& leftTop, const Vector2Int& size, const Vector2Int& pivot = Maths::Vector2Int::Zero);
-			static const bool CreateFlipbook(const std::wstring& key, bool loop);
+			const bool CreateSprite(const CTexture* texture, const std::wstring& key, const Vector2Int& leftTop, const Vector2Int& size, const Vector2Int& pivot = Maths::Vector2Int::Zero);
+			const bool CreateFlipbook(const std::wstring& key, bool loop);
 
-			static void InsertSprite(const CFlipbook* flipbook, const CSprite* sprite, float duration = 1);
+			void InsertSprite(const CFlipbook* flipbook, const CSprite* sprite, float duration = 1);
 
-			static const CTexture* FindTexture(const std::wstring& key);
-			static const CSprite* FindSprite(const std::wstring& key);
-			static const CFlipbook* FindFlipbook(const std::wstring& key);
-			static void FindSound(const std::wstring& key);
+			const CTexture* FindTexture(const std::wstring& key);
+			const CSprite* FindSprite(const std::wstring& key);
+			const CFlipbook* FindFlipbook(const std::wstring& key);
+			void FindSound(const std::wstring& key);
 
 
 			friend class CApplication;
 		private:
-			CResourceManager();
+			//CResourceManager();
 			~CResourceManager();
 
-			static CResource* LoadResource(CResource* pResource, const std::wstring& key, const std::wstring& path)
+			CResource* LoadResource(CResource* pResource, const std::wstring& key, const std::wstring& path)
 			{
 				if (FAILED(pResource->Load(path)))
 				{
@@ -52,13 +54,16 @@ namespace Framework//::Resource
 				return pResource;
 			}
 
-			static void Release();
+			void Release();
 
-			static std::map<const std::wstring, CResource*> m_mapResoucres;
+			std::map<const std::wstring, CResource*> m_mapResoucres = {};
 
-			static std::map<const std::wstring, CTexture*> m_mapTextures;
-			static std::map<const std::wstring, CSprite*> m_mapSprites;
-			static std::map<const std::wstring, CFlipbook*> m_mapFlipbooks;
+			std::map<const std::wstring, CTexture*> m_mapTextures	= {};
+			std::map<const std::wstring, CSprite*> m_mapSprites		= {};
+			std::map<const std::wstring, CFlipbook*> m_mapFlipbooks = {};
+
+
+
 		};
 
 	}

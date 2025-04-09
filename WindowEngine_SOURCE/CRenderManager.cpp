@@ -13,24 +13,23 @@ namespace Framework
 
 	namespace Manager
 	{
-		HWND CRenderManager::m_hWnd = nullptr;
-		HDC CRenderManager::m_hDC = nullptr;
+		CRenderManager* CRenderManager::s_instance = nullptr;
 
-		HDC CRenderManager::m_BackHDC = nullptr;
-		HBITMAP CRenderManager::m_BmpBuffer = nullptr;
+		//HWND CRenderManager::m_hWnd = nullptr;
+		//HDC CRenderManager::m_hDC = nullptr;
+		//
+		//HDC CRenderManager::m_BackHDC = nullptr;
+		//HBITMAP CRenderManager::m_BmpBuffer = nullptr;
+		//
+		//
+		//Maths::Vector2Int CRenderManager::m_vecWinSize = Maths::Vector2::Zero;
+		//Maths::Vector2Int CRenderManager::m_vecCurrentBufferSize = Maths::Vector2::Zero;
+		//Maths::Vector2Int CRenderManager::m_vecScreenSize = Maths::Vector2::Zero;
+		//
+		//DWORD CRenderManager::m_winStyle = 0;
+		//bool CRenderManager::m_bScreenState = false;
 
 
-		Maths::Vector2Int CRenderManager::m_vecWinSize = Maths::Vector2::Zero;
-		Maths::Vector2Int CRenderManager::m_vecCurrentBufferSize = Maths::Vector2::Zero;
-		Maths::Vector2Int CRenderManager::m_vecScreenSize = Maths::Vector2::Zero;
-
-		DWORD CRenderManager::m_winStyle = 0;
-		bool CRenderManager::m_bScreenState = false;
-
-
-		CRenderManager::CRenderManager()
-		{
-		}
 		CRenderManager::~CRenderManager()
 		{
 		}
@@ -51,15 +50,15 @@ namespace Framework
 		{
 			BeginDraw();
 
-			SCENE::Render(m_BackHDC);
-			OBJECT::Render(m_BackHDC);
+			GET_SINGLE(SCENE).Render(m_BackHDC);
+			GET_SINGLE(OBJECT).Render(m_BackHDC);
 
-			UI::Render(m_BackHDC);
+			GET_SINGLE(UI).Render(m_BackHDC);
 
-			COLLISION::Render(m_BackHDC);
+			GET_SINGLE(COLLISION).Render(m_BackHDC);
 
-			TIME::Render(m_BackHDC);
-			INPUT::Render(m_BackHDC, 300, 300);
+			GET_SINGLE(TIME).Render(m_BackHDC);
+			GET_SINGLE(INPUT).Render(m_BackHDC, 300, 300);
 
 			EndDraw();
 		}

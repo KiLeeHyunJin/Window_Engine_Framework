@@ -60,24 +60,24 @@ namespace Framework
 		}*/
 
 		const float speed = 20;
-		//const float TickComponentTime = TIME::DeltaTime();
+		//const float TickComponentTime = GET_SINGLE(TIME).DeltaTime();
 		const float movePower = speed * 5;
 		CRigidbodyComponent* rigid = owner->GetComponent<CRigidbodyComponent>();
 		Maths::Vector2 addForceDir;
 
-		if (INPUT::GetKeyPressed(eKeyCode::Left))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Left))
 		{
 			addForceDir += Maths::Vector2::Left;
 		}
-		if (INPUT::GetKeyPressed(eKeyCode::Right))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Right))
 		{
 			addForceDir += Maths::Vector2::Right;
 		}
-		if (INPUT::GetKeyPressed(eKeyCode::Up))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Up))
 		{
 			addForceDir += Maths::Vector2::Up;
 		}
-		if (INPUT::GetKeyPressed(eKeyCode::Down))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Down))
 		{
 			addForceDir += Maths::Vector2::Down;
 			//Object::Destroy(GetOwner());
@@ -88,7 +88,7 @@ namespace Framework
 			addForceDir.Normalize();
 			rigid->SetVelocity(addForceDir * movePower);
 		}
-	/*	if (INPUT::GetKeyDown(eKeyCode::Q))
+	/*	if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Q))
 		{
 			Maths::Vector2 pos;
 			pos.x = ray.origin.x - 50;

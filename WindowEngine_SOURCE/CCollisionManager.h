@@ -33,78 +33,80 @@ namespace Framework
 
 		class CCollisionManager
 		{
+			DECLARE_SINGLE(CCollisionManager)
+			RELEASE_SINGLE
 		public:
-			static void SetCollisionLayerState(UINT left, UINT right, bool enable);
-			static void InitCollisionLayer();
+			void SetCollisionLayerState(UINT left, UINT right, bool enable);
+			void InitCollisionLayer();
 
 			/// <summary>
 			/// 해당 위치를 중심으로 size크기와 충돌한 객체를 가져온다.
 			/// </summary>
-			static const std::vector<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size);
+			const std::vector<CColliderComponent*>& GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size);
 
 			/// <summary>
 			/// 해당 Rect와 충돌한 객체를 가져온다.
 			/// </summary>
-			static const std::vector<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
+			const std::vector<CColliderComponent*>& GetCollisionCollider(const Rect& rect);
 
 			/// <summary>
 			/// 무시 목록에 존재하지 않은 방향의 근거리 객체를 가져온다.
 			/// </summary>
-			static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, std::vector<CColliderComponent*>& ignores);
+			bool Raycast(const Ray& ray, CColliderComponent*& hitObject, std::vector<CColliderComponent*>& ignores);
 
 
 			/// <summary>
 			/// 특정 레이어의 객체만 체크하여 가져온다.
 			/// </summary>
-			static bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayer);
+			bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayer);
 
 
 			friend CApplication;
 			friend CRenderManager;
 			friend CSceneManager;
 		private:
-			CCollisionManager();
+			//CCollisionManager();
 			virtual ~CCollisionManager();
 
-			static void Initialize();
-			static void Release();
+			void Initialize();
+			void Release();
 
-			static void Tick();
-			static void LastTick();
+			void Tick();
+			void LastTick();
 
-			static void Render(HDC hdc);
+			void Render(HDC hdc);
 
-			static void Clear();
+			void Clear();
 
-			//static bool Raycast(Ray& ray, CColliderComponent& hitObject);
+			//bool Raycast(Ray& ray, CColliderComponent& hitObject);
 
-			//__forceinline static const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
+			//__forceinline const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 
 
-			__forceinline static void InsertCollision();
-			__forceinline static void InsertActor(const std::vector<CActor*>& vecObjs);
+			__forceinline void InsertCollision();
+			__forceinline void InsertActor(const std::vector<CActor*>& vecObjs);
 
-			__forceinline static void CollisionCircuit();
+			__forceinline void CollisionCircuit();
 
-			//static void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
-			//static void CollisionCheck(const std::vector<CActor*>& lefts, const std::vector<CActor*>& rights);
+			//void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
+			//void CollisionCheck(const std::vector<CActor*>& lefts, const std::vector<CActor*>& rights);
 
-			__forceinline static void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
+			__forceinline void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
 
-			//__forceinline static bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
-			//__forceinline static bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
+			//__forceinline bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
+			//__forceinline bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
 
-			__forceinline static bool GetLayerState(UINT left, UINT right);
+			__forceinline bool GetLayerState(UINT left, UINT right);
 
-			//static std::vector<std::vector<bool>> m_vectorCollisionCheck;
-			//static std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
-			static std::unordered_map<UINT64, bool> m_unmapCollisions;
+			//std::vector<std::vector<bool>> m_vectorCollisionCheck;
+			//std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
+			std::unordered_map<UINT64, bool> m_unmapCollisions = {};
 			/// <summary>
 			/// 모든 콜라이더들을 담아놓는 자료형
 			/// </summary>
-			static std::vector<CColliderComponent*> m_vecCollider;
-			static bool* m_bArryCollision;
-			static INT m_iCollTickComponentFPS;
+			std::vector<CColliderComponent*> m_vecCollider		= {};
+			bool* m_bArryCollision								= nullptr;
+			INT m_iCollTickComponentFPS							= 0;
 		};
 
 	}

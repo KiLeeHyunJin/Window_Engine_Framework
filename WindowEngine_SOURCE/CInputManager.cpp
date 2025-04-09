@@ -9,10 +9,12 @@ namespace Framework
 {
 	namespace Manager
 	{
-		std::vector<CInputManager::Key> CInputManager::m_vecKeys = {};
-		Maths::Vector2 CInputManager::m_vecMousePos = Maths::Vector2::One;
+		CInputManager* CInputManager::s_instance = nullptr;
+
+		//std::vector<CInputManager::Key> CInputManager::m_vecKeys = {};
+		//Maths::Vector2 CInputManager::m_vecMousePos = Maths::Vector2::One;
 		//Maths::Vector2 CInputManager::m_vecWinResolution = Maths::Vector2::Zero;
-		HWND CInputManager::m_hwnd = {};
+		//HWND CInputManager::m_hwnd = {};
 
 		int ASCII[] =
 		{
@@ -47,9 +49,6 @@ namespace Framework
 			VK_OEM_PLUS, //+
 		};
 
-		CInputManager::CInputManager()
-		{
-		}
 
 		CInputManager::~CInputManager()
 		{
@@ -87,7 +86,7 @@ namespace Framework
 			POINT point = {};
 			GetCursorPos(&point);
 			ScreenToClient(application.GetHWND(), &point);
-			const Maths::Vector2& resolution = RENDER::GetResolution();
+			const Maths::Vector2& resolution = GET_SINGLE(RENDER).GetResolution();
 			if (point.x < 0 || point.x > resolution.x ||
 				point.y < 0 || point.y > resolution.y)
 			{

@@ -1,22 +1,46 @@
 #pragma once
 
-#define DECLARE_SINGLE(classname)			\
-private :									\
-classname() {}								\
-public :									\
-	static classname* GetInstance()			\
-	{										\
-		static classname s_instance;		\
-		return &s_instance;					\
+#define DECLARE_SINGLE(classname)							\
+private :													\
+classname() {}												\
+static classname* s_instance;								\
+public :													\
+	static classname& GetInstance()							\
+	{														\
+		if(s_instance == nullptr)							\
+		{													\
+			s_instance = new classname;						\
+		}													\
+		return *s_instance;									\
 	}										
+
+#define RELEASE_SINGLE										\
+public :													\
+static void DestroyInstance()								\
+{															\
+	if (s_instance != nullptr)								\
+	{														\
+		s_instance->Release();								\
+		delete s_instance;									\
+		s_instance = nullptr;								\
+	}														\
+}															\
 
 #define GET_SINGLE(classname)	classname::GetInstance()
 
-#define SAFE_DELETE(ptr)					\
-if(ptr != nullptr)										\
-{											\
-	delete ptr;								\
-	ptr = nullptr;							\
+#define SAFE_DELETE(ptr)									\
+if(ptr != nullptr)											\
+{															\
+	delete ptr;												\
+	ptr = nullptr;											\
 }											
 
-#define SUPER_PARENT(classname) using SUPER = classname;	\
+#define RELEASE_MAP(map)									\
+			for (auto& pair : map)							\
+			{												\
+				/*pair.second->Release();*/						\
+				delete pair.second;							\
+			}												\
+			map.clear()										\
+
+#define DECLARE_PARENT(classname) using SUPER = classname;	\

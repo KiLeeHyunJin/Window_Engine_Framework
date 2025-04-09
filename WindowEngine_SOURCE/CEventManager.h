@@ -11,6 +11,8 @@ namespace Framework
 	{
 		class CEventManager
 		{
+			DECLARE_SINGLE(CEventManager)
+			RELEASE_SINGLE
 		public:
 
 			class EventJob
@@ -83,48 +85,48 @@ namespace Framework
 			/// </summary>
 			/// <param name="loadSceneID">Enum값으로 지정하는것을 추천</param>
 			/// <param name="changeTime">전환 예약 시간</param>
-			static void LoadScene(UINT loadSceneID, float changeTime = 0);
+			void LoadScene(UINT loadSceneID, float changeTime = 0);
 
 			/// <summary>
 			/// LastTick에서 처리
 			/// </summary>
-			static void ChangeLayer(CActor* pObj, UINT layerType);
+			void ChangeLayer(CActor* pObj, UINT layerType);
 
 			/// <summary>
 			/// LastTick에서 처리
 			/// </summary>
 			/// <param name="pObj"></param>
-			static void SetDontDestroyActor(CActor* pObj, bool state);
+			void SetDontDestroyActor(CActor* pObj, bool state);
 
 			/// <summary>
 			/// Tick에서 처리
 			/// </summary>
-			static void AddActor(CActor* pObj, bool dontDestroy);
+			void AddActor(CActor* pObj, bool dontDestroy);
 
 			/// <summary>
 			/// Tick에서 처리
 			/// </summary>
-			static void DeleteActor(CActor* pObj);
+			void DeleteActor(CActor* pObj);
 
-			static void Clear();
+			void Clear();
 
 			friend CApplication;
 		private:
-			CEventManager();
+			//CEventManager();
 			~CEventManager();
 
-			static void Initialize();
-			static void Release();
+			void Initialize();
+			void Release();
 
-			static void Tick();
-			static void LastTick();
+			void Tick();
+			void LastTick();
 
-			static void Job();
+			void Job();
 
-			static void ChangeScene();
+			void ChangeScene();
 
-			static std::queue<EventJob*> m_quequeEventJob;
-			static std::pair<const UINT, float>* m_pChangeScene;
+			std::queue<EventJob*> m_quequeEventJob			= {};
+			std::pair<const UINT, float>* m_pChangeScene	= {};
 
 		};
 	}

@@ -174,7 +174,7 @@ namespace Framework
 	{
 		for (auto actor : m_vecActor)
 		{
-			EVENT::DeleteActor(actor);
+			GET_SINGLE(EVENT).DeleteActor(actor);
 		}
 	}
 

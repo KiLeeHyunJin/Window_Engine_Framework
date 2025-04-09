@@ -28,32 +28,33 @@ namespace Framework
 		m_hwnc = hWnd;
 		m_hdc = ::GetDC(m_hwnc);
 
-		DATA::Initialize();
-		RENDER::Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
+		//GET_SINGLE(DATA).Initialize();
+		GET_SINGLE(RENDER).Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
+		GET_SINGLE(INPUT).Initialize(hWnd);
+		GET_SINGLE(INPUT).Initialize(hWnd);
+		GET_SINGLE(TIME).Initialize();
+		GET_SINGLE(UI).Initialize();
+		GET_SINGLE(SCENE).Initialize();
+		GET_SINGLE(COLLISION).Initialize();
+		GET_SINGLE(EVENT).Initialize();
+		GET_SINGLE(OBJECT).Initialize();
 
-		INPUT::Initialize(hWnd);
-		TIME::Initialize();
-
-		UI::Initialize();
-		SCENE::Initialize();
-		COLLISION::Initialize();
-		EVENT::Initialize();
-		OBJECT::Initialize();
-
-		//INPUT::SetResolution(RENDER::GetResolution());
+		//GET_SINGLE(INPUT).SetResolution(GET_SINGLE(RENDER).GetResolution());
 	}
 
 	void CApplication::Release()
 	{
-		SCENE::Release();
-		OBJECT::Release();
 
-		RESOURCE::Release();
-		UI::Release();
-		COLLISION::Release();
-		EVENT::Release();
-
-		RENDER::Release();
+		//GET_SINGLE(DATA).DestroyInstance();
+		GET_SINGLE(RENDER).DestroyInstance();
+		GET_SINGLE(INPUT).DestroyInstance();
+		GET_SINGLE(INPUT).DestroyInstance();
+		GET_SINGLE(TIME).DestroyInstance();
+		GET_SINGLE(UI).DestroyInstance();
+		GET_SINGLE(SCENE).DestroyInstance();
+		GET_SINGLE(COLLISION).DestroyInstance();
+		GET_SINGLE(EVENT).DestroyInstance();
+		GET_SINGLE(OBJECT).DestroyInstance();
 		
 	}
 
@@ -66,66 +67,66 @@ namespace Framework
 
 	void CApplication::Tick()
 	{
-		TIME::Tick();
-		INPUT::Tick();
+		GET_SINGLE(TIME).Tick();
+		GET_SINGLE(INPUT).Tick();
 
-		SCENE::Tick(); // 업데이트
-		OBJECT::Tick();
+		GET_SINGLE(SCENE).Tick(); // 업데이트
+		GET_SINGLE(OBJECT).Tick();
 
-		EVENT::Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
-		UI::Tick();
+		GET_SINGLE(EVENT).Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
+		GET_SINGLE(UI).Tick();
 
-		COLLISION::Tick(); // 1초에 80번 업데이트
+		GET_SINGLE(COLLISION).Tick(); // 1초에 80번 업데이트
 	}
 
 	void CApplication::LastTick()
 	{
-		SCENE::LastTick();
-		OBJECT::LastTick();
+		GET_SINGLE(SCENE).LastTick();
+		GET_SINGLE(OBJECT).LastTick();
 
-		EVENT::LastTick(); // 씬 전환
-		//UI::LastTick();
+		GET_SINGLE(EVENT).LastTick(); // 씬 전환
+		//GET_SINGLE(UI).LastTick();
 	}
 
 	void CApplication::Render()
 	{
-		RENDER::Render();
+		GET_SINGLE(RENDER).Render();
 	}
 
 	//void CApplication::Destroy()
 	//{
-	//	SCENE::Destroy();
+	//	GET_SINGLE(SCENE).Destroy();
 	//}
 
 	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
-		RENDER::ChangeScreenSize(maximumScale);
+		GET_SINGLE(RENDER).ChangeScreenSize(maximumScale);
 
 		//CCameraComponent* cam = Renderer::CRenderer::GetMainCamera();
 		//if (cam != nullptr)
 		//{
-		//	const Maths::Vector2& resolution = RENDER::GetResolution();
+		//	const Maths::Vector2& resolution = GET_SINGLE(RENDER).GetResolution();
 		//	cam->SetResolution(resolution);
 		//}
-		//INPUT::SetResolution(resolution);
+		//GET_SINGLE(INPUT).SetResolution(resolution);
 	}
 
 	//const Maths::Vector2& GetResolution()
 	//{
-	//	return RENDER::GetResolution();
+	//	return GET_SINGLE(RENDER).GetResolution();
 	//}
 
 	HDC CApplication::GetHDC() const
 	{
-		return RENDER::GetHDC();
+		return GET_SINGLE(RENDER).GetHDC();
 	}
 	bool CApplication::GetScreenState() const
 	{
-		return RENDER::m_bScreenState;
+		return GET_SINGLE(RENDER).m_bScreenState;
 	}
 	HWND CApplication::GetHWND() const
 	{
-		return RENDER::m_hWnd;
+		return GET_SINGLE(RENDER).m_hWnd;
 	}
 
 }

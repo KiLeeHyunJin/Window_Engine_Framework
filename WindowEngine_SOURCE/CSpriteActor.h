@@ -7,7 +7,7 @@ namespace Framework
 {
 	class CSpriteActor : public CActor
 	{
-		SUPER_PARENT(CActor)
+		DECLARE_PARENT(CActor)
 	public:
 		CSpriteActor(UINT layer);
 		virtual ~CSpriteActor();

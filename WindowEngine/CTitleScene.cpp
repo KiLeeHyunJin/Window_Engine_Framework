@@ -43,9 +43,9 @@ void Framework::CTitleScene::Tick()
 
 void Framework::CTitleScene::LastTick()
 {
-	if (INPUT::GetKeyDown(eKeyCode::A))
+	if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::A))
 	{
-		EVENT::LoadScene((UINT)eMap::Play, 1);
+		GET_SINGLE(EVENT).LoadScene((UINT)eMap::Play, 1);
 		//CSceneManager::LoadScene((UINT)eMap::Play);
 	}
 }
@@ -60,14 +60,14 @@ void Framework::CTitleScene::Release()
 
 void Framework::CTitleScene::OnEnter()
 {
-	UI::Push(Enums::eUIType::Size);
-	UI::Push(Enums::eUIType::Button);
+	GET_SINGLE(UI).Push(Enums::eUIType::Size);
+	GET_SINGLE(UI).Push(Enums::eUIType::Button);
 }
 
 void Framework::CTitleScene::OnExit()
 {
-	UI::Pop(Enums::eUIType::Size);
-	UI::Pop(Enums::eUIType::Button);
+	GET_SINGLE(UI).Pop(Enums::eUIType::Size);
+	GET_SINGLE(UI).Pop(Enums::eUIType::Button);
 }
 
 //void Framework::CTitleScene::LastRender(HDC hdc)

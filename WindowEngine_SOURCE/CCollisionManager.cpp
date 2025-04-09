@@ -19,17 +19,16 @@ namespace Framework
 
 	namespace Manager
 	{
+		CCollisionManager* CCollisionManager::s_instance = nullptr;
+
 		//std::bitset<(UINT)Enums::eLayerType::Size> CCollisionManager::m_bsCollisionCheck[(UINT)Enums::eLayerType::Size] = {false};
 
 			//std::vector<std::vector<bool>>		CCollisionManager::m_vectorCollisionCheck	= {};
-		std::unordered_map<UINT64, bool>	CCollisionManager::m_unmapCollisions = {};
-		std::vector<CColliderComponent*>	CCollisionManager::m_vecCollider = {};
-		bool* CCollisionManager::m_bArryCollision = nullptr;
-		INT CCollisionManager::m_iCollTickComponentFPS = 0;
+		//std::unordered_map<UINT64, bool>	CCollisionManager::m_unmapCollisions = {};
+		//std::vector<CColliderComponent*>	CCollisionManager::m_vecCollider = {};
+		//bool* CCollisionManager::m_bArryCollision = nullptr;
+		//INT CCollisionManager::m_iCollTickComponentFPS = 0;
 
-		CCollisionManager::CCollisionManager()	//사용안함
-		{
-		}
 		CCollisionManager::~CCollisionManager() //사용안함
 		{
 		}
@@ -41,7 +40,7 @@ namespace Framework
 				return;
 			}
 
-			const UINT size = OBJECT::GetLayerSize();
+			const UINT size = GET_SINGLE(OBJECT).GetLayerSize();
 			if (size == 0)
 			{
 				return;
@@ -54,7 +53,7 @@ namespace Framework
 
 		void CCollisionManager::SetCollisionLayerState(UINT left, UINT right, bool enable)
 		{
-			const UINT size = OBJECT::GetLayerSize();
+			const UINT size = GET_SINGLE(OBJECT).GetLayerSize();
 			if (left > size || right > size ||
 				m_bArryCollision == nullptr)
 			{
@@ -126,8 +125,8 @@ namespace Framework
 			static float timeCheck = 0;
 			static INT fpsCheck = 0;
 
-			timeCheck += TIME::RealDeltaTime();
-			countTime += TIME::RealDeltaTime();
+			timeCheck += GET_SINGLE(TIME).RealDeltaTime();
+			countTime += GET_SINGLE(TIME).RealDeltaTime();
 
 			if (countTime < checkTime)
 			{
@@ -147,7 +146,7 @@ namespace Framework
 
 			countTime = 0;
 
-			OBJECT::Destroy();			//삭제 예정 삭제
+			GET_SINGLE(OBJECT).Destroy();			//삭제 예정 삭제
 			CQuadTreeManager::Clear();	//쿼드 트리 초기화
 
 			InsertCollision();
@@ -164,7 +163,7 @@ namespace Framework
 			swprintf_s(str, 50, L"CollFPS : %d", (int)(m_iCollTickComponentFPS));
 			int len = (int)wcsnlen_s(str, 50);
 
-			const Maths::Vector2 resolution = RENDER::GetResolution();// - Maths::Vector2(100, 70);
+			const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
 			TextOut(hdc, ((int)resolution.x - 130), 20, str, len);
 			//CQuadTreeManager::Render(hdc);
 		}
@@ -216,7 +215,7 @@ namespace Framework
 			m_vecCollider.clear();
 			m_vecCollider.shrink_to_fit();
 
-			const UINT size = OBJECT::GetLayerSize();
+			const UINT size = GET_SINGLE(OBJECT).GetLayerSize();
 			memset(m_bArryCollision, 0, sizeof(bool) * size * size);
 		}
 
@@ -225,10 +224,10 @@ namespace Framework
 		{
 			m_vecCollider.clear();
 
-			for (UINT layer = 0; layer < OBJECT::GetLayerSize(); layer++)
+			for (UINT layer = 0; layer < GET_SINGLE(OBJECT).GetLayerSize(); layer++)
 			{
-				const std::vector<CActor*>& vecDontDestroyObj = OBJECT::GetDontDestroyActors(layer);
-				const std::vector<CActor*>& vecObj = OBJECT::GetActors(layer);
+				const std::vector<CActor*>& vecDontDestroyObj = GET_SINGLE(OBJECT).GetDontDestroyActors(layer);
+				const std::vector<CActor*>& vecObj = GET_SINGLE(OBJECT).GetActors(layer);
 
 				InsertActor(vecDontDestroyObj);
 				InsertActor(vecObj);
@@ -276,7 +275,7 @@ namespace Framework
 
 		bool CCollisionManager::GetLayerState(UINT left, UINT right)
 		{
-			const UINT size = OBJECT::GetLayerSize();
+			const UINT size = GET_SINGLE(OBJECT).GetLayerSize();
 			return m_bArryCollision[(size * left) + right];
 		}
 	}

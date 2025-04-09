@@ -30,19 +30,19 @@ Framework::CPlayScene::~CPlayScene()
 
 void Framework::CPlayScene::Initialize()
 {
-	const Resource::CTexture* pTexture = RESOURCE::FindTexture(L"Room");
+	const Resource::CTexture* pTexture = GET_SINGLE(RESOURCE).FindTexture(L"Room");
 
 	
 }
 
 void Framework::CPlayScene::Tick()
 {
-	if (INPUT::GetKeyDown(eKeyCode::B))
+	if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::B))
 	{
-		EVENT::LoadScene((UINT)eMap::Title, 1);
+		GET_SINGLE(EVENT).LoadScene((UINT)eMap::Title, 1);
 	}
 	
-	if (INPUT::GetKeyDown(eKeyCode::V))
+	if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::V))
 	{
 		if (m_list.size() != 0)
 		{
@@ -69,26 +69,26 @@ void Framework::CPlayScene::Release()
 
 void Framework::CPlayScene::OnEnter()
 {
-	COLLISION::SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
+	GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
 
-	const Resource::CTexture* pTexture = RESOURCE::FindTexture(L"Room");
-	const Resource::CTexture* pTexture1 = RESOURCE::FindTexture(L"Room1");
-	const Resource::CTexture* pTexture2 = RESOURCE::FindTexture(L"Room2");
+	const Resource::CTexture* pTexture = GET_SINGLE(RESOURCE).FindTexture(L"Room");
+	const Resource::CTexture* pTexture1 = GET_SINGLE(RESOURCE).FindTexture(L"Room1");
+	const Resource::CTexture* pTexture2 = GET_SINGLE(RESOURCE).FindTexture(L"Room2");
 
-	RESOURCE::CreateSprite(pTexture, L"Room", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
-	RESOURCE::CreateSprite(pTexture1, L"Room1", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
-	RESOURCE::CreateSprite(pTexture2, L"Room2", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	GET_SINGLE(RESOURCE).CreateSprite(pTexture, L"Room", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	GET_SINGLE(RESOURCE).CreateSprite(pTexture1, L"Room1", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	GET_SINGLE(RESOURCE).CreateSprite(pTexture2, L"Room2", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
 
-	RESOURCE::CreateFlipbook(L"Room", false);
-	const Resource::CFlipbook* flipBook = RESOURCE::FindFlipbook(L"Room");
+	GET_SINGLE(RESOURCE).CreateFlipbook(L"Room", false);
+	const Resource::CFlipbook* flipBook = GET_SINGLE(RESOURCE).FindFlipbook(L"Room");
 
-	const Resource::CSprite* sprite1 = RESOURCE::FindSprite(L"Room");
-	const Resource::CSprite* sprite2 = RESOURCE::FindSprite(L"Room1");
-	const Resource::CSprite* sprite3 = RESOURCE::FindSprite(L"Room2");
+	const Resource::CSprite* sprite1 = GET_SINGLE(RESOURCE).FindSprite(L"Room");
+	const Resource::CSprite* sprite2 = GET_SINGLE(RESOURCE).FindSprite(L"Room1");
+	const Resource::CSprite* sprite3 = GET_SINGLE(RESOURCE).FindSprite(L"Room2");
 
-	RESOURCE::InsertSprite(flipBook, sprite1);
-	RESOURCE::InsertSprite(flipBook, sprite2);
-	RESOURCE::InsertSprite(flipBook, sprite3);
+	GET_SINGLE(RESOURCE).InsertSprite(flipBook, sprite1);
+	GET_SINGLE(RESOURCE).InsertSprite(flipBook, sprite2);
+	GET_SINGLE(RESOURCE).InsertSprite(flipBook, sprite3);
 
 
 	CFlipbookActor* pSpriteActor = Object::Instantiate<CFlipbookActor>(3, L"SpriteActor");

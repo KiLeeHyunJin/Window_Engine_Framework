@@ -9,41 +9,43 @@ namespace Framework
 	{
 		class CRenderManager
 		{
+			DECLARE_SINGLE(CRenderManager)
+			RELEASE_SINGLE
 		public:
 
-			__forceinline static const Maths::Vector2Int& GetResolution() { return m_vecCurrentBufferSize; }
+			__forceinline const Maths::Vector2Int& GetResolution() { return m_vecCurrentBufferSize; }
 
 			friend CApplication;
 		private:
-			CRenderManager();
+			//CRenderManager();
 			~CRenderManager();
-			static void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen);
-			static void Release();
+			void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen);
+			void Release();
 
-			static void Render();
+			void Render();
 
-			static void BeginDraw();
-			static void EndDraw();
+			void BeginDraw();
+			void EndDraw();
 
-			static void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
-			static void ChangeScreenSize(bool maximumScale);
+			void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
+			void ChangeScreenSize(bool maximumScale);
 
-			static void CreateBackBuffer(int width, int height);
+			void CreateBackBuffer(int width, int height);
 
-			static HDC GetHDC() { return m_hDC; }
+			HDC GetHDC() const  { return m_hDC; }
 
-			static HWND m_hWnd;
-			static HDC m_hDC;
+			HWND m_hWnd									= {};
+			HDC m_hDC									= {};
 
-			static HDC m_BackHDC;
-			static HBITMAP m_BmpBuffer;
+			HDC m_BackHDC								= {};
+			HBITMAP m_BmpBuffer							= {};
 
-			static Maths::Vector2Int m_vecWinSize;
-			static Maths::Vector2Int m_vecCurrentBufferSize;
-			static Maths::Vector2Int m_vecScreenSize;
+			Maths::Vector2Int m_vecWinSize				= {};
+			Maths::Vector2Int m_vecCurrentBufferSize	= {};
+			Maths::Vector2Int m_vecScreenSize			= {};
 
-			static DWORD m_winStyle;
-			static bool m_bScreenState;
+			DWORD m_winStyle							= {};
+			bool m_bScreenState							= {};
 		};
 	}
 

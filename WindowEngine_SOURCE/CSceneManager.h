@@ -16,10 +16,12 @@ namespace Framework
 
 		class CSceneManager
 		{
+			DECLARE_SINGLE(CSceneManager)
+			RELEASE_SINGLE
 		public:
 
 			template<typename T>
-			static CScene* CreateScene(const std::wstring& name, const UINT idx)//씬은 씬매니저가 생성하게하자
+			CScene* CreateScene(const std::wstring& name, const UINT idx)//씬은 씬매니저가 생성하게하자
 			{
 				static_assert(std::is_base_of<CScene, T>::value, L"T Type is Not Scene");
 
@@ -48,46 +50,41 @@ namespace Framework
 				return pScene;
 			}
 
-			static void InitSceneSize(UINT size);
+			void InitSceneSize(UINT size);
 
-			__forceinline static CScene* GetCurrentScene() { return m_pCurrentScene; }
-			//__forceinline static CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene;	}
-			__forceinline static const UINT	 GetSceneSize() { return (UINT)m_vecScenes.size(); }
-			//static std::vector<CActor*> GetActor(Enums::eLayerType layer);
+			__forceinline CScene* GetCurrentScene() { return m_pCurrentScene; }
+			//__forceinline CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene;	}
+			__forceinline const UINT	 GetSceneSize() { return (UINT)m_vecScenes.size(); }
+			//std::vector<CActor*> GetActor(Enums::eLayerType layer);
 
 			friend CApplication;
 			friend CRenderManager;
 			friend CCollisionManager;
 			friend CEventManager;
 		private:
-			CSceneManager();
+			//CSceneManager();
 			~CSceneManager();
 
-			static void Initialize();
-			static void Release();
+			void Initialize();
+			void Release();
 
-			static void Tick();
-			static void LastTick();
+			void Tick();
+			void LastTick();
 
-			static void Render(HDC hDC);
+			void Render(HDC hDC);
 
 
-			static CScene* LoadScene(const UINT idx);
-			static CScene* FindScene(const UINT idx);
+			CScene* LoadScene(const UINT idx);
+			CScene* FindScene(const UINT idx);
 
-			static bool** m_bArrCollisionState;
+			CScene* m_pCurrentScene				= nullptr;
+			bool** m_bArrCollisionState			= nullptr;
 
-			static std::vector<CScene*> m_vecScenes;
-			static UINT m_uiLayerSize;
+			std::vector<CScene*> m_vecScenes	= {};
+			UINT m_uiLayerSize					= 0;
 
-			static CScene* m_pCurrentScene;
-			//static CScene* m_pDontDestroyScene;
-
-			//static CScene* m_pChangeScene;
 		};
 	}
-
-	
 
 	using SCENE = Manager::CSceneManager;
 //#define SCENE CSceneManager

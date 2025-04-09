@@ -11,11 +11,13 @@ namespace Framework
 
 	namespace Manager
 	{
-		std::queue<CEventManager::EventJob*> CEventManager::m_quequeEventJob = {};
-		std::pair<const UINT, float>* CEventManager::m_pChangeScene = nullptr;
+		CEventManager* CEventManager::s_instance = nullptr;
+
+		//std::queue<CEventManager::EventJob*> CEventManager::m_quequeEventJob = {};
+		//std::pair<const UINT, float>* CEventManager::m_pChangeScene = nullptr;
 
 
-		CEventManager::CEventManager() {}
+		//CEventManager::CEventManager() {}
 		CEventManager::~CEventManager() {}
 
 		void CEventManager::Initialize()
@@ -69,14 +71,14 @@ namespace Framework
 			if (nullptr != m_pChangeScene)
 			{
 				float& waitTime = m_pChangeScene->second;
-				waitTime -= CTimeManager::DeltaTime();
+				waitTime -= GET_SINGLE(TIME).DeltaTime();
 
 				if (waitTime <= 0)
 				{
 					const UINT scene = m_pChangeScene->first;
 					SAFE_DELETE(m_pChangeScene);
 
-					SCENE::LoadScene(scene);
+					GET_SINGLE(SCENE).LoadScene(scene);
 				}
 			}
 		}
@@ -137,7 +139,7 @@ namespace Framework
 		void CEventManager::EventAddActor::operator() ()
 		{
 			pObj->SetDontDestroy(bDontDestroy);
-			OBJECT::AddActor(pObj);
+			GET_SINGLE(OBJECT).AddActor(pObj);
 			pObj->BeginPlay();
 		}
 
@@ -147,7 +149,7 @@ namespace Framework
 			if (reserveDel == false)
 			{
 				pObj->SetReserveDelete();
-				OBJECT::RemoveActor(pObj->GetID());
+				GET_SINGLE(OBJECT).RemoveActor(pObj->GetID());
 			}
 		}
 
@@ -155,11 +157,11 @@ namespace Framework
 		{
 			if (pObj->GetReserveDelete()) //파괴 예정이라면
 			{	return;		}
-			const bool result = OBJECT::EraseInLayer(pObj);//pScene->EraseInLayer(pObj); //레이어에서 제거 요청
+			const bool result = GET_SINGLE(OBJECT).EraseInLayer(pObj);//pScene->EraseInLayer(pObj); //레이어에서 제거 요청
 			if (result) //제거가 성공적으로 일어났다면
 			{
 				pObj->SetLayerType(layer); //오브젝트에 레이어 변경
-				OBJECT::AddInLayer(pObj);
+				GET_SINGLE(OBJECT).AddInLayer(pObj);
 			}
 		}
 
@@ -168,7 +170,7 @@ namespace Framework
 			if (pObj->GetReserveDelete()) //파괴 예정이라면
 			{	return;		}
 			pObj->SetDontDestroy(bChangeState);
-			OBJECT::AddActor(pObj);
+			GET_SINGLE(OBJECT).AddActor(pObj);
 		}
 	}
 

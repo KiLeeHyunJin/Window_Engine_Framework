@@ -63,7 +63,7 @@ namespace Framework
 		if (m_vecForce.HasValue())
 		{
 			m_vecAccelation = m_vecForce / m_fMass; //가속도 = 힘 / 질량
-			m_vecVelocity += m_vecAccelation * TIME::DeltaTime(); //프레임당 가속도를 계산해서 속도에 합산
+			m_vecVelocity += m_vecAccelation * GET_SINGLE(TIME).DeltaTime(); //프레임당 가속도를 계산해서 속도에 합산
 		}
 		else
 		{
@@ -92,7 +92,7 @@ namespace Framework
 		}
 		else
 		{
-			m_vecVelocity += m_vecGravity * TIME::DeltaTime();
+			m_vecVelocity += m_vecGravity * GET_SINGLE(TIME).DeltaTime();
 		}
 		
 		const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
@@ -122,7 +122,7 @@ namespace Framework
 		{
 			return;
 		}
-		const float TickComponentTime = TIME::DeltaTime();
+		const float TickComponentTime = GET_SINGLE(TIME).DeltaTime();
 
 		Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //마찰력 방향
 		friction = friction * (m_fFriction * m_fMass * TickComponentTime); //마찰력 계산

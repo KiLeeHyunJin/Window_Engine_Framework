@@ -8,15 +8,16 @@ namespace Framework
 
 	namespace Manager
 	{
-		std::queue<Enums::eUIType>						CUIManager::m_queUIType = {};
-		std::unordered_map<Enums::eUIType, CUIBase*>	CUIManager::m_unmapUI = {};
-		std::vector<CUIBase*>							CUIManager::m_vecCurrentUIs = {};
-		CUIBase* CUIManager::m_pCurrentUI = nullptr;
-
-
-		CUIManager::CUIManager()
-		{
-		}
+		CUIManager* CUIManager::s_instance = nullptr;
+		//std::queue<Enums::eUIType>						CUIManager::m_queUIType = {};
+		//std::unordered_map<Enums::eUIType, CUIBase*>	CUIManager::m_unmapUI = {};
+		//std::vector<CUIBase*>							CUIManager::m_vecCurrentUIs = {};
+		//CUIBase* CUIManager::m_pCurrentUI = nullptr;
+		//
+		//
+		//CUIManager::CUIManager()
+		//{
+		//}
 		CUIManager::~CUIManager()
 		{
 		}
@@ -293,11 +294,11 @@ namespace Framework
 				pUI->Enter();
 				pUI->Over();
 
-				if (CInputManager::GetKeyDown(eKeyCode::LBUTTON))
+				if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::LBUTTON))
 				{
 					pUI->Down();
 				}
-				else if (CInputManager::GetKeyUp(eKeyCode::LBUTTON))
+				else if (GET_SINGLE(INPUT).GetKeyUp(eKeyCode::LBUTTON))
 				{
 					pUI->Up();
 				}

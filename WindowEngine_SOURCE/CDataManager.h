@@ -10,20 +10,22 @@ namespace Framework
 	{
 		class CDataManager
 		{
+			DECLARE_SINGLE(CDataManager)
+			RELEASE_SINGLE
 		public:
-			static void Load(const std::wstring& key, const std::wstring& path);
-			static CData* GetData(const std::wstring& key);
+			void Load(const std::wstring& key, const std::wstring& path);
+			CData* GetData(const std::wstring& key);
 
 
 			friend CApplication;
 		private:
-			static void Initialize();
-			static void Release();
+			void Initialize();
+			void Release();
 
-			CDataManager();
+			//CDataManager();
 			~CDataManager();
 
-			static std::unordered_map<std::wstring, CData*> _unData;
+			std::unordered_map<std::wstring, CData*> _unData = {};
 		};
 	}
 

@@ -43,24 +43,24 @@ namespace Framework
 		//}
 
 		const float speed = 20;
-		//const float TickComponentTime = TIME::DeltaTime();
+		//const float TickComponentTime = GET_SINGLE(TIME).DeltaTime();
 		const float movePower = speed * 5;
 		CRigidbodyComponent* rigid = owner->GetComponent<CRigidbodyComponent>();
 		Maths::Vector2 addForceDir;
 
-		if (INPUT::GetKeyPressed(eKeyCode::A))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::A))
 		{
 			addForceDir += Maths::Vector2::Left;
 		}
-		if (INPUT::GetKeyPressed(eKeyCode::D))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::D))
 		{
 			addForceDir += Maths::Vector2::Right;
 		}
-		if (INPUT::GetKeyPressed(eKeyCode::W))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::W))
 		{
 			addForceDir += Maths::Vector2::Up;
 		}
-		if (INPUT::GetKeyPressed(eKeyCode::S))
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::S))
 		{
 			addForceDir += Maths::Vector2::Down;
 			//Object::Destroy(GetOwner());
@@ -72,9 +72,9 @@ namespace Framework
 			rigid->SetVelocity(addForceDir * movePower);
 		}
 
-		if (INPUT::GetKeyDown(eKeyCode::Enter))
+		if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Enter))
 		{
-			EVENT::ChangeLayer(GetOwner(), (UINT)Enums::eLayerType::Particle);
+			GET_SINGLE(EVENT).ChangeLayer(GetOwner(), (UINT)Enums::eLayerType::Particle);
 		}
 		return true;
 	}

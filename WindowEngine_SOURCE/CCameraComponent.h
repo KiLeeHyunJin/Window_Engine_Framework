@@ -16,7 +16,7 @@ namespace Framework
 		__forceinline bool ScreenInCheck(const Vector2& pos, const Vector2& scale) const 
 		{ 
 			Vector2Int _scale = scale * 0.5f;
-			const Maths::Vector2Int& resolution = RENDER::GetResolution();
+			const Maths::Vector2Int& resolution = GET_SINGLE(RENDER).GetResolution();
 			if (resolution.x + _scale.x < pos.x || _scale.x * -1 > pos.x) return false;
 			if (resolution.y + _scale.y < pos.y || _scale.y * -1 > pos.y) return false;
 			return true;

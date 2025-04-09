@@ -6,19 +6,19 @@ namespace Framework
 
 	namespace Manager
 	{
-
-		float			CTimeManager::m_fDeltaTime = 0;
-		float			CTimeManager::m_fTimeScale = 1;
-		bool			CTimeManager::m_bShowFPS = true;
-		UINT			CTimeManager::m_uiFPS = 0;
-		CTimeManager::eTimeType CTimeManager::timeType = CTimeManager::eTimeType::Performance;
-		CTimeManager::TimeFuncPtr CTimeManager::functions[static_cast<int>(eTimeType::Size)] = { nullptr };
-
-		LARGE_INTEGER	CTimeManager::m_liCpuFrequency = {};
-		LARGE_INTEGER	CTimeManager::m_liPrevFrequency = {};
-
-
-		CTimeManager::CTimeManager() {}
+		CTimeManager* CTimeManager::s_instance = nullptr;
+		//float			CTimeManager::m_fDeltaTime = 0;
+		//float			CTimeManager::m_fTimeScale = 1;
+		//bool			CTimeManager::m_bShowFPS = true;
+		//UINT			CTimeManager::m_uiFPS = 0;
+		//CTimeManager::eTimeType CTimeManager::timeType = CTimeManager::eTimeType::Performance;
+		//CTimeManager::TimeFuncPtr CTimeManager::functions[static_cast<int>(eTimeType::Size)] = { nullptr };
+		//
+		//LARGE_INTEGER	CTimeManager::m_liCpuFrequency = {};
+		//LARGE_INTEGER	CTimeManager::m_liPrevFrequency = {};
+		//
+		//
+		//CTimeManager::CTimeManager() {}
 		CTimeManager::~CTimeManager() {}
 
 		void CTimeManager::Initialize()
@@ -26,16 +26,16 @@ namespace Framework
 			QueryPerformanceFrequency(&m_liCpuFrequency);
 			QueryPerformanceCounter(&m_liPrevFrequency);
 
-			functions[(int)eTimeType::Tick] = CTimeManager::TimeTick;
-			functions[(int)eTimeType::Performance] = CTimeManager::TimePerformance;
+			//functions[(int)eTimeType::Tick] = this->CTimeManager::TimeTick;
+			//functions[(int)eTimeType::Performance] = CTimeManager::TimePerformance;
 			//functions[(int)eTimeType::Chrono]		= CTimeManager::TimeChrono;
 		}
 
 		void CTimeManager::Tick()
 		{
 			//델타 타임 계산
-			functions[(UINT)timeType]();
-
+			//functions[(UINT)timeType]();
+			TimePerformance();
 			//지연에 의한 순간이동 현상을 억제
 			if (m_fDeltaTime > 0.1f)
 			{

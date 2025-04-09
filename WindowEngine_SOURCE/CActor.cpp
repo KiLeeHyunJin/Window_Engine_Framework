@@ -141,7 +141,7 @@ namespace Framework
 	{
 		if (layerType != m_eLayerType)
 		{
-			EVENT::ChangeLayer(this, layerType);
+			GET_SINGLE(EVENT).ChangeLayer(this, layerType);
 		}
 	}
 

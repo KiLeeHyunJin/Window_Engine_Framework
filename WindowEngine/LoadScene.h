@@ -16,12 +16,12 @@ namespace Framework
 {
 	void CreateScenes()
 	{
-		OBJECT::InitLayerSize((UINT)eLayer::Size);
-		SCENE::InitSceneSize((UINT)eMap::Size);
+		GET_SINGLE(OBJECT).InitLayerSize((UINT)eLayer::Size);
+		GET_SINGLE(SCENE).InitSceneSize((UINT)eMap::Size);
 
-		SCENE::CreateScene<CDevScene>(L"DevScene", (UINT)eMap::Dev);
-		SCENE::CreateScene<CTitleScene>(L"TitleScene", (UINT)eMap::Title);
-		SCENE::CreateScene<CPlayScene>(L"PlayScene",(UINT)eMap::Play);
+		GET_SINGLE(SCENE).CreateScene<CDevScene>(L"DevScene", (UINT)eMap::Dev);
+		GET_SINGLE(SCENE).CreateScene<CTitleScene>(L"TitleScene", (UINT)eMap::Title);
+		GET_SINGLE(SCENE).CreateScene<CPlayScene>(L"PlayScene",(UINT)eMap::Play);
 
 
 	}
@@ -30,7 +30,7 @@ namespace Framework
 	void LoadScene()
 	{
 		CreateScenes();
-		EVENT::LoadScene((UINT)eMap::Title);
+		GET_SINGLE(EVENT).LoadScene((UINT)eMap::Title);
 	}
 
 

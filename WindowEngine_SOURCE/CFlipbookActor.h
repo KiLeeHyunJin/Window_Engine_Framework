@@ -13,7 +13,7 @@ namespace Framework
     class CFlipbookActor :
         public CActor
     {
-        SUPER_PARENT(CActor)
+        DECLARE_PARENT(CActor)
     public:
         CFlipbookActor(UINT layer);
         virtual ~CFlipbookActor();

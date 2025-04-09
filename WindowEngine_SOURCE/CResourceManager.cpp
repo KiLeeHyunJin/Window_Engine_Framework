@@ -8,12 +8,12 @@ namespace Framework//::Resource
 
 	namespace Manager
 	{
-		std::map<const std::wstring, Resource::CResource*> CResourceManager::m_mapResoucres = {};
-		std::map<const std::wstring, Resource::CTexture*>  CResourceManager::m_mapTextures = {};
-		std::map<const std::wstring, Resource::CSprite*>   CResourceManager::m_mapSprites = {};
-		std::map<const std::wstring, Resource::CFlipbook*> CResourceManager::m_mapFlipbooks = {};
-
-		CResourceManager::CResourceManager() {}
+		CResourceManager* CResourceManager::s_instance = nullptr;
+		//std::map<const std::wstring, Resource::CResource*> CResourceManager::m_mapResoucres = {};
+		//std::map<const std::wstring, Resource::CTexture*>  CResourceManager::m_mapTextures = {};
+		//std::map<const std::wstring, Resource::CSprite*>   CResourceManager::m_mapSprites = {};
+		//std::map<const std::wstring, Resource::CFlipbook*> CResourceManager::m_mapFlipbooks = {};
+		//CResourceManager::CResourceManager() {}
 		CResourceManager::~CResourceManager() {}
 
 		CTexture* CResourceManager::LoadTexture(const std::wstring& key, const std::wstring& path)
@@ -116,29 +116,10 @@ namespace Framework//::Resource
 
 		void CResourceManager::Release()
 		{
-			for (auto& pair : m_mapResoucres)
-			{
-				delete pair.second;
-			}
-			m_mapResoucres.clear();
-			for (auto& pair : m_mapTextures)
-			{
-				delete pair.second;
-			}
-			m_mapTextures.clear();
-
-			for (auto& pair : m_mapSprites)
-			{
-				delete pair.second;
-			}
-			m_mapSprites.clear();
-
-			for (auto& pair : m_mapFlipbooks)
-			{
-				delete pair.second;
-			}
-			m_mapFlipbooks.clear();
-
+			RELEASE_MAP(m_mapResoucres);
+			RELEASE_MAP(m_mapTextures);
+			RELEASE_MAP(m_mapSprites);
+			RELEASE_MAP(m_mapFlipbooks);
 		}
 	}
 

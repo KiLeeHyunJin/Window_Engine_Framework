@@ -18,7 +18,7 @@ namespace Framework
 
 	void CCameraComponent::BeginPlay()
 	{
-		//SetResolution(RENDER::GetResolution());
+		//SetResolution(GET_SINGLE(RENDER).GetResolution());
 	}
 	void CCameraComponent::Release()
 	{

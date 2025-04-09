@@ -95,7 +95,7 @@
       <Filter>00.Core\Manager\Event</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp">
-      <Filter>02.Asset\Scene\Layer</Filter>
+      <Filter>00.Core\Manager\Object\Layer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Utils.cpp">
       <Filter>99.Headers\Utils</Filter>
@@ -125,7 +125,7 @@
       <Filter>00.Core\Manager\Object</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CManagerBase.cpp">
-      <Filter>00.Core\Manager</Filter>
+      <Filter>00.Core\Manager\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,7 +241,7 @@
       <Filter>99.Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h">
-      <Filter>02.Asset\Scene\Layer</Filter>
+      <Filter>00.Core\Manager\Object\Layer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Types.h">
       <Filter>99.Headers</Filter>
@@ -274,7 +274,7 @@
       <Filter>00.Core\Manager\Object</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CManagerBase.h">
-      <Filter>00.Core\Manager</Filter>
+      <Filter>00.Core\Manager\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,9 +359,6 @@
     <Filter Include="02.Asset\Scene">
       <UniqueIdentifier>{9424293a-d966-4c38-85c7-1d0b96f312cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Asset\Scene\Layer">
-      <UniqueIdentifier>{3ca6ca2a-b6d0-4b67-84f9-41fe558d41ac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Asset\Resource">
       <UniqueIdentifier>{39bc4c31-b606-48c4-9eb1-fc1cae01cf46}</UniqueIdentifier>
     </Filter>
@@ -421,6 +418,12 @@
     </Filter>
     <Filter Include="00.Core\Manager\Object">
       <UniqueIdentifier>{295832d0-0435-46fe-8ef4-c8045f2e2dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Core\Manager\Object\Layer">
+      <UniqueIdentifier>{3ca6ca2a-b6d0-4b67-84f9-41fe558d41ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Core\Manager\Base">
+      <UniqueIdentifier>{f13ea509-b8c4-492d-bf53-ad389ea4515e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
