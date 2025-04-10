@@ -26,16 +26,16 @@ namespace Framework
 			QueryPerformanceFrequency(&m_liCpuFrequency);
 			QueryPerformanceCounter(&m_liPrevFrequency);
 
-			//functions[(int)eTimeType::Tick] = this->CTimeManager::TimeTick;
-			//functions[(int)eTimeType::Performance] = CTimeManager::TimePerformance;
+			functions[(int)eTimeType::Tick]			= &CTimeManager::TimeTick;
+			functions[(int)eTimeType::Performance]	= &CTimeManager::TimePerformance;
 			//functions[(int)eTimeType::Chrono]		= CTimeManager::TimeChrono;
 		}
 
 		void CTimeManager::Tick()
 		{
 			//델타 타임 계산
-			//functions[(UINT)timeType]();
-			TimePerformance();
+			(this->*functions[(UINT)m_eTimeType])();
+			//TimePerformance();
 			//지연에 의한 순간이동 현상을 억제
 			if (m_fDeltaTime > 0.1f)
 			{
@@ -62,7 +62,7 @@ namespace Framework
 #pragma endregion
 		}
 
-		void CTimeManager::Render(HDC hdc)
+		void CTimeManager::Render(HDC hdc) const
 		{
 			if (m_bShowFPS == false)
 			{
@@ -108,6 +108,7 @@ namespace Framework
 
 			m_liPrevFrequency.QuadPart = m_liCurrentFrequency.QuadPart;
 		}
+
 
 		/// <summary>
 		/// C++17 이후 표준 라이브러리

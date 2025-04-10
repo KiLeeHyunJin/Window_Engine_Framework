@@ -7,7 +7,7 @@ namespace Framework
 
 	namespace Manager
 	{
-		class CRenderManager
+		class CRenderManager 
 		{
 			DECLARE_SINGLE(CRenderManager)
 			RELEASE_SINGLE
@@ -17,15 +17,14 @@ namespace Framework
 
 			friend CApplication;
 		private:
-			//CRenderManager();
 			~CRenderManager();
 			void Initialize(HWND hWnd, int  width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen);
 			void Release();
 
 			void Render();
 
-			void BeginDraw();
-			void EndDraw();
+			void BeginDraw() const;
+			void EndDraw() const;
 
 			void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 			void ChangeScreenSize(bool maximumScale);
@@ -46,6 +45,7 @@ namespace Framework
 
 			DWORD m_winStyle							= {};
 			bool m_bScreenState							= {};
+
 		};
 	}
 

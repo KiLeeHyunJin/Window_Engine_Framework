@@ -13,6 +13,11 @@ namespace Framework
             public CResource
         {
         public:
+            CFlipbook(bool loop);
+            virtual ~CFlipbook();
+
+            void AddSprite(const CSprite* sprite, float duration) { m_vecSprites.push_back(std::make_pair(sprite, duration)); }
+
             bool GetLoop() const                                                { return m_bLoop; }
             INT GetSize() const                                                { return (UINT)m_vecSprites.size() - 1; }
  
@@ -20,12 +25,9 @@ namespace Framework
             float GetDuration(UINT index) const                                 { return m_vecSprites[index].second; }
             const CSprite* GetSprite(UINT index) const                          { return m_vecSprites[index].first; }
 
-            friend Manager::CResourceManager;
+            //friend Manager::CResourceManager;
         private:
-            CFlipbook(bool loop);
-            virtual ~CFlipbook();
 
-            void AddSprite(const CSprite* sprite, float duration) { m_vecSprites.push_back(std::make_pair(sprite, duration)); }
 
             std::vector<std::pair<const CSprite*,float>> m_vecSprites;
             bool m_bLoop;

@@ -8,7 +8,7 @@ namespace Framework
 
 	namespace Manager
 	{
-		class CDataManager
+		class CDataManager 
 		{
 			DECLARE_SINGLE(CDataManager)
 			RELEASE_SINGLE
@@ -26,6 +26,7 @@ namespace Framework
 			~CDataManager();
 
 			std::unordered_map<std::wstring, CData*> _unData = {};
+
 		};
 	}
 

@@ -9,15 +9,7 @@ namespace Framework
 	namespace Manager
 	{
 		CUIManager* CUIManager::s_instance = nullptr;
-		//std::queue<Enums::eUIType>						CUIManager::m_queUIType = {};
-		//std::unordered_map<Enums::eUIType, CUIBase*>	CUIManager::m_unmapUI = {};
-		//std::vector<CUIBase*>							CUIManager::m_vecCurrentUIs = {};
-		//CUIBase* CUIManager::m_pCurrentUI = nullptr;
-		//
-		//
-		//CUIManager::CUIManager()
-		//{
-		//}
+
 		CUIManager::~CUIManager()
 		{
 		}
@@ -45,17 +37,18 @@ namespace Framework
 			const INT size = (INT)m_vecCurrentUIs.size();
 			if (size == 0) { return; }
 
-			const auto& findIter = m_unmapUI.find(type);
-			const CUIBase* findUI = findIter->second;
-			INT closeUIIdx = findIter->second->GetUIIndex();
+			const auto& findIter	= m_unmapUI.find(type);
+			const CUIBase* findUI	= findIter->second;
 
+			INT closeUIIdx = findIter->second->GetIndex();
+			Enums::eUIType closeUIType = m_vecCurrentUIs[closeUIIdx]->GetType();
 			if (closeUIIdx < 0 ||
-				m_vecCurrentUIs[closeUIIdx]->GetType() != type)
+				closeUIType != type)
 			{
 				closeUIIdx = FindUIIdex(findUI);
 			}
 
-			if (closeUIIdx <= -1) { return; }
+			if (closeUIIdx <= -1) { return; } //이미 닫혀있는 UI
 
 			CloseUI(closeUIIdx);
 		}
@@ -65,7 +58,7 @@ namespace Framework
 			const UINT size = (UINT)m_vecCurrentUIs.size();
 			if (size == 0) { return; }
 
-			INT closeUIIdx = closeUI->GetUIIndex();
+			INT closeUIIdx = closeUI->GetIndex();
 			const Enums::eUIType type = closeUI->GetType();
 
 			if (closeUIIdx < 0 ||
@@ -116,14 +109,14 @@ namespace Framework
 			const auto iter = m_vecCurrentUIs.cbegin() + closeUIIdx;
 			if (iter != m_vecCurrentUIs.cend())
 			{
-				(*iter)->SetUIIndex(-1);
+				(*iter)->SetIndex(-1);
 				m_vecCurrentUIs.erase(iter);
 			}
 
 			const INT size = static_cast<INT>(m_vecCurrentUIs.size());
 			for (INT i = closeUIIdx; i < size; i++)
 			{
-				m_vecCurrentUIs[i]->SetUIIndex(i);
+				m_vecCurrentUIs[i]->SetIndex(i);
 			}
 		}
 
@@ -157,7 +150,7 @@ namespace Framework
 			}
 
 			const UINT uiIdx = (UINT)m_vecCurrentUIs.size();
-			uiBase->SetUIIndex(uiIdx);
+			uiBase->SetIndex(uiIdx);
 
 			m_vecCurrentUIs.push_back(uiBase);
 			m_pCurrentUI = nullptr;
@@ -185,7 +178,7 @@ namespace Framework
 			m_pCurrentUI = nullptr;
 			for (const auto pUI : m_vecCurrentUIs)
 			{
-				pUI->SetUIIndex(-1);
+				pUI->SetIndex(-1);
 			}
 			m_vecCurrentUIs.clear();
 			while (m_queUIType.empty() == false)
@@ -201,7 +194,7 @@ namespace Framework
 			if (pParentUI->GetChangeHierarchy() == false) { return; }
 
 			const UINT size = (UINT)m_vecCurrentUIs.size();
-			const UINT currentIdx = pParentUI->GetUIIndex();
+			const UINT currentIdx = pParentUI->GetIndex();
 
 			if (size <= 1 ||
 				(size - 1) == currentIdx) {
@@ -218,7 +211,7 @@ namespace Framework
 
 				for (UINT i = currentIdx; i < size; i++) //번호 다시 기입
 				{
-					m_vecCurrentUIs[i]->SetUIIndex(i);
+					m_vecCurrentUIs[i]->SetIndex(i);
 				}
 			}
 		}
@@ -245,7 +238,7 @@ namespace Framework
 			}
 			else
 			{
-				if (m_pCurrentUI->m_bCurMouseOn == false)
+				if (m_pCurrentUI->GetCurOn() == false)
 				{
 					m_pCurrentUI = pTargetUI;
 				}
@@ -257,7 +250,7 @@ namespace Framework
 						const CUIBase* pPrevParent = GetParentUI(m_pCurrentUI);
 						const CUIBase* pNewParent = GetParentUI(pTargetUI);
 
-						if (pPrevParent->m_iIndex <= pNewParent->m_iIndex)
+						if (pPrevParent->GetIndex() <= pNewParent->GetIndex())
 						{
 							m_pCurrentUI = pTargetUI;
 						}
@@ -308,7 +301,9 @@ namespace Framework
 				pUI->Exit();
 			}
 
-			for (CUIBase* pChildUI : pUI->m_vecChilds)
+			const std::vector<CUIBase*>& childs = pUI->GetChilds();
+
+			for (CUIBase* pChildUI : childs)
 			{
 				MouseEvent(pChildUI, pfocusUI);
 			}
@@ -320,7 +315,7 @@ namespace Framework
 			{
 				for (auto it = m_vecCurrentUIs.rbegin(); it != m_vecCurrentUIs.rend(); ++it)
 				{
-					if ((*it)->m_bCurMouseOn)
+					if ((*it)->GetCurOn())
 					{
 						return *it;
 					}
@@ -334,12 +329,11 @@ namespace Framework
 			if (pChild == nullptr) { return nullptr; }
 
 			CUIBase* pParent = pChild;
-			if (pChild->m_pParent != nullptr)
+			CUIBase* pParentParent = pParent->GetParent();
+			while (pParentParent != nullptr)
 			{
-				while (pParent->m_pParent != nullptr)
-				{
-					pParent = pParent->m_pParent;
-				}
+				pParent = pParentParent;
+				pParentParent = pParent->GetParent();
 			}
 			return pParent;
 		}
@@ -374,10 +368,10 @@ namespace Framework
 				CUIBase* pUI = queUIs.front();
 				queUIs.pop();
 
-				if (pUI->m_bCurMouseOn)
+				if (pUI->GetCurOn())
 				{
 					targetUI = pUI;
-					const auto& targetChilds = pUI->m_vecChilds;
+					const std::vector<CUIBase*>& targetChilds = pUI->GetChilds();
 
 					for (UINT i = 0; i < targetChilds.size(); i++)
 					{

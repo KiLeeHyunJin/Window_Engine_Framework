@@ -72,7 +72,10 @@ namespace Framework
 				col = left;
 				row = right;
 			}
-			m_bArryCollision[(row * size) + col] = enable;
+			if (m_bArryCollision[(row * size) + col] != enable)
+			{
+				m_bArryCollision[(row * size) + col] = enable;
+			}
 		}
 
 		const std::vector<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size)
@@ -120,31 +123,35 @@ namespace Framework
 		void CCollisionManager::Tick()
 		{
 			//return;
-			static float countTime = 0;
-			static float checkTime = (float)1 / (float)80;
-			static float timeCheck = 0;
-			static INT fpsCheck = 0;
-
-			timeCheck += GET_SINGLE(TIME).RealDeltaTime();
-			countTime += GET_SINGLE(TIME).RealDeltaTime();
-
-			if (countTime < checkTime)
 			{
-				return;
-			}
+				static float countTime = 0;
+				static float checkTime = (float)1 / (float)80;
+				static float timeCheck = 0;
+				static UINT fpsCheck = 0;
 
-			if (timeCheck >= 1.0f)
-			{
-				m_iCollTickComponentFPS = fpsCheck;
-				fpsCheck = 0;
-				timeCheck = 0;
-			}
-			else
-			{
-				fpsCheck += 1;
-			}
+				timeCheck += GET_SINGLE(TIME).RealDeltaTime();
+				countTime += GET_SINGLE(TIME).RealDeltaTime();
 
-			countTime = 0;
+				if (countTime < checkTime)
+				{
+					return;
+				}
+				else
+				{
+					countTime = 0;
+
+					if (timeCheck >= 1.0f)
+					{
+						m_iCollTickComponentFPS = fpsCheck;
+						fpsCheck = 0;
+						timeCheck = 0;
+					}
+					else
+					{
+						fpsCheck += 1;
+					}
+				}
+			}
 
 			GET_SINGLE(OBJECT).Destroy();			//삭제 예정 삭제
 			CQuadTreeManager::Clear();	//쿼드 트리 초기화
@@ -157,10 +164,10 @@ namespace Framework
 		{
 		}
 
-		void CCollisionManager::Render(HDC hdc)
+		void CCollisionManager::Render(HDC hdc) const
 		{
 			wchar_t str[50] = L"";
-			swprintf_s(str, 50, L"CollFPS : %d", (int)(m_iCollTickComponentFPS));
+			swprintf_s(str, 50, L"충돌횟수 : %d", (int)(m_iCollTickComponentFPS));
 			int len = (int)wcsnlen_s(str, 50);
 
 			const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
@@ -278,8 +285,7 @@ namespace Framework
 			const UINT size = GET_SINGLE(OBJECT).GetLayerSize();
 			return m_bArryCollision[(size * left) + right];
 		}
-	}
 
-	
+	}
 
 }

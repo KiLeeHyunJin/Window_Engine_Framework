@@ -14,14 +14,16 @@ namespace Framework//::Resource
 		class CResource : public CEntity
 		{
 		public:
+			CResource(Enums::eResourceType e_type);
+			virtual ~CResource();
+
 			virtual HRESULT Load(const std::wstring& wstrPath) = 0;
 			const std::wstring& GetPath() const { return m_wstrPath; }
 			void SetPath(const std::wstring& wstrPath) { m_wstrPath = wstrPath; }
 
-			friend Manager::CResourceManager;
+			//friend Manager::CResourceManager;
 		protected:
-			CResource(Enums::eResourceType e_type);
-			virtual ~CResource();
+
 
 		private:
 			Enums::eResourceType m_eResourceType;

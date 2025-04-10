@@ -11,20 +11,21 @@ namespace Framework
     class CTitleScene :
         public CScene
     {
-        friend Manager::CSceneManager;
-    private:
+    public: 
         CTitleScene();
         virtual ~CTitleScene();
 
+
+
+        // CScene을(를) 통해 상속됨
+        void OnEnter() override;
+        void OnExit() override;
+    private:
         void Initialize()		override;
         void Tick()				override;
         void LastTick()			override;
         void Render(HDC hdc)	override;
         void Release()			override;
-
-        // CScene을(를) 통해 상속됨
-        void OnEnter() override;
-        void OnExit() override;
 
         // CScene을(를) 통해 상속됨
         //void LastRender(HDC hdc) override;

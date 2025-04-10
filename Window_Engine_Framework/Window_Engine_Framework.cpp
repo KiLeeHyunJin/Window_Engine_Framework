@@ -44,7 +44,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //atexit(CheckMemoryLeaks);  // 프로그램 종료 직전에 실행될 함수 등록
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);         //메모리 누수 체크
     
-    setlocale(LC_ALL, "Korean");                                    //지역 설정
+    setlocale(LC_ALL, "Korean");                                    //언어 설정
 
     // 전역 문자열을 초기화합니다.
    
@@ -57,14 +57,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 #pragma endregion Window_Process_Init
     
-    _CrtSetBreakAlloc(452);  //메모리 할당을 디버그하는 데 사용(해당 번째 메모리 할당하때 중단되는것 같음)
+    //_CrtSetBreakAlloc(452);  //메모리 할당을 디버그하는 데 사용(해당 번째 메모리 할당하때 중단되는것 같음)
 
     // 애플리케이션 초기화를 수행합니다:
     if (!InitInstance (hInstance, nCmdShow, className))    
     {   return FALSE;   }
 
     // TODO: 여기에 코드를 입력합니다.
-    ShowCursor(false);
+
+    ShowCursor(false); //커서 설정
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINDOWENGINEFRAMEWORK));
     MSG msg = {};

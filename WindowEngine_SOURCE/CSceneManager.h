@@ -1,7 +1,7 @@
 #pragma once
-#include "CommonInclude.h"
 #include "CScene.h"
-#include "CLayer.h"
+//#include "CLayer.h"
+#include "CommonInclude.h"
 
 namespace Framework
 {
@@ -10,11 +10,11 @@ namespace Framework
 
 	namespace Manager
 	{
-		class CRenderManager;
-		class CCollisionManager;
-		class CEventManager;
+		//class CRenderManager;
+		//class CCollisionManager;
+		//class CEventManager;
 
-		class CSceneManager
+		class CSceneManager 
 		{
 			DECLARE_SINGLE(CSceneManager)
 			RELEASE_SINGLE
@@ -52,15 +52,18 @@ namespace Framework
 
 			void InitSceneSize(UINT size);
 
-			__forceinline CScene* GetCurrentScene() { return m_pCurrentScene; }
+			//__forceinline CScene* GetCurrentScene() { return m_pCurrentScene; }
 			//__forceinline CScene* GetDontDestoryScene()	{ return m_pDontDestroyScene;	}
 			__forceinline const UINT	 GetSceneSize() { return (UINT)m_vecScenes.size(); }
 			//std::vector<CActor*> GetActor(Enums::eLayerType layer);
+			void Render(HDC hDC);
+			CScene* LoadScene(const UINT idx);
+
 
 			friend CApplication;
-			friend CRenderManager;
-			friend CCollisionManager;
-			friend CEventManager;
+			//friend CRenderManager;
+			//friend CCollisionManager;
+			//friend CEventManager;
 		private:
 			//CSceneManager();
 			~CSceneManager();
@@ -71,10 +74,7 @@ namespace Framework
 			void Tick();
 			void LastTick();
 
-			void Render(HDC hDC);
 
-
-			CScene* LoadScene(const UINT idx);
 			CScene* FindScene(const UINT idx);
 
 			CScene* m_pCurrentScene				= nullptr;

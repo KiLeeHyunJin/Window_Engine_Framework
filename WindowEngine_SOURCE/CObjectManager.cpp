@@ -150,6 +150,7 @@ namespace Framework
 				m_vecDontDestoryLayer[i]->LastTick();
 			}
 		}
+
 		void CObjectManager::Render(HDC hdc)
 		{
 			for (UINT i = 0; i < m_uiLayerSize; i++)

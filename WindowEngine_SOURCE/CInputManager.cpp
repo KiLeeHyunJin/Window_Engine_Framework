@@ -170,6 +170,7 @@ namespace Framework
 			}
 		}
 
+
 		void CInputManager::Render(HDC hdc, int posX, int posY)
 		{
 			const Maths::Vector2 mousePos = CInputManager::GetMousePosition();

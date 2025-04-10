@@ -11,7 +11,7 @@
 #include <fcntl.h>
 #include <io.h>
 
- std::vector<std::wstring> getFilesInDirectory(const std::wstring& path) {
+static std::vector<std::wstring> getFilesInDirectory(const std::wstring& path) {
     std::vector<std::wstring> fileList;
     std::wstring searchPath = path + L"\\*";  // 모든 파일과 폴더 검색
 
@@ -42,7 +42,7 @@
 }
 
 
-std::wstring getCurrentDirectory() {
+ static std::wstring getCurrentDirectory() {
     wchar_t buffer[MAX_PATH];
     GetCurrentDirectoryW(MAX_PATH, buffer);
     return std::wstring(buffer);

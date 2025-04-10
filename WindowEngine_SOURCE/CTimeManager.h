@@ -9,7 +9,7 @@ namespace Framework
 	{
 		class CRenderManager;
 
-		class CTimeManager
+		class CTimeManager 
 		{
 			DECLARE_SINGLE(CTimeManager)
 			RELEASE_SINGLE
@@ -22,7 +22,7 @@ namespace Framework
 				Size
 			};
 
-			__forceinline void SetTimeType(eTimeType type)	{ timeType = type;						}
+			__forceinline void SetTimeType(eTimeType type)	{ m_eTimeType = type;					}
 			__forceinline float DeltaTime() const			{ return m_fDeltaTime * m_fTimeScale;	}
 			__forceinline float RealDeltaTime() const		{ return m_fDeltaTime;					}
 			__forceinline UINT FPS() const					{ return m_uiFPS;						}
@@ -31,34 +31,36 @@ namespace Framework
 			__forceinline float GetTimeScale() const		{ return m_fTimeScale;					}
 			__forceinline void SetTimeScale(float scale)	{ m_fTimeScale = scale;					}
 			//__forceinline ULONGLONG TickTime()					{ return m_fDeltaTime; }
+			void Render(HDC hdc) const;
 
 			friend class CApplication;
-			friend CRenderManager;
+			//friend CRenderManager;
 		private:
 			//CTimeManager();
 			~CTimeManager();
 
 			void Initialize();
 			void Tick();
-			void Render(HDC hdc);
 
 			void TimeTick();
 			void TimePerformance();
 			void Release() {}
 			//void TimeChrono();
 
-			float m_fDeltaTime											= {};
-			float m_fTimeScale											= {};
-			bool m_bShowFPS												= {};
-			UINT m_uiFPS												= {};
-			eTimeType timeType											= {};
+			float m_fDeltaTime											= 0;
+			float m_fTimeScale											= 1;
+			bool m_bShowFPS												= 0;
+			UINT m_uiFPS												= 0;
+			eTimeType m_eTimeType											= eTimeType::Performance;
 
-			using TimeFuncPtr = void (*)();
+			using TimeFuncPtr = void (CTimeManager::*)();
 			TimeFuncPtr functions[static_cast<int>(eTimeType::Size)]	= {};
 
 			/// CPU Preformance
 			LARGE_INTEGER m_liCpuFrequency								= {};
 			LARGE_INTEGER m_liPrevFrequency								= {};
+
+
 		};
 	}
 	using TIME = Manager::CTimeManager;

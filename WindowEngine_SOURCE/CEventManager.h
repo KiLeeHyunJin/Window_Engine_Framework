@@ -9,7 +9,7 @@ namespace Framework
 
 	namespace Manager
 	{
-		class CEventManager
+		class CEventManager 
 		{
 			DECLARE_SINGLE(CEventManager)
 			RELEASE_SINGLE
@@ -120,7 +120,7 @@ namespace Framework
 
 			void Tick();
 			void LastTick();
-
+			void Render(HDC hdc) {};
 			void Job();
 
 			void ChangeScene();

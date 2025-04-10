@@ -7,11 +7,11 @@ static classname* s_instance;								\
 public :													\
 	static classname& GetInstance()							\
 	{														\
-		if(s_instance == nullptr)							\
+		if(classname::s_instance == nullptr)				\
 		{													\
-			s_instance = new classname;						\
+			classname::s_instance = new classname;			\
 		}													\
-		return *s_instance;									\
+		return *(classname::s_instance);					\
 	}										
 
 #define RELEASE_SINGLE										\

@@ -38,6 +38,8 @@ namespace Framework
 		virtual void OnClear()override;
 		virtual void OnRender(HDC hdc) const override;
 
+
+
 		virtual void OnClick() override;
 		
 		virtual void OnDown() override;

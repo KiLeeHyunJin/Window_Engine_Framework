@@ -12,6 +12,11 @@ namespace Framework
         class CSprite : public CResource
         {
         public:
+            CSprite(CTexture* m_pTexture, const Maths::Vector2Int& start, const Maths::Vector2Int& size, const Maths::Vector2Int& pivot);
+            virtual ~CSprite();
+
+            HRESULT Load(const std::wstring& wstrPath) override;
+
             const Maths::Vector2Int&    GetLeftTop() const      { return m_vecStart;        }
             const Maths::Vector2Int&    GetSize() const         { return m_vecSize;         }
             const Maths::Vector2Int&    GetPivot() const        { return m_vecPivot;        }
@@ -27,10 +32,9 @@ namespace Framework
             void Render(HDC hdc) const;
 
         protected:
-            CSprite(CTexture* m_pTexture,const Maths::Vector2Int& start, const Maths::Vector2Int& size,const Maths::Vector2Int& pivot);
-            virtual ~CSprite();
 
-            friend Manager::CResourceManager;
+
+            //friend Manager::CResourceManager;
         private:
             Maths::Vector2Int m_vecStart;
             Maths::Vector2Int m_vecPivot;
@@ -41,7 +45,6 @@ namespace Framework
 
 
             // CResource을(를) 통해 상속됨
-            HRESULT Load(const std::wstring& wstrPath) override;
 
         };
 

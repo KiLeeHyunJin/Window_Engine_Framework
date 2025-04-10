@@ -18,7 +18,8 @@ namespace Framework//::Resource
 				Png,
 				None,
 			};
-
+			CTexture();
+			virtual ~CTexture();
 			//static const CTexture* Create(const std::wstring& name, UINT width, UINT height, std::vector<Maths::Vector2>& sizes);
 
 			HRESULT						Load(const std::wstring& wstrPath) override;
@@ -30,13 +31,14 @@ namespace Framework//::Resource
 			inline Gdiplus::Image*		GetImage()	const			{ return m_pImg; }
 			inline HDC					GetHDC()	const			{ return m_hdc; }
 
-			friend Manager::CResourceManager;
-		private:
-			CTexture();
-			virtual ~CTexture();
-
 			inline void SetWidth(UINT width) { m_uiWidth = width; }
 			inline void SetHeight(UINT height) { m_uiHeight = height; }
+
+			//friend Manager::CResourceManager;
+		private:
+
+
+
 
 			HDC m_hdc;
 

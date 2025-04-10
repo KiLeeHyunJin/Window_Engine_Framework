@@ -63,12 +63,12 @@ namespace Framework
 			EndDraw();
 		}
 
-		void CRenderManager::BeginDraw()
+		void CRenderManager::BeginDraw() const
 		{
 			Rectangle(m_BackHDC, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1);
 		}
 
-		void CRenderManager::EndDraw()
+		void CRenderManager::EndDraw() const
 		{
 			BitBlt(
 				m_hDC, //Ãâ·Â

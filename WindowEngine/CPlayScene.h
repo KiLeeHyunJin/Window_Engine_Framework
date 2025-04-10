@@ -11,8 +11,7 @@ namespace Framework
 	class CPlayScene :
 		public CScene
 	{
-		friend Manager::CSceneManager;
-	private:
+	public:
 		CPlayScene();
 		virtual ~CPlayScene();
 
@@ -26,6 +25,8 @@ namespace Framework
 		// CScene을(를) 통해 상속됨
 		void OnEnter() override;
 		void OnExit() override;
+
+	private:
 
 		std::vector<CActor*> m_list;
 

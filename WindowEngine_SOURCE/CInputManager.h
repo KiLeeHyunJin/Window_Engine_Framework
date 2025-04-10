@@ -32,9 +32,9 @@ namespace Framework
 	namespace Manager
 	{
 		//class CApplication;
-		class CRenderManager;
+		//class CRenderManager;
 
-		class CInputManager
+		class CInputManager 
 		{
 			DECLARE_SINGLE(CInputManager)
 			RELEASE_SINGLE
@@ -43,9 +43,10 @@ namespace Framework
 			__forceinline bool GetKeyUp(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up; }
 			__forceinline bool GetKeyPressed(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed; }
 			__forceinline const Maths::Vector2& GetMousePosition() { return m_vecMousePos; }
+			void Render(HDC hdc, int posX, int posY);
 
 			friend class CApplication;
-			friend CRenderManager;
+			//friend CRenderManager;
 		private:
 			struct Key
 			{
@@ -59,7 +60,6 @@ namespace Framework
 
 			void Initialize(HWND hwnd);
 			void Tick();
-			void Render(HDC hdc, int posX, int posY);
 
 			bool IsKeyDown(eKeyCode key);
 			void UpdateKeyDown(Key& key);
@@ -77,6 +77,7 @@ namespace Framework
 			std::vector<Key> m_vecKeys		= {};
 
 			HWND m_hwnd						= {};
+
 		};
 	}
 

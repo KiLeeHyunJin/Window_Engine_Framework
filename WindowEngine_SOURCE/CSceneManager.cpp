@@ -44,7 +44,7 @@ namespace Framework
 
 		void CSceneManager::Render(HDC hDC)
 		{
-			m_pCurrentScene->Render(hDC);
+			m_pCurrentScene->SceneRender(hDC);
 
 			//m_pDontDestroyScene->Render(hDC);
 
@@ -84,7 +84,7 @@ namespace Framework
 
 				m_pCurrentScene = pScene;
 				m_pCurrentScene->OnEnter();
-				GET_SINGLE(OBJECT).Clear();
+				GET_SINGLE(OBJECT).Clear(this);
 				return m_pCurrentScene;
 			}
 			return nullptr;

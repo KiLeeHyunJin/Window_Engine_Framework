@@ -124,9 +124,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CObjectManager.cpp">
       <Filter>00.Core\Manager\Object</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CManagerBase.cpp">
-      <Filter>00.Core\Manager\Base</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
@@ -273,9 +270,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h">
       <Filter>00.Core\Manager\Object</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CManagerBase.h">
-      <Filter>00.Core\Manager\Base</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -421,9 +415,6 @@
     </Filter>
     <Filter Include="00.Core\Manager\Object\Layer">
       <UniqueIdentifier>{3ca6ca2a-b6d0-4b67-84f9-41fe558d41ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Core\Manager\Base">
-      <UniqueIdentifier>{f13ea509-b8c4-492d-bf53-ad389ea4515e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

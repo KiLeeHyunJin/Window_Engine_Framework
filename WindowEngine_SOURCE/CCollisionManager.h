@@ -1,7 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
 
-
 namespace Framework
 {
 	class CApplication;
@@ -13,8 +12,8 @@ namespace Framework
 
 	namespace Manager
 	{
-		class CRenderManager;
-		class CSceneManager;
+		//class CRenderManager;
+		//class CSceneManager;
 
 		union CollisionID
 		{
@@ -31,7 +30,7 @@ namespace Framework
 			UINT64 id;
 		};
 
-		class CCollisionManager
+		class CCollisionManager 
 		{
 			DECLARE_SINGLE(CCollisionManager)
 			RELEASE_SINGLE
@@ -59,11 +58,12 @@ namespace Framework
 			/// 특정 레이어의 객체만 체크하여 가져온다.
 			/// </summary>
 			bool Raycast(const Ray& ray, CColliderComponent*& hitObject, const std::vector<UINT>& checkLayer);
+			void Clear();
+			void Render(HDC hdc) const;
+			//void Render() override;
 
 
 			friend CApplication;
-			friend CRenderManager;
-			friend CSceneManager;
 		private:
 			//CCollisionManager();
 			virtual ~CCollisionManager();
@@ -74,13 +74,6 @@ namespace Framework
 			void Tick();
 			void LastTick();
 
-			void Render(HDC hdc);
-
-			void Clear();
-
-			//bool Raycast(Ray& ray, CColliderComponent& hitObject);
-
-			//__forceinline const bool Intersect(const CColliderComponent* left, const CColliderComponent* right);
 
 
 			__forceinline void InsertCollision();
@@ -88,25 +81,18 @@ namespace Framework
 
 			__forceinline void CollisionCircuit();
 
-			//void CollisionCheck(CScene* pScene, Enums::eLayerType left, Enums::eLayerType right);
-			//void CollisionCheck(const std::vector<CActor*>& lefts, const std::vector<CActor*>& rights);
-
 			__forceinline void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
-
-			//__forceinline bool BoxCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
-			//__forceinline bool CircleCollisionStateUpdate(const CColliderComponent* left, const CColliderComponent* right);
-
 			__forceinline bool GetLayerState(UINT left, UINT right);
 
-			//std::vector<std::vector<bool>> m_vectorCollisionCheck;
-			//std::bitset<(UINT)Enums::eLayerType::Size> m_bsCollisionCheck[(UINT)Enums::eLayerType::Size];
 			std::unordered_map<UINT64, bool> m_unmapCollisions = {};
 			/// <summary>
 			/// 모든 콜라이더들을 담아놓는 자료형
 			/// </summary>
 			std::vector<CColliderComponent*> m_vecCollider		= {};
 			bool* m_bArryCollision								= nullptr;
-			INT m_iCollTickComponentFPS							= 0;
+			UINT m_iCollTickComponentFPS						= 0;
+
+			// CManagerBase을(를) 통해 상속됨
 		};
 
 	}

@@ -9,9 +9,9 @@ namespace Framework
 
 	namespace Manager
 	{
-		class CRenderManager;
+		//class CRenderManager;
 
-		class CUIManager
+		class CUIManager 
 		{
 			DECLARE_SINGLE(CUIManager)
 			RELEASE_SINGLE
@@ -19,6 +19,7 @@ namespace Framework
 		public:
 			void LoadUI(Enums::eUIType type, CUIBase* pUI, bool bChangeHierarchy = false, bool bDrag = false);
 			void Push(Enums::eUIType type);
+			void Render(HDC hdc);
 
 			void Pop(Enums::eUIType type);
 			void Pop(CUIBase* closeUI);
@@ -36,7 +37,6 @@ namespace Framework
 			//CUIBase* GetCollisionUI();
 
 			friend CApplication;
-			friend CRenderManager;
 		private:
 			//CUIManager();
 			~CUIManager();
@@ -47,7 +47,6 @@ namespace Framework
 			void Tick();
 			void LastTick();
 
-			void Render(HDC hdc);
 
 			void	CloseUI(INT closeUIIdx);
 

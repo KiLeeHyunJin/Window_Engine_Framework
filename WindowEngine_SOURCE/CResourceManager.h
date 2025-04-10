@@ -1,5 +1,6 @@
 #pragma once
 #include "CResource.h"
+#include "CommonInclude.h"
 
 namespace Framework//::Resource
 {
@@ -16,7 +17,7 @@ namespace Framework//::Resource
 		using namespace Maths;
 		using namespace Resource;
 
-		class CResourceManager
+		class CResourceManager 
 		{
 			DECLARE_SINGLE(CResourceManager)
 			RELEASE_SINGLE
@@ -35,6 +36,10 @@ namespace Framework//::Resource
 			const CFlipbook* FindFlipbook(const std::wstring& key);
 			void FindSound(const std::wstring& key);
 
+			void Tick()				{};
+			void LastTick()			{};
+			void Render(HDC hdc)	{};
+			void Initialize()		{};
 
 			friend class CApplication;
 		private:
