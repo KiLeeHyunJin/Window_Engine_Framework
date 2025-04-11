@@ -33,7 +33,7 @@ namespace Framework
 		class CCollisionManager 
 		{
 			DECLARE_SINGLE(CCollisionManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CCollisionManager)
 		public:
 			void SetCollisionLayerState(UINT left, UINT right, bool enable);
 			void InitCollisionLayer();
@@ -91,7 +91,6 @@ namespace Framework
 			std::vector<CColliderComponent*> m_vecCollider		= {};
 			bool* m_bArryCollision								= nullptr;
 			UINT m_iCollTickComponentFPS						= 0;
-
 			// CManagerBase을(를) 통해 상속됨
 		};
 

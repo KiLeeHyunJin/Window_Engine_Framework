@@ -37,7 +37,7 @@ namespace Framework
 		class CInputManager 
 		{
 			DECLARE_SINGLE(CInputManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CInputManager)
 		public:
 			__forceinline bool GetKeyDown(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down; }
 			__forceinline bool GetKeyUp(eKeyCode key) { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up; }

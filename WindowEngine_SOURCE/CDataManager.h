@@ -11,7 +11,7 @@ namespace Framework
 		class CDataManager 
 		{
 			DECLARE_SINGLE(CDataManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CDataManager)
 		public:
 			void Load(const std::wstring& key, const std::wstring& path);
 			CData* GetData(const std::wstring& key);

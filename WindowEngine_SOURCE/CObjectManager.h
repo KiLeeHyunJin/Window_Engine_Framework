@@ -15,7 +15,7 @@ namespace Framework
 		class CObjectManager 
 		{
 			DECLARE_SINGLE(CObjectManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CObjectManager)
 		public:
 			template<typename T>
 			T* CreateObject(UINT layer, bool dontDestroy = false)

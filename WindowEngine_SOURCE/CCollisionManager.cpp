@@ -115,6 +115,7 @@ namespace Framework
 
 		void CCollisionManager::Release()
 		{
+			Clear();
 			CQuadTreeManager::Release();
 			delete[] m_bArryCollision;
 			m_bArryCollision = nullptr;

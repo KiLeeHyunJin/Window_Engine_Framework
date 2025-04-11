@@ -109,6 +109,7 @@ namespace Framework//::Resource
 			}
 			return iter->second;
 		}
+
 		void CResourceManager::FindSound(const std::wstring& key)
 		{
 		}

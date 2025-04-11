@@ -41,6 +41,7 @@ namespace Framework
 
 	bool CActor::Tick()
 	{
+		m_vecPrevPosition = m_vecPosition;
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)

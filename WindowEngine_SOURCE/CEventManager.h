@@ -12,7 +12,7 @@ namespace Framework
 		class CEventManager 
 		{
 			DECLARE_SINGLE(CEventManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CEventManager)
 		public:
 
 			class EventJob

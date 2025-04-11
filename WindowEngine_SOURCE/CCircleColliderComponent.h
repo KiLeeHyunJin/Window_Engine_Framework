@@ -10,9 +10,6 @@ namespace Framework
 		public CColliderComponent
 	{
 	public:
-
-		friend CActor;
-	private:
 		CCircleColliderComponent();
 		virtual ~CCircleColliderComponent();
 
@@ -22,11 +19,15 @@ namespace Framework
 		virtual bool TickComponent() override;
 		virtual bool LastTickComponent() override;
 		virtual void Render(HDC hdc) override;
+		bool CheckCollision(CColliderComponent* other) override;
+
+		//friend CActor;
+	private:
+
 
 		float m_fRadius;
 
 		// CColliderComponent을(를) 통해 상속됨
-		bool CheckCollision(CColliderComponent* other) override;
 	};
 }
 

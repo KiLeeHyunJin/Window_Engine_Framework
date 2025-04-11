@@ -12,7 +12,7 @@ namespace Framework
 		class CTimeManager 
 		{
 			DECLARE_SINGLE(CTimeManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CTimeManager)
 		public:
 			enum class eTimeType
 			{
@@ -51,7 +51,7 @@ namespace Framework
 			float m_fTimeScale											= 1;
 			bool m_bShowFPS												= 0;
 			UINT m_uiFPS												= 0;
-			eTimeType m_eTimeType											= eTimeType::Performance;
+			eTimeType m_eTimeType										= eTimeType::Performance;
 
 			using TimeFuncPtr = void (CTimeManager::*)();
 			TimeFuncPtr functions[static_cast<int>(eTimeType::Size)]	= {};
@@ -59,7 +59,6 @@ namespace Framework
 			/// CPU Preformance
 			LARGE_INTEGER m_liCpuFrequency								= {};
 			LARGE_INTEGER m_liPrevFrequency								= {};
-
 
 		};
 	}

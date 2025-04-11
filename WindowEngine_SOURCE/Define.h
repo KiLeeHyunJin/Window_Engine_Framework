@@ -14,17 +14,17 @@ public :													\
 		return *(classname::s_instance);					\
 	}										
 
-#define RELEASE_SINGLE										\
+#define RELEASE_SINGLE(classname)							\
 public :													\
-static void DestroyInstance()								\
-{															\
-	if (s_instance != nullptr)								\
+	static void DestroyInstance()							\
 	{														\
-		s_instance->Release();								\
-		delete s_instance;									\
-		s_instance = nullptr;								\
+		if (classname::s_instance != nullptr)				\
+		{													\
+			classname::s_instance->Release();				\
+			delete classname::s_instance;					\
+			classname::s_instance = nullptr;				\
+		}													\
 	}														\
-}															\
 
 #define GET_SINGLE(classname)	classname::GetInstance()
 

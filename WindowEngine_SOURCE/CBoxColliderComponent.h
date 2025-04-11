@@ -8,9 +8,8 @@ namespace Framework
 		public CColliderComponent
 	{
 	public:
+		RECT GetRect();
 
-		friend CActor;
-	private:
 		CBoxColliderComponent();
 		virtual ~CBoxColliderComponent();
 
@@ -21,11 +20,12 @@ namespace Framework
 		virtual bool LastTickComponent() override;
 		virtual void Render(HDC hdc) override;
 
-		//Maths::Vector2 m_vecSize;
-
-
 		// CColliderComponent을(를) 통해 상속됨
 		bool CheckCollision(CColliderComponent* other) override;
+
+		//friend CActor;
+	private:
+
 
 	};
 

@@ -124,6 +124,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CObjectManager.cpp">
       <Filter>00.Core\Manager\Object</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSoundManager.cpp">
+      <Filter>00.Core\Manager\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
@@ -270,6 +273,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h">
       <Filter>00.Core\Manager\Object</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSoundManager.h">
+      <Filter>00.Core\Manager\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -310,9 +316,6 @@
     </Filter>
     <Filter Include="00.Core\Manager\UI">
       <UniqueIdentifier>{b170533b-3510-4606-897a-fd084c74817c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Core\Manager\UI\UILayer">
-      <UniqueIdentifier>{0bf1fec5-2e8d-4267-8849-dc88b43ff3e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.Core\Manager\Event">
       <UniqueIdentifier>{cb6ad2f8-364a-4660-88f7-5de5fe2b2429}</UniqueIdentifier>
@@ -415,6 +418,9 @@
     </Filter>
     <Filter Include="00.Core\Manager\Object\Layer">
       <UniqueIdentifier>{3ca6ca2a-b6d0-4b67-84f9-41fe558d41ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Core\Manager\Sound">
+      <UniqueIdentifier>{d78f7737-0ff5-4f63-9613-c1b39ec8ba50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

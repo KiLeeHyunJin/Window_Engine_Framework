@@ -7,7 +7,6 @@ namespace Framework//::Resource
 
 	namespace Resource
 	{
-
 		class CTexture :
 			public CResource
 		{

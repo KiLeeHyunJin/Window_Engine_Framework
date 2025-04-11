@@ -126,23 +126,23 @@ namespace Framework
 		}
 	}
 
-	void CUIBase::TickComponent()
+	void CUIBase::Tick()
 	{
 		OnTickComponent();
 		UpdatePosition();
 		MouseOnCheck();
 		for (auto& child : GetChilds())
 		{
-			child->TickComponent();
+			child->Tick();
 		}
 	}
 	
-	void CUIBase::LastTickComponent()
+	void CUIBase::LastTick()
 	{
 		OnLastTickComponent();
 		for (auto& child : GetChilds())
 		{
-			child->LastTickComponent();
+			child->LastTick();
 		}
 	}
 	

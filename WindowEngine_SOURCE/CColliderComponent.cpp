@@ -1,16 +1,18 @@
 #include "CColliderComponent.h"
 #include "CActor.h"
 #include "CCustomComponent.h"
+#include "CBoxColliderComponent.h"
+#include "CCircleColliderComponent.h"
 
 namespace Framework
 {
 	UINT32 CColliderComponent::m_collId = 1;
 
-	CColliderComponent::CColliderComponent():
-		CComponent(Enums::eComponentType::Collider), m_eColliderType(eColliderType::None), m_iColliderId(m_collId++),
-		m_vecSize(Maths::Vector2::One)
-	{	
-	}
+	//CColliderComponent::CColliderComponent():
+	//	CComponent(Enums::eComponentType::Collider), m_eColliderType(eColliderType::None), m_iColliderId(m_collId++),
+	//	m_vecSize(Maths::Vector2::One)
+	//{	
+	//}
 
 	CColliderComponent::CColliderComponent(eColliderType colliderType):
 		CComponent(Enums::eComponentType::Collider), m_iColliderId(m_collId++),
@@ -69,6 +71,22 @@ namespace Framework
 
 	bool CColliderComponent::CheckCollisionBoxToBox(CColliderComponent* box1, CColliderComponent* box2)
 	{
+		//CBoxColliderComponent* boxColl1 = dynamic_cast<CBoxColliderComponent*>(box1);
+		//CBoxColliderComponent* boxColl2 = dynamic_cast<CBoxColliderComponent*>(box2);
+		//if (boxColl1 == nullptr || boxColl2 == nullptr)
+		//{
+		//	assert(true);
+		//	return false;
+		//}
+		//else
+		//{
+		//	RECT box1Rect = boxColl1->GetRect();
+		//	RECT box2Rect = boxColl2->GetRect();
+		//	RECT collRect;
+		//	return ::IntersectRect(&collRect ,&box1Rect, &box2Rect);
+		//}
+
+		///AABB Ãæµ¹
 		const Maths::Vector2& box1OriginPos = box1->GetOwner()->GetPosition();
 		const Maths::Vector2& box2OriginPos = box2->GetOwner()->GetPosition();
 

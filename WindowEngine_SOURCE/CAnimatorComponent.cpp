@@ -226,16 +226,19 @@ namespace Framework
 
 	void CAnimatorComponent::Release()
 	{
-		for (const auto& pair : m_mapAnimations)
-		{
-			delete pair.second;
-		}
-		for (const auto& pair : m_mapEvents)
-		{
-			delete pair.second;
-		}
-		m_mapAnimations.clear();
-		m_mapEvents.clear();
+		RELEASE_MAP(m_mapAnimations);
+		RELEASE_MAP(m_mapEvents);
+		m_pCurrentAnimation = nullptr;
+		//for (const auto& pair : m_mapAnimations)
+		//{
+		//	delete pair.second;
+		//}
+		//for (const auto& pair : m_mapEvents)
+		//{
+		//	delete pair.second;
+		//}
+		//m_mapAnimations.clear();
+		//m_mapEvents.clear();
 	}
 
 }

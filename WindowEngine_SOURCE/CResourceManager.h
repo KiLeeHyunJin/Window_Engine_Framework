@@ -20,7 +20,7 @@ namespace Framework//::Resource
 		class CResourceManager 
 		{
 			DECLARE_SINGLE(CResourceManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CResourceManager)
 		public:
 
 			CTexture* LoadTexture(const std::wstring& key, const std::wstring& path);
@@ -66,8 +66,6 @@ namespace Framework//::Resource
 			std::map<const std::wstring, CTexture*> m_mapTextures	= {};
 			std::map<const std::wstring, CSprite*> m_mapSprites		= {};
 			std::map<const std::wstring, CFlipbook*> m_mapFlipbooks = {};
-
-
 
 		};
 

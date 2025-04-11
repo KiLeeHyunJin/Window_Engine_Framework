@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CEventManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbook.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbookActor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
@@ -91,6 +92,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CInputManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCustomComponent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSoundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteRendererComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp" />

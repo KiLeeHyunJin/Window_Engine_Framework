@@ -10,7 +10,7 @@ namespace Framework
 		class CRenderManager 
 		{
 			DECLARE_SINGLE(CRenderManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CRenderManager)
 		public:
 
 			__forceinline const Maths::Vector2Int& GetResolution() { return m_vecCurrentBufferSize; }
@@ -43,8 +43,8 @@ namespace Framework
 			Maths::Vector2Int m_vecCurrentBufferSize	= {};
 			Maths::Vector2Int m_vecScreenSize			= {};
 
-			DWORD m_winStyle							= {};
-			bool m_bScreenState							= {};
+			DWORD m_winStyle							= 0;
+			bool m_bScreenState							= false;
 
 		};
 	}

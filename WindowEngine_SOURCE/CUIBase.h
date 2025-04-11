@@ -61,8 +61,8 @@ namespace Framework
 		void Initialize();
 		void Release();
 
-		void TickComponent();
-		void LastTickComponent();
+		void Tick();
+		void LastTick();
 
 		void Render(HDC hdc) const;
 #pragma endregion

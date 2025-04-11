@@ -6,6 +6,19 @@
 
 namespace Framework
 {
+	RECT CBoxColliderComponent::GetRect()
+	{
+		const Maths::Vector2& pos = GetOwner()->GetPosition();
+		const Maths::Vector2& size = GetSize();
+		RECT rect =
+		{
+			(INT)(pos.x - (size.x * 0.5f)),
+			(INT)(pos.y - (size.y * 0.5f)),
+			(INT)(pos.x + (size.x * 0.5f)),
+			(INT)(pos.y + (size.y * 0.5f)),
+		};
+		return rect;
+	}
 
 	CBoxColliderComponent::CBoxColliderComponent() :
 		CColliderComponent(eColliderType::Box)

@@ -10,14 +10,11 @@ namespace Framework
 
 	namespace Manager
 	{
-		//class CRenderManager;
-		//class CCollisionManager;
-		//class CEventManager;
 
 		class CSceneManager 
 		{
 			DECLARE_SINGLE(CSceneManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CSceneManager)
 		public:
 
 			template<typename T>
@@ -82,7 +79,6 @@ namespace Framework
 
 			std::vector<CScene*> m_vecScenes	= {};
 			UINT m_uiLayerSize					= 0;
-
 		};
 	}
 

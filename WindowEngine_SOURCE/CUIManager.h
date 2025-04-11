@@ -14,7 +14,7 @@ namespace Framework
 		class CUIManager 
 		{
 			DECLARE_SINGLE(CUIManager)
-			RELEASE_SINGLE
+			RELEASE_SINGLE(CUIManager)
 
 		public:
 			void LoadUI(Enums::eUIType type, CUIBase* pUI, bool bChangeHierarchy = false, bool bDrag = false);
@@ -61,8 +61,6 @@ namespace Framework
 			/// vector를 사용하는 이유는 캐시 적중률, 참조 연산등을 고려해 선택
 			/// </summary>
 			std::vector<CUIBase*> m_vecCurrentUIs					= {};
-
-
 			std::unordered_map<Enums::eUIType, CUIBase*> m_unmapUI	= {};
 			CUIBase* m_pCurrentUI									= {};
 		};

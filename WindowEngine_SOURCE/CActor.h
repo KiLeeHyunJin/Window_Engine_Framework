@@ -40,6 +40,14 @@ namespace Framework
 		CActor(UINT layerType);
 		virtual ~CActor();
 
+		virtual void BeginPlay() = 0;
+		virtual void Release() = 0;
+
+		virtual bool Tick() = 0;
+		virtual bool LastTick() = 0;
+		virtual void Render(HDC hdc) const = 0;
+
+
 		//CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
 
@@ -166,37 +174,31 @@ namespace Framework
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
 		__forceinline const Maths::Vector2& GetPosition()		const	{ return m_vecPosition; }
-		__forceinline void SetPosition(const Maths::Vector2& position)	{ m_vecPosition = position; }
-
-
+		__forceinline const Maths::Vector2& GetPrevPosition()	const	{ return m_vecPrevPosition; }
+		__forceinline const Maths::Vector2 GetMoveDirection()	const	{ return m_vecPosition - m_vecPrevPosition; }
 		__forceinline const Maths::Vector2& GetScale()			const	{ return m_vecScale; }
-		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale; }
+		__forceinline const float GetRotate()					const	{ return m_fRotatate; }
 
-		__forceinline const float GetRotate() const						{	return m_fRotatate;	}
+		__forceinline void SetPosition(const Maths::Vector2& position)	{ m_vecPosition = position; }
+		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale; }
 		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate; }
 
-		friend CLayer;
-		friend Manager::CEventManager;
-	protected:
-		virtual void BeginPlay()			= 0;
-		virtual void Release()				= 0;
+		__forceinline void SetSafeToDelete()							{ if (m_bSafeToDelete == false)  m_bSafeToDelete = true; }
+		__forceinline void SetReserveDelete()							{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
+		__forceinline void SetDontDestroy(bool state)					{ m_bDontDestroy = state; }
+		__forceinline void SetLayerType(const UINT layerType)			{ if (layerType != m_eLayerType) m_eLayerType = layerType; }
+		__forceinline void SetID(UINT32 newID)							{ m_uiID = newID; }
 
-		virtual bool Tick()					= 0;
-		virtual bool LastTick()				= 0;
-		
-		virtual void Render(HDC hdc) const	= 0;
+		//friend CLayer;
+		//friend Manager::CEventManager;
+	protected:
+
 		__forceinline bool RenderCheck() const;
 
 	private:
-		//void AddTransform();
-
-		__forceinline void SetSafeToDelete()								{ if (m_bSafeToDelete == false)  m_bSafeToDelete  = true; }
-		__forceinline void SetReserveDelete()								{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
-		__forceinline void SetDontDestroy(bool state)						{ m_bDontDestroy = state; }
-		__forceinline void SetLayerType(const UINT layerType)				{ if (layerType != m_eLayerType) m_eLayerType = layerType;}
-		__forceinline void SetID(UINT32 newID)								{ m_uiID = newID; }
 
 		Maths::Vector2 m_vecPosition;
+		Maths::Vector2 m_vecPrevPosition;
 		Maths::Vector2 m_vecScale;
 		float m_fRotatate;
 

@@ -139,7 +139,8 @@ namespace Framework
 
 			uiBase->Initialize();
 			uiBase->Active();
-			uiBase->TickComponent();
+			uiBase->Tick();
+			uiBase->LastTick();
 
 			if (uiBase->GetFullScreen())
 			{
@@ -164,7 +165,6 @@ namespace Framework
 		void CUIManager::Release()
 		{
 			Clear();
-
 			for (auto& ui : m_unmapUI)
 			{
 				ui.second->Clear();
@@ -221,7 +221,7 @@ namespace Framework
 		{
 			for (auto& pUI : m_vecCurrentUIs)
 			{
-				pUI->TickComponent();
+				pUI->Tick();
 			}
 
 			if (m_queUIType.size() > 0)
@@ -268,7 +268,7 @@ namespace Framework
 		{
 			for (auto& pUI : m_vecCurrentUIs)
 			{
-				pUI->LastTickComponent();
+				pUI->LastTick();
 			}
 		}
 
