@@ -12,7 +12,7 @@
 #include "CObjectManager.h"
 #include "CApplication.h"
 //#include 
-extern Framework::CApplication application;
+//extern Framework::CApplication application;
 
 namespace Framework
 {
@@ -21,13 +21,6 @@ namespace Framework
 	{
 		CCollisionManager* CCollisionManager::s_instance = nullptr;
 
-		//std::bitset<(UINT)Enums::eLayerType::Size> CCollisionManager::m_bsCollisionCheck[(UINT)Enums::eLayerType::Size] = {false};
-
-			//std::vector<std::vector<bool>>		CCollisionManager::m_vectorCollisionCheck	= {};
-		//std::unordered_map<UINT64, bool>	CCollisionManager::m_unmapCollisions = {};
-		//std::vector<CColliderComponent*>	CCollisionManager::m_vecCollider = {};
-		//bool* CCollisionManager::m_bArryCollision = nullptr;
-		//INT CCollisionManager::m_iCollTickComponentFPS = 0;
 
 		CCollisionManager::~CCollisionManager() //사용안함
 		{
@@ -47,8 +40,10 @@ namespace Framework
 			}
 			const UINT fullSize = size * size;
 			m_bArryCollision = new bool[fullSize];
-			memset(m_bArryCollision, 0, sizeof(bool) * fullSize);
-
+			for (UINT i = 0; i < fullSize; i++)
+			{
+				m_bArryCollision[i] = false;
+ 			}
 		}
 
 		void CCollisionManager::SetCollisionLayerState(UINT left, UINT right, bool enable)
@@ -57,6 +52,7 @@ namespace Framework
 			if (left > size || right > size ||
 				m_bArryCollision == nullptr)
 			{
+				int a = 5;
 				assert(1);
 				return;
 			}
@@ -72,10 +68,7 @@ namespace Framework
 				col = left;
 				row = right;
 			}
-			if (m_bArryCollision[(row * size) + col] != enable)
-			{
-				m_bArryCollision[(row * size) + col] = enable;
-			}
+			m_bArryCollision[(row * size) + col] = enable;
 		}
 
 		const std::vector<CColliderComponent*>& CCollisionManager::GetCollisionCollider(const Maths::Vector2& center, const Maths::Vector2& size)
@@ -96,7 +89,7 @@ namespace Framework
 			std::unordered_map<UINT32, CColliderComponent*> umIgnores;
 			for (const auto obj : ignores)
 			{
-				umIgnores[obj->GetID()] = obj;
+				umIgnores[obj->GetColliderID()] = obj;
 			}
 
 			return CQuadTreeManager::Raycast(ray, hitObject, umIgnores);
@@ -111,6 +104,11 @@ namespace Framework
 		{
 			CQuadTreeManager::Initialize(Maths::Vector2(2048, 2048), 8, 2);
 			m_vecCollider.resize(50);
+
+			collisionsA.reserve(150);
+			collisionsB.reserve(150);
+			this->curr = &collisionsA;
+			this->prev = &collisionsB;
 		}
 
 		void CCollisionManager::Release()
@@ -124,6 +122,7 @@ namespace Framework
 		void CCollisionManager::Tick()
 		{
 			//return;
+			if(false)
 			{
 				static float countTime = 0;
 				static float checkTime = (float)1 / (float)80;
@@ -154,6 +153,11 @@ namespace Framework
 				}
 			}
 
+
+			//충돌 검사를 위한 이중 버퍼
+			std::swap(curr, prev);
+			curr->clear();
+
 			GET_SINGLE(OBJECT).Destroy();			//삭제 예정 삭제
 			CQuadTreeManager::Clear();	//쿼드 트리 초기화
 
@@ -179,25 +183,38 @@ namespace Framework
 
 		void CCollisionManager::CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider)
 		{
-			CollisionID collId = { leftCollider->GetID() , rightCollider->GetID() };
+			UINT32 leftID = leftCollider->GetColliderID();
+			UINT32 rightID = rightCollider->GetColliderID();
 
-			auto iter = m_unmapCollisions.find(collId.id);
-
-			if (iter == m_unmapCollisions.end())
+			if (leftID > rightID)
 			{
-				m_unmapCollisions.insert(std::make_pair(collId.id, false));
-				iter = m_unmapCollisions.find(collId.id);
+				std::swap(leftID, rightID);
 			}
 
-			if (leftCollider->CheckCollision(rightCollider))
+			const CollisionID collId = { leftID, rightID };
+			if (curr->find(collId.id) != curr->end()) //이미 충돌검사가 진행되었었다면 종료
+			{		return;		}
+
+			bool prevState;
+			auto prevIter = prev->find(collId.id);
+			if (prevIter != prev->end())
 			{
-				if (iter->second == false) //첫 충돌
+				prevState = prevIter->second;
+			}
+			else
+			{
+				prevState = false;
+			}
+
+			const bool state = leftCollider->CheckCollision(rightCollider);
+			if (state)
+			{
+				if (prevState == false)
 				{
 					leftCollider->OnCollisionEnter(rightCollider);
 					rightCollider->OnCollisionEnter(leftCollider);
-					iter->second = true;
 				}
-				else // 충돌 중
+				else
 				{
 					leftCollider->OnCollisionStay(rightCollider);
 					rightCollider->OnCollisionStay(leftCollider);
@@ -205,20 +222,19 @@ namespace Framework
 			}
 			else
 			{
-				if (iter->second == true) //충돌 해제
+				if (prevState)
 				{
 					leftCollider->OnCollisionExit(rightCollider);
 					rightCollider->OnCollisionExit(leftCollider);
-					iter->second = false;
 				}
 			}
-
+			curr->insert(std::make_pair(collId.id, state));
 		}
 
 		void CCollisionManager::Clear()
 		{
 			CQuadTreeManager::Clear();
-			m_unmapCollisions.clear();
+			//m_unmapCollisions.clear();
 
 			m_vecCollider.clear();
 			m_vecCollider.shrink_to_fit();
@@ -269,10 +285,11 @@ namespace Framework
 
 				for (const auto& possibleColl : possibleList)
 				{
-					if (pCollider != possibleColl)
+					if (pCollider->GetColliderID() != possibleColl->GetColliderID())
 					{
 						const UINT rightLayer = (UINT)possibleColl->GetOwner()->GetLayerType();
-						if (GetLayerState(leftLayer, rightLayer)) //서로 충돌 가능 레이어인지 비교
+						const bool state = GetLayerState(leftLayer, rightLayer);
+						if (state) //서로 충돌 가능 레이어인지 비교
 						{
 							CollisionStateUpdate(pCollider, possibleColl);
 						}
@@ -284,7 +301,19 @@ namespace Framework
 		bool CCollisionManager::GetLayerState(UINT left, UINT right)
 		{
 			const UINT size = GET_SINGLE(OBJECT).GetLayerSize();
-			return m_bArryCollision[(size * left) + right];
+			UINT row, col;
+			if (left < right)
+			{
+				row = left;
+				col = right;
+			}
+			else
+			{
+				col = left;
+				row = right;
+			}
+			const bool state = m_bArryCollision[(row * size) + col];
+			return state;
 		}
 
 	}

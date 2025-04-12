@@ -9,10 +9,6 @@ namespace Framework//::Enums
 
 		enum class eComponentType
 		{
-			Transform,
-
-			Custom,
-
 			SpriteRenderer,
 			Animator,
 			Camera,
@@ -20,6 +16,9 @@ namespace Framework//::Enums
 			Rigidbody,
 
 			Size,
+
+			Transform,
+			Custom,
 		};
 #pragma endregion
 

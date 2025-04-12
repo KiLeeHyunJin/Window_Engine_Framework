@@ -172,7 +172,7 @@ namespace Framework//::Maths
 				return *this;
 			}
 
-			bool operator == (const Vector2& rhs)
+			bool operator == (const Vector2& rhs) const
 			{
 				if (this->x != rhs.x)
 					return false;

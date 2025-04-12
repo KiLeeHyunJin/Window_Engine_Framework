@@ -9,6 +9,7 @@ namespace Framework
 	class CCircleColliderComponent :
 		public CColliderComponent
 	{
+		DECLARE_PARENT(CColliderComponent)
 	public:
 		CCircleColliderComponent();
 		virtual ~CCircleColliderComponent();
@@ -19,7 +20,7 @@ namespace Framework
 		virtual bool TickComponent() override;
 		virtual bool LastTickComponent() override;
 		virtual void Render(HDC hdc) override;
-		bool CheckCollision(CColliderComponent* other) override;
+		const bool CheckCollision(CColliderComponent* other) override;
 
 		//friend CActor;
 	private:

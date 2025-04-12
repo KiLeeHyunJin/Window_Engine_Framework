@@ -23,6 +23,8 @@ namespace Framework
 
 		void CTimeManager::Initialize()
 		{
+			generator_.seed((unsigned int)this);
+
 			QueryPerformanceFrequency(&m_liCpuFrequency);
 			QueryPerformanceCounter(&m_liPrevFrequency);
 

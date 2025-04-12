@@ -7,18 +7,21 @@
 #include "CCollisionManager.h"
 
 #include "CCameraComponent.h"
+#include "CBoxColliderComponent.h"
+#include "CRigidbodyComponent.h"
 
-#include "CActor.h"
 #include "CRenderer.h"
 #include "CTexture.h"
+#include "ContentsEnums.h"
 
 #include "CPlayerInput.h"
 #include "CDummy.h"
 
-#include "ContentsEnums.h"
 #include "CSpriteActor.h"
 #include "CFlipbook.h"
 #include "CFlipbookActor.h"
+#include "CPlayerControllActor.h"
+#include "CActor.h"
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -69,32 +72,47 @@ void Framework::CPlayScene::Release()
 
 void Framework::CPlayScene::OnEnter()
 {
-	GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)Enums::eLayerType::BackGround, (UINT)Enums::eLayerType::BackGround, true);
+	GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character, true);
 
-	const Resource::CTexture* pTexture = GET_SINGLE(RESOURCE).FindTexture(L"Room");
-	const Resource::CTexture* pTexture1 = GET_SINGLE(RESOURCE).FindTexture(L"Room1");
-	const Resource::CTexture* pTexture2 = GET_SINGLE(RESOURCE).FindTexture(L"Room2");
+	CActor* pActor = Object::Instantiate<CPlayerControllActor>((UINT)eLayer::Character, L"Test");
+	pActor->AddComponent<CRigidbodyComponent>();
+	CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+	pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+	pBoxColl->SetSize(Maths::Vector2(50, 50));
+	pActor->SetPosition(Maths::Vector2(50,50));
 
-	GET_SINGLE(RESOURCE).CreateSprite(pTexture, L"Room", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
-	GET_SINGLE(RESOURCE).CreateSprite(pTexture1, L"Room1", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
-	GET_SINGLE(RESOURCE).CreateSprite(pTexture2, L"Room2", Maths::Vector2Int(0, 0), Maths::Vector2Int(pTexture->GetWidth(), pTexture->GetHeight()));
+	{
+		pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
+		pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+		pBoxColl->SetSize(Maths::Vector2(50, 50));
+		pActor->SetPosition(Maths::Vector2(200, 70));
+	}
+	{
+		pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
+		pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+		pBoxColl->SetSize(Maths::Vector2(50, 50));
+		pActor->SetPosition(Maths::Vector2(260, 70));
+	}
+	{
+		pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
+		pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+		pBoxColl->SetSize(Maths::Vector2(50, 50));
+		pActor->SetPosition(Maths::Vector2(320, 70));
+	}
 
-	GET_SINGLE(RESOURCE).CreateFlipbook(L"Room", false);
-	const Resource::CFlipbook* flipBook = GET_SINGLE(RESOURCE).FindFlipbook(L"Room");
-
-	const Resource::CSprite* sprite1 = GET_SINGLE(RESOURCE).FindSprite(L"Room");
-	const Resource::CSprite* sprite2 = GET_SINGLE(RESOURCE).FindSprite(L"Room1");
-	const Resource::CSprite* sprite3 = GET_SINGLE(RESOURCE).FindSprite(L"Room2");
-
-	GET_SINGLE(RESOURCE).InsertSprite(flipBook, sprite1);
-	GET_SINGLE(RESOURCE).InsertSprite(flipBook, sprite2);
-	GET_SINGLE(RESOURCE).InsertSprite(flipBook, sprite3);
+	//for (UINT i = 0; i < 200; i++)
+	//{
+	//	pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Monster, L"Dest");
+	//	pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+	//	pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+	//	pBoxColl->SetSize(Maths::Vector2(50, 50));
+	//	pActor->SetPosition(Maths::Vector2(400, 100));
+	//}
 
 
-	CFlipbookActor* pSpriteActor = Object::Instantiate<CFlipbookActor>(3, L"SpriteActor");
-	pSpriteActor->SetPosition(Maths::Vector2(50, 50));
-
-	pSpriteActor->SetFlipbook(flipBook);
 
 	//for (size_t i = 0; i < 200; i++)
 	//{

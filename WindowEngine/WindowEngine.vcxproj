@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="CDevScene.h" />
     <ClInclude Include="CDummy.h" />
+    <ClInclude Include="CPlayerControllActor.h" />
     <ClInclude Include="CPlayerInput.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CTitleScene.h" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="CDevScene.cpp" />
     <ClCompile Include="CDummy.cpp" />
+    <ClCompile Include="CPlayerControllActor.cpp" />
     <ClCompile Include="CPlayerInput.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
     <ClCompile Include="CTitleScene.cpp" />

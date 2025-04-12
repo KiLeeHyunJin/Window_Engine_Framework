@@ -24,6 +24,7 @@ namespace Framework
 	}
 	class CAnimatorComponent;
 	class CTransformComponent;
+	class CColliderComponent;
 	class CComponent;
 	class CLayer;
 
@@ -40,13 +41,19 @@ namespace Framework
 		CActor(UINT layerType);
 		virtual ~CActor();
 
-		virtual void BeginPlay() = 0;
-		virtual void Release() = 0;
+		virtual void BeginPlay()			= 0;
+		virtual void Release()				= 0;
 
-		virtual bool Tick() = 0;
-		virtual bool LastTick() = 0;
-		virtual void Render(HDC hdc) const = 0;
+		virtual bool Tick()					= 0;
+		virtual bool LastTick()				= 0;
 
+		virtual void Render(HDC hdc) const	= 0;
+
+		virtual void OnCollisionEnter(CColliderComponent* other)	{}
+		virtual void OnCollisionStay(CColliderComponent* other)		{}
+		virtual void OnCollisionExit(CColliderComponent* other)		{}
+
+		void								ChangeLayer(UINT layerType);
 
 		//CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
@@ -158,58 +165,57 @@ namespace Framework
 
 #pragma endregion Component Template
 
-		void ChangeLayer(UINT layerType);
 
-		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable; }
-		__forceinline const UINT GetLayerType()	const	{ return m_eLayerType; }
+		__forceinline const UINT			GetLayerType()		const	{ return m_eLayerType;										}
 
 		//__forceinline const eState GetState()					const	{ return m_eState; }
-		__forceinline const bool GetActive()					const	{ return m_eState == eState::Enable; }
-		__forceinline const bool GetDisable()					const	{ return m_eState == eState::Disable; }
-		__forceinline UINT32	 GetID()						const	{ return m_uiID; }
+		__forceinline const bool			GetActive()			const	{ return m_eState == eState::Enable;						}
+		__forceinline const bool			GetDisable()		const	{ return m_eState == eState::Disable;						}
+		__forceinline UINT32				GetID()				const	{ return m_uiID;											}
 
-		__forceinline const bool GetReserveDelete()				const	{ return m_bReserveDelete; }
-		__forceinline const bool GetSafeToDelete()				const	{ return m_bSafeToDelete; }
-		__forceinline const bool GetDontDestroy()				const	{ return m_bDontDestroy; }
+		__forceinline const bool			GetReserveDelete()	const	{ return m_bReserveDelete;									}
+		__forceinline const bool			GetSafeToDelete()	const	{ return m_bSafeToDelete;									}
+		__forceinline const bool			GetDontDestroy()	const	{ return m_bDontDestroy;									}
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
-		__forceinline const Maths::Vector2& GetPosition()		const	{ return m_vecPosition; }
-		__forceinline const Maths::Vector2& GetPrevPosition()	const	{ return m_vecPrevPosition; }
-		__forceinline const Maths::Vector2 GetMoveDirection()	const	{ return m_vecPosition - m_vecPrevPosition; }
-		__forceinline const Maths::Vector2& GetScale()			const	{ return m_vecScale; }
-		__forceinline const float GetRotate()					const	{ return m_fRotatate; }
+		__forceinline const Maths::Vector2& GetPosition()		const	{ return m_vecPosition;										}
+		__forceinline const Maths::Vector2& GetPrevPosition()	const	{ return m_vecPrevPosition;									}
+		__forceinline const Maths::Vector2	GetMoveSqrDirection()const	{ return m_vecPosition - m_vecPrevPosition;					}
 
-		__forceinline void SetPosition(const Maths::Vector2& position)	{ m_vecPosition = position; }
-		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale; }
-		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate; }
+		__forceinline const Maths::Vector2& GetScale()			const	{ return m_vecScale;										}
+		__forceinline const float			GetRotate()			const	{ return m_fRotatate;										}
 
-		__forceinline void SetSafeToDelete()							{ if (m_bSafeToDelete == false)  m_bSafeToDelete = true; }
-		__forceinline void SetReserveDelete()							{ if (m_bReserveDelete == false) m_bReserveDelete = true; }
-		__forceinline void SetDontDestroy(bool state)					{ m_bDontDestroy = state; }
-		__forceinline void SetLayerType(const UINT layerType)			{ if (layerType != m_eLayerType) m_eLayerType = layerType; }
-		__forceinline void SetID(UINT32 newID)							{ m_uiID = newID; }
+		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable;		}
+
+		__forceinline void SetPosition(const Maths::Vector2& position)	{ m_vecPosition = position;									}
+		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale;										}
+		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate;										}
+
+		__forceinline void SetSafeToDelete()							{ if (m_bSafeToDelete == false)  m_bSafeToDelete = true;	}
+		__forceinline void SetReserveDelete()							{ if (m_bReserveDelete == false) m_bReserveDelete = true;	}
+		__forceinline void SetDontDestroy(bool state)					{ m_bDontDestroy = state;									}
+		__forceinline void SetLayerType(const UINT layerType)			{ if (layerType != m_eLayerType) m_eLayerType = layerType;	}
+		__forceinline void SetID(UINT32 newID)							{ m_uiID = newID;											}
+
 
 		//friend CLayer;
 		//friend Manager::CEventManager;
 	protected:
-
-		__forceinline bool RenderCheck() const;
+		bool RenderCheck() const;
+		
 
 	private:
-
 		Maths::Vector2 m_vecPosition;
 		Maths::Vector2 m_vecPrevPosition;
 		Maths::Vector2 m_vecScale;
 		float m_fRotatate;
 
-		std::vector<CComponent*> m_vecComponents;
-		std::vector<CComponent*> m_vecCustomComponents;
-
-		//CTransformComponent* m_pTransform;
-
 		UINT m_eLayerType;
 		UINT32 m_uiID;
 		eState m_eState;
+
+		std::vector<CComponent*> m_vecComponents;
+		std::vector<CComponent*> m_vecCustomComponents;
 
 		bool m_bSafeToDelete;
 		bool m_bReserveDelete;

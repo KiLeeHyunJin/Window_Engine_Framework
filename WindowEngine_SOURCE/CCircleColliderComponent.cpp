@@ -21,6 +21,7 @@ namespace Framework
 	void CCircleColliderComponent::Release()
 	{
 	}
+
 	bool CCircleColliderComponent::TickComponent()
 	{
 		return true;
@@ -29,6 +30,7 @@ namespace Framework
 	{
 		return true;
 	}
+
 	void CCircleColliderComponent::Render(HDC hdc)
 	{
 		CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
@@ -64,14 +66,14 @@ namespace Framework
 		SelectObject(hdc, oldBrush);
 		pen = (HPEN)SelectObject(hdc, oldPen);
 		DeleteObject(pen);
-
-
-
 	}
 
 
-	bool CCircleColliderComponent::CheckCollision(CColliderComponent* other)
+	const bool CCircleColliderComponent::CheckCollision(CColliderComponent* other)
 	{
+		if (SUPER::CheckCollision(other) == false)
+		{		return false;			}
+
 		CColliderComponent::eColliderType colliderType = other->GetColliderType();
 		switch (colliderType)
 		{

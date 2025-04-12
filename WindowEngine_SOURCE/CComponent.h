@@ -1,5 +1,6 @@
 #pragma once
 #include "CEntity.h"
+
 namespace Framework
 {
     class CActor;

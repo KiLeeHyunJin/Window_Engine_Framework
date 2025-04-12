@@ -9,7 +9,6 @@
 
 #include "CTransformComponent.h"
 #include "CRigidbodyComponent.h"
-
 namespace Framework
 {
 	CActor::CActor(UINT layerType) :
@@ -17,6 +16,7 @@ namespace Framework
 		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),m_fRotatate(0)
 		/*m_pTransform(new CTransformComponent)*/
 	{
+		m_uiID = GET_SINGLE(TIME).GetRandom();
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
 		//m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
 	}

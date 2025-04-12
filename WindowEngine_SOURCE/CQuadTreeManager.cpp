@@ -1,6 +1,5 @@
 #include "CQuadTreeManager.h"
 #include "CQuadTree.h"
-#include <limits.h>
 
 namespace Framework
 {

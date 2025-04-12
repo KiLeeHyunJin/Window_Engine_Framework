@@ -20,6 +20,22 @@ namespace Framework
 
 		static void UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2Int& size, const Resource::CSprite* sprite);
 		static void UtilBitBlt	(HDC hdc, const Maths::Vector2& start, const Maths::Vector2& size, const Resource::CSprite* sprite);
+		
+
+		static void FlagOn(UINT32& dest, UINT32 target)
+		{
+			UINT32 temp = 1 << target;
+			dest |= temp;
+		}
+
+		static void FlagOff(UINT32& dest, UINT32 target)
+		{
+			UINT32 temp = ~(1 << target);
+			dest &= temp;
+		}
+
+		__forceinline static bool FlagCheck(UINT32 dest, UINT32 target)
+		{	return dest & ( 1 << (UINT32)target );	}
 	private:
 		Utils();
 	};

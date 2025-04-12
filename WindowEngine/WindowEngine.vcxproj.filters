@@ -51,6 +51,9 @@
     <ClInclude Include="CDevScene.h">
       <Filter>00.Scene\Dev</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerControllActor.h">
+      <Filter>01.Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlayerInput.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="CDevScene.cpp">
       <Filter>00.Scene\Dev</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerControllActor.cpp">
+      <Filter>01.Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

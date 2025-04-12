@@ -84,7 +84,14 @@ namespace Framework
 			__forceinline void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
 			__forceinline bool GetLayerState(UINT left, UINT right);
 
-			std::unordered_map<UINT64, bool> m_unmapCollisions = {};
+			//std::unordered_map<UINT64, bool> m_unmapCollisions = {};
+			std::unordered_map<UINT64, bool> collisionsA				= {};
+			std::unordered_map<UINT64, bool> collisionsB				= {};
+
+			std::unordered_map<UINT64, bool>* curr;
+			std::unordered_map<UINT64, bool>* prev;
+
+			//bool m_check = false;
 			/// <summary>
 			/// 모든 콜라이더들을 담아놓는 자료형
 			/// </summary>

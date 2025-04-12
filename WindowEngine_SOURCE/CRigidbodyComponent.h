@@ -88,6 +88,8 @@ namespace Framework
 		Maths::Vector2 m_vecLimitVelocity;
 		Maths::Vector2 m_vecLimitGravity;
 
+		//Maths::Vector2 m_vecMoveValue;
+
 		bool m_bGround;
 	};
 

@@ -1,6 +1,8 @@
 #include "CObjectManager.h"
 #include "CActor.h"
 #include "CCollisionManager.h"
+#include "CRenderManager.h"
+
 namespace Framework
 {
 	namespace Manager
@@ -34,12 +36,15 @@ namespace Framework
 			}
 			else
 			{
-				if (iter->second == nullptr)		//소멸된 아이디
+				UINT32 _id = iter->first;
+				CActor* target = iter->second;
+				if (target == nullptr)		//소멸된 아이디
 				{
 					iter->second = pActor;
 				}
 				else//존재하는 아이디
 				{
+					int a = 5;
 					assert(true);
 				}
 			}
@@ -158,6 +163,13 @@ namespace Framework
 				m_vecLayer[i]->Render(hdc);
 				m_vecDontDestoryLayer[i]->Render(hdc);
 			}
+
+			wchar_t str[50] = L"";
+			swprintf_s(str, 50, L"오브젝트 개수 : %d", (int)(m_unObjects.size()));
+			int len = (int)wcsnlen_s(str, 50);
+
+			const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
+			TextOut(hdc, ((int)resolution.x - 130), 40, str, len);
 		}
 	}
 	

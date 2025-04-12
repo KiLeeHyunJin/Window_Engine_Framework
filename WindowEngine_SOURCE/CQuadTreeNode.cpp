@@ -132,7 +132,7 @@ namespace Framework
 			}
 
 			//ignores.find(obj->GetID())
-			auto it = ignores.find(obj->GetID());
+			auto it = ignores.find(obj->GetColliderID());
 			if (it != ignores.end())
 			{
 				continue;

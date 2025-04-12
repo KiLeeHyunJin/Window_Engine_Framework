@@ -29,6 +29,8 @@
 #include "Maths.h"
 #include "ColliderStruct.h"
 
+#include <limits.h>
+
 
 #pragma region STL
 //STL

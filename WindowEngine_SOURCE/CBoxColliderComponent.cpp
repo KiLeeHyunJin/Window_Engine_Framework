@@ -81,9 +81,13 @@ namespace Framework
 		DeleteObject(pen);
 	}
 
-	bool CBoxColliderComponent::CheckCollision(CColliderComponent* other)
+	const bool CBoxColliderComponent::CheckCollision(CColliderComponent* other)
 	{
+		if (SUPER::CheckCollision(other) == false)
+		{	return	false;		}
+
 		CColliderComponent::eColliderType colliderType = other->GetColliderType();
+
 		switch (colliderType)
 		{
 		case Framework::CColliderComponent::eColliderType::Box:
