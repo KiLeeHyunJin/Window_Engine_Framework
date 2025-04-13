@@ -105,8 +105,9 @@ namespace Framework
 			CQuadTreeManager::Initialize(Maths::Vector2(2048, 2048), 8, 2);
 			m_vecCollider.resize(50);
 
-			collisionsA.reserve(150);
-			collisionsB.reserve(150);
+			collisionsA.reserve(200);
+			collisionsB.reserve(200);
+
 			this->curr = &collisionsA;
 			this->prev = &collisionsB;
 		}
@@ -234,7 +235,8 @@ namespace Framework
 		void CCollisionManager::Clear()
 		{
 			CQuadTreeManager::Clear();
-			//m_unmapCollisions.clear();
+			prev->clear();
+			curr->clear();
 
 			m_vecCollider.clear();
 			m_vecCollider.shrink_to_fit();
@@ -280,12 +282,13 @@ namespace Framework
 			for (const auto& pCollider : m_vecCollider) //순회
 			{
 				const UINT leftLayer = (UINT)pCollider->GetOwner()->GetLayerType();
-
+				const UINT32 colliderID = pCollider->GetColliderID();
 				const std::vector<CColliderComponent*>& possibleList = CQuadTreeManager::Query(pCollider); //해당 영역 오브젝트 가져오기
 
 				for (const auto& possibleColl : possibleList)
 				{
-					if (pCollider->GetColliderID() != possibleColl->GetColliderID())
+					const UINT32 possibleColliderID = possibleColl->GetColliderID();
+					if (colliderID != possibleColliderID)
 					{
 						const UINT rightLayer = (UINT)possibleColl->GetOwner()->GetLayerType();
 						const bool state = GetLayerState(leftLayer, rightLayer);

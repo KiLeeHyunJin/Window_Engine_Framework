@@ -7,18 +7,7 @@ namespace Framework
 	namespace Manager
 	{
 		CTimeManager* CTimeManager::s_instance = nullptr;
-		//float			CTimeManager::m_fDeltaTime = 0;
-		//float			CTimeManager::m_fTimeScale = 1;
-		//bool			CTimeManager::m_bShowFPS = true;
-		//UINT			CTimeManager::m_uiFPS = 0;
-		//CTimeManager::eTimeType CTimeManager::timeType = CTimeManager::eTimeType::Performance;
-		//CTimeManager::TimeFuncPtr CTimeManager::functions[static_cast<int>(eTimeType::Size)] = { nullptr };
-		//
-		//LARGE_INTEGER	CTimeManager::m_liCpuFrequency = {};
-		//LARGE_INTEGER	CTimeManager::m_liPrevFrequency = {};
-		//
-		//
-		//CTimeManager::CTimeManager() {}
+
 		CTimeManager::~CTimeManager() {}
 
 		void CTimeManager::Initialize()

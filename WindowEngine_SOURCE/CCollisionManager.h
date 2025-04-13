@@ -85,11 +85,11 @@ namespace Framework
 			__forceinline bool GetLayerState(UINT left, UINT right);
 
 			//std::unordered_map<UINT64, bool> m_unmapCollisions = {};
-			std::unordered_map<UINT64, bool> collisionsA				= {};
-			std::unordered_map<UINT64, bool> collisionsB				= {};
+			std::unordered_map<UINT64, bool> collisionsA		= {};
+			std::unordered_map<UINT64, bool> collisionsB		= {};
 
-			std::unordered_map<UINT64, bool>* curr;
-			std::unordered_map<UINT64, bool>* prev;
+			std::unordered_map<UINT64, bool>* curr				= nullptr;
+			std::unordered_map<UINT64, bool>* prev				= nullptr;
 
 			//bool m_check = false;
 			/// <summary>
