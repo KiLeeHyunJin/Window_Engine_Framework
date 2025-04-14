@@ -255,6 +255,7 @@ namespace Framework
 		}
 		return false;
 	}
+
 	bool CColliderComponent::InYCheck(CBoxColliderComponent* target, float otherY)
 	{
 		const Maths::Vector2& targetPos = target->GetOwner()->GetPosition();

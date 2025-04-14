@@ -21,7 +21,7 @@ namespace Framework
 
 		void CUIManager::LoadUI(Enums::eUIType type, CUIBase* pUI, bool bChangeHierarchy, bool bDrag)
 		{
-			pUI->SetDrag(bDrag);
+			pUI->SetDraggable(bDrag);
 			pUI->SetChangeHierarchy(bChangeHierarchy);
 			pUI->SetType(type);
 			m_unmapUI.insert(std::make_pair(type, pUI));
@@ -238,7 +238,7 @@ namespace Framework
 			}
 			else
 			{
-				if (m_pCurrentUI->GetCurOn() == false)
+				if (m_pCurrentUI->GetCurrOn() == false)
 				{
 					m_pCurrentUI = pTargetUI;
 				}
@@ -282,11 +282,12 @@ namespace Framework
 
 		void CUIManager::MouseEvent(CUIBase* pUI, CUIBase* pfocusUI)
 		{
+			if (pUI == nullptr)
+			{	return;		}
+
 			if (pUI == pfocusUI)
 			{
 				pUI->Enter();
-				pUI->Over();
-
 				if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::LBUTTON))
 				{
 					pUI->Down();
@@ -301,8 +302,8 @@ namespace Framework
 				pUI->Exit();
 			}
 
-			const std::vector<CUIBase*>& childs = pUI->GetChilds();
 
+			const std::vector<CUIBase*>& childs = pUI->GetChilds();
 			for (CUIBase* pChildUI : childs)
 			{
 				MouseEvent(pChildUI, pfocusUI);
@@ -315,7 +316,7 @@ namespace Framework
 			{
 				for (auto it = m_vecCurrentUIs.rbegin(); it != m_vecCurrentUIs.rend(); ++it)
 				{
-					if ((*it)->GetCurOn())
+					if ((*it)->GetCurrOn())
 					{
 						return *it;
 					}
@@ -348,34 +349,19 @@ namespace Framework
 			queUIs.push(pTopUI);
 
 			CUIBase* targetUI = nullptr;
-			//for(auto iter  = m_vecCurrentUIs.cbegin(); 
-			//		 iter != m_vecCurrentUIs.cend(); 
-			//		 ++iter)
-			//{
-			//	if ((*iter)->m_bCurMouseOn)
-			//	{
-			//		queUIs.push(*iter);
-			//		targetUI = *iter;
-			//		//break;
-			//	}
-			//}
-
-			//if (queUIs.empty())					{	return nullptr;	}
-
-
 			while (queUIs.empty() == false)
 			{
 				CUIBase* pUI = queUIs.front();
 				queUIs.pop();
 
-				if (pUI->GetCurOn())
+				if (pUI->GetCurrOn())
 				{
 					targetUI = pUI;
 					const std::vector<CUIBase*>& targetChilds = pUI->GetChilds();
 
-					for (UINT i = 0; i < targetChilds.size(); i++)
+					for (const auto ui : targetChilds)
 					{
-						queUIs.push(targetChilds[i]);
+						queUIs.push(ui);
 					}
 				}
 			}

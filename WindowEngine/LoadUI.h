@@ -9,7 +9,12 @@ namespace Framework
 		CUIBase* leftButton = new CUIBase();
 		CUIBase* rightButton = new CUIBase();
 
-		GET_SINGLE(UI).LoadUI(Enums::eUIType::Button, leftButton, true, true);
+		leftButton->SetLocalPosition(Maths::Vector2(300, 300));
+		rightButton->SetLocalPosition(Maths::Vector2(150,150));
+		//rightButton->SetDraggable(true);
+
 		GET_SINGLE(UI).LoadUI(Enums::eUIType::Size, rightButton, true, false);
+		GET_SINGLE(UI).LoadUI(Enums::eUIType::Button, leftButton, true, true);
+
 	}
 }
