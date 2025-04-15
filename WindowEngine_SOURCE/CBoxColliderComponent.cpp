@@ -59,26 +59,19 @@ namespace Framework
 			pos = pCam->CaluatePosition(pos);
 		}
 		const Maths::Vector2 offsetPos = pos + m_vecOffset;
+		Utils::DrawRect(hdc, offsetPos, m_vecSize);
 
-		HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc,transparentBrush);
+		//HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		//HBRUSH oldBrush = (HBRUSH)SelectObject(hdc,transparentBrush);
+		//
+		//HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
+		//HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
-		HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
-		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
-		const float sizeX = m_vecSize.x * 0.5f;
-		const float sizeY = m_vecSize.y * 0.5f;
+		//transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
+		//pen = (HPEN)SelectObject(hdc, oldPen);
 
-		Rectangle(hdc, 
-			(INT)(offsetPos.x - sizeX), 
-			(INT)(offsetPos.y - sizeY), 
-			(INT)(offsetPos.x + sizeX), 
-			(INT)(offsetPos.y + sizeY));
-
-		transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
-		pen = (HPEN)SelectObject(hdc, oldPen);
-
-		DeleteObject(pen);
+		//DeleteObject(pen);
 	}
 
 	const bool CBoxColliderComponent::CheckCollision(CColliderComponent* other)

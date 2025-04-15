@@ -16,13 +16,13 @@ namespace Framework
 
 	void CUIBase::OnInitialize()
 	{
-		//m_vecPos = Maths::Vector2(150, 100);
 		m_vecSize = Maths::Vector2(150, 150);
 
 		CButton* left = new CButton();
 		left->SetLocalPosition(Maths::Vector2(-70, 0));
 		left->SetScale(Maths::Vector2(50, 50));
 		left->SetChangeHierarchy(true);
+		left->SetDraggable(true);
 		AddChildUI(left);
 
 	}
@@ -94,7 +94,6 @@ namespace Framework
 			child->Tick();
 		}
 
-		m_ePrevState = m_eCurrState;
 	}
 	
 	void CUIBase::LastTick()
@@ -186,19 +185,13 @@ namespace Framework
 
 	void CUIBase::Enter()
 	{
-		if (m_eCurrState == eUIState::Default)
+		if (m_eUIState == eUIState::Default)
 		{
-			if (m_bCurMouseOn == false)
-			{
-				m_bCurMouseOn = true;
-			}
-
 			SetState(eUIState::Hovered);
-			OnEnter();
 		}
-		else
+		else if(m_eUIState == eUIState::Pressed)
 		{
-			if (GetDragging())
+			if (m_bDraggable)
 			{
 				const Maths::Vector2& currMousePos	= GET_SINGLE(INPUT).GetMousePosition();	//마우스 위치
 				Maths::Vector2 vecDiffMousePos		= currMousePos - m_vecPrevMousePos;		//이전 마우스와 현재 마우스 위치 차이
@@ -207,6 +200,7 @@ namespace Framework
 				m_vecPos = m_vecPos + vecDiffMousePos;										//마우스 이동한 만큼 합쳐서 위치에 저장
 			}
 		}
+		OnEnter();
 	}
 
 	void CUIBase::Exit()
@@ -216,7 +210,7 @@ namespace Framework
 		//	//m_bPrevMouseDown = false;
 		//}
 
-		if (m_eCurrState != eUIState::Default)
+		if (m_eUIState != eUIState::Default)
 		{
 			SetState(eUIState::Default);
 			m_bCurMouseOn = false;
@@ -227,27 +221,45 @@ namespace Framework
 
 	void CUIBase::Down()
 	{
-		SetState(eUIState::Pressed);
+		if (m_eUIState != eUIState::Pressed)
+		{
+			SetState(eUIState::Pressed);
+			OnDown();
 
-		if (m_bDraggable)
-		{
-			m_vecPrevMousePos = GET_SINGLE(INPUT).GetMousePosition();
+			if (m_bDraggable)
+			{
+				m_vecDragStartPos = m_vecPos;
+				m_vecPrevMousePos = GET_SINGLE(INPUT).GetMousePosition();
+			}
+			if (m_bChangeHierarchy)
+			{
+				GET_SINGLE(UI).SetLastSibling(this);
+			}
 		}
-		if (m_bChangeHierarchy)
-		{
-			GET_SINGLE(UI).SetLastSibling(this);
-		}
-		OnDown();
 	}
 
 	void CUIBase::Up()
 	{
-		if (GetDragging())
+		if (m_eUIState == eUIState::Pressed)
 		{
-			m_vecRenderPos = GET_SINGLE(INPUT).GetMousePosition();
-		}
-		SetState(eUIState::Hovered);
+			if (m_bDraggable)
+			{
+				float sqrLength = (m_vecDragStartPos - m_vecPos).SqrLength();
+				if (sqrLength > DRAG_ALLOWABLE_RANGE)
+				{
+					m_bPrevDrag = true;
+				}
+				else
+				{
+					m_bPrevDrag = false;
+				}
+			}
+			
 
-		OnUp();
+			SetState(eUIState::Hovered);
+
+			OnUp();
+		}
+
 	}
 }

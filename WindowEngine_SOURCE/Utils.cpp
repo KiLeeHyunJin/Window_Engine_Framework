@@ -15,6 +15,7 @@ namespace Framework
 			str.c_str(), static_cast<INT>(str.size()));
 	}
 
+
 	void Utils::DrawRect(HDC hdc, const Maths::Vector2& pos, INT w, INT h)
 	{
 		const float halfX = w * 0.5f;

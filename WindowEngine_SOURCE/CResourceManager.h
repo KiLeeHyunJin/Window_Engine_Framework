@@ -4,6 +4,7 @@
 
 namespace Framework//::Resource
 {
+	class CTilemap;
 
 	namespace Resource
 	{
@@ -23,8 +24,12 @@ namespace Framework//::Resource
 			RELEASE_SINGLE(CResourceManager)
 		public:
 
-			CTexture* LoadTexture(const std::wstring& key, const std::wstring& path);
-			void		 LoadSound(const std::wstring& key);
+			CTilemap* CreateTilemap(const std::wstring& key);
+			void SaveTilemap(const std::wstring& key, const std::wstring& path);
+			CTilemap* LoadTilemap(const std::wstring& key, const std::wstring& path);
+
+			const CTexture*	LoadTexture(const std::wstring& key, const std::wstring& path);
+			void			LoadSound(const std::wstring& key);
 
 			const bool CreateSprite(const CTexture* texture, const std::wstring& key, const Vector2Int& leftTop, const Vector2Int& size, const Vector2Int& pivot = Maths::Vector2Int::Zero);
 			const bool CreateFlipbook(const std::wstring& key, bool loop);
@@ -66,7 +71,7 @@ namespace Framework//::Resource
 			std::map<const std::wstring, CTexture*> m_mapTextures	= {};
 			std::map<const std::wstring, CSprite*> m_mapSprites		= {};
 			std::map<const std::wstring, CFlipbook*> m_mapFlipbooks = {};
-
+			std::map<const std::wstring, CTilemap*> m_mapTilemap = {};
 		};
 
 	}

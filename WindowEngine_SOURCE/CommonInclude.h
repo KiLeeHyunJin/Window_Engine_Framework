@@ -20,6 +20,7 @@
 #include <string>
 #include <cmath>
 #include <functional>
+#include <algorithm>
 //#include <filesystem>
 #pragma endregion
 

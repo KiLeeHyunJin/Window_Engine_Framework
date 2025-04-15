@@ -33,6 +33,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CSoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbookActor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTilemap.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTilemapActor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ColliderStruct.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
@@ -96,6 +98,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CSprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteRendererComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTilemap.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTilemapActor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTimeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransformComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp" />

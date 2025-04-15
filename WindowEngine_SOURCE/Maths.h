@@ -16,6 +16,22 @@ namespace Framework//::Maths
 		template<typename T>
 		__inline T Abs(const T rhs) { return rhs > 0 ? rhs : rhs * -1; }
 
+		template<typename T>
+		__inline T Clamp(const T& value, const T& min, const T& max) 
+		{ 
+			T _min, _max;
+			if (min > max)
+			{	_min = max;	_max = min;	}
+			else
+			{	_min = min;	_max = max;	}
+
+			if (value < _min)
+				return _min;
+			if (value > _max)
+				return _max;
+			return value; 
+		}
+		
 		__inline static float RadianToDegree(const float radian) { return (radian * (180 / PI)); }
 
 #pragma region Vector2 Float

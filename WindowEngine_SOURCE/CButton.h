@@ -23,6 +23,7 @@ namespace Framework
 			m_pOnClick = [owner, func]()
 				{		(owner->*func)();		};
 		}
+
 		template<typename T>
 		void AddOnDownDelegate(T* owner, void(T::* func)())
 		{
@@ -34,6 +35,21 @@ namespace Framework
 		{
 			m_pOnUp = [owner, func]()
 				{		(owner->*func)();		};
+		}
+
+		void AddOnClickDelegate(std::function<void()> func)
+		{
+			m_pOnClick = func;
+		}
+
+		void AddOnDownDelegate(std::function<void()> func)
+		{
+			m_pOnDown = func;
+		}
+
+		void AddOnUpDelegate(std::function<void()> func)
+		{
+			m_pOnUp = func;
 		}
 #pragma endregion
 

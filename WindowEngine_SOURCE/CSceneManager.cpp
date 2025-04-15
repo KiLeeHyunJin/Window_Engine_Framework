@@ -3,7 +3,6 @@
 #include "CCollisionManager.h"
 #include "CObjectManager.h"
 #include "CUIManager.h"
-
 #include "Utils.h"
 
 namespace Framework
@@ -80,11 +79,11 @@ namespace Framework
 					m_pCurrentScene->OnExit();
 					GET_SINGLE(COLLISION).Clear();
 					GET_SINGLE(UI).Clear();
+					GET_SINGLE(OBJECT).Clear();
 				}
 
 				m_pCurrentScene = pScene;
 				m_pCurrentScene->OnEnter();
-				GET_SINGLE(OBJECT).Clear(this);
 				return m_pCurrentScene;
 			}
 			return nullptr;

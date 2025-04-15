@@ -2,6 +2,7 @@
 #include "CTexture.h"
 #include "CSprite.h"
 #include "CFlipbook.h"
+#include "CTilemap.h"
 
 namespace Framework//::Resource
 {
@@ -16,7 +17,30 @@ namespace Framework//::Resource
 		//CResourceManager::CResourceManager() {}
 		CResourceManager::~CResourceManager() {}
 
-		CTexture* CResourceManager::LoadTexture(const std::wstring& key, const std::wstring& path)
+		CTilemap* CResourceManager::CreateTilemap(const std::wstring& key)
+		{
+			auto iter = m_mapTilemap.find(key);
+			if (iter != m_mapTilemap.end())
+			{
+				return iter->second;
+			}
+			CTilemap* tm = new CTilemap();
+			tm->SetName(key);
+			m_mapTilemap.insert(std::make_pair(key, tm));
+			return tm;
+		}
+
+		void CResourceManager::SaveTilemap(const std::wstring& key, const std::wstring& path)
+		{
+			
+		}
+
+		CTilemap* CResourceManager::LoadTilemap(const std::wstring& key, const std::wstring& path)
+		{
+			return nullptr;
+		}
+
+		const CTexture* CResourceManager::LoadTexture(const std::wstring& key, const std::wstring& path)
 		{
 			const CTexture* pTexture = CResourceManager::FindTexture(key);
 			if (pTexture != nullptr)
@@ -81,7 +105,6 @@ namespace Framework//::Resource
 			pFlipbook->AddSprite(sprite, duration);
 		}
 
-
 		const CTexture* CResourceManager::FindTexture(const std::wstring& key)
 		{
 			auto iter = m_mapTextures.find(key);
@@ -91,6 +114,7 @@ namespace Framework//::Resource
 			}
 			return iter->second;
 		}
+
 		const CSprite* CResourceManager::FindSprite(const std::wstring& key)
 		{
 			auto iter = m_mapSprites.find(key);
@@ -100,6 +124,7 @@ namespace Framework//::Resource
 			}
 			return iter->second;
 		}
+
 		const CFlipbook* CResourceManager::FindFlipbook(const std::wstring& key)
 		{
 			auto iter = m_mapFlipbooks.find(key);
@@ -121,6 +146,7 @@ namespace Framework//::Resource
 			RELEASE_MAP(m_mapTextures);
 			RELEASE_MAP(m_mapSprites);
 			RELEASE_MAP(m_mapFlipbooks);
+			RELEASE_MAP(m_mapTilemap);
 		}
 	}
 

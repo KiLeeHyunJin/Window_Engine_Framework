@@ -21,7 +21,7 @@ namespace Framework
 			Default,
 			Hovered,
 			Pressed,
-			Clicked,
+			//Clicked,
 			Size,
 		};
 	public:
@@ -35,6 +35,8 @@ namespace Framework
 
 		//void MouseOnCheck();
 		void UpdatePosition();
+		void ReturnPosition()										{ m_vecPos = m_vecDragStartPos; }
+		bool MouseInRect();
 
 		__inline void SetLocalPosition(const Vector2& pos)			{ m_vecPos = pos;					}
 		 void SetScale(const Vector2& size)							{ m_vecSize = size;					}
@@ -43,7 +45,7 @@ namespace Framework
 		 void SetIndex(INT index)									{ m_iIndex = index;					}
 		 void SetCurrentSprite(const CSprite* sprite)				{ m_pCurrentSprite = sprite;		}
 		 void SetSprite(const CSprite* sprite, eUIState state)		{ m_pSprites[(INT)state] = sprite;	}
-		 void SetState(eUIState state)								{ m_eCurrState = state;		m_pCurrentSprite = m_pSprites[(int)state]; }
+		 void SetState(eUIState state)								{ m_eUIState = state;		m_pCurrentSprite = m_pSprites[(int)state]; }
 
 
 		__inline void SetChangeHierarchy(bool state)				{ m_bChangeHierarchy = state;		}
@@ -57,20 +59,20 @@ namespace Framework
 		__inline eUILayer						etLayer()					const { return m_eLayerType;			}
 		__inline eUIType						GetType()					const { return m_eType;					}
 		__inline bool							GetDraggable()				const { return m_bDraggable;			}
-		__inline bool							GetDragging()				const { return m_bDraggable && m_eCurrState == eUIState::Pressed;				}
+		__inline bool							GetDragging()				const { return m_bDraggable && m_eUIState == eUIState::Pressed;				}
 		__inline bool							GetWorldObject()			const { return m_bWorldObject;			}
 		__inline bool							GetChangeHierarchy()		const { return m_bChangeHierarchy;		}
-		__inline bool							GetPrevOn()					const { return m_ePrevState != eUIState::Default;			}
-		__inline bool							GetPrevDown()				const { return m_ePrevState == eUIState::Pressed;			}
+		//__inline bool							GetPrevOn()					const { return m_ePrevState != eUIState::Default;			}
+		//__inline bool							GetPrevDown()				const { return m_ePrevState == eUIState::Pressed;			}
 		__inline bool							GetCurrOn()					const { return m_bCurMouseOn;			}
-		__inline bool							GetFocus()					const { return m_eCurrState != eUIState::Default;			}
+		__inline bool							GetFocus()					const { return m_eUIState != eUIState::Default;			}
 		__inline INT							GetIndex()					const { return m_iIndex;				}
 		__inline CUIBase*						GetParent()					const { return m_pParent;				}
-	
+		__inline bool							GetPrevDrag()				const {	return m_bPrevDrag;				}
 		__inline const std::vector<CUIBase*>&	GetChilds()					const { return m_vecChilds;				}
+		__inline eUIState						GetUIState()				const { return m_eUIState;				}
 		
 		RECT GetRect();
-		bool MouseInRect();
 
 		__inline const Vector2& GetWorldPosition()							const { return m_vecRenderPos;			}
 		__inline const Vector2& GetLocalPosition()							const { return m_vecPos;				}
@@ -144,12 +146,12 @@ namespace Framework
 		//Transform
 		Vector2			m_vecPos							= Vector2::Zero;
 		Vector2			m_vecSize							= Vector2::Zero;
-		Vector2			m_vecPrevMousePos = Vector2::Zero;
-		//Vector2			m_vecDragStartPos					= Vector2::Zero;
+		Vector2			m_vecPrevMousePos					= Vector2::Zero;
+		Vector2			m_vecDragStartPos					= Vector2::Zero;
 
 		//State
-		eUIState		m_eCurrState						= eUIState::Default;
-		eUIState		m_ePrevState						= eUIState::Default;
+		eUIState		m_eUIState						= eUIState::Default;
+		//eUIState		m_ePrevState						= eUIState::Default;
 
 		bool			m_bDraggable						= false;
 		bool			m_bWorldObject						= false;
@@ -159,8 +161,7 @@ namespace Framework
 		bool			m_bEnable							= false;
 
 		bool			m_bCurMouseOn						= false;
-
-
+		bool			m_bPrevDrag							= false;
 
 		std::vector<CUIBase*>	m_vecChilds					= {};
 

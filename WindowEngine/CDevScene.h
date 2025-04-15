@@ -1,5 +1,7 @@
 #pragma once
 #include "..\\WindowEngine_SOURCE\\CScene.h"
+#include "..\\WindowEngine_SOURCE\\CTilemap.h"
+#include "..\\WindowEngine_SOURCE\\CTilemapActor.h"
 
 namespace Framework
 {
@@ -15,7 +17,10 @@ namespace Framework
 		CDevScene();
 		virtual ~CDevScene();
 
+		void LoadFile(const std::wstring& path);
+		void SaveFile(const std::wstring& path);
 
+		void SetTilemapActor(CActor* actor);
 
 		// CScene을(를) 통해 상속됨
 		void OnEnter() override;
@@ -31,7 +36,7 @@ namespace Framework
 		void Render(HDC hdc)	override;
 		void Release()			override;
 
-
+		CTilemapActor* m_pTilemapActor	 = nullptr;
 
 		// CScene을(를) 통해 상속됨
 		//void LastRender(HDC hdc) override;

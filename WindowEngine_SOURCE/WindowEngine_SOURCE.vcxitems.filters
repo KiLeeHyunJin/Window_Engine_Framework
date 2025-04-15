@@ -107,7 +107,7 @@
       <Filter>02.Asset\Resource\Data</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSprite.cpp">
-      <Filter>02.Asset\Resource\Texture\Sprite</Filter>
+      <Filter>02.Asset\Resource\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CActor.cpp">
       <Filter>02.Asset\Actor\Actor</Filter>
@@ -126,6 +126,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSoundManager.cpp">
       <Filter>00.Core\Manager\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTilemap.cpp">
+      <Filter>02.Asset\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTilemapActor.cpp">
+      <Filter>02.Asset\Tilemap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,7 +262,7 @@
       <Filter>02.Asset\Resource\Data</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h">
-      <Filter>02.Asset\Resource\Texture\Sprite</Filter>
+      <Filter>02.Asset\Resource\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CActor.h">
       <Filter>02.Asset\Actor\Actor</Filter>
@@ -275,6 +281,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSoundManager.h">
       <Filter>00.Core\Manager\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTilemap.h">
+      <Filter>02.Asset\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTilemapActor.h">
+      <Filter>02.Asset\Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,9 +410,6 @@
     <Filter Include="02.Asset\Resource\Data">
       <UniqueIdentifier>{1e646d8f-b3ca-48ae-878a-4e54792c6b6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Asset\Resource\Texture\Sprite">
-      <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Asset\Actor\SpriteActor">
       <UniqueIdentifier>{b6c52bb5-fdb2-42be-bf78-437e18f50e45}</UniqueIdentifier>
     </Filter>
@@ -421,6 +430,12 @@
     </Filter>
     <Filter Include="00.Core\Manager\Sound">
       <UniqueIdentifier>{d78f7737-0ff5-4f63-9613-c1b39ec8ba50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Tilemap">
+      <UniqueIdentifier>{32d3c610-1888-4918-9c69-02f1beb53c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Resource\Sprite">
+      <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

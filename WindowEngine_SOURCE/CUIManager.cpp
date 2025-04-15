@@ -27,6 +27,11 @@ namespace Framework
 			m_unmapUI.insert(std::make_pair(type, pUI));
 		}
 
+		CUIBase* CUIManager::GetUI(Enums::eUIType type)
+		{
+			return m_unmapUI[type];
+		}
+
 		void CUIManager::Push(Enums::eUIType type)
 		{
 			m_queUIType.push(type);

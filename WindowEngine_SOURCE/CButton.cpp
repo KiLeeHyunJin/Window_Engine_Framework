@@ -65,10 +65,6 @@ namespace Framework
 		{
 			m_pOnDown();
 		}
-
-		m_fClickSumTime += GET_SINGLE(TIME).DeltaTime();
-
-
 	}
 
 	void CButton::OnUp()
@@ -77,9 +73,13 @@ namespace Framework
 		{
 			m_pOnUp();
 		}
-		if (m_fClickSumTime > 0.2f)
+
+		if (m_fClickSumTime > CLICK_ALLOWABLE_TIME)
 		{
-			OnClick();
+			if (GetPrevDrag() == false)
+			{
+				OnClick();
+			}
 		}
 		m_fClickSumTime = 0;
 	}
@@ -87,6 +87,11 @@ namespace Framework
 	void CButton::OnEnter()
 	{
 		m_colorFill = Color(0, 0, 255);
+
+		if (GetUIState() == eUIState::Pressed)
+		{
+			m_fClickSumTime += GET_SINGLE(TIME).DeltaTime();
+		}
 	}
 	void CButton::OnExit()
 	{

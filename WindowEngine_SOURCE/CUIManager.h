@@ -18,6 +18,9 @@ namespace Framework
 
 		public:
 			void LoadUI(Enums::eUIType type, CUIBase* pUI, bool bChangeHierarchy = false, bool bDrag = false);
+
+			CUIBase* GetUI(Enums::eUIType type);
+
 			void Push(Enums::eUIType type);
 			void Render(HDC hdc);
 

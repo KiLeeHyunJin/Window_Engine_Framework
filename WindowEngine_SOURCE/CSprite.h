@@ -17,17 +17,16 @@ namespace Framework
 
             HRESULT Load(const std::wstring& wstrPath) override;
 
-            const Maths::Vector2Int&    GetLeftTop() const      { return m_vecStart;        }
-            const Maths::Vector2Int&    GetSize() const         { return m_vecSize;         }
-            const Maths::Vector2Int&    GetPivot() const        { return m_vecPivot;        }
+            const Maths::Vector2Int&    GetLeftTop()        const   { return m_vecStart;        }
+            const Maths::Vector2Int&    GetSize()           const   { return m_vecSize;         }
+            const Maths::Vector2Int&    GetPivot()          const   { return m_vecPivot;        }
+            int                         GetTransparent()    const   { return m_iTransparent;    }
+            void                SetTransparent(int transparent)     { m_iTransparent = transparent; }
 
-            int                         GetTransparent() const  { return m_iTransparent;    }
-            void                SetTransparent(int transparent) { m_iTransparent = transparent; }
-
-            HDC                         GetHDC() const          { return m_pTexture->GetHDC(); }
-            CTexture::eTextureType      GetTextureType() const  { return m_pTexture->GetTextureType(); }
-            bool                        GetAlpha()   const      { return m_pTexture->GetAlpha(); }
-            Gdiplus::Image*             GetImage() const        { return m_pTexture->GetImage(); }
+            HDC                         GetHDC()            const   { return m_pTexture->GetHDC(); }
+            CTexture::eTextureType      GetTextureType()    const   { return m_pTexture->GetTextureType(); }
+            bool                        GetAlpha()          const   { return m_pTexture->GetAlpha(); }
+            Gdiplus::Image*             GetImage()          const   { return m_pTexture->GetImage(); }
 
             void Render(HDC hdc) const;
 

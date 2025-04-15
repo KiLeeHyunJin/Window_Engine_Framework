@@ -45,7 +45,7 @@ void Framework::CTitleScene::LastTick()
 {
 	if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::A))
 	{
-		GET_SINGLE(EVENT).LoadScene((UINT)eMap::Play, 1);
+		GET_SINGLE(EVENT).LoadScene((UINT)eMap::Dev, 1);
 		//CSceneManager::LoadScene((UINT)eMap::Play);
 	}
 }
@@ -62,6 +62,17 @@ void Framework::CTitleScene::OnEnter()
 {
 	GET_SINGLE(UI).Push(Enums::eUIType::Size);
 	GET_SINGLE(UI).Push(Enums::eUIType::Button);
+
+	CUIBase* pUI = GET_SINGLE(UI).GetUI(Enums::eUIType::Size);
+	std::vector<CUIBase*> childs = pUI->GetChilds();
+	if(childs.size() != 0)
+	{
+		CButton* btn = dynamic_cast<CButton*>(childs[0]);
+		if (btn != nullptr)
+		{
+			btn->AddOnClickDelegate(this, &Framework::CTitleScene::Release);
+		}
+	}
 }
 
 void Framework::CTitleScene::OnExit()
