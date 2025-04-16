@@ -17,19 +17,56 @@ namespace Framework//::Maths
 		__inline T Abs(const T rhs) { return rhs > 0 ? rhs : rhs * -1; }
 
 		template<typename T>
-		__inline T Clamp(const T& value, const T& min, const T& max) 
+		__inline bool Clamp(T* value, const T& min, const T& max) 
 		{ 
-			T _min, _max;
-			if (min > max)
-			{	_min = max;	_max = min;	}
-			else
-			{	_min = min;	_max = max;	}
+			{
+				T _min, _max;
+				if (min > max)
+				{
+					_min = max;	_max = min;
+				}
+				else
+				{
+					_min = min;	_max = max;
+				}
 
-			if (value < _min)
-				return _min;
-			if (value > _max)
-				return _max;
-			return value; 
+				if (*value < _min)
+				{
+					*value = _min;
+					return true;
+				}
+				if (*value > _max)
+				{
+					*value = _max;
+					return true;
+				}
+			}
+			return false; 
+		}
+
+		template<typename T>
+		__inline T Clamp(const T& value, const T& min, const T& max)
+		{
+			{
+				T _min, _max;
+				if (min > max)
+				{
+					_min = max;	_max = min;
+				}
+				else
+				{
+					_min = min;	_max = max;
+				}
+				if (value < _min)
+				{
+					return _min;
+				}
+				if (value > _max)
+				{
+					return _max;
+				}
+			}
+			return value;
 		}
 		
 		__inline static float RadianToDegree(const float radian) { return (radian * (180 / PI)); }

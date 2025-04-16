@@ -11,16 +11,19 @@ namespace Framework
 		CPlayerControllActor(UINT layer);
 
 		// CActor을(를) 통해 상속됨
-		void BeginPlay() override;
-		void Release() override;
-		bool Tick() override;
-		bool LastTick() override;
-		void Render(HDC hdc) const override;
+		void BeginPlay()			override;
+		void Release()				override;
+
+		bool Tick()					override;
+		bool LastTick()				override;
+
+		void Render(HDC hdc) const	override;
 	private:
 		virtual void OnCollisionEnter(CColliderComponent* other);
 		virtual void OnCollisionStay(CColliderComponent* other);
 		virtual void OnCollisionExit(CColliderComponent* other);
-		uint32_t collChecking;
+
+		uint32_t collChecking		= 0;
 		//uint32_t collChecking2;
 
 	};

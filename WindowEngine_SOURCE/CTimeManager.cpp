@@ -12,7 +12,7 @@ namespace Framework
 
 		void CTimeManager::Initialize()
 		{
-			generator_.seed((unsigned int)this);
+			generator_.seed(reinterpret_cast<UINT>(this));
 
 			QueryPerformanceFrequency(&m_liCpuFrequency);
 			QueryPerformanceCounter(&m_liPrevFrequency);

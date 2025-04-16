@@ -102,7 +102,7 @@ namespace Framework
 
 		void CCollisionManager::Initialize()
 		{
-			CQuadTreeManager::Initialize(Maths::Vector2(2048, 2048), 8, 2);
+			CQuadTreeManager::Initialize(Maths::Vector2(8192, 8192), 8, 1.2f);
 			m_vecCollider.resize(50);
 
 			collisionsA.reserve(200);
@@ -172,13 +172,14 @@ namespace Framework
 
 		void CCollisionManager::Render(HDC hdc) const
 		{
+			CQuadTreeManager::Render(hdc);
+
 			wchar_t str[50] = L"";
 			swprintf_s(str, 50, L"Ãæµ¹È½¼ö : %d", (int)(m_iCollTickComponentFPS));
 			int len = (int)wcsnlen_s(str, 50);
 
 			const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
 			TextOut(hdc, ((int)resolution.x - 130), 20, str, len);
-			//CQuadTreeManager::Render(hdc);
 		}
 
 

@@ -66,7 +66,7 @@ namespace Framework
 		int len = (int)wcsnlen_s(str, 50);
 
 		const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
-		TextOut(hdc, ((int)resolution.x - 130), 140, str, len);
+		TextOut(hdc, (static_cast<INT>(resolution.x - 130)), 140, str, len);
 
 	}
 	void CPlayerControllActor::OnCollisionEnter(CColliderComponent* other)

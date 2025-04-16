@@ -5,6 +5,8 @@
 
 #include "CColliderComponent.h"
 #include "CTransformComponent.h"
+#include "CCameraComponent.h"
+#include "CRenderer.h"
 
 #include "CActor.h"
 #include "Utils.h"
@@ -343,6 +345,8 @@ namespace Framework
 
 	void CQuadTreeNode::Render(HDC hdc)
 	{
+		Maths::Vector2 drawPos;
+
 		if (m_vecChildren.size() > 0)
 		{
 			for (auto node : m_vecChildren)
@@ -352,6 +356,16 @@ namespace Framework
 		}
 		else
 		{
+			CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+			if (pCam != nullptr)
+			{
+				drawPos = pCam->CaluatePosition(m_vecCenter);
+			}
+			else
+			{
+				drawPos = m_vecCenter;
+			}
+
 			if (check == false)
 			{
 				m_colorFill = Color(0, 0, 255);
@@ -360,16 +374,27 @@ namespace Framework
 			{
 				m_colorFill = Color(255, 0, 255);
 			}
-			HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
+			COLORREF ref;
+			memcpy(&ref, &m_colorFill, sizeof(COLORREF));
+			HPEN newPen = CreatePen(BS_SOLID, 1, ref);
+			//HBRUSH newBrush = CreateSolidBrush(NULL_BRUSH);
+			HBRUSH newBrush = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
+
+			HPEN oldPen = (HPEN)SelectObject(hdc, newPen);
 			HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 
 
-			Utils::DrawRect(hdc, m_vecCenter, m_vecSize);
+			Utils::DrawRect(hdc, drawPos, m_vecSize - Maths::Vector2(1,1));
 
 
+			(HPEN)SelectObject(hdc, oldPen);
 			(HBRUSH)SelectObject(hdc, oldBrush);
-			DeleteObject(newBrush);
+
+			DeleteObject(newPen);
+			//DeleteObject(oldBrush);
 		}
+
+		return;
 
 		if (m_listItems.size() > 0)
 		{
@@ -381,7 +406,7 @@ namespace Framework
 			//swprintf_s(str, 50, L"FPS : %d", str.c_str());
 			int len = (int)wcsnlen_s(str.c_str(), 50);
 
-			TextOut(hdc, (INT)m_vecCenter.x, (INT)m_vecCenter.y, str.c_str(), len);
+			TextOut(hdc, static_cast<INT>(drawPos.x), static_cast<INT>(drawPos.y), str.c_str(), len);
 		}
 	}
 }

@@ -58,16 +58,20 @@ namespace Framework
 		 CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		 if (pCam == nullptr) // Create Camera
 		 {
-			 CActor* pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Test2");
+			 CActor* pActor = Object::Instantiate<CSpriteActor>(static_cast<UINT>(eLayer::Character), L"Test2");
 			 pCam = pActor->AddComponent<CCameraComponent>();
 			 Renderer::CRenderer::SetMainCamera(pCam);
 
-			 const Maths::Vector2 vecMin(0, 600);
-			 const Maths::Vector2 vecMax(100, -100);
+			 const Maths::Vector2 vecMin(-2048, 2048);
+			 const Maths::Vector2 vecMax(2048, -2048);
 			 pCam->SetCameraRange(vecMin, vecMax);
+
+			 const Maths::Vector2 vecFollowMin(-100, 100);
+			 const Maths::Vector2 vecFollowMax(100, -100);
+			 pCam->SetFollowRange(vecFollowMin, vecFollowMax);
 		 }
 
-		 CActor* pActor = Object::Instantiate<CPlayerControllActor>((UINT)eLayer::Character, L"Test");
+		 CActor* pActor = Object::Instantiate<CPlayerControllActor>(static_cast<UINT>(eLayer::Character), L"Test");
 		 {
 			 pActor->AddComponent<CRigidbodyComponent>();
 			 CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();

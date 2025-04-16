@@ -12,10 +12,10 @@ namespace Framework
 		const Maths::Vector2& size = GetSize();
 		RECT rect =
 		{
-			(INT)(pos.x - (size.x * 0.5f)),
-			(INT)(pos.y - (size.y * 0.5f)),
-			(INT)(pos.x + (size.x * 0.5f)),
-			(INT)(pos.y + (size.y * 0.5f)),
+			static_cast<LONG>((pos.x - (size.x * 0.5f))),
+			static_cast<LONG>((pos.y - (size.y * 0.5f))),
+			static_cast<LONG>((pos.x + (size.x * 0.5f))),
+			static_cast<LONG>((pos.y + (size.y * 0.5f))),
 		};
 		return rect;
 	}
@@ -53,7 +53,7 @@ namespace Framework
 	{
 		//const CTransformComponent* pTr = GetOwner()->GetTransformComponent();
 		Maths::Vector2 pos = GetOwner()->GetPosition();
-		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam != nullptr)
 		{
 			pos = pCam->CaluatePosition(pos);

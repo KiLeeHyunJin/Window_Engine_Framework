@@ -2,7 +2,7 @@
 #include "CComponent.h"
 #include "math.h"
 #include "CRenderManager.h"
-
+#include "Define.h"
 namespace Framework
 {
 	using namespace Maths;
@@ -21,14 +21,17 @@ namespace Framework
 		{ 
 			//Vector2 _scale = scale * 0.5f;
 			const Maths::Vector2Int& resolution = GET_SINGLE(RENDER).GetResolution();
-			if (resolution.x + scale.x < pos.x || scale.x * -1 > pos.x) return false;
-			if (resolution.y + scale.y < pos.y || scale.y * -1 > pos.y) return false;
+			if ((resolution.x + scale.x) < pos.x || (scale.x * -1) > pos.x) return false;
+			if ((resolution.y + scale.y) < pos.y || (scale.y * -1) > pos.y) return false;
 			return true;
 		}
 
-		void SetCameraRange(const Maths::Vector2& min, const Maths::Vector2& max) { m_vecMin = min; m_vecMax = max; }
+		void SetCameraRange(const Maths::Vector2& min, const Maths::Vector2& max);
 
-		inline void SetTarget(CActor* pTarget)							{ m_pTarget = pTarget;					}
+		void SetFollowRange(const Maths::Vector2& followMin, const Maths::Vector2& followMax) 
+		{ m_vecFollowMin = followMin; m_vecFollowMax = followMax; }
+
+		void SetTarget(CActor* pTarget);
 		//inline void SetResolution(Maths::Vector2 resolution)			{ m_vecResolution = resolution;			}
 
 		static constexpr Enums::eComponentType StaticComponentType()	{ return Enums::eComponentType::Camera; }
@@ -46,14 +49,19 @@ namespace Framework
 		bool LastTickComponent()	override;
 		void Render(HDC hdc)		override;
 
+		bool ClampRange(const Maths::Vector2& target, const Maths::Vector2& min, const Maths::Vector2& max, Maths::Vector2& adjustValue);
+		void AdjustDistance(const Maths::Vector2& lookPosition, const Maths::Vector2& resolutionScreen);
+
 		//std::vector<CActor*> m_vecActor;
 		//Maths::Vector2 m_vecResolution;
 
 		//Maths::Vector2 m_vecLookPosition;
-		Maths::Vector2 m_vecMin		= Maths::Vector2::Zero;
-		Maths::Vector2 m_vecMax		= Maths::Vector2::Zero;
+		Maths::Vector2 m_vecMin			= Maths::Vector2::Zero;
+		Maths::Vector2 m_vecMax			= Maths::Vector2::Zero;
 
 		Maths::Vector2 m_vecDistance	= Maths::Vector2::Zero;
+		Maths::Vector2 m_vecFollowMin = Maths::Vector2::Zero;
+		Maths::Vector2 m_vecFollowMax		= Maths::Vector2::Zero;
 		CActor* m_pTarget				= nullptr;
 	};
 

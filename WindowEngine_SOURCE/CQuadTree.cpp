@@ -96,12 +96,10 @@ namespace Framework
 	int CQuadTree::GetTargetDepth(CColliderComponent* item)
 	{
 		// 현재 넣을 물체의 Depth를 미리 예측
-		const float width = m_pRootNode->GetSize().x;
-
+		float width = m_pRootNode->GetSize().x;
 		const Vector2 size = item->GetSize() * 0.5f;
-		const float maxHalfValue = size.x > size.y ? size.x : size.y;
-
-		int targetDepth = static_cast<int>(std::floor(std::log(width / maxHalfValue) / std::log(2.0)));
+		float maxHalfValue = size.x > size.y ? size.x : size.y;
+		int targetDepth = static_cast<int>(std::floor(std::log(width / maxHalfValue) / std::log(2.0f)));
 
 		if (targetDepth > m_iMaxDepth)
 		{

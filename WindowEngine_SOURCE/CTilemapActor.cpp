@@ -15,19 +15,23 @@ namespace Framework
 	void CTilemapActor::BeginPlay()
 	{
 		SUPER::BeginPlay();
+		//TODO
 	}
 	void CTilemapActor::Release()
 	{
 		SUPER::Release();
+		//TODO
 	}
 	bool CTilemapActor::Tick()
 	{
 		SUPER::Tick();
+		//TODO
 		return true;
 	}
 	bool CTilemapActor::LastTick()
 	{
 		SUPER::LastTick();
+		//TODO
 		return true;
 	}
 	void CTilemapActor::Render(HDC hdc) const
@@ -48,9 +52,11 @@ namespace Framework
 
 		const Resource::CSprite* spriteO = GET_SINGLE(RESOURCE).FindSprite(L"1");
 		const Resource::CSprite* sprite1 = GET_SINGLE(RESOURCE).FindSprite(L"2");
-		const Maths::Vector2 position = GetPosition();
-		const Maths::Vector2 vecTileSize = Maths::Vector2((FLOAT)tileSize, (FLOAT)tileSize);
-		const CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
+
+		const Maths::Vector2 position		= GetPosition();
+		const Maths::Vector2 vecTileSize	= Maths::Vector2(static_cast<FLOAT>(tileSize), static_cast<FLOAT>(tileSize));
+
+		const CCameraComponent* mainCam		= Renderer::CRenderer::GetMainCamera();
 
 		bool check = true;
 		for (INT32 y = 0; y < mapSize.y; y++)
