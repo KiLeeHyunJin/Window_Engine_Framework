@@ -49,7 +49,7 @@ namespace Framework
 		bool LastTickComponent()	override;
 		void Render(HDC hdc)		override;
 
-		bool ClampRange(const Maths::Vector2& target, const Maths::Vector2& min, const Maths::Vector2& max, Maths::Vector2& adjustValue);
+		//bool ClampRange(const Maths::Vector2& target, const Maths::Vector2& min, const Maths::Vector2& max, Maths::Vector2& adjustValue);
 		void AdjustDistance(const Maths::Vector2& lookPosition, const Maths::Vector2& resolutionScreen);
 
 		//std::vector<CActor*> m_vecActor;

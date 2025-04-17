@@ -84,12 +84,12 @@ namespace Framework
 			__forceinline void CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider);
 			__forceinline bool GetLayerState(UINT left, UINT right);
 
-			//std::unordered_map<UINT64, bool> m_unmapCollisions = {};
-			std::unordered_map<UINT64, bool> collisionsA		= {};
-			std::unordered_map<UINT64, bool> collisionsB		= {};
-
-			std::unordered_map<UINT64, bool>* curr				= nullptr;
-			std::unordered_map<UINT64, bool>* prev				= nullptr;
+			std::unordered_map<UINT64, bool> m_unmapCollisions	= {};
+			//std::unordered_map<UINT64, bool> collisionsA		= {};
+			//std::unordered_map<UINT64, bool> collisionsB		= {};
+			//
+			//std::unordered_map<UINT64, bool>* curr				= nullptr;
+			//std::unordered_map<UINT64, bool>* prev				= nullptr;
 
 			//bool m_check = false;
 			/// <summary>
@@ -98,7 +98,7 @@ namespace Framework
 			std::vector<CColliderComponent*> m_vecCollider		= {};
 			bool* m_bArryCollision								= nullptr;
 			UINT m_iCollTickComponentFPS						= 0;
-			// CManagerBase을(를) 통해 상속됨
+
 		};
 
 	}

@@ -104,12 +104,12 @@ namespace Framework
 		{
 			CQuadTreeManager::Initialize(Maths::Vector2(8192, 8192), 8, 1.2f);
 			m_vecCollider.resize(50);
+			m_unmapCollisions.reserve(200);
+			//collisionsA.reserve(200);
+			//collisionsB.reserve(200);
 
-			collisionsA.reserve(200);
-			collisionsB.reserve(200);
-
-			this->curr = &collisionsA;
-			this->prev = &collisionsB;
+			//this->curr = &collisionsA;
+			//this->prev = &collisionsB;
 		}
 
 		void CCollisionManager::Release()
@@ -156,8 +156,8 @@ namespace Framework
 
 
 			//충돌 검사를 위한 이중 버퍼
-			std::swap(curr, prev);
-			curr->clear();
+			//std::swap(curr, prev);
+			//curr->clear();
 
 			GET_SINGLE(OBJECT).Destroy();			//삭제 예정 삭제
 			CQuadTreeManager::Clear();	//쿼드 트리 초기화
@@ -172,7 +172,7 @@ namespace Framework
 
 		void CCollisionManager::Render(HDC hdc) const
 		{
-			CQuadTreeManager::Render(hdc);
+			//CQuadTreeManager::Render(hdc);
 
 			wchar_t str[50] = L"";
 			swprintf_s(str, 50, L"충돌횟수 : %d", (int)(m_iCollTickComponentFPS));
@@ -183,65 +183,94 @@ namespace Framework
 		}
 
 
+		//void CCollisionManager::CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider)
+		//{
+		//	UINT32 leftID = leftCollider->GetColliderID();
+		//	UINT32 rightID = rightCollider->GetColliderID();
+
+		//	if (leftID > rightID)
+		//	{
+		//		std::swap(leftID, rightID);
+		//	}
+
+		//	const CollisionID collId = { leftID, rightID };
+		//	if (curr->find(collId.id) != curr->end()) //이미 충돌검사가 진행되었었다면 종료
+		//	{		return;		}
+
+		//	auto prevIter = prev->find(collId.id);
+		//	bool prevState = prevIter == prev->end() ? false : prevIter->second;
+
+		//	const bool state = leftCollider->CheckCollision(rightCollider);
+		//	curr->insert(std::make_pair(collId.id, state));
+
+		//	if (state)
+		//	{
+		//		if (prevState == false)
+		//		{
+		//			leftCollider->OnCollisionEnter(rightCollider);
+		//			rightCollider->OnCollisionEnter(leftCollider);
+		//		}
+		//		else
+		//		{
+		//			leftCollider->OnCollisionStay(rightCollider);
+		//			rightCollider->OnCollisionStay(leftCollider);
+		//		}
+		//	}
+		//	else
+		//	{
+		//		if (prevState)
+		//		{
+		//			leftCollider->OnCollisionExit(rightCollider);
+		//			rightCollider->OnCollisionExit(leftCollider);
+		//		}
+		//	}
+		//}
+
+
 		void CCollisionManager::CollisionStateUpdate(CColliderComponent* leftCollider, CColliderComponent* rightCollider)
 		{
-			UINT32 leftID = leftCollider->GetColliderID();
-			UINT32 rightID = rightCollider->GetColliderID();
+			const CollisionID collId = { leftCollider->GetColliderID() , rightCollider->GetColliderID() };
+			auto iter = m_unmapCollisions.find(collId.id);
 
-			if (leftID > rightID)
+			if (iter == m_unmapCollisions.end())
 			{
-				std::swap(leftID, rightID);
-			}
-
-			const CollisionID collId = { leftID, rightID };
-			if (curr->find(collId.id) != curr->end()) //이미 충돌검사가 진행되었었다면 종료
-			{		return;		}
-
-			bool prevState;
-			auto prevIter = prev->find(collId.id);
-			if (prevIter != prev->end())
-			{
-				prevState = prevIter->second;
-			}
-			else
-			{
-				prevState = false;
+				m_unmapCollisions.insert(std::make_pair(collId.id, false));
+				iter = m_unmapCollisions.find(collId.id);
 			}
 
 			const bool state = leftCollider->CheckCollision(rightCollider);
 			if (state)
 			{
-				if (prevState == false)
+				if (iter->second == false) //첫 충돌
 				{
 					leftCollider->OnCollisionEnter(rightCollider);
-					rightCollider->OnCollisionEnter(leftCollider);
+					iter->second = true;
 				}
-				else
+				else // 충돌 중
 				{
 					leftCollider->OnCollisionStay(rightCollider);
-					rightCollider->OnCollisionStay(leftCollider);
 				}
 			}
 			else
 			{
-				if (prevState)
+				if (iter->second == true) //충돌 해제
 				{
 					leftCollider->OnCollisionExit(rightCollider);
-					rightCollider->OnCollisionExit(leftCollider);
+					iter->second = false;
 				}
 			}
-			curr->insert(std::make_pair(collId.id, state));
 		}
+
 
 		void CCollisionManager::Clear()
 		{
 			CQuadTreeManager::Clear();
-			prev->clear();
-			curr->clear();
+			//prev->clear();
+			//curr->clear();
 
 			m_vecCollider.clear();
 			m_vecCollider.shrink_to_fit();
-
+			m_unmapCollisions.clear();
 			const UINT size = GET_SINGLE(OBJECT).GetLayerSize();
 			memset(m_bArryCollision, 0, sizeof(bool) * size * size);
 		}

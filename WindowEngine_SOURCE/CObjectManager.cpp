@@ -170,13 +170,13 @@ namespace Framework
 			int len = (int)wcsnlen_s(str, 50);
 
 			const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
-			TextOut(hdc, ((int)resolution.x - 130), 40, str, len);
+			TextOut(hdc, ((int)resolution.x - 150), 40, str, len);
 
 			wchar_t str2[50] = L"";
 			swprintf_s(str2, 50, L"FPS : %d", (GET_SINGLE(TIME).FPS));
 			int len2 = (int)wcsnlen_s(str2, 50);
 
-			TextOut(hdc, ((int)resolution.x - 130), 60, str2, len2);
+			TextOut(hdc, ((int)resolution.x - 150), 60, str2, len2);
 		}
 	}
 	

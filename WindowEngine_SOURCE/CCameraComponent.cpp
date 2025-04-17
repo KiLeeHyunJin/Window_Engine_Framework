@@ -57,60 +57,25 @@ namespace Framework
 
 	void CCameraComponent::AdjustDistance(const Maths::Vector2& lookPosition, const Maths::Vector2& resolutionScreen)
 	{
-		const Maths::Vector2 diff = (lookPosition - m_vecDistance) - (resolutionScreen * 0.5f);
+		const Maths::Vector2 resolutionHalf = resolutionScreen * 0.5f;
 
-		if (m_vecFollowMin.HasValue() && m_vecFollowMax.HasValue())
-		{
-			if (diff.x >= m_vecFollowMin.x && diff.x <= m_vecFollowMax.x)
-			{
-				if (diff.y <= m_vecFollowMin.y && diff.y >= m_vecFollowMax.y)
-				{
-					return;
-				}
-			}
-		}
-
-		Maths::Vector2 adjustPos = lookPosition;
-		if (Maths::Clamp(&adjustPos.x, m_vecMin.x, m_vecMax.x) == false) //카메라 촬영 범위를 벗어나지 않음
-		{
-
-		}
-		if (Maths::Clamp(&adjustPos.y, m_vecMin.y, m_vecMax.y) == false)
-		{
-
-		}
-
-
-		if (ClampRange(lookPosition,m_vecMin, m_vecMax, adjustPos))
-		{
-			m_vecDistance = adjustPos - (resolutionScreen * 0.5f);
-			return;
-		}
-		else
-		{
-			if (ClampRange(lookPosition, m_vecFollowMin, m_vecFollowMax, adjustPos))
-			{
-
-			}
-		}
-		m_vecDistance = adjustPos - (resolutionScreen * 0.5f) - diff;
-
-	}
-
-	bool CCameraComponent::ClampRange(const Maths::Vector2& target,const Maths::Vector2& min, const Maths::Vector2& max , Maths::Vector2& adjustValue)
-	{
+		Maths::Vector2 adjustPos;
 		if (m_vecMin.HasValue() && m_vecMax.HasValue())
 		{
-			adjustValue.x = Maths::Clamp<FLOAT>(target.x, min.x, max.x);
-			adjustValue.y = Maths::Clamp<FLOAT>(target.y, max.y, min.y);
-
-			const bool state = adjustValue.x == min.x || adjustValue.x == max.x;
-			const bool state2 = adjustValue.y == min.y || adjustValue.y == max.y;
-
-			return state || state2;
+			adjustPos.x = Maths::Clamp(lookPosition.x, m_vecMin.x, m_vecMax.x);
+			adjustPos.y = Maths::Clamp(lookPosition.y, m_vecMin.y, m_vecMax.y);
 		}
-		adjustValue = target;
-		return false;
+
+		Maths::Vector2 diffPos;
+		if (m_vecFollowMin.HasValue() && m_vecFollowMax.HasValue())
+		{
+			const Maths::Vector2 diff = (lookPosition - resolutionHalf) - m_vecDistance;//타겟과 카메라의 거리
+
+			diffPos.x = Maths::Clamp(diff.x, m_vecFollowMin.x, m_vecFollowMax.x);
+			diffPos.y = Maths::Clamp(diff.y, m_vecFollowMin.y, m_vecFollowMax.y);
+		}
+		//대상이 카메라 중앙에 위치하게 하려면 = ( 대상의 위치 - 해상도 * 0.5 )
+		m_vecDistance = (adjustPos - resolutionHalf) - diffPos;
 	}
 
 

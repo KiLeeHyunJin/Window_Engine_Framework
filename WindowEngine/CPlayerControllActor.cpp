@@ -61,12 +61,12 @@ namespace Framework
 	{
 		SUPER::Render(hdc);
 
-		wchar_t str[50] = L"";
-		swprintf_s(str, 50, L"충돌 : %d", (int)(collChecking));
-		int len = (int)wcsnlen_s(str, 50);
+		//wchar_t str[50] = L"";
+		//swprintf_s(str, 50, L"충돌 : %d", (int)(collChecking));
+		//int len = (int)wcsnlen_s(str, 50);
 
-		const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
-		TextOut(hdc, (static_cast<INT>(resolution.x - 130)), 140, str, len);
+		//const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
+		//TextOut(hdc, (static_cast<INT>(resolution.x - 130)), 140, str, len);
 
 	}
 	void CPlayerControllActor::OnCollisionEnter(CColliderComponent* other)

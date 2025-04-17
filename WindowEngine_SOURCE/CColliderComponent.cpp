@@ -119,18 +119,20 @@ namespace Framework
 
 		RECT targetRect = targetCollider->GetRect();
 		RECT otherRect = otherCollider->GetRect();
-		RECT collisionRect;
 
 		const CActor* targetOwner = target->GetOwner();
 		const Maths::Vector2& pos = targetOwner->GetPosition();
 		const Maths::Vector2& pre = targetOwner->GetPrevPosition();
 		if (pos == pre)
 			return;
+
+		RECT collisionRect;
 		if (!::IntersectRect(&collisionRect, &targetRect, &otherRect))
 			return; // 충돌 없으면 종료
 
 		//const CActor* targetOwner = target->GetOwner();
 		Maths::Vector2 moveSqrDir = targetOwner->GetMoveSqrDirection();
+
 		if (moveSqrDir.x == moveSqrDir.y) //양방향 이동
 		{
 			DiagonalAdjustPosition(moveSqrDir, collisionRect, targetCollider, otherCollider);
@@ -201,7 +203,7 @@ namespace Framework
 		const float overlapY = static_cast<float>(collisionRect.bottom - collisionRect.top);
 
 		constexpr float REMAIN_RATIO = 2.f;
-		constexpr float MIN_OVERLAP = 2.f;
+		constexpr float MIN_OVERLAP = 1.9f;
 		//float pushRatio = 1.0f - REMAIN_RATIO;
 
 		RECT otherRect = otherBoxCollider->GetRect();
@@ -214,11 +216,11 @@ namespace Framework
 			if (overlapX <= MIN_OVERLAP)
 				return;
 
-			if (collisionRect.left == otherRect.left)
+			if (collisionRect.left == otherRect.left) //오른쪽 충돌
 			{
 				pushOffset.x = (overlapX * -1) + REMAIN_RATIO;
 			}
-			else
+			else //왼쪽 충돌
 			{
 				pushOffset.x = overlapX - REMAIN_RATIO;
 			}
@@ -229,11 +231,11 @@ namespace Framework
 				return;
 
 			RECT otherRect = otherBoxCollider->GetRect();
-			if (collisionRect.top == otherRect.top)
+			if (collisionRect.top == otherRect.top) //아래 충돌
 			{
 				pushOffset.y = (overlapY * -1) + REMAIN_RATIO;
 			}
-			else
+			else //위 충돌
 			{
 				pushOffset.y = overlapY - REMAIN_RATIO;
 			}
