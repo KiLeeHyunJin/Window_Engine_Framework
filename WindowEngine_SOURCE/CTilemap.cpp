@@ -24,7 +24,7 @@ namespace Framework
 	void CTilemap::Render(HDC hdc)
 	{
 	}
-	void CTilemap::SetMapSize(Maths::Vector2 size)
+	void CTilemap::SetMapSize(const Maths::Vector2& size)
 	{
 		m_vecMapSize = size;
 		m_vecTiles = std::vector<std::vector<Tile>>((INT)size.y, std::vector<Tile>((INT)size.x));

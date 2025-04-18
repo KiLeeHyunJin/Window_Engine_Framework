@@ -361,7 +361,8 @@ namespace Framework//::Maths
 #pragma region Vector2 INT
 		struct  Vector2Int
 		{
-			Vector2Int(int _x, int _y) : x(_x),y(_y){}
+			Vector2Int(const int _x, const int _y) : x(_x),y(_y){}
+			Vector2Int(const int _x) : x(_x),y(_x){}
 			Vector2Int() :x(0),y(0){}
 			Vector2Int(const Vector2& other);
 			Vector2 ConvertVector()
@@ -389,6 +390,21 @@ namespace Framework//::Maths
 				const float _y = this->y * rhs.y;
 				return Vector2(_x, _y);
 			}
+
+			Vector2Int& operator = (const Vector2& rhs)
+			{
+				this->x = (int)rhs.x;
+				this->y = (int)rhs.y;
+				return *this;
+			}
+
+			Vector2Int& operator = (const Vector2Int& rhs)
+			{
+				this->x = rhs.x;
+				this->y = rhs.y;
+				return *this;
+			}
+
 
 			//Vector2 operator * (const Vector2& rhs);
 

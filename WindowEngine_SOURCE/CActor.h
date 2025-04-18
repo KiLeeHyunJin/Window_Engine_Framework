@@ -187,7 +187,8 @@ namespace Framework
 
 		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable;		}
 
-		__forceinline void SetPosition(const Maths::Vector2& position)	{ m_vecPosition = position;									}
+		__forceinline void SetPosition(const Maths::Vector2& position) { m_vecPosition = position; }
+		__forceinline void SetPosition(const Maths::Vector2Int& position)	{ m_vecPosition = position;									}
 		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale;										}
 		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate;										}
 

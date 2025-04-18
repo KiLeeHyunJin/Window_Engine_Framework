@@ -23,25 +23,26 @@ namespace Framework
 
 			void Render();
 
-			void BeginDraw() const;
-			void EndDraw() const;
+			void Draw() const;
 
 			void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 			void ChangeScreenSize(bool maximumScale);
 
-			void CreateBackBuffer(int width, int height);
+			void CreateBackBuffer(int width, int height) const;
 
 			HDC GetHDC() const  { return m_hDC; }
 
 			HWND m_hWnd									= {};
-			HDC m_hDC									= {};
+			HDC m_hDC									= {};	//원본 DC
 
-			HDC m_BackHDC								= {};
-			HBITMAP m_BmpBuffer							= {};
+			HDC m_DrawHDC								= {};	//그리는 DC
+			HDC m_CompleteHDC							= {};	//완성된 DC
+
+			//HBITMAP m_BmpBuffer							= {};
 
 			Maths::Vector2Int m_vecWinSize				= {};
-			Maths::Vector2Int m_vecCurrentBufferSize	= {};
 			Maths::Vector2Int m_vecScreenSize			= {};
+			Maths::Vector2Int m_vecCurrentBufferSize = {};
 
 			DWORD m_winStyle							= 0;
 			bool m_bScreenState							= false;

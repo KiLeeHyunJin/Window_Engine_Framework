@@ -101,7 +101,17 @@ namespace Framework
 		{
 			pCom->Render(hdc);
 		}
+		const Maths::Vector2& pos = GetPosition();
+		Maths::Vector2 absolPos = pos;
+		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+		if (pCam != nullptr)
+		{
+			absolPos = pCam->CaluatePosition(absolPos);
+		}
 
+		std::wstring pointStr = L"Position : ( " + std::to_wstring((int)pos.x) + L", " + std::to_wstring((int)pos.y) + L" )";
+		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
+		TextOut(hdc, (UINT)(absolPos.x), (UINT)(absolPos.y + 80), pointStr.c_str(), lenPos);
 	}
 	bool CActor::RenderCheck() const
 	{

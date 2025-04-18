@@ -11,7 +11,8 @@ namespace Framework
 	CQuadTree::CQuadTree(Vector2 size, int maxDepth, float constantK) : 
 		m_iMaxDepth(maxDepth), m_fConstantK(constantK)
 	{
-		m_pRootNode = new CQuadTreeNode(this, nullptr, Maths::Vector2::Zero, size, 2);
+		const Maths::Vector2 startPos = size * 0.5f;
+		m_pRootNode = new CQuadTreeNode(this, nullptr, startPos, size, 2);
 	}
 
 	CQuadTree::~CQuadTree()

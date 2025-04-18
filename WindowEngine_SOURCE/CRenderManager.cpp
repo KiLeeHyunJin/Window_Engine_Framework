@@ -15,20 +15,6 @@ namespace Framework
 	{
 		CRenderManager* CRenderManager::s_instance = nullptr;
 
-		//HWND CRenderManager::m_hWnd = nullptr;
-		//HDC CRenderManager::m_hDC = nullptr;
-		//
-		//HDC CRenderManager::m_BackHDC = nullptr;
-		//HBITMAP CRenderManager::m_BmpBuffer = nullptr;
-		//
-		//
-		//Maths::Vector2Int CRenderManager::m_vecWinSize = Maths::Vector2::Zero;
-		//Maths::Vector2Int CRenderManager::m_vecCurrentBufferSize = Maths::Vector2::Zero;
-		//Maths::Vector2Int CRenderManager::m_vecScreenSize = Maths::Vector2::Zero;
-		//
-		//DWORD CRenderManager::m_winStyle = 0;
-		//bool CRenderManager::m_bScreenState = false;
-
 
 		CRenderManager::~CRenderManager()
 		{
@@ -38,8 +24,13 @@ namespace Framework
 		void CRenderManager::Initialize(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu, bool screen)
 		{
 			CRenderManager::AdjustWindow(hWnd, width, height, xPos, yPos, winStyle, menu);
-			m_BackHDC = CreateCompatibleDC(m_hDC); //DC생성
+			m_CompleteHDC	= CreateCompatibleDC(m_hDC); //DC생성
+			m_DrawHDC		= CreateCompatibleDC(m_hDC); //DC생성
+
 			ChangeScreenSize(screen); //윈도우 크기 변경 및 비트맵 생성
+
+			PatBlt(m_CompleteHDC, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1, WHITENESS);
+			PatBlt(m_DrawHDC	, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1, WHITENESS);
 		}
 
 		void CRenderManager::Release()
@@ -48,38 +39,37 @@ namespace Framework
 
 		void CRenderManager::Render()
 		{
-			BeginDraw();
+			GET_SINGLE(SCENE).Render(m_DrawHDC);
+			GET_SINGLE(OBJECT).Render(m_DrawHDC);
 
-			GET_SINGLE(SCENE).Render(m_BackHDC);
-			GET_SINGLE(OBJECT).Render(m_BackHDC);
+			GET_SINGLE(UI).Render(m_DrawHDC);
 
-			GET_SINGLE(UI).Render(m_BackHDC);
+			GET_SINGLE(COLLISION).Render(m_DrawHDC);
 
-			GET_SINGLE(COLLISION).Render(m_BackHDC);
+			GET_SINGLE(TIME).Render(m_DrawHDC);
+			GET_SINGLE(INPUT).Render(m_DrawHDC, 300, 300);
 
-			GET_SINGLE(TIME).Render(m_BackHDC);
-			GET_SINGLE(INPUT).Render(m_BackHDC, 300, 300);
+			//전부 그렸으니 버퍼 교체
+			std::swap(m_CompleteHDC, m_DrawHDC);
 
-			EndDraw();
+			Draw();
+
+			//그려넣을 DC를 흰색으로 초기화
+			PatBlt(m_DrawHDC, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1, WHITENESS);
+
 		}
 
-		void CRenderManager::BeginDraw() const
+		void CRenderManager::Draw() const
 		{
-			Rectangle(m_BackHDC, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1);
-		}
-
-		void CRenderManager::EndDraw() const
-		{
+			//완성된 DC를 출력
 			BitBlt(
 				m_hDC, //출력
 				0, 0,  //Start
 				(int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y, //Size
 
-				m_BackHDC, //복사내용
+				m_DrawHDC, //복사내용
 				0, 0, //Start
 				SRCCOPY);
-			//흰색으로 밀어버린다.
-			PatBlt(m_BackHDC, -1, -1, (int)m_vecCurrentBufferSize.x + 1, (int)m_vecCurrentBufferSize.y + 1, WHITENESS);
 		}
 
 		void CRenderManager::AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu)
@@ -149,16 +139,20 @@ namespace Framework
 			//새로운 사이즈의 비트맵 생성
 			CreateBackBuffer((int)m_vecCurrentBufferSize.x, (int)m_vecCurrentBufferSize.y);
 
-			//Renderer::CRenderer::SetResolution(m_vecCurrentBufferSize);
 		}
 
-		void CRenderManager::CreateBackBuffer(int width, int height)
+		void CRenderManager::CreateBackBuffer(int width, int height) const
 		{
-			m_BmpBuffer = CreateCompatibleBitmap(m_hDC, width, height);
-			HBITMAP oldBitmap = (HBITMAP)SelectObject(m_BackHDC, m_BmpBuffer);
+			HBITMAP m_BmpBuffer		= CreateCompatibleBitmap(m_hDC, width, height);
+			HBITMAP m_BmpBuffer2	= CreateCompatibleBitmap(m_hDC, width, height);
+
+			HBITMAP oldBitmap		= (HBITMAP)SelectObject(m_DrawHDC,		m_BmpBuffer);
+			HBITMAP oldBitmap2		= (HBITMAP)SelectObject(m_CompleteHDC,	m_BmpBuffer2);
+
 			DeleteObject(oldBitmap);
+			DeleteObject(oldBitmap2);
 		}
 	}
 
-	
+
 }

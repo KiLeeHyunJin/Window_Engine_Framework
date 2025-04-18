@@ -21,7 +21,7 @@ namespace Framework
 			OUTOFAREA // 영역 밖을 벗어난 경우. ( 입력 에러 )
 		};
 
-		CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, Vector2 center, Vector2 size, int depth);
+		CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, const Vector2& center, const Vector2& size, int depth);
 		~CQuadTreeNode();
 
 		void InsertAtDepth(CColliderComponent* item, int targetDepth);

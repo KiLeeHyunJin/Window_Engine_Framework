@@ -17,16 +17,23 @@ namespace Framework
 			return pos - m_vecDistance; 
 		}
 
-		__forceinline bool ScreenInCheck(const Vector2& pos, const Vector2& scale) const 
+		__forceinline bool ScreenInCheck(const Vector2& absolutePos, const Vector2& scale) const 
 		{ 
 			//Vector2 _scale = scale * 0.5f;
 			const Maths::Vector2Int& resolution = GET_SINGLE(RENDER).GetResolution();
-			if ((resolution.x + scale.x) < pos.x || (scale.x * -1) > pos.x) return false;
-			if ((resolution.y + scale.y) < pos.y || (scale.y * -1) > pos.y) return false;
+			if ((resolution.x + scale.x) < absolutePos.x || (scale.x * -1) > absolutePos.x) return false;
+			if ((resolution.y + scale.y) < absolutePos.y || (scale.y * -1) > absolutePos.y) return false;
 			return true;
 		}
 
-		void SetCameraRange(const Maths::Vector2& min, const Maths::Vector2& max);
+		__forceinline const Maths::Vector2& GetCameraPosition() const	{	return m_vecDistance;	}
+
+		void SetCameraRange(const Maths::Vector2& max)
+		{
+			const Maths::Vector2Int& resolution = GET_SINGLE(RENDER).GetResolution();
+			const Maths::Vector2 halfResolution(static_cast<FLOAT>(resolution.x >> 1), static_cast<FLOAT>(resolution.y >> 1));
+			m_vecMax = max - halfResolution;
+		}
 
 		void SetFollowRange(const Maths::Vector2& followMin, const Maths::Vector2& followMax) 
 		{ m_vecFollowMin = followMin; m_vecFollowMax = followMax; }
@@ -56,7 +63,7 @@ namespace Framework
 		//Maths::Vector2 m_vecResolution;
 
 		//Maths::Vector2 m_vecLookPosition;
-		Maths::Vector2 m_vecMin			= Maths::Vector2::Zero;
+		//Maths::Vector2 m_vecMin			= Maths::Vector2::Zero;
 		Maths::Vector2 m_vecMax			= Maths::Vector2::Zero;
 
 		Maths::Vector2 m_vecDistance	= Maths::Vector2::Zero;

@@ -12,7 +12,7 @@
 #include "Utils.h"
 namespace Framework
 {
-	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent, Vector2 center, Vector2 size, int depth)
+	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent,const Vector2& center, const Vector2& size, int depth)
 		: m_pTree(tree), m_pParent(parent), m_vecCenter(center), m_vecSize(size), m_iDepth(depth), check(false)
 	{
 		m_vecChildren.reserve(4);

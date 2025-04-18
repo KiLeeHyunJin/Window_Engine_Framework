@@ -6,13 +6,8 @@
 namespace Framework
 {
 
-	void CCameraComponent::SetCameraRange(const Maths::Vector2& min, const Maths::Vector2& max)
-	{
-		const Maths::Vector2Int& resolution = GET_SINGLE(RENDER).GetResolution();
-		const Maths::Vector2 halfResolution(static_cast<FLOAT>(resolution.x >> 1), static_cast<FLOAT>(resolution.y >> 1));
-		m_vecMin = min + halfResolution;
-		m_vecMax = max - halfResolution;
-	}
+	//void CCameraComponent::SetCameraRange(const Maths::Vector2& max)
+
 
 	void CCameraComponent::SetTarget(CActor* pTarget)
 	{
@@ -59,12 +54,7 @@ namespace Framework
 	{
 		const Maths::Vector2 resolutionHalf = resolutionScreen * 0.5f;
 
-		Maths::Vector2 adjustPos;
-		if (m_vecMin.HasValue() && m_vecMax.HasValue())
-		{
-			adjustPos.x = Maths::Clamp(lookPosition.x, m_vecMin.x, m_vecMax.x);
-			adjustPos.y = Maths::Clamp(lookPosition.y, m_vecMin.y, m_vecMax.y);
-		}
+
 
 		Maths::Vector2 diffPos;
 		if (m_vecFollowMin.HasValue() && m_vecFollowMax.HasValue())
@@ -74,6 +64,14 @@ namespace Framework
 			diffPos.x = Maths::Clamp(diff.x, m_vecFollowMin.x, m_vecFollowMax.x);
 			diffPos.y = Maths::Clamp(diff.y, m_vecFollowMin.y, m_vecFollowMax.y);
 		}
+
+		Maths::Vector2 adjustPos;
+		if (m_vecMax.HasValue())
+		{
+			adjustPos.x = Maths::Clamp(lookPosition.x, resolutionHalf.x + diffPos.x, m_vecMax.x - diffPos.x);
+			adjustPos.y = Maths::Clamp(lookPosition.y, resolutionHalf.y + diffPos.y, m_vecMax.y - diffPos.y);
+		}
+
 		//대상이 카메라 중앙에 위치하게 하려면 = ( 대상의 위치 - 해상도 * 0.5 )
 		m_vecDistance = (adjustPos - resolutionHalf) - diffPos;
 	}

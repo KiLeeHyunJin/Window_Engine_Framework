@@ -20,6 +20,7 @@ namespace Framework
             if (m_pQuadTree != nullptr)
             {
                 m_pQuadTree->Release();
+                delete(m_pQuadTree);
                 m_pQuadTree = nullptr;
             }
             m_pQuadTree = new CQuadTree(size, maxDepth, constrantK);

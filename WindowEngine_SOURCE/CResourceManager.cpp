@@ -63,7 +63,8 @@ namespace Framework//::Resource
 
 
 
-		const bool CResourceManager::CreateSprite(const CTexture* texture, const std::wstring& key, const Maths::Vector2Int& leftTop, const Maths::Vector2Int& size, const Maths::Vector2Int& pivot)
+		const bool CResourceManager::CreateSprite(const CTexture* texture, const std::wstring& key, 
+			const Maths::Vector2Int& leftTop, const Maths::Vector2Int& size, const Maths::Vector2Int& pivot)
 		{
 			const CSprite* pSprite = CResourceManager::FindSprite(key);
 			if (pSprite != nullptr)

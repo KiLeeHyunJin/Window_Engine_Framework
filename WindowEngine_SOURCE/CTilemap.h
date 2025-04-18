@@ -25,10 +25,12 @@ namespace Framework
 		const Maths::Vector2&					GetMapSize()						const { return m_vecMapSize; }
 		const INT32								GetTileSize()						const { return m_iTileSize; }
 		const Tile&								GetTileAt(const Maths::Vector2 pos) const { return m_vecTiles[(INT)pos.y][(INT)pos.x]; }
+
 		const std::vector<std::vector<Tile>>&	GetTiles()							const { return m_vecTiles; }
 		
 		void		SetTileSize(INT32 size)				{ m_iTileSize = size; }
-		void		SetMapSize(Maths::Vector2 size);
+		void		SetMapSize(const Maths::Vector2& size);
+		void		SetTileAt(const Maths::Vector2& pos, INT32 value) {  m_vecTiles[(INT)pos.y][(INT)pos.x].value = value; }
 
 	private:
 		Maths::Vector2 m_vecMapSize						= Maths::Vector2::Zero;

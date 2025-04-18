@@ -12,7 +12,8 @@ namespace Framework
 
 		void CTimeManager::Initialize()
 		{
-			generator_.seed(reinterpret_cast<UINT>(this));
+			const LONGLONG seedNum = reinterpret_cast<LONGLONG>(this);
+			generator_.seed(static_cast<UINT>(seedNum));
 
 			QueryPerformanceFrequency(&m_liCpuFrequency);
 			QueryPerformanceCounter(&m_liPrevFrequency);
