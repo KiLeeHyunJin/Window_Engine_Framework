@@ -8,8 +8,9 @@ namespace Framework
 	public:
 		CEntity();
 		virtual ~CEntity();
-		std::wstring& GetName() { return m_wsName; }
-		void SetName(const std::wstring& name) { m_wsName = name; }
+		const std::wstring& GetName()				const	{ return m_wsName;			}
+		bool CompareName(const std::wstring& name)	const	{ return m_wsName == name;	}
+		void SetName(const std::wstring& name)				{ m_wsName = name;			}
 	private:
 		std::wstring m_wsName;
 	};

@@ -41,6 +41,12 @@ namespace Framework
 		//TODO
 		return true;
 	}
+
+	void CTilemapActor::FixedTick()
+	{
+
+	}
+
 	void CTilemapActor::Render(HDC hdc) const
 	{
 		if (m_pTilemap == nullptr)

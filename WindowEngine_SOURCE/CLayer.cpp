@@ -122,6 +122,21 @@ namespace Framework
 		}*/
 	}
 
+	void CLayer::FixedTick()
+	{
+		if (m_vecActor.empty())
+			return;
+
+		for (CActor* pActor : m_vecActor)
+		{
+			if (pActor->GetActive() &&
+				pActor->GetReserveDelete() == false)
+			{
+				pActor->FixedTick();;
+			}
+		}
+	}
+
 	void CLayer::Render(HDC hdc) const
 	{
 		if (m_vecActor.empty())

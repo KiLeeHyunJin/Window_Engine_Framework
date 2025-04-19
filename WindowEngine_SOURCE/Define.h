@@ -1,10 +1,11 @@
 #pragma once
 
+static const float DELTA_TICK	= 0.016f;
+
 static const float REMAIN_RATIO = 0.5f;  // 0.0 ~ 1.0 → 남겨둘 충돌 비율
 static const float MIN_OVERLAP	= 0.7f;   // 너무 작은 값은 무시
 static const float DRAG_ALLOWABLE_RANGE = 40.f;
 static const float CLICK_ALLOWABLE_TIME = 0.2f;
-
 
 #define DECLARE_SINGLE(classname)							\
 private :													\

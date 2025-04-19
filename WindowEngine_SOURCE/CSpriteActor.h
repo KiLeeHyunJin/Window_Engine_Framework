@@ -16,14 +16,19 @@ namespace Framework
 
 	protected:
 		// CActor을(를) 통해 상속됨
-		void BeginPlay() override;
-		void Release() override;
-		bool Tick() override;
-		bool LastTick() override;
-		void Render(HDC hdc) const override;
+		void BeginPlay()			override;
+		void Release()				override;
+
+		bool Tick()					override;
+		bool LastTick()				override;
+		void FixedTick()			override;
+
+		void Render(HDC hdc) const	override;
 
 	private:
 		Resource::CSprite* m_pSprite;
+
+		// CActor을(를) 통해 상속됨
 	};
 
 

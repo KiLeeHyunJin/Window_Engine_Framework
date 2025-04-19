@@ -24,6 +24,7 @@ namespace Framework
 	private:
 		void Tick();
 		void LastTick();
+		void FixedTick();
 		//void Destroy();
 		void Render();
 		HWND m_hwnc;

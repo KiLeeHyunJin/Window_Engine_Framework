@@ -7,7 +7,7 @@ namespace Framework
 
 	CColliderComponent::CColliderComponent(eColliderType colliderType):
 		CComponent(Enums::eComponentType::Collider), m_iColliderId(m_collId++),
-		m_vecSize(Maths::Vector2::One), m_eColliderType(colliderType), m_bTrigger(false), m_iCollisionFlag(UINT32_MAX)
+		m_vecSize(Maths::Vector2::One), m_eColliderType(colliderType), m_bTrigger(false), m_iCollisionFlag(UINT32_MAX), m_fAngle(0)
 	{
 	}
 
@@ -45,22 +45,8 @@ namespace Framework
 
 	const bool CColliderComponent::CheckCollisionBoxToBox(CColliderComponent* box1, CColliderComponent* box2)
 	{
-		//CBoxColliderComponent* boxColl1 = dynamic_cast<CBoxColliderComponent*>(box1);
-		//CBoxColliderComponent* boxColl2 = dynamic_cast<CBoxColliderComponent*>(box2);
-		//if (boxColl1 == nullptr || boxColl2 == nullptr)
-		//{
-		//	assert(true);
-		//	return false;
-		//}
-		//else
-		//{
-		//	RECT box1Rect = boxColl1->GetRect();
-		//	RECT box2Rect = boxColl2->GetRect();
-		//	RECT collRect;
-		//	return ::IntersectRect(&collRect ,&box1Rect, &box2Rect);
-		//}
 
-		///AABB 충돌
+		
 		const Maths::Vector2& box1OriginPos = box1->GetOwner()->GetPosition();
 		const Maths::Vector2& box2OriginPos = box2->GetOwner()->GetPosition();
 
@@ -72,11 +58,22 @@ namespace Framework
 
 		const Maths::Vector2 box1Pos = box1OriginPos + box1OriginOffset;
 		const Maths::Vector2 box2Pos = box2OriginPos + box2OriginOffset;
+		const FLOAT box1Angle = box1->GetAngle();
+		const FLOAT box2Angle = box2->GetAngle();
 
-		if (Maths::Abs(box1Pos.x - box2Pos.x) <= (box1Size.x + box2Size.x) * 0.5f &&
-			Maths::Abs(box1Pos.y - box2Pos.y) <= (box1Size.y + box2Size.y) * 0.5f)
+		if (box1Angle + box2Angle == 0)
 		{
-			return true;
+			///AABB 충돌
+			if (Maths::Abs(box1Pos.x - box2Pos.x) <= (box1Size.x + box2Size.x) * 0.5f &&
+				Maths::Abs(box1Pos.y - box2Pos.y) <= (box1Size.y + box2Size.y) * 0.5f)
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			///OBB 충돌
 		}
 		return false;
 	}

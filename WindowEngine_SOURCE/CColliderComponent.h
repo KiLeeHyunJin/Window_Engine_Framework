@@ -43,6 +43,7 @@ namespace Framework
 		inline const bool				GetTrigger()					const	{ return m_bTrigger;						}
 		inline const UINT32				GetCollisionFlag()				const	{ return m_iCollisionFlag;					}
 		inline const UINT32				GetColliderID()					const	{ return m_iColliderId;						}
+		FLOAT							GetAngle()						const	{ return m_fAngle;							}
 
 		void							AddCollisionFlag(UINT32 flag)			{ Utils::FlagOn(m_iCollisionFlag, flag);	}
 		void							RemoveCollisionFlag(UINT32 flag)		{ Utils::FlagOff(m_iCollisionFlag, flag);	}
@@ -52,6 +53,7 @@ namespace Framework
 		void							SetOffset(const Maths::Vector2& offset)	{ m_vecOffset = offset;						}
 		void							SetSize(const Maths::Vector2& size)		{ m_vecSize = size;							}
 		void							SetTrigger(bool state)					{ m_bTrigger = state;						}
+		void							SetAngle(float angle)					{ m_fAngle = angle;							}
 
 		__forceinline void OnCollisionEnter(CColliderComponent* other)	{ AdjustPosition(this, other); GetOwner()->OnCollisionEnter(other); }
 		__forceinline void OnCollisionStay(CColliderComponent* other)	{ AdjustPosition(this, other); GetOwner()->OnCollisionStay(other); }
@@ -81,8 +83,9 @@ namespace Framework
 		}
 
 
-		Maths::Vector2	m_vecOffset;
-		Maths::Vector2	m_vecSize;
+		Maths::Vector2	m_vecOffset		= Maths::Vector2::Zero;
+		Maths::Vector2	m_vecSize		= Maths::Vector2::Zero;
+		FLOAT			m_fAngle		= 0;
 
 		//friend CActor;
 	private:
@@ -90,7 +93,6 @@ namespace Framework
 		UINT32			m_iColliderId;
 		UINT32			m_iCollisionFlag;
 		eColliderType	m_eColliderType;
-
 		bool			m_bTrigger;
 
 		static UINT32	m_collId;

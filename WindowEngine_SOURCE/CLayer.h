@@ -34,6 +34,7 @@ namespace Framework
 
 		void Tick();
 		void LastTick();
+		void FixedTick();
 
 		void Render(HDC hdc) const;
 

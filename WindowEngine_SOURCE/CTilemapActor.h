@@ -18,6 +18,7 @@ namespace Framework
 		void		Release() override;
 		bool		Tick() override;
 		bool		LastTick() override;
+		void		FixedTick() override;
 		void		Render(HDC hdc) const override;
 
 		CTilemap*	GetTilemap()		const		{ return m_pTilemap;		}

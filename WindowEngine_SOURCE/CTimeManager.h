@@ -1,5 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
+#include "Define.h"
 #include <random>
 
 namespace Framework
@@ -23,23 +24,25 @@ namespace Framework
 				Size
 			};
 
-			__forceinline float		DeltaTime()			const	{ return m_fDeltaTime * m_fTimeScale;	}
-			__forceinline float		RealDeltaTime()		const	{ return m_fDeltaTime;					}
-			__forceinline float		GetTimeScale()		const	{ return m_fTimeScale; }
+			__forceinline float		ApplicationDeltaTime()	const	{ return m_fDeltaTime; }
+			__forceinline float		DeltaTime()				const	{ return DELTA_TICK * m_fTimeScale;		}
+			__forceinline float		RealDeltaTime()			const	{ return DELTA_TICK;						}
+			float					GetTimeScale()			const	{ return m_fTimeScale;						}
 
-			__forceinline UINT		FPS()				const	{ return m_uiFPS;						}
-			__forceinline bool		GetShowFPS()		const	{ return m_bShowFPS;					}
-			__forceinline UINT32	GetRandom()					{ return GetRandomInRange(0, UINT32_MAX);	}
+			UINT					FPS()					const	{ return m_uiFPS;							}
+			bool					GetShowFPS()			const	{ return m_bShowFPS;						}
+			UINT32					GetRandom()						{ return GetRandomInRange(0, UINT32_MAX);	}
 
 			// 사용자 지정 범위
-			__forceinline UINT32 GetRandomInRange(UINT32 min, UINT32 max)
+			__forceinline UINT32	GetRandomInRange(UINT32 min, UINT32 max)
 			{
 				std::uniform_int_distribution<UINT32> dist(min, max);
 				return dist(generator_);
 			}
-			__forceinline void	SetTimeScale(float scale)		{ m_fTimeScale = scale; }
-			__forceinline void	SetShowFPS(bool state)			{ m_bShowFPS = state; }
-			__forceinline void	SetTimeType(eTimeType type)		{ m_eTimeType = type; }
+
+			void					SetTimeScale(float scale)		{ m_fTimeScale = scale; }
+			void					SetShowFPS(bool state)			{ m_bShowFPS = state; }
+			void					SetTimeType(eTimeType type)		{ m_eTimeType = type; }
 
 			
 			void Render(HDC hdc) const;

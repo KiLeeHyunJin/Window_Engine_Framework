@@ -1,79 +1,84 @@
-﻿// TestConsole.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
-
-#include <iostream>
+﻿#include <iostream>
+#include <cmath>
+#include <array>
 #include <vector>
-#include <string>
 
-#include <fstream>
-#include <windows.h>
+struct Vec2 {
+    float x, y;
 
-#include <fcntl.h>
-#include <io.h>
+    Vec2 operator+(const Vec2& rhs) const { return { x + rhs.x, y + rhs.y }; }
+    Vec2 operator-(const Vec2& rhs) const { return { x - rhs.x, y - rhs.y }; }
+    Vec2 operator*(float scalar) const { return { x * scalar, y * scalar }; }
 
-static std::vector<std::wstring> getFilesInDirectory(const std::wstring& path) {
-    std::vector<std::wstring> fileList;
-    std::wstring searchPath = path + L"\\*";  // 모든 파일과 폴더 검색
+    float dot(const Vec2& rhs) const { return x * rhs.x + y * rhs.y; }
+};
 
-    WIN32_FIND_DATAW findFileData;
-    HANDLE hFind = FindFirstFileW(searchPath.c_str(), &findFileData);
+struct OBB {
+    Vec2 center;
+    Vec2 halfExtents;
+    float rotationDeg;
+    std::array<Vec2, 2> axes;
+    std::vector<Vec2> vertices;
 
-    if (hFind != INVALID_HANDLE_VALUE) {
-        do {
-            std::wstring name = findFileData.cFileName;
+    // 초기화 시 회전 축과 꼭짓점 미리 계산
+    void initialize() {
+        float rad = rotationDeg * (3.142856f / 180.0f);
+        float cos_r = std::cos(rad), sin_r = std::sin(rad);
 
-            // "." 및 ".." 제외
-            if (name == L"." || name == L"..") {
-                continue;
+        axes[0] = { cos_r, sin_r };    // x축
+        axes[1] = { -sin_r, cos_r };   // y축
+
+        vertices.clear();
+        for (int dx : {-1, 1}) 
+        {
+            for (int dy : {-1, 1}) 
+            {
+
+                Vec2 offset = 
+                    (axes[0] * (dx * halfExtents.x)) + 
+                    (axes[1] * (dy * halfExtents.y));
+                vertices.push_back(center + offset);
             }
-
-            // 파일인지 확인 (디렉터리는 제외)
-            if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-                fileList.push_back(name);
-            }
-
-        } while (FindNextFileW(hFind, &findFileData) != 0);
-        FindClose(hFind);
+        }
     }
-    else {
-        std::wcerr << L"Failed to open directory: " << path << std::endl;
+};
+
+// 축에 투영하여 최소/최대 범위 계산
+void project(const std::vector<Vec2>& verts, const Vec2& axis, float& min, float& max) {
+    min = max = verts[0].dot(axis);
+    for (const Vec2& v : verts) {
+        float proj = v.dot(axis);
+        if (proj < min) min = proj;
+        if (proj > max) max = proj;
     }
-    return fileList;
 }
 
-
- static std::wstring getCurrentDirectory() {
-    wchar_t buffer[MAX_PATH];
-    GetCurrentDirectoryW(MAX_PATH, buffer);
-    return std::wstring(buffer);
+// 분리축 판정: 하나라도 겹치지 않으면 충돌 아님
+bool isSeparated(const std::vector<Vec2>& verts1, const std::vector<Vec2>& verts2, const Vec2& axis) {
+    float minA, maxA, minB, maxB;
+    project(verts1, axis, minA, maxA);
+    project(verts2, axis, minB, maxB);
+    return maxA < minB || maxB < minA;
 }
 
-int main()
-{
-    SetConsoleOutputCP(CP_UTF8);
-    int prevCode = _setmode(_fileno(stdout), _O_U16TEXT);
+// 충돌 판정 (SAT 기반)
+bool checkCollision(OBB& obb1, OBB& obb2) {
+    obb1.initialize();
+    obb2.initialize();
 
-
-    std::wcout << L"Current Directory: " << getCurrentDirectory() << std::endl;
-
-
-    std::wstring path = L".";  // 현재 디렉터리
-    std::vector<std::wstring> files = getFilesInDirectory(path);
-
-    for (const auto& file : files) {
-        std::wcout << file.c_str() << std::endl;
+    for (const Vec2& axis : obb1.axes) {
+        if (isSeparated(obb1.vertices, obb2.vertices, axis)) return false;
     }
-
-    return 1;
+    for (const Vec2& axis : obb2.axes) {
+        if (isSeparated(obb1.vertices, obb2.vertices, axis)) return false;
+    }
+    return true;
 }
 
-// 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
-// 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
+int main() {
+    OBB obb1{ {0, 0}, {2, 1}, 30 };
+    OBB obb2{ {3, 1}, {1, 2}, -15 };
 
-// 시작을 위한 팁: 
-//   1. [솔루션 탐색기] 창을 사용하여 파일을 추가/관리합니다.
-//   2. [팀 탐색기] 창을 사용하여 소스 제어에 연결합니다.
-//   3. [출력] 창을 사용하여 빌드 출력 및 기타 메시지를 확인합니다.
-//   4. [오류 목록] 창을 사용하여 오류를 봅니다.
-//   5. [프로젝트] > [새 항목 추가]로 이동하여 새 코드 파일을 만들거나, [프로젝트] > [기존 항목 추가]로 이동하여 기존 코드 파일을 프로젝트에 추가합니다.
-//   6. 나중에 이 프로젝트를 다시 열려면 [파일] > [열기] > [프로젝트]로 이동하고 .sln 파일을 선택합니다.
+    std::cout << "충돌 여부: " << (checkCollision(obb1, obb2) ? "충돌함" : "충돌하지 않음") << std::endl;
+    return 0;
+}

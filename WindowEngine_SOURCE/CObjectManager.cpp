@@ -156,6 +156,14 @@ namespace Framework
 				m_vecDontDestoryLayer[i]->LastTick();
 			}
 		}
+		void CObjectManager::FixedTick()
+		{
+			for (UINT i = 0; i < m_uiLayerSize; i++)
+			{
+				m_vecLayer[i]->FixedTick();
+				m_vecDontDestoryLayer[i]->FixedTick();
+			}
+		}
 
 		void CObjectManager::Render(HDC hdc)
 		{

@@ -57,6 +57,10 @@ namespace Framework
 
 		return true;
 	}
+
+	void CPlayerControllActor::FixedTick()
+	{
+	}
 	void CPlayerControllActor::Render(HDC hdc) const
 	{
 		SUPER::Render(hdc);
@@ -81,4 +85,5 @@ namespace Framework
 	{
 		collChecking = UINT32_MAX;
 	}
+
 }

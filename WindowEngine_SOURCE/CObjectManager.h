@@ -80,7 +80,7 @@ namespace Framework
 
 			void Tick();											//Application
 			void LastTick();										//Application
-
+			void FixedTick();
 			UINT m_uiLayerSize								= 0;
 			std::unordered_map<UINT32, CActor*> m_unObjects = {};
 

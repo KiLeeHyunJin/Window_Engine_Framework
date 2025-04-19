@@ -172,7 +172,7 @@ namespace Framework
 
 		void CCollisionManager::Render(HDC hdc) const
 		{
-			//CQuadTreeManager::Render(hdc);
+			CQuadTreeManager::Render(hdc);
 
 			wchar_t str[50] = L"";
 			swprintf_s(str, 50, L"Ãæµ¹È½¼ö : %d", (int)(m_iCollTickComponentFPS));

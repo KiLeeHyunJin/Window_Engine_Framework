@@ -16,6 +16,7 @@ namespace Framework
 
 		bool Tick()					override;
 		bool LastTick()				override;
+		void FixedTick()			override;
 
 		void Render(HDC hdc) const	override;
 	private:
@@ -25,6 +26,9 @@ namespace Framework
 
 		uint32_t collChecking		= 0;
 		//uint32_t collChecking2;
+
+
+		// CActor을(를) 통해 상속됨
 
 	};
 

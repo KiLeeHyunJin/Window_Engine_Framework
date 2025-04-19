@@ -72,13 +72,13 @@ namespace Framework
 		}
 
 
-
+		if(false)
 		{
 			CTilemapActor* ta = Object::Instantiate<CTilemapActor>(3, L"");
 			SetTilemapActor(ta);
 			CTilemap* tm = GET_SINGLE(RESOURCE).CreateTilemap(L"Dev");
 			tm->SetMapSize(Maths::Vector2(48, 63));
-			tm->SetTileSize(48);
+			tm->SetTileSize(24);
 			ta->SetTilemap(tm);
 			ta->SetShowDebug(true);
 		}
@@ -92,10 +92,13 @@ namespace Framework
 			pActor->AddComponent<CRigidbodyComponent>();
 			CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
 			pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
-			pBoxColl->SetSize(Maths::Vector2(50, 50));
+			pBoxColl->SetSize(Maths::Vector2(50, 70));
+			pBoxColl->SetTrigger(false);
+			pBoxColl->SetAngle(45.f);
+
 			pActor->SetPosition(Maths::Vector2(0, 0));
 			pActor->SetScale(Maths::Vector2(50, 50));
-			pBoxColl->SetTrigger(false);
+
 			pCam->SetTarget(pActor);
 
 		}

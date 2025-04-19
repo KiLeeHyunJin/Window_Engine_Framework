@@ -42,4 +42,7 @@ namespace Framework
 		Utils::UtilBitBlt(hdc, position, spriteSize, m_pSprite);
 		//BitBlt(hdc, position.x, position.y, spriteSize.x, spriteSize.y, spriteHdc, spriteLeftTop.x, spriteLeftTop.y, SRCCOPY);
 	}
+	void CSpriteActor::FixedTick()
+	{
+	}
 }

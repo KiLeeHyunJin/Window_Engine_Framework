@@ -46,6 +46,7 @@ namespace Framework
 
 		virtual bool Tick()					= 0;
 		virtual bool LastTick()				= 0;
+		virtual void FixedTick()			= 0;
 
 		virtual void Render(HDC hdc) const	= 0;
 
