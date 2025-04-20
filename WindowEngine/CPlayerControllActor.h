@@ -1,5 +1,6 @@
 #pragma once
 #include "CActor.h"
+#include "Structs.h"
 //#include "..//WindowEngine_SOURCE//CActor.h"
 namespace Framework
 {
@@ -25,6 +26,7 @@ namespace Framework
 		virtual void OnCollisionExit(CColliderComponent* other);
 
 		uint32_t collChecking		= 0;
+		Color m_color;
 		//uint32_t collChecking2;
 
 

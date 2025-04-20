@@ -28,6 +28,10 @@ namespace Framework
 
 		float m_fRadius;
 
+
+		// CColliderComponent을(를) 통해 상속됨
+		void Initialize() override;
+
 		// CColliderComponent을(를) 통해 상속됨
 	};
 }

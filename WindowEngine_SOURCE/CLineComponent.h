@@ -1,0 +1,38 @@
+#pragma once
+#include "CComponent.h"
+
+namespace Framework
+{
+
+	class CLineComponent :
+		public CComponent
+	{
+	public:
+		CLineComponent();
+		virtual ~CLineComponent();
+		// CComponent을(를) 통해 상속됨
+		const Enums::eComponentType GetComponentType() const override;
+		static constexpr Enums::eComponentType	StaticComponentType() { return Enums::eComponentType::Line; }
+
+		void BeginPlay() override;
+		void Release() override;
+		void Initialize();
+		bool TickComponent() override;
+		bool LastTickComponent() override;
+
+		__inline const Maths::Vector2&	GetStartPosition()		const	{ return m_vecStartPos;		}
+		__inline const Maths::Vector2&	GetEndPosition()		const	{ return m_vecEndPos;		}
+		
+		//void				SetStartPosition(const Maths::Vector2& startPos)	{ m_vecStartPos = startPos; }
+		//void				SetEndPosition(const Maths::Vector2 & endPos)		{	m_vecEndPos = endPos;	}
+		bool				CheckCollisionX(float x) const;
+		bool				GetPositionY(float x, float* y) const;
+
+		void Render(HDC hdc) override;
+	private:
+		Maths::Vector2 m_vecStartPos;
+		Maths::Vector2 m_vecEndPos;
+
+	};
+
+}

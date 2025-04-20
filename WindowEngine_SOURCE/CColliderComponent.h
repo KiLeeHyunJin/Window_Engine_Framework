@@ -33,6 +33,7 @@ namespace Framework
 		virtual bool LastTickComponent()	override;
 
 		virtual void Render(HDC hdc)		override;
+		virtual void Initialize() = 0;
 
 
 		inline const eColliderType GetColliderType()					const	{ return m_eColliderType;					}
@@ -67,15 +68,26 @@ namespace Framework
 
 	protected:
 		static const bool		CheckCollisionBoxToBox(CColliderComponent* owner, CColliderComponent* other);
-		static const bool		CheckCollisionBoxToCircle(CColliderComponent* owner, CColliderComponent* other);
-		static const bool		CheckCollisionCircleToCircle(CColliderComponent* owner, CColliderComponent* other);
+		//static const bool		CheckCollisionBoxToCircle(CColliderComponent* owner, CColliderComponent* other);
+		//static const bool		CheckCollisionCircleToCircle(CColliderComponent* owner, CColliderComponent* other);
+		//LINE
 
+
+		//AABB
 		static void		AdjustPosition(CColliderComponent* target, CColliderComponent* other);
+		//선 올라타기
+		static bool		CheckCollisionLine(CBoxColliderComponent* target, CColliderComponent* other);
+		//두방향 밀어내기
 		static void		DiagonalAdjustPosition(const Maths::Vector2& moveSqrDir, const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
+		//한방향 밀어내기
 		static void		SimpleAdjustPosition(const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
 
-		static bool InXCheck(CBoxColliderComponent* target, const float otherX);
-		static bool InYCheck(CBoxColliderComponent* target, const float otherY);
+		//OBB
+		static void Projection(const std::vector<Maths::Vector2>& verts, const Maths::Vector2& axis, float& min, float& max);
+		static bool ProjectionCollisionCheck(const std::vector<Maths::Vector2>& verts1, const std::vector<Maths::Vector2>& verts2, const Maths::Vector2& axis);
+
+		//static bool InXCheck(CBoxColliderComponent* target, const float otherX);
+		//static bool InYCheck(CBoxColliderComponent* target, const float otherY);
 
 		__forceinline static bool CheckFlag(CColliderComponent* owner, CColliderComponent* other)
 		{

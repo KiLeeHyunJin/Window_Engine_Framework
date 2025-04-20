@@ -63,20 +63,28 @@ namespace Framework
 	}
 	void CPlayerControllActor::Render(HDC hdc) const
 	{
+
+		HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc,transparentBrush);
+		
+		HPEN pen = CreatePen(PS_SOLID, 2, RGB(m_color.r, m_color.g, m_color.b));
+		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+
+		transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
+
 		SUPER::Render(hdc);
 
-		//wchar_t str[50] = L"";
-		//swprintf_s(str, 50, L"Ãæµ¹ : %d", (int)(collChecking));
-		//int len = (int)wcsnlen_s(str, 50);
+		pen = (HPEN)SelectObject(hdc, oldPen);
 
-		//const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
-		//TextOut(hdc, (static_cast<INT>(resolution.x - 130)), 140, str, len);
+		DeleteObject(pen);
 
 	}
 	void CPlayerControllActor::OnCollisionEnter(CColliderComponent* other)
 	{
 		collChecking = other->GetColliderID();
-
+		m_color.r = 255;
+		m_color.g = 0;
+		m_color.b = 0;
 	}
 	void CPlayerControllActor::OnCollisionStay(CColliderComponent* other)
 	{
@@ -84,6 +92,9 @@ namespace Framework
 	void CPlayerControllActor::OnCollisionExit(CColliderComponent* other)
 	{
 		collChecking = UINT32_MAX;
+		m_color.r = 0;
+		m_color.g = 0;
+		m_color.b = 255;
 	}
 
 }

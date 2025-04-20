@@ -78,10 +78,10 @@ namespace Framework
 		switch (colliderType)
 		{
 		case Framework::CColliderComponent::eColliderType::Box:
-			return CColliderComponent::CheckCollisionBoxToCircle(other, this);
+			//return CColliderComponent::CheckCollisionBoxToCircle(other, this);
 
 		case Framework::CColliderComponent::eColliderType::Circle:
-			return CColliderComponent::CheckCollisionCircleToCircle(this, other);
+			//return CColliderComponent::CheckCollisionCircleToCircle(this, other);
 
 		case Framework::CColliderComponent::eColliderType::None:
 			assert(true);
@@ -90,5 +90,8 @@ namespace Framework
 			break;
 		}
 		return false;
+	}
+	void CCircleColliderComponent::Initialize()
+	{
 	}
 }

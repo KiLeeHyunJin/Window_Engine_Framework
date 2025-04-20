@@ -14,7 +14,13 @@ namespace Framework//::Maths
 		//여기서 이렇게 한다고 크게 달라지겠냐만, 그래도 습관들면 좋으니까
 
 		template<typename T>
-		__inline T Abs(const T rhs) { return rhs > 0 ? rhs : rhs * -1; }
+		__inline T Abs(const T rhs)		{ return rhs > 0 ? rhs : rhs * -1; }
+
+		template<typename T>
+		__inline T Max(T a, T b)		{ if (a > b) return a; return b; }
+
+		template<typename T>		
+		__inline T Min(T a, T b)		{ if (a < b) return a; return b; }
 
 		template<typename T>
 		__inline bool Clamp(T* value, const T& min, const T& max) 
@@ -145,9 +151,8 @@ namespace Framework//::Maths
 #pragma endregion
 
 			Vector2() :x(0), y(0) {}
-			Vector2(float x, float y) : x(x), y(y)
-			{
-			}
+			Vector2(float x, float y) : x(x), y(y)	{}
+			Vector2(const Vector2& other) : x(other.x), y(other.y) {}
 			Vector2(const Vector2Int& other);// : x(other.x), y(other.y) {}
 			//Vector2(int x, int y)		: x((float)x), y((float)y)
 			//{}

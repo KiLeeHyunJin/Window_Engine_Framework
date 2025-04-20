@@ -53,10 +53,9 @@ void project(const std::vector<Vec2>& verts, const Vec2& axis, float& min, float
     }
 }
 
-// 분리축 판정: 하나라도 겹치지 않으면 충돌 아님
 bool isSeparated(const std::vector<Vec2>& verts1, const std::vector<Vec2>& verts2, const Vec2& axis) {
     float minA, maxA, minB, maxB;
-    project(verts1, axis, minA, maxA);
+    project(verts1, axis, minA, maxA); //정점별로 축 기준 양끝을 구한다.
     project(verts2, axis, minB, maxB);
     return maxA < minB || maxB < minA;
 }
@@ -66,18 +65,18 @@ bool checkCollision(OBB& obb1, OBB& obb2) {
     obb1.initialize();
     obb2.initialize();
 
-    for (const Vec2& axis : obb1.axes) {
+    for (const Vec2& axis : obb1.axes) { //obb1의 2변의 방향
         if (isSeparated(obb1.vertices, obb2.vertices, axis)) return false;
     }
-    for (const Vec2& axis : obb2.axes) {
+    for (const Vec2& axis : obb2.axes) { //obb2의 2변의 방향
         if (isSeparated(obb1.vertices, obb2.vertices, axis)) return false;
     }
     return true;
 }
 
 int main() {
-    OBB obb1{ {0, 0}, {2, 1}, 30 };
-    OBB obb2{ {3, 1}, {1, 2}, -15 };
+    OBB obb1{ {0, 0}, {1.7f, 1}, 45 };
+    OBB obb2{ {3, 1}, {0.7f, 2}, 50 };
 
     std::cout << "충돌 여부: " << (checkCollision(obb1, obb2) ? "충돌함" : "충돌하지 않음") << std::endl;
     return 0;

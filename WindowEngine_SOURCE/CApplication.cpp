@@ -82,6 +82,7 @@ namespace Framework
 
 		//float alpha = lag / FIXED_STEP;
 		FixedTick();
+		GET_SINGLE(COLLISION).Tick(); // 1초에 80번 업데이트
 		Render();
 
 	}
@@ -96,7 +97,6 @@ namespace Framework
 		GET_SINGLE(EVENT).Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
 		GET_SINGLE(UI).Tick();
 
-		GET_SINGLE(COLLISION).Tick(); // 1초에 80번 업데이트
 	}
 
 	void CApplication::LastTick()

@@ -133,6 +133,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CTilemapActor.cpp">
       <Filter>02.Asset\Tilemap</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CLineComponent.cpp">
+      <Filter>01.Component\Line</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
@@ -288,6 +291,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTilemapActor.h">
       <Filter>02.Asset\Tilemap</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CLineComponent.h">
+      <Filter>01.Component\Line</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -436,6 +442,9 @@
     </Filter>
     <Filter Include="02.Asset\Resource\Sprite">
       <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\Line">
+      <UniqueIdentifier>{be597e7a-91c5-482f-873b-23d9037319d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

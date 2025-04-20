@@ -105,11 +105,6 @@ namespace Framework
 			CQuadTreeManager::Initialize(Maths::Vector2(8192, 8192), 8, 1.2f);
 			m_vecCollider.resize(50);
 			m_unmapCollisions.reserve(200);
-			//collisionsA.reserve(200);
-			//collisionsB.reserve(200);
-
-			//this->curr = &collisionsA;
-			//this->prev = &collisionsB;
 		}
 
 		void CCollisionManager::Release()
@@ -123,37 +118,6 @@ namespace Framework
 		void CCollisionManager::Tick()
 		{
 			//return;
-			if(false)
-			{
-				static float countTime = 0;
-				static float checkTime = (float)1 / (float)80;
-				static float timeCheck = 0;
-				static UINT fpsCheck = 0;
-
-				timeCheck += GET_SINGLE(TIME).RealDeltaTime();
-				countTime += GET_SINGLE(TIME).RealDeltaTime();
-
-				if (countTime < checkTime)
-				{
-					return;
-				}
-				else
-				{
-					countTime = 0;
-
-					if (timeCheck >= 1.0f)
-					{
-						m_iCollTickComponentFPS = fpsCheck;
-						fpsCheck = 0;
-						timeCheck = 0;
-					}
-					else
-					{
-						fpsCheck += 1;
-					}
-				}
-			}
-
 
 			//충돌 검사를 위한 이중 버퍼
 			//std::swap(curr, prev);
@@ -174,12 +138,12 @@ namespace Framework
 		{
 			CQuadTreeManager::Render(hdc);
 
-			wchar_t str[50] = L"";
-			swprintf_s(str, 50, L"충돌횟수 : %d", (int)(m_iCollTickComponentFPS));
-			int len = (int)wcsnlen_s(str, 50);
+			//wchar_t str[50] = L"";
+			//swprintf_s(str, 50, L"충돌검사 횟수 : %d", (int)(m_iCollTickComponentFPS));
+			//int len = (int)wcsnlen_s(str, 50);
 
-			const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
-			TextOut(hdc, ((int)resolution.x - 130), 20, str, len);
+			//const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
+			//TextOut(hdc, ((int)resolution.x - 130), 20, str, len);
 		}
 
 

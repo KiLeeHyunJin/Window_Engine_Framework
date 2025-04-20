@@ -13,6 +13,7 @@ namespace Framework//::Enums
 			Animator,
 			Camera,
 			Collider,
+			Line,
 			Rigidbody,
 
 			Size,

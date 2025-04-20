@@ -2,17 +2,22 @@
 
 #include "CTilemap.h"
 #include "CTilemapActor.h"
+
 #include "Object.h"
+#include "CRenderer.h"
+#include "ContentsEnums.h"
+
 #include "CResourceManager.h"
 #include "CCollisionManager.h"
+
 #include "CPlayerControllActor.h"
 #include "CSpriteActor.h"
 
 #include "CRigidbodyComponent.h"
 #include "CBoxColliderComponent.h"
-#include "ContentsEnums.h"
 #include "CCameraComponent.h"
-#include "CRenderer.h"
+#include "CLineComponent.h"
+
 namespace Framework
 {
 	CDevScene::CDevScene()
@@ -53,7 +58,7 @@ namespace Framework
 	}
 	void CDevScene::OnEnter()
 	{
-
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character, true);
 
 		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam == nullptr) // Create Camera
@@ -62,7 +67,6 @@ namespace Framework
 			pCam = pActor->AddComponent<CCameraComponent>();
 			Renderer::CRenderer::SetMainCamera(pCam);
 
-			//const Maths::Vector2 vecMin(2048,-2048);
 			const Maths::Vector2 vecMax(2048, 2048);
 			pCam->SetCameraRange(vecMax);
 
@@ -84,25 +88,42 @@ namespace Framework
 		}
 
 
-		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character, true);
-
 		{
 			CActor* pActor = Object::Instantiate<CPlayerControllActor>(static_cast<UINT>(eLayer::Character), L"Test");
 
-			pActor->AddComponent<CRigidbodyComponent>();
-			CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
-			pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
-			pBoxColl->SetSize(Maths::Vector2(50, 70));
-			pBoxColl->SetTrigger(false);
-			pBoxColl->SetAngle(45.f);
-
 			pActor->SetPosition(Maths::Vector2(0, 0));
-			pActor->SetScale(Maths::Vector2(50, 50));
+			pActor->SetScale(Maths::Vector2(20, 20));
 
+			CRigidbodyComponent*	pRigid		= pActor->AddComponent<CRigidbodyComponent>();
+			CBoxColliderComponent*	pBoxColl	= pActor->AddComponent<CBoxColliderComponent>();
+			
+			pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+			pBoxColl->SetSize(Maths::Vector2(40, 70));
+			pBoxColl->SetAngle(20);
+			pBoxColl->SetTrigger(false);
+			pBoxColl->Initialize();
 			pCam->SetTarget(pActor);
-
 		}
 
+		{
+			CActor* pActor = Object::Instantiate<CSpriteActor>(static_cast<UINT>(eLayer::Character), L"Test");
+
+			pActor->SetPosition(Maths::Vector2(100, 100));
+			pActor->SetScale(Maths::Vector2(20, 20));
+
+			CRigidbodyComponent* pRigid = pActor->AddComponent<CRigidbodyComponent>();
+			CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+			CLineComponent* pLine = pActor->AddComponent<CLineComponent>();
+
+			pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+			pBoxColl->SetSize(Maths::Vector2(48, 48));
+			pBoxColl->SetAngle(-10);
+			pBoxColl->SetTrigger(false);
+			pBoxColl->Initialize();
+			pLine->Initialize();
+
+			//pCam->SetTarget(pActor);
+		}
 
 		//for (UINT i = 200; i > 0; i--)
 		//{
