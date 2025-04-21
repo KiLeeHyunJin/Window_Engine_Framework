@@ -260,6 +260,22 @@ namespace Framework
 
 			OnUp();
 		}
-
 	}
+
+	bool CUIBase::RectangleContainsScreen(const CUIBase* pTarget, const CUIBase* pDest)
+	{
+		const Maths::Vector2& targetPos = pTarget->GetWorldPosition();
+		const Maths::Vector2& destPos = pDest->GetWorldPosition();
+
+		const Maths::Vector2& targetSize = pTarget->GetScale();
+		const Maths::Vector2& destSize = pTarget->GetScale();
+
+		return false;
+	}
+
+	bool CUIBase::RectangleContainsScreenPoint(const CUIBase* pTarget)
+	{
+		return pTarget->GetCurrOn();
+	}
+
 }

@@ -75,12 +75,12 @@ namespace Framework
 
 		//AABB
 		static void		AdjustPosition(CColliderComponent* target, CColliderComponent* other);
-		//선 올라타기
-		static bool		CheckCollisionLine(CBoxColliderComponent* target, CColliderComponent* other);
-		//두방향 밀어내기
-		static void		DiagonalAdjustPosition(const Maths::Vector2& moveSqrDir, const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
-		//한방향 밀어내기
-		static void		SimpleAdjustPosition(const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
+		////선 올라타기
+		//static bool		CheckCollisionLine(CBoxColliderComponent* target, CColliderComponent* other);
+		////두방향 밀어내기
+		//static void		DiagonalAdjustPosition(const Maths::Vector2& moveSqrDir, const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
+		////한방향 밀어내기
+		//static void		SimpleAdjustPosition(const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
 
 		//OBB
 		static void Projection(const std::vector<Maths::Vector2>& verts, const Maths::Vector2& axis, float& min, float& max);

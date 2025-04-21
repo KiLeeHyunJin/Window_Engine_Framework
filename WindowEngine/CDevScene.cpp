@@ -59,6 +59,7 @@ namespace Framework
 	void CDevScene::OnEnter()
 	{
 		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character, true);
+		//GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Environment, true);
 
 		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam == nullptr) // Create Camera
@@ -97,7 +98,7 @@ namespace Framework
 			CRigidbodyComponent*	pRigid		= pActor->AddComponent<CRigidbodyComponent>();
 			CBoxColliderComponent*	pBoxColl	= pActor->AddComponent<CBoxColliderComponent>();
 			
-			pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+			//pBoxColl->RemoveCollisionFlag((UINT)eLayer::Character);
 			pBoxColl->SetSize(Maths::Vector2(40, 70));
 			pBoxColl->SetAngle(20);
 			pBoxColl->SetTrigger(false);

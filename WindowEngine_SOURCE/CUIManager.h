@@ -22,21 +22,17 @@ namespace Framework
 			CUIBase* GetUI(Enums::eUIType type);
 
 			void Push(Enums::eUIType type);
-			void Render(HDC hdc);
 
 			void Pop(Enums::eUIType type);
 			void Pop(CUIBase* closeUI);
 
 			void PopPopup();
 
-			void OnLoad(Enums::eUIType type);
-
-			void OnComplete(CUIBase* uiBase);
-			void OnFail();
-
 			void Clear();
 
+			void Render(HDC hdc);
 			void SetLastSibling(CUIBase* pFrontUI);
+
 			//CUIBase* GetCollisionUI();
 
 			friend CApplication;
@@ -49,6 +45,11 @@ namespace Framework
 
 			void Tick();
 			void LastTick();
+
+			void OnComplete(CUIBase* uiBase);
+			void OnLoad(Enums::eUIType type);
+
+			void OnFail();
 
 
 			void	CloseUI(INT closeUIIdx);

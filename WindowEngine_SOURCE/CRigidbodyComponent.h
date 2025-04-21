@@ -7,11 +7,24 @@
 namespace Framework
 {
 	class CActor;
+	class CColliderComponent;
+	class CBoxColliderComponent;
 
 	class CRigidbodyComponent :
 		public CComponent
 	{
 	public:
+		CRigidbodyComponent();
+		virtual ~CRigidbodyComponent();
+		// CComponent을(를) 통해 상속됨
+		virtual void BeginPlay() override;
+		virtual void Release() override;
+		virtual bool TickComponent() override;
+		virtual bool LastTickComponent() override;
+		virtual void Render(HDC hdc) override;
+
+		static constexpr Enums::eComponentType	StaticComponentType()				{ return Enums::eComponentType::Rigidbody; }
+		const Enums::eComponentType				GetComponentType() const override	{ return StaticComponentType(); }
 		/// <summary>
 		/// 질량을 설정
 		/// </summary>
@@ -41,19 +54,19 @@ namespace Framework
 		float GetMass() const						{ return m_fMass; }
 		float GetFriction() const					{ return m_fFriction; }
 
-		static constexpr Enums::eComponentType StaticComponentType() { return Enums::eComponentType::Rigidbody; }
-		const Enums::eComponentType GetComponentType() const override { return StaticComponentType(); }
 
-		friend CActor;
+		//충돌체끼리 밀어내거나 올라타거나 하는 물리계산을 실행
+		static void		AdjustPosition(CBoxColliderComponent* target, CBoxColliderComponent* other);
+	
+		//friend CActor;
 	private:
-		CRigidbodyComponent();
-		virtual ~CRigidbodyComponent();
-		// CComponent을(를) 통해 상속됨
-		virtual void BeginPlay() override;
-		virtual void Release() override;
-		virtual bool TickComponent() override;
-		virtual bool LastTickComponent() override;
-		virtual void Render(HDC hdc) override;
+
+		static bool		CheckCollisionLine(CBoxColliderComponent* target, CBoxColliderComponent* other);
+		//두방향 밀어내기
+		static void		DiagonalAdjustPosition(const Maths::Vector2& moveSqrDir, const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
+		//한방향 밀어내기
+		static void		SimpleAdjustPosition(const RECT& collisionRect, CBoxColliderComponent* targetBoxCollider, CBoxColliderComponent* otherBoxCollider);
+
 
 		void VelocityCompute();
 		void LimitSpeedCompute();

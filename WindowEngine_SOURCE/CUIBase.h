@@ -104,6 +104,8 @@ namespace Framework
 		void Up();
 #pragma endregion
 
+		static bool RectangleContainsScreen(const CUIBase* pTarget, const CUIBase* pDest);
+		static bool RectangleContainsScreenPoint(const CUIBase* pTarget);
 
 	protected:
 
@@ -146,11 +148,12 @@ namespace Framework
 		//Transform
 		Vector2			m_vecPos							= Vector2::Zero;
 		Vector2			m_vecSize							= Vector2::Zero;
+
 		Vector2			m_vecPrevMousePos					= Vector2::Zero;
 		Vector2			m_vecDragStartPos					= Vector2::Zero;
 
 		//State
-		eUIState		m_eUIState						= eUIState::Default;
+		eUIState		m_eUIState							= eUIState::Default;
 		//eUIState		m_ePrevState						= eUIState::Default;
 
 		bool			m_bDraggable						= false;

@@ -296,6 +296,10 @@ namespace Framework
 				if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::LBUTTON))
 				{
 					pUI->Down();
+					//if (pUI->GetChangeHierarchy())
+					//{
+					//	SetLastSibling(pUI);
+					//}
 				}
 				else if (GET_SINGLE(INPUT).GetKeyUp(eKeyCode::LBUTTON))
 				{
