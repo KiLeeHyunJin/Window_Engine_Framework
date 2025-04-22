@@ -136,6 +136,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CLineComponent.cpp">
       <Filter>01.Component\Line</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSound.cpp">
+      <Filter>02.Asset\Resource\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSoundChannel.cpp">
+      <Filter>00.Core\Manager\Sound\SoundChannel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
@@ -294,6 +300,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CLineComponent.h">
       <Filter>01.Component\Line</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSound.h">
+      <Filter>02.Asset\Resource\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSoundChannel.h">
+      <Filter>00.Core\Manager\Sound\SoundChannel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Renderer">
@@ -445,6 +457,15 @@
     </Filter>
     <Filter Include="01.Component\Line">
       <UniqueIdentifier>{be597e7a-91c5-482f-873b-23d9037319d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Core\Manager\NewFilter1">
+      <UniqueIdentifier>{a7fc99c0-7772-4346-a4e0-02e2d4959ac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\Resource\Sound">
+      <UniqueIdentifier>{dc7fa8c7-7729-4b82-90a3-437b138b2e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Core\Manager\Sound\SoundChannel">
+      <UniqueIdentifier>{9e1a0565-6330-4d70-9f06-99b0e4e90130}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,5 +1,7 @@
 #pragma once
 
+static const INT SOUND_MAX_CHANNEL = 32;
+
 static const float DELTA_TICK	= 0.016f;
 
 static const float REMAIN_RATIO = 0.5f;  // 0.0 ~ 1.0 → 남겨둘 충돌 비율

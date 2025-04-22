@@ -270,6 +270,11 @@ namespace Framework
 		const Maths::Vector2& targetSize = pTarget->GetScale();
 		const Maths::Vector2& destSize = pTarget->GetScale();
 
+		if (Maths::Abs(targetPos.x - destPos.x) <= (targetSize.x + destSize.x) * 0.5f &&
+			Maths::Abs(targetPos.y - destPos.y) <= (targetSize.y + destSize.y) * 0.5f)
+		{
+			return true;
+		}
 		return false;
 	}
 

@@ -17,10 +17,15 @@
 //C++ 표준 라이브러리
 //#include <clocale>
 //#include <chrono>
+#include <io.h>
 #include <string>
+
 #include <cmath>
-#include <functional>
+#include <limits.h> 
 #include <algorithm>
+
+#include <functional>
+
 //#include <filesystem>
 #pragma endregion
 
@@ -30,7 +35,6 @@
 #include "Maths.h"
 #include "ColliderStruct.h"
 
-#include <limits.h>
 
 
 #pragma region STL
@@ -47,7 +51,6 @@
 #include <unordered_map> //hash
 #include <unordered_set>
 
-
 #pragma endregion  STL
 
 #include <dinput.h> //DX_Input
@@ -61,24 +64,48 @@
 //#endif
 
 
-#pragma region WinAPI Graphic
+#pragma region WinAPI_Graphic
 
 #pragma comment(lib, "Msimg32.lib")
 #include <mmsystem.h>
 
 #pragma comment(lib, "winmm.lib")
+#pragma endregion
 
+#pragma region GDI_PLUS
 #include <gdiplus.h>
 #include <gdiplusheaders.h>
 #pragma comment(lib, "gdiplus.lib")
 #pragma endregion
 
 
+#pragma region D2D
+#include <wincodec.h>
 
-#pragma region Sound
-#include <mmsystem.h>
-#include <dsound.h>
-#pragma comment(lib, "winmm.lib")
-#pragma comment(lib, "dsound.lib")
+#include <d2d1.h>
+#pragma comment(lib,"D2D1.lib")
+#pragma endregion
+
+#pragma region Text
+#include <dwrite.h>
+#pragma comment(lib,"Dwrite.lib")
+#pragma endregion
+
+#pragma region Video
+#include <Vfw.h>
+#pragma comment(lib, "vfw32.lib")
+#pragma endregion
+
+
+#pragma region FMOD_Sound
+#include "..\\WindowEngine_SOURCE\\FMOD\\inc\\fmod.h"
+#include "..\\WindowEngine_SOURCE\\FMOD\\inc\\fmod.hpp"
+#pragma comment(lib, "..\\WindowEngine_SOURCE\\FMOD\\lib\\x64\\fmod_vc.lib")
+
+//#include <mmsystem.h>
+//#include <dsound.h>
+//#pragma comment(lib, "winmm.lib")
+//#pragma comment(lib, "dsound.lib")
+
 #pragma endregion
 

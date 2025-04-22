@@ -10,6 +10,7 @@
 #include "CEventManager.h"
 #include "CDataManager.h"
 #include "CObjectManager.h"
+#include "CSoundManager.h"
 
 //#include "CRenderer.h"
 
@@ -29,18 +30,20 @@ namespace Framework
 		m_hdc = ::GetDC(m_hwnc);
 
 		//GET_SINGLE(DATA).Initialize();
+		GET_SINGLE(SOUND).Initialize();
 		GET_SINGLE(RENDER).Initialize(hWnd, width, height, xPos, yPos, winStyle, menu, screen);
 		GET_SINGLE(INPUT).Initialize(hWnd);
-		GET_SINGLE(INPUT).Initialize(hWnd);
 		GET_SINGLE(TIME).Initialize();
-		GET_SINGLE(UI).Initialize();
-		GET_SINGLE(SCENE).Initialize();
-		GET_SINGLE(COLLISION).Initialize();
-		GET_SINGLE(EVENT).Initialize();
-		GET_SINGLE(OBJECT).Initialize();
 		GET_SINGLE(RESOURCE).Initialize();
 
-		//GET_SINGLE(INPUT).SetResolution(GET_SINGLE(RENDER).GetResolution());
+		GET_SINGLE(OBJECT).Initialize();
+		GET_SINGLE(COLLISION).Initialize();
+
+		GET_SINGLE(EVENT).Initialize();
+
+		GET_SINGLE(UI).Initialize();
+		GET_SINGLE(SCENE).Initialize();
+
 	}
 
 	void CApplication::Release()
@@ -51,13 +54,14 @@ namespace Framework
 		GET_SINGLE(EVENT).DestroyInstance();
 		GET_SINGLE(OBJECT).DestroyInstance();
 
+		GET_SINGLE(RENDER).DestroyInstance();
 		GET_SINGLE(UI).DestroyInstance();
 
-		GET_SINGLE(RENDER).DestroyInstance();
-		GET_SINGLE(RESOURCE).DestroyInstance();
-		
 		GET_SINGLE(INPUT).DestroyInstance();
 		GET_SINGLE(TIME).DestroyInstance();
+		GET_SINGLE(SOUND).DestroyInstance();
+		GET_SINGLE(RESOURCE).DestroyInstance();
+
 	}
 
 	void CApplication::Run()
@@ -96,6 +100,7 @@ namespace Framework
 
 		GET_SINGLE(EVENT).Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
 		GET_SINGLE(UI).Tick();
+		//GET_SINGLE(SOUND).Tick();
 
 	}
 
