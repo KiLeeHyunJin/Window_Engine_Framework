@@ -100,7 +100,7 @@ namespace Framework
 
 		GET_SINGLE(EVENT).Tick(); // 예약 실행 (삭제, 추가, 씬 전환, 레이어 변경)
 		GET_SINGLE(UI).Tick();
-		//GET_SINGLE(SOUND).Tick();
+		GET_SINGLE(SOUND).Tick();
 
 	}
 

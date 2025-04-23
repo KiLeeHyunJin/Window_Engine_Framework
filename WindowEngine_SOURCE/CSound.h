@@ -1,5 +1,6 @@
 #pragma once
 #include "CResource.h"
+
 namespace Framework
 {
     namespace Resource
@@ -11,12 +12,15 @@ namespace Framework
             CSound();
             virtual ~CSound();
 
-            FMOD::Sound* GetSound() { return m_pSound; }
-
-
+            FMOD::Sound* GetSound()     const   { return m_pSound;          }
+            UINT GetChannel()           const   { return m_uiChannel;       }
+            void SetChannel(UINT uiChannel)     { m_uiChannel = uiChannel;  }
         private :
-            FMOD::Sound* m_pSound;
-
+            FMOD::Sound* m_pSound   = nullptr;
+            FMOD::DSP* dsplowpass   = nullptr;
+            FMOD::DSP* dsphighpass  = nullptr;
+            //UINT m_eGroup;
+            UINT m_uiChannel        = 0;
 
             // CResource을(를) 통해 상속됨
             HRESULT Load(const std::wstring& wstrPath) override;

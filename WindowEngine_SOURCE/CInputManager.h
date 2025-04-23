@@ -39,10 +39,10 @@ namespace Framework
 			DECLARE_SINGLE(CInputManager)
 			RELEASE_SINGLE(CInputManager)
 		public:
-			__forceinline bool GetKeyDown(eKeyCode key)				{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down;	}
-			__forceinline bool GetKeyUp(eKeyCode key)				{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up;		}
-			__forceinline bool GetKeyPressed(eKeyCode key)			{ return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed; }
-			__forceinline const Maths::Vector2& GetMousePosition()	{ return m_vecMousePos;													}
+			__forceinline bool GetKeyDown(eKeyCode key)				const { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Down;	}
+			__forceinline bool GetKeyUp(eKeyCode key)				const { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Up;		}
+			__forceinline bool GetKeyPressed(eKeyCode key)			const { return m_vecKeys[static_cast<UINT>(key)].state == eKeyState::Pressed; }
+			__forceinline const Maths::Vector2& GetMousePosition()	const { return m_vecMousePos;													}
 			void Render(HDC hdc, int posX, int posY);
 
 			friend class CApplication;

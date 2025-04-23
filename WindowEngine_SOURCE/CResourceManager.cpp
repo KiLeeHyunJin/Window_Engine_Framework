@@ -3,6 +3,7 @@
 #include "CSprite.h"
 #include "CFlipbook.h"
 #include "CTilemap.h"
+#include "CSound.h"
 
 namespace Framework//::Resource
 {
@@ -57,8 +58,25 @@ namespace Framework//::Resource
 			return pCreateResource;
 		}
 
-		void CResourceManager::LoadSound(const std::wstring& key)
+		const CSound* CResourceManager::LoadSound(const std::wstring& key, const std::wstring& path, UINT uiChannel)
 		{
+			const CSound* pSound = CResourceManager::FindSound(key);
+			if (pSound != nullptr)
+			{
+				CSound* findSound = const_cast<CSound*>(pSound);
+				findSound->SetChannel(uiChannel);
+				return pSound;
+			}
+			CSound* pCreateResource = new CSound();
+			Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pCreateResource);
+			if (LoadResource(pParentResource, key, path) == nullptr)
+			{
+				return nullptr;
+			};
+			pCreateResource->SetChannel(uiChannel);
+
+			m_mapSounds.insert(std::make_pair(key, pCreateResource));
+			return pCreateResource;
 		}
 
 
@@ -136,8 +154,14 @@ namespace Framework//::Resource
 			return iter->second;
 		}
 
-		void CResourceManager::FindSound(const std::wstring& key)
+		const CSound* CResourceManager::FindSound(const std::wstring& key)
 		{
+			auto iter = m_mapSounds.find(key);
+			if (iter == m_mapSounds.end())
+			{
+				return nullptr;
+			}
+			return iter->second;
 		}
 
 

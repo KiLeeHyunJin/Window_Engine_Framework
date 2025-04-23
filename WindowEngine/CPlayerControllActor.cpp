@@ -1,7 +1,14 @@
 #include "CPlayerControllActor.h"
 #include "CInputManager.h"
+#include "CSoundManager.h"
+#include "CResourceManager.h"
+
+#include "CSoundChannel.h"
+#include "CSound.h"
+
 #include "CRigidbodyComponent.h"
 #include "CColliderComponent.h"
+
 namespace Framework
 {
 	CPlayerControllActor::CPlayerControllActor(UINT layer) :CActor(layer)
@@ -34,16 +41,38 @@ namespace Framework
 		{
 			addForceDir += Maths::Vector2::Right;
 		}
-		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Up))
-		{
-			addForceDir += Maths::Vector2::Up;
-		}
-		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Down))
-		{
-			addForceDir += Maths::Vector2::Down;
-			//Object::Destroy(GetOwner());
 
+
+		if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Up))
+		{
+			bool state = GET_SINGLE(SOUND).GetLowPass(SOUND::eSoundGroup::Effect);
+			GET_SINGLE(SOUND).SetLowPass(SOUND::eSoundGroup::Effect, !state);
 		}
+		
+		if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Down))
+		{
+			bool state = GET_SINGLE(SOUND).GetHighPass(SOUND::eSoundGroup::Effect);
+			GET_SINGLE(SOUND).SetHighPass(SOUND::eSoundGroup::Effect, !state);
+		}
+
+		if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Space))
+		{
+			const Resource::CSound* pSound = GET_SINGLE(RESOURCE).FindSound(L"sound2");
+			GET_SINGLE(SOUND).SetSoundClip(pSound);
+			GET_SINGLE(SOUND).GetChannel(pSound->GetChannel())->SetVolume(1);
+		}
+
+		else if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Left))
+		{
+			//const Resource::CSound* pSound = GET_SINGLE(RESOURCE).FindSound(L"sound2");
+			//CSoundChannel* channel = GET_SINGLE(SOUND).GetChannel(pSound->GetChannel());
+			//GET_SINGLE(SOUND).ResetPass(SOUND::eSoundGroup::Effect);
+
+			const Resource::CSound* pSound = GET_SINGLE(RESOURCE).FindSound(L"sound2");
+			CSoundChannel* pChannel =  GET_SINGLE(SOUND).GetChannel((UINT)SOUND::eSoundGroup::Background);
+			pChannel->SetSoundClip(pSound, false);
+		}
+
 		if (addForceDir.HasValue())
 		{
 			addForceDir.Normalize();
