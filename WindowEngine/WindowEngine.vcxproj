@@ -160,11 +160,12 @@
   <ItemGroup>
     <ClInclude Include="CDevScene.h" />
     <ClInclude Include="CDummy.h" />
+    <ClInclude Include="CGameControllActor.h" />
     <ClInclude Include="CPlayerControllActor.h" />
     <ClInclude Include="CPlayerInput.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CTitleScene.h" />
-    <ClInclude Include="ContentsEnums.h" />
+    <ClInclude Include="ContentEnums.h" />
     <ClInclude Include="LoadResource.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="LoadUI.h" />
@@ -173,6 +174,7 @@
   <ItemGroup>
     <ClCompile Include="CDevScene.cpp" />
     <ClCompile Include="CDummy.cpp" />
+    <ClCompile Include="CGameControllActor.cpp" />
     <ClCompile Include="CPlayerControllActor.cpp" />
     <ClCompile Include="CPlayerInput.cpp" />
     <ClCompile Include="CPlayScene.cpp" />

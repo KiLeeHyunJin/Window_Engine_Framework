@@ -53,7 +53,7 @@ namespace Framework
 				m_bArryCollision == nullptr)
 			{
 				int a = 5;
-				assert(1);
+				assert(false);
 				return;
 			}
 

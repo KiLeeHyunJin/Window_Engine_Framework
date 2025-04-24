@@ -12,7 +12,7 @@ Framework::CTransformComponent::~CTransformComponent()
 
 void Framework::CTransformComponent::BeginPlay()
 {
-	assert(true);
+	assert(false);
 }
 
 void Framework::CTransformComponent::Release()

@@ -28,9 +28,17 @@ namespace Framework
 				delete pChannel;
 			}
 			m_vecChannels.clear();
+			m_vecGroups.clear();
 
 			m_pSystem->close();
 			m_pSystem->release();
+
+			m_vecDspCompressor.clear();
+			m_vecDspHighpass.clear();
+			m_vecDspLowpass.clear();
+
+			m_pSystem = nullptr;
+			m_pMasterGroup = nullptr;
 		}
 
 		void CSoundManager::Tick()
@@ -48,13 +56,13 @@ namespace Framework
 
 		void CSoundManager::CreateGroup()
 		{
-			m_pSystem->getMasterChannelGroup(&masterGroup);
+			m_pSystem->getMasterChannelGroup(&m_pMasterGroup);
 
 			m_vecChannels.resize(SOUND_MAX_CHANNEL);
 			for (UINT i = 0; i < m_vecChannels.size(); i++)
 			{
 				m_vecChannels[i] = new CSoundChannel();
-				m_vecChannels[i]->Initialize(i, masterGroup);
+				m_vecChannels[i]->Initialize(i, m_pMasterGroup);
 			}
 
 			m_vecGroups			.resize((UINT)eSoundGroup::Size);
@@ -83,7 +91,9 @@ namespace Framework
 			}
 
 			for (auto group : m_vecGroups)
-			{	masterGroup->addGroup(group);	}
+			{
+				m_pMasterGroup->addGroup(group);	
+			}
 
 		}
 

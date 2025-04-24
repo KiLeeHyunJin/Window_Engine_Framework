@@ -12,9 +12,6 @@ namespace Framework
         }
         HRESULT CSound::Load(const std::wstring& wstrPath)
         {
-            //std::wstring mediaPrefix = L"..//Resources//Sound//";
-            //std::wstring path = mediaPrefix.append(wstrPath);
-            
             char str[255];
 			wcstombs_s(nullptr, str, wstrPath.c_str(), 255);
             GET_SINGLE(SOUND).GetSystem()->createSound(str, FMOD_DEFAULT, 0, &m_pSound);

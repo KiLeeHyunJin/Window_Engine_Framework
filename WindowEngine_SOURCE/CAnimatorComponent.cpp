@@ -113,13 +113,13 @@ namespace Framework
 			}
 			else
 			{
-				assert(1);
+				assert(false);
 			}
 #pragma endregion
 
 			size = (UINT)vecImgs.size();
 			if (size == 0)
-			{	assert(1);	}
+			{	assert(false);	}
 
 			UINT imgWidth = 0;
 			UINT imgHeigth = 0;

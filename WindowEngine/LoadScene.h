@@ -2,15 +2,13 @@
 
 #include "..\\WindowEngine_SOURCE\\CSceneManager.h"
 #include "..\\WindowEngine_SOURCE\\CEventManager.h"
-//#include "..\\WindowEngine_SOURCE\\CDontDestroyOnLoad.h"
 #include "..\\WindowEngine_SOURCE\\CObjectManager.h"
 
 #include "CPlayScene.h"
 #include "CTitleScene.h"
 #include "CDevScene.h"
 
-#include "ContentsEnums.h"
-#include "..\\WindowEngine_SOURCE\\Enums.h"
+#include "ContentEnums.h"
 
 namespace Framework
 {

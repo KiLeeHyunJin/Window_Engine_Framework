@@ -5,7 +5,7 @@
 
 #include "Object.h"
 #include "CRenderer.h"
-#include "ContentsEnums.h"
+#include "ContentEnums.h"
 
 #include "CResourceManager.h"
 #include "CCollisionManager.h"

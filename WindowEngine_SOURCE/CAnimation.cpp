@@ -175,7 +175,7 @@ namespace Framework
 	//	m_pTexture = const_cast<CTexture*>(spriteSheet);
 	//	m_fDuration = duration;
 	//	if (m_pTexture->GetCount() < spriteLength)
-	//	{	assert(true);	}
+	//	{	assert(false);	}
 
 	//	SetName(name);
 	//	const auto& sizes = m_pTexture->GetSpriteSize();

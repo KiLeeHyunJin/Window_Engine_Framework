@@ -12,7 +12,7 @@ enum class eMap
 
 enum class eLayer
 {
-	None,
+	None,			//각종 매니저 및 환경
 	Sky,			//하늘
 	BackGround,		//배경
 	Environment,	//환경

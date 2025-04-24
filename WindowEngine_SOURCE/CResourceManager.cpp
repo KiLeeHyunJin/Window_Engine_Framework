@@ -46,7 +46,7 @@ namespace Framework//::Resource
 			const CTexture* pTexture = CResourceManager::FindTexture(key);
 			if (pTexture != nullptr)
 			{
-				return nullptr;
+				return pTexture;
 			}
 			CTexture* pCreateResource = new CTexture();
 			Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pCreateResource);
@@ -61,22 +61,24 @@ namespace Framework//::Resource
 		const CSound* CResourceManager::LoadSound(const std::wstring& key, const std::wstring& path, UINT uiChannel)
 		{
 			const CSound* pSound = CResourceManager::FindSound(key);
+			CSound* resourceSound = nullptr;
 			if (pSound != nullptr)
 			{
-				CSound* findSound = const_cast<CSound*>(pSound);
-				findSound->SetChannel(uiChannel);
-				return pSound;
+				resourceSound = const_cast<CSound*>(pSound);
 			}
-			CSound* pCreateResource = new CSound();
-			Resource::CResource* pParentResource = static_cast<Resource::CResource*>(pCreateResource);
-			if (LoadResource(pParentResource, key, path) == nullptr)
+			else
 			{
-				return nullptr;
-			};
-			pCreateResource->SetChannel(uiChannel);
+				resourceSound = new CSound();
+				Resource::CResource* pParentResource = static_cast<Resource::CResource*>(resourceSound);
+				if (LoadResource(pParentResource, key, path) == nullptr)
+				{
+					return nullptr;
+				};
+				m_mapSounds.insert(std::make_pair(key, resourceSound));
+			}
+			resourceSound->SetChannel(uiChannel);
 
-			m_mapSounds.insert(std::make_pair(key, pCreateResource));
-			return pCreateResource;
+			return resourceSound;
 		}
 
 

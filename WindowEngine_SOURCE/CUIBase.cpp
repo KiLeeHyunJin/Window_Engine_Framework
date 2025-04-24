@@ -48,7 +48,7 @@ namespace Framework
 			pUI->SetIndex(-1);
 			iter = m_vecChilds.erase(iter);
 		}
-		assert(1);
+		assert(false);
 		/// 자식 어떻게 할지와 재 호출 시 구조를 어떻게 조정할지 
 	}
 

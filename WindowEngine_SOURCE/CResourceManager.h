@@ -57,7 +57,7 @@ namespace Framework//::Resource
 			{
 				if (FAILED(pResource->Load(path)))
 				{
-					assert(true);
+					assert(false);
 					SAFE_DELETE(pResource);
 					return nullptr;
 				}

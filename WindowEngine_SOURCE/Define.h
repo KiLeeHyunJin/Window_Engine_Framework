@@ -1,6 +1,6 @@
 #pragma once
 
-static const INT SOUND_MAX_CHANNEL = 32;
+static const int SOUND_MAX_CHANNEL = 32;
 
 static const float DELTA_TICK	= 0.016f;
 

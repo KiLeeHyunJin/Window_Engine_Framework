@@ -90,7 +90,7 @@ namespace Framework
 			//return CColliderComponent::CheckCollisionBoxToCircle(this, other);
 
 		case Framework::CColliderComponent::eColliderType::None:
-			assert(true);
+			assert(false);
 			break;
 		default:
 			break;

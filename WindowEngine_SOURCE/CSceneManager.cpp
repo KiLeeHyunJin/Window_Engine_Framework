@@ -93,7 +93,7 @@ namespace Framework
 		{
 			if (m_vecScenes.size() <= idx)
 			{
-				assert(true);
+				assert(false);
 			}
 			CScene* pScene = m_vecScenes[idx];
 			//std::map<std::wstring, CScene*>::iterator iter = m_mapScene.find(name);

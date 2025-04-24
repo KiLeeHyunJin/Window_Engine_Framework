@@ -46,7 +46,7 @@ namespace Framework
 				else//존재하는 아이디
 				{
 					int a = 5;
-					assert(true);
+					assert(false);
 				}
 			}
 		}

@@ -12,7 +12,7 @@
 
 #include "CRenderer.h"
 #include "CTexture.h"
-#include "ContentsEnums.h"
+#include "ContentEnums.h"
 
 #include "CPlayerInput.h"
 #include "CDummy.h"

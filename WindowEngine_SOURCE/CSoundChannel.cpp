@@ -17,7 +17,6 @@ namespace Framework
 
 		ss << "Group " << channelNum;
 		std::string result = ss.str();
-		m_pChannel->setChannelGroup(masterGroup);
 	}
 
 	void CSoundChannel::SetGroup(SOUND::eSoundGroup group)

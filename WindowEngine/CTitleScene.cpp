@@ -16,7 +16,7 @@
 #include "CButton.h"
 #include "CUIBase.h"
 
-#include "ContentsEnums.h"
+#include "ContentEnums.h"
 
 Framework::CTitleScene::CTitleScene()
 {
