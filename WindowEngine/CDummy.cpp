@@ -9,7 +9,6 @@
 #include "CEventManager.h"
 
 #include "CActor.h"
-#include "Utils.h"
 
 namespace Framework
 {

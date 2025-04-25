@@ -1,5 +1,5 @@
 #include "CSprite.h"
-#include "Enums.h"
+
 #include "CTexture.h"
 namespace Framework
 {

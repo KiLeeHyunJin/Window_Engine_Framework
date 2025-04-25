@@ -8,6 +8,7 @@ Framework::CSpriteRendererComponent::CSpriteRendererComponent() :
 	CComponent(Enums::eComponentType::SpriteRenderer),
 	m_pTexture(nullptr), m_vecScale(Maths::Vector2::One)
 {
+	assert(false);
 }
 
 Framework::CSpriteRendererComponent::~CSpriteRendererComponent()

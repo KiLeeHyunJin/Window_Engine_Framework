@@ -8,11 +8,10 @@
 #include "CRigidbodyComponent.h"
 #include "CColliderComponent.h"
 #include "CRenderManager.h"
-#include "Structs.h"
+
 #include "CActor.h"
 
 #include "Object.h"
-#include "Utils.h"
 
 namespace Framework
 {

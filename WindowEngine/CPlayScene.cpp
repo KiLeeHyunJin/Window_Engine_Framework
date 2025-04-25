@@ -11,17 +11,19 @@
 #include "CRigidbodyComponent.h"
 
 #include "CRenderer.h"
+#include "CFlipbook.h"
 #include "CTexture.h"
 #include "ContentEnums.h"
 
 #include "CPlayerInput.h"
 #include "CDummy.h"
 
+#include "CActor.h"
 #include "CSpriteActor.h"
-#include "CFlipbook.h"
 #include "CFlipbookActor.h"
 #include "CPlayerControllActor.h"
-#include "CActor.h"
+#include "CGameControllActor.h"
+
 
 Framework::CPlayScene::CPlayScene()
 {
@@ -34,6 +36,7 @@ Framework::CPlayScene::~CPlayScene()
 void Framework::CPlayScene::Initialize()
 {
 	const Resource::CTexture* pTexture = GET_SINGLE(RESOURCE).FindTexture(L"Room");
+	//GET_SINGLE(OBJECT).CreateObject<CGameControllActor>((UINT)eLayer::None, true);
 
 	
 }

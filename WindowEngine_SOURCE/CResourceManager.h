@@ -68,7 +68,7 @@ namespace Framework//::Resource
 
 			void Release();
 
-			std::map<const std::wstring, CResource*> m_mapResoucres = {};
+			//std::map<const std::wstring, CResource*> m_mapResoucres = {};
 
 			std::map<const std::wstring, CTexture*> m_mapTextures	= {};
 			std::map<const std::wstring, CSprite*> m_mapSprites		= {};

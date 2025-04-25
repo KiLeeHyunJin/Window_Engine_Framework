@@ -2,7 +2,7 @@
 #include "CComponent.h"
 #include "math.h"
 #include "CRenderManager.h"
-#include "Define.h"
+
 namespace Framework
 {
 	using namespace Maths;

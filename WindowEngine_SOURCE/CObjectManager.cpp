@@ -22,31 +22,43 @@ namespace Framework
 
 		void CObjectManager::AddActor(CActor* pActor)
 		{
+			pActor->Initialize();
 			AddActorID(pActor);
 			AddInLayer(pActor);
+			pActor->BeginPlay();
 		}
 
 		void CObjectManager::AddActorID(CActor* pActor)
 		{
-			const UINT32 id = pActor->GetID();
-
+			const UINT32 id = GET_SINGLE(TIME).GetRandom();
 			auto iter = m_unObjects.find(id);
 			if (iter == m_unObjects.end())			//존재 하지 않는 아이디
 			{
 				m_unObjects.insert(std::make_pair(id, pActor));
+				return;
 			}
-			else
+
+			UINT32 _id = iter->first;
+			CActor* target = iter->second;
+			if (target == nullptr)		//소멸된 아이디
 			{
-				UINT32 _id = iter->first;
-				CActor* target = iter->second;
-				if (target == nullptr)		//소멸된 아이디
+				iter->second = pActor;
+				return;
+			}
+			
+			if (target == pActor)
+			{	return;		}
+
+			assert(false);
+			while (true)
+			{
+				const UINT32 newID = GET_SINGLE(TIME).GetRandom();
+				auto iter = m_unObjects.find(newID);
+				if (iter == m_unObjects.end())			//존재 하지 않는 아이디
 				{
-					iter->second = pActor;
-				}
-				else//존재하는 아이디
-				{
-					int a = 5;
-					assert(false);
+					pActor->SetID(newID);
+					m_unObjects.insert(std::make_pair(newID, pActor));
+					break;
 				}
 			}
 		}
@@ -90,11 +102,11 @@ namespace Framework
 		{
 			for (auto layer : m_vecLayer)
 			{
-				layer->Destroy();
+				layer->DestroyActor();
 			}
 			for (auto layer : m_vecDontDestoryLayer)
 			{
-				layer->Destroy();
+				layer->DestroyActor();
 			}
 		}
 

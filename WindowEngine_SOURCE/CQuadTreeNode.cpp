@@ -9,7 +9,7 @@
 #include "CRenderer.h"
 
 #include "CActor.h"
-#include "Utils.h"
+
 namespace Framework
 {
 	CQuadTreeNode::CQuadTreeNode(CQuadTree* tree, CQuadTreeNode* parent,const Vector2& center, const Vector2& size, int depth)

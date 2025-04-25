@@ -1,6 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
-#include "Define.h"
+
 
 
 namespace Framework
@@ -35,20 +35,20 @@ namespace Framework
 			void SetGroup(std::vector<eSoundGroup>& channelGroups);
 
 			FMOD::System*		GetSystem()						const { return m_pSystem;									}
-			CSoundChannel*		GetChannel(UINT channelNum)		const { return m_vecChannels[channelNum];					}
 			FMOD::ChannelGroup* GetGroup(eSoundGroup eGroup)	const { return m_vecGroups[(UINT)eGroup];					}
+			CSoundChannel*		GetChannel(UINT channelNum)		const { return m_vecChannels[channelNum];					}
 
-			void SetVolume(float fVolume)						{ m_pMasterGroup->setVolume(Maths::Clamp<FLOAT>(fVolume, 0, 1));}
-			void SetPitch(float fPitch)							{ m_pMasterGroup->setPitch(fPitch);							}
-			void SetMute(bool state)							{ m_pMasterGroup->setMute(state);								}
-			void SetPaused(bool state)							{ m_pMasterGroup->setPaused(state);							}
-			void SetLowPass(eSoundGroup eGroup, bool state)		{ m_vecDspLowpass[(UINT)eGroup]->setBypass(state);			}
-			void SetHighPass(eSoundGroup eGroup, bool state)	{ m_vecDspHighpass[(UINT)eGroup]->setBypass(state);			}
+			void SetMasterVolume(float fVolume)						{ m_pMasterGroup->setVolume(Maths::Clamp<FLOAT>(fVolume, 0, 1));}
+			void SetMasterPitch(float fPitch)						{ m_pMasterGroup->setPitch(fPitch);								}
+			void SetMasterMute(bool state)							{ m_pMasterGroup->setMute(state);								}
+			void SetMasterPaused(bool state)						{ m_pMasterGroup->setPaused(state);								}
+			void SetLowPass(eSoundGroup eGroup, bool state)			{ m_vecDspLowpass[(UINT)eGroup]->setBypass(state);				}
+			void SetHighPass(eSoundGroup eGroup, bool state)		{ m_vecDspHighpass[(UINT)eGroup]->setBypass(state);				}
 
-			void GetVolume(float* fVolume)			const		{ m_pMasterGroup->getVolume(fVolume);							}
-			void GetPitch(float* fPitch)			const		{ m_pMasterGroup->getPitch(fPitch);							}
-			void GetMute(bool* bMute)				const		{ m_pMasterGroup->getMute(bMute);								}
-			void GetPaused(bool* bPaused)			const		{ m_pMasterGroup->getPaused(bPaused);							}
+			void GetMasterVolume(float* fVolume)			const	{ m_pMasterGroup->getVolume(fVolume);							}
+			void GetMasterPitch(float* fPitch)			const		{ m_pMasterGroup->getPitch(fPitch);								}
+			void GetMasterMute(bool* bMute)				const		{ m_pMasterGroup->getMute(bMute);								}
+			void GetMasterPaused(bool* bPaused)			const		{ m_pMasterGroup->getPaused(bPaused);							}
 			bool GetLowPass(eSoundGroup eGroup)		const;
 			bool GetHighPass(eSoundGroup eGroup)	const;
 

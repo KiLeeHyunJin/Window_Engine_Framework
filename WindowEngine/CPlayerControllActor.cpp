@@ -25,13 +25,12 @@ namespace Framework
 	bool CPlayerControllActor::Tick()
 	{
 		SUPER::Tick();
-		const float speed = 20;
-		//const float TickComponentTime = GET_SINGLE(TIME).DeltaTime();
-		const float movePower = speed * 5;
+
 		CRigidbodyComponent* rigid = GetComponent<CRigidbodyComponent>();
 		if (rigid == nullptr)
 		{		return true;		}
-		Maths::Vector2 addForceDir;
+
+		Maths::Vector2 addForceDir = {};
 
 		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Left))
 		{
@@ -41,6 +40,24 @@ namespace Framework
 		{
 			addForceDir += Maths::Vector2::Right;
 		}
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Up))
+		{
+			addForceDir += Maths::Vector2::Up;
+		}
+		if (GET_SINGLE(INPUT).GetKeyPressed(eKeyCode::Down))
+		{
+			addForceDir += Maths::Vector2::Down;
+		}
+
+		if (addForceDir.HasValue())
+		{
+			const float speed = 20;
+			const float movePower = speed * 5;
+
+			addForceDir.Normalize();
+			rigid->SetVelocity(addForceDir * movePower);
+		}
+
 
 
 		if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Up))
@@ -59,25 +76,9 @@ namespace Framework
 		{
 			const Resource::CSound* pSound = GET_SINGLE(RESOURCE).FindSound(L"sound2");
 			GET_SINGLE(SOUND).SetSoundClip(pSound);
-			GET_SINGLE(SOUND).GetChannel(pSound->GetChannel())->SetVolume(1);
+			//GET_SINGLE(SOUND).GetChannel(pSound->GetChannel())->SetVolume(1);
 		}
 
-		else if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Left))
-		{
-			//const Resource::CSound* pSound = GET_SINGLE(RESOURCE).FindSound(L"sound2");
-			//CSoundChannel* channel = GET_SINGLE(SOUND).GetChannel(pSound->GetChannel());
-			//GET_SINGLE(SOUND).ResetPass(SOUND::eSoundGroup::Effect);
-
-			const Resource::CSound* pSound = GET_SINGLE(RESOURCE).FindSound(L"sound2");
-			CSoundChannel* pChannel =  GET_SINGLE(SOUND).GetChannel((UINT)SOUND::eSoundGroup::Background);
-			pChannel->SetSoundClip(pSound, false);
-		}
-
-		if (addForceDir.HasValue())
-		{
-			addForceDir.Normalize();
-			rigid->SetVelocity(addForceDir * movePower);
-		}
 		return true;
 	}
 	bool CPlayerControllActor::LastTick()
@@ -124,6 +125,10 @@ namespace Framework
 		m_color.r = 0;
 		m_color.g = 0;
 		m_color.b = 255;
+	}
+
+	void CPlayerControllActor::Initialize()
+	{
 	}
 
 }

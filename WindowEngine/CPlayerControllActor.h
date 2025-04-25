@@ -1,6 +1,6 @@
 #pragma once
 #include "CActor.h"
-#include "Structs.h"
+
 //#include "..//WindowEngine_SOURCE//CActor.h"
 namespace Framework
 {
@@ -31,6 +31,10 @@ namespace Framework
 
 
 		// CActor을(를) 통해 상속됨
+
+
+		// CActor을(를) 통해 상속됨
+		void Initialize() override;
 
 	};
 

@@ -2,58 +2,58 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
-      <Filter>02.Asset\Scene</Filter>
+      <Filter>02.Asset\02.Scene</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
       <Filter>01.Component</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.h.cpp">
-      <Filter>02.Asset\Resource</Filter>
+      <Filter>02.Asset\03.Resource</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
-      <Filter>02.Asset\Resource\Texture</Filter>
+      <Filter>02.Asset\03.Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp">
       <Filter>00.Core</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCustomComponent.cpp">
-      <Filter>01.Component\Custom</Filter>
+      <Filter>01.Component\00.Custom</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransformComponent.cpp">
-      <Filter>01.Component\Transform</Filter>
+      <Filter>01.Component\99.NotUsedComponent\Transform</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteRendererComponent.cpp">
-      <Filter>01.Component\SpriteRenderer</Filter>
+      <Filter>01.Component\99.NotUsedComponent\SpriteRenderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCameraComponent.cpp">
-      <Filter>01.Component\Camera</Filter>
+      <Filter>01.Component\01.Camera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Maths.cpp">
-      <Filter>99.Headers\Maths</Filter>
+      <Filter>99.Headers\01.Maths</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimatorComponent.cpp">
-      <Filter>01.Component\Animator</Filter>
+      <Filter>01.Component\99.NotUsedComponent\Animator</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimation.cpp">
-      <Filter>02.Asset\Resource\Animation</Filter>
+      <Filter>02.Asset\03.Resource\Animation</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp">
-      <Filter>02.Asset\Entity</Filter>
+      <Filter>02.Asset\00.Entity</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CColliderComponent.cpp">
-      <Filter>01.Component\Collider</Filter>
+      <Filter>01.Component\03.Collider</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CBoxColliderComponent.cpp">
-      <Filter>01.Component\Collider\Box</Filter>
+      <Filter>01.Component\03.Collider\Box</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.cpp">
-      <Filter>01.Component\Collider\Circle</Filter>
+      <Filter>01.Component\03.Collider\Circle</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.cpp">
-      <Filter>01.Component\Rigidbody</Filter>
+      <Filter>01.Component\02.Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CQuadTreeManager.cpp">
       <Filter>00.Core\Manager\Collision\CQuadTree</Filter>
@@ -65,10 +65,10 @@
       <Filter>00.Core\Manager\Collision\CQuadTree\Tree</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CUIBase.cpp">
-      <Filter>02.Asset\UI</Filter>
+      <Filter>02.Asset\05.UI</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CButton.cpp">
-      <Filter>02.Asset\UI\Button</Filter>
+      <Filter>02.Asset\05.UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
       <Filter>00.Core\Manager\Collision</Filter>
@@ -98,28 +98,28 @@
       <Filter>00.Core\Manager\Object\Layer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Utils.cpp">
-      <Filter>99.Headers\Utils</Filter>
+      <Filter>99.Headers\00.Utils</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CDataManager.cpp">
       <Filter>00.Core\Manager\Data</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CData.cpp">
-      <Filter>02.Asset\Resource\Data</Filter>
+      <Filter>02.Asset\03.Resource\Data</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSprite.cpp">
-      <Filter>02.Asset\Resource\Sprite</Filter>
+      <Filter>02.Asset\03.Resource\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CActor.cpp">
-      <Filter>02.Asset\Actor\Actor</Filter>
+      <Filter>02.Asset\01.Actor\00.Actor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSpriteActor.cpp">
-      <Filter>02.Asset\Actor\SpriteActor</Filter>
+      <Filter>02.Asset\01.Actor\01.SpriteActor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbookActor.cpp">
-      <Filter>02.Asset\Actor\FlipbookActor</Filter>
+      <Filter>02.Asset\01.Actor\02.FlipbookActor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CFlipbook.cpp">
-      <Filter>02.Asset\Resource\Flipbook</Filter>
+      <Filter>02.Asset\03.Resource\Flipbook</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CObjectManager.cpp">
       <Filter>00.Core\Manager\Object</Filter>
@@ -128,16 +128,16 @@
       <Filter>00.Core\Manager\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTilemap.cpp">
-      <Filter>02.Asset\Tilemap</Filter>
+      <Filter>02.Asset\04.Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTilemapActor.cpp">
-      <Filter>02.Asset\Tilemap</Filter>
+      <Filter>02.Asset\04.Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CLineComponent.cpp">
-      <Filter>01.Component\Line</Filter>
+      <Filter>01.Component\04.Line</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSound.cpp">
-      <Filter>02.Asset\Resource\Sound</Filter>
+      <Filter>02.Asset\03.Resource\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSoundChannel.cpp">
       <Filter>00.Core\Manager\Sound\SoundChannel</Filter>
@@ -145,7 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
-      <Filter>02.Asset\Scene</Filter>
+      <Filter>02.Asset\02.Scene</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
       <Filter>01.Component</Filter>
@@ -157,55 +157,55 @@
       <Filter>99.Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.h">
-      <Filter>02.Asset\Actor</Filter>
+      <Filter>02.Asset\01.Actor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
-      <Filter>02.Asset\Resource</Filter>
+      <Filter>02.Asset\03.Resource</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
-      <Filter>02.Asset\Resource\Texture</Filter>
+      <Filter>02.Asset\03.Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h">
       <Filter>00.Core</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCustomComponent.h">
-      <Filter>01.Component\Custom</Filter>
+      <Filter>01.Component\00.Custom</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransformComponent.h">
-      <Filter>01.Component\Transform</Filter>
+      <Filter>01.Component\99.NotUsedComponent\Transform</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSpriteRendererComponent.h">
-      <Filter>01.Component\SpriteRenderer</Filter>
+      <Filter>01.Component\99.NotUsedComponent\SpriteRenderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCameraComponent.h">
-      <Filter>01.Component\Camera</Filter>
+      <Filter>01.Component\01.Camera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Maths.h">
-      <Filter>99.Headers\Maths</Filter>
+      <Filter>99.Headers\01.Maths</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimatorComponent.h">
-      <Filter>01.Component\Animator</Filter>
+      <Filter>01.Component\99.NotUsedComponent\Animator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimation.h">
-      <Filter>02.Asset\Resource\Animation</Filter>
+      <Filter>02.Asset\03.Resource\Animation</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h">
-      <Filter>02.Asset\Entity</Filter>
+      <Filter>02.Asset\00.Entity</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CColliderComponent.h">
-      <Filter>01.Component\Collider</Filter>
+      <Filter>01.Component\03.Collider</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CBoxColliderComponent.h">
-      <Filter>01.Component\Collider\Box</Filter>
+      <Filter>01.Component\03.Collider\Box</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCircleColliderComponent.h">
-      <Filter>01.Component\Collider\Circle</Filter>
+      <Filter>01.Component\03.Collider\Circle</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CRigidbodyComponent.h">
-      <Filter>01.Component\Rigidbody</Filter>
+      <Filter>01.Component\02.Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CQuadTreeManager.h">
       <Filter>00.Core\Manager\Collision\CQuadTree</Filter>
@@ -217,10 +217,10 @@
       <Filter>00.Core\Manager\Collision\CQuadTree\Tree</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CUIBase.h">
-      <Filter>02.Asset\UI</Filter>
+      <Filter>02.Asset\05.UI</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CButton.h">
-      <Filter>02.Asset\UI\Button</Filter>
+      <Filter>02.Asset\05.UI\Button</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
       <Filter>00.Core\Manager\Collision</Filter>
@@ -244,10 +244,10 @@
       <Filter>00.Core\Manager\UI</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ColliderStruct.h">
-      <Filter>99.Headers\Struct</Filter>
+      <Filter>99.Headers\02.Struct</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Structs.h">
-      <Filter>99.Headers\Struct</Filter>
+      <Filter>99.Headers\02.Struct</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CEventManager.h">
       <Filter>00.Core\Manager\Event</Filter>
@@ -262,28 +262,28 @@
       <Filter>99.Headers</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utils.h">
-      <Filter>99.Headers\Utils</Filter>
+      <Filter>99.Headers\00.Utils</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CDataManager.h">
       <Filter>00.Core\Manager\Data</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CData.h">
-      <Filter>02.Asset\Resource\Data</Filter>
+      <Filter>02.Asset\03.Resource\Data</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSprite.h">
-      <Filter>02.Asset\Resource\Sprite</Filter>
+      <Filter>02.Asset\03.Resource\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CActor.h">
-      <Filter>02.Asset\Actor\Actor</Filter>
+      <Filter>02.Asset\01.Actor\00.Actor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSpriteActor.h">
-      <Filter>02.Asset\Actor\SpriteActor</Filter>
+      <Filter>02.Asset\01.Actor\01.SpriteActor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbookActor.h">
-      <Filter>02.Asset\Actor\FlipbookActor</Filter>
+      <Filter>02.Asset\01.Actor\02.FlipbookActor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CFlipbook.h">
-      <Filter>02.Asset\Resource\Flipbook</Filter>
+      <Filter>02.Asset\03.Resource\Flipbook</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CObjectManager.h">
       <Filter>00.Core\Manager\Object</Filter>
@@ -292,16 +292,16 @@
       <Filter>00.Core\Manager\Sound</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTilemap.h">
-      <Filter>02.Asset\Tilemap</Filter>
+      <Filter>02.Asset\04.Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTilemapActor.h">
-      <Filter>02.Asset\Tilemap</Filter>
+      <Filter>02.Asset\04.Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CLineComponent.h">
-      <Filter>01.Component\Line</Filter>
+      <Filter>01.Component\04.Line</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSound.h">
-      <Filter>02.Asset\Resource\Sound</Filter>
+      <Filter>02.Asset\03.Resource\Sound</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSoundChannel.h">
       <Filter>00.Core\Manager\Sound\SoundChannel</Filter>
@@ -353,92 +353,14 @@
     <Filter Include="01.Component">
       <UniqueIdentifier>{23761ff3-6959-47bb-a5f3-7cf1a71f9afe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Component\Custom">
-      <UniqueIdentifier>{5ba19ecf-587f-4914-a030-e27f6a3c3061}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Transform">
-      <UniqueIdentifier>{1e645297-7b6b-4eb7-9a5b-f7ba257344a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\SpriteRenderer">
-      <UniqueIdentifier>{57842b53-7066-4ad9-9089-2896dd2e17a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Camera">
-      <UniqueIdentifier>{4a604509-e6b9-4b67-b041-dc23d1a814d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Animator">
-      <UniqueIdentifier>{2af5b19b-c293-4b4b-b82f-106019827265}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Collider">
-      <UniqueIdentifier>{35fb4347-1517-4511-b561-05378f5f9138}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Collider\Box">
-      <UniqueIdentifier>{60fd75ed-6e3d-409d-97d9-0e0d36270ff7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Collider\Circle">
-      <UniqueIdentifier>{55549cf3-dae8-4175-97f6-3370ed7d68ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Rigidbody">
-      <UniqueIdentifier>{3454a006-08ea-423e-9df4-59ab6218c72d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Asset">
       <UniqueIdentifier>{27c7c084-fbec-4fbd-bb3b-1a78796946f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Scene">
-      <UniqueIdentifier>{9424293a-d966-4c38-85c7-1d0b96f312cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Resource">
-      <UniqueIdentifier>{39bc4c31-b606-48c4-9eb1-fc1cae01cf46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Resource\Texture">
-      <UniqueIdentifier>{94ab9566-4190-45f6-acca-184e9e07efaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Resource\Animation">
-      <UniqueIdentifier>{d0b94a87-555f-4949-995d-c8c521eb7977}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Entity">
-      <UniqueIdentifier>{02f37234-5b08-4c5f-9bde-8ec89b87f375}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\UI">
-      <UniqueIdentifier>{8bf59404-ab4c-4840-84d8-6fbdf119cc3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\UI\Button">
-      <UniqueIdentifier>{46588056-f674-46d3-bd6e-c7112f855b76}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\UI\Panel">
-      <UniqueIdentifier>{d8fdd1f2-2c50-4437-9769-0dac3befa343}</UniqueIdentifier>
     </Filter>
     <Filter Include="99.Headers">
       <UniqueIdentifier>{96f98ce1-2f3f-46cb-8aa6-c10cc54f3771}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99.Headers\Maths">
-      <UniqueIdentifier>{369bb958-1dd3-48f0-9151-835e7d12248d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="99.Headers\Struct">
-      <UniqueIdentifier>{27d569c5-5acc-4b61-80d3-114d9fe1f12a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="99.Headers\Utils">
-      <UniqueIdentifier>{0583fe41-24eb-4333-9c98-27cb20d8b907}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Core\Manager\Data">
       <UniqueIdentifier>{c34273a9-6a57-490b-bb00-f4a0cf4d1c22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Actor">
-      <UniqueIdentifier>{d050dd29-9c10-4fea-bdb3-1bbc0b267fe7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Resource\Data">
-      <UniqueIdentifier>{1e646d8f-b3ca-48ae-878a-4e54792c6b6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Actor\SpriteActor">
-      <UniqueIdentifier>{b6c52bb5-fdb2-42be-bf78-437e18f50e45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Actor\Actor">
-      <UniqueIdentifier>{36cdcdfc-c7c5-420b-8b62-56834079ce56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Actor\FlipbookActor">
-      <UniqueIdentifier>{e5bf3da9-1708-497d-9df2-9ec2ec70cb60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Resource\Flipbook">
-      <UniqueIdentifier>{d07f61d4-d955-432d-ba16-b6b12c3b1f99}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.Core\Manager\Object">
       <UniqueIdentifier>{295832d0-0435-46fe-8ef4-c8045f2e2dcb}</UniqueIdentifier>
@@ -449,23 +371,101 @@
     <Filter Include="00.Core\Manager\Sound">
       <UniqueIdentifier>{d78f7737-0ff5-4f63-9613-c1b39ec8ba50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Asset\Tilemap">
-      <UniqueIdentifier>{32d3c610-1888-4918-9c69-02f1beb53c8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Resource\Sprite">
-      <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Component\Line">
-      <UniqueIdentifier>{be597e7a-91c5-482f-873b-23d9037319d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Core\Manager\NewFilter1">
-      <UniqueIdentifier>{a7fc99c0-7772-4346-a4e0-02e2d4959ac7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Asset\Resource\Sound">
-      <UniqueIdentifier>{dc7fa8c7-7729-4b82-90a3-437b138b2e23}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Core\Manager\Sound\SoundChannel">
       <UniqueIdentifier>{9e1a0565-6330-4d70-9f06-99b0e4e90130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\01.Camera">
+      <UniqueIdentifier>{4a604509-e6b9-4b67-b041-dc23d1a814d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\99.NotUsedComponent">
+      <UniqueIdentifier>{716c832a-8006-4d03-9440-7836425bfbf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\99.NotUsedComponent\Transform">
+      <UniqueIdentifier>{1e645297-7b6b-4eb7-9a5b-f7ba257344a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\99.NotUsedComponent\SpriteRenderer">
+      <UniqueIdentifier>{57842b53-7066-4ad9-9089-2896dd2e17a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\99.NotUsedComponent\Animator">
+      <UniqueIdentifier>{2af5b19b-c293-4b4b-b82f-106019827265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\00.Custom">
+      <UniqueIdentifier>{5ba19ecf-587f-4914-a030-e27f6a3c3061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\02.Rigidbody">
+      <UniqueIdentifier>{3454a006-08ea-423e-9df4-59ab6218c72d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\03.Collider">
+      <UniqueIdentifier>{35fb4347-1517-4511-b561-05378f5f9138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\03.Collider\Box">
+      <UniqueIdentifier>{60fd75ed-6e3d-409d-97d9-0e0d36270ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\03.Collider\Circle">
+      <UniqueIdentifier>{55549cf3-dae8-4175-97f6-3370ed7d68ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Component\04.Line">
+      <UniqueIdentifier>{be597e7a-91c5-482f-873b-23d9037319d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\00.Entity">
+      <UniqueIdentifier>{02f37234-5b08-4c5f-9bde-8ec89b87f375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\01.Actor">
+      <UniqueIdentifier>{d050dd29-9c10-4fea-bdb3-1bbc0b267fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\01.Actor\01.SpriteActor">
+      <UniqueIdentifier>{b6c52bb5-fdb2-42be-bf78-437e18f50e45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\01.Actor\00.Actor">
+      <UniqueIdentifier>{36cdcdfc-c7c5-420b-8b62-56834079ce56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\01.Actor\02.FlipbookActor">
+      <UniqueIdentifier>{e5bf3da9-1708-497d-9df2-9ec2ec70cb60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\02.Scene">
+      <UniqueIdentifier>{9424293a-d966-4c38-85c7-1d0b96f312cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\03.Resource">
+      <UniqueIdentifier>{39bc4c31-b606-48c4-9eb1-fc1cae01cf46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\03.Resource\Texture">
+      <UniqueIdentifier>{94ab9566-4190-45f6-acca-184e9e07efaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\03.Resource\Animation">
+      <UniqueIdentifier>{d0b94a87-555f-4949-995d-c8c521eb7977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\03.Resource\Data">
+      <UniqueIdentifier>{1e646d8f-b3ca-48ae-878a-4e54792c6b6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\03.Resource\Flipbook">
+      <UniqueIdentifier>{d07f61d4-d955-432d-ba16-b6b12c3b1f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\03.Resource\Sprite">
+      <UniqueIdentifier>{9e5c2d45-7bb5-4b22-8485-adb09555ddda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\03.Resource\Sound">
+      <UniqueIdentifier>{dc7fa8c7-7729-4b82-90a3-437b138b2e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\04.Tilemap">
+      <UniqueIdentifier>{32d3c610-1888-4918-9c69-02f1beb53c8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\05.UI">
+      <UniqueIdentifier>{8bf59404-ab4c-4840-84d8-6fbdf119cc3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\05.UI\Button">
+      <UniqueIdentifier>{46588056-f674-46d3-bd6e-c7112f855b76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Asset\05.UI\Panel">
+      <UniqueIdentifier>{d8fdd1f2-2c50-4437-9769-0dac3befa343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Headers\00.Utils">
+      <UniqueIdentifier>{0583fe41-24eb-4333-9c98-27cb20d8b907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Headers\01.Maths">
+      <UniqueIdentifier>{369bb958-1dd3-48f0-9151-835e7d12248d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Headers\02.Struct">
+      <UniqueIdentifier>{27d569c5-5acc-4b61-80d3-114d9fe1f12a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

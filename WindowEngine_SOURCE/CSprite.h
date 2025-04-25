@@ -1,6 +1,6 @@
 #pragma once
 #include "CResource.h"
-#include "Maths.h"
+
 #include "CTexture.h"
 
 namespace Framework

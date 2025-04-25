@@ -1,8 +1,8 @@
 #pragma once
 #include "CComponent.h"
-#include "Utils.h"
+
 #include "CActor.h"
-#include "Define.h"
+
 
 namespace Framework
 {

@@ -3,7 +3,7 @@
 //#include "CTexture.h"
 
 //#include "CRenderManager.h"
-#include "Structs.h"
+
 
 namespace Framework
 {

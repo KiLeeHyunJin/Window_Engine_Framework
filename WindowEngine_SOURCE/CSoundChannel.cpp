@@ -1,7 +1,7 @@
 #include "CSoundChannel.h"
 #include <sstream>
 #include "CSound.h"
-#include "Utils.h"
+
 namespace Framework
 {
 	CSoundChannel::CSoundChannel()

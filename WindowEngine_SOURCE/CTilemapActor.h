@@ -14,6 +14,7 @@ namespace Framework
 		CTilemapActor(UINT32 layer);
 
 		// CActor을(를) 통해 상속됨
+		void		Initialize() override;
 		void		BeginPlay() override;
 		void		Release() override;
 		bool		Tick() override;

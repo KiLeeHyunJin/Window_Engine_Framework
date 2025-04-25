@@ -7,9 +7,11 @@ namespace Framework
         CSound::CSound() : CResource(Enums::eResourceType::AudioClip)
         {
         }
+
         CSound::~CSound()
         {
         }
+
         HRESULT CSound::Load(const std::wstring& wstrPath)
         {
             char str[255];

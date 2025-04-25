@@ -17,6 +17,8 @@
 //C++ 표준 라이브러리
 //#include <clocale>
 //#include <chrono>
+//#include <filesystem>
+
 #include <io.h>
 #include <string>
 
@@ -26,15 +28,22 @@
 
 #include <functional>
 
-//#include <filesystem>
 #pragma endregion
 
 
-#include "Define.h"
-#include "Enums.h"
-#include "Maths.h"
-#include "ColliderStruct.h"
+#pragma region Headers
 
+#include "Types.h"
+
+#include "ColliderStruct.h" // Maths.h가 포함되어있음
+#include "Structs.h"
+
+#include "Enums.h"
+#include "Define.h"
+#include "Utils.h"
+
+
+#pragma endregion
 
 
 #pragma region STL

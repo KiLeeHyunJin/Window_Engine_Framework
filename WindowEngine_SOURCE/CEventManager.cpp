@@ -136,11 +136,17 @@ namespace Framework
 		}
 
 
+
+
+
+		/// <summary>
+		/// EventJob
+		/// </summary>
+
 		void CEventManager::EventAddActor::operator() ()
 		{
 			pObj->SetDontDestroy(bDontDestroy);
 			GET_SINGLE(OBJECT).AddActor(pObj);
-			pObj->BeginPlay();
 		}
 
 		void CEventManager::EventDeleteActor::operator() ()

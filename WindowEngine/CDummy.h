@@ -1,7 +1,7 @@
 #pragma once
 #include "CommonInclude.h"
 #include "CCustomComponent.h"
-#include "Structs.h"
+
 
 namespace Framework
 {

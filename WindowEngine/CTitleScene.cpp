@@ -1,20 +1,21 @@
 #include "CTitleScene.h"
 
 #include "CInputManager.h"
-#include "CPlayScene.h"
-//#include "CSceneManager.h"
 #include "CUIManager.h"
-#include "CEventManager.h"
 
 #include "Object.h"
-#include "CActor.h"
 #include "CRenderer.h"
 
 #include "CCameraComponent.h"
+
 #include "CPlayerInput.h"
+#include "CGameControllActor.h"
+
 
 #include "CButton.h"
 #include "CUIBase.h"
+
+#include "CPlayScene.h"
 
 #include "ContentEnums.h"
 
@@ -28,13 +29,9 @@ Framework::CTitleScene::~CTitleScene()
 
 void Framework::CTitleScene::Initialize()
 {
-	//CActor* pCameraObj = Object::Instantiate<CActor>(Enums::eLayerType::None);
-	//pCameraObj->AddComponent<CPlayerInput>();
-	//CCameraComponent* pCamera = pCameraObj->AddComponent<CCameraComponent>();
+	Object::Instantiate<CGameControllActor>	((UINT)eLayer::None	,L"GameManager"	,true);	//GameManager
 
-	//Renderer::mainCamera = pCamera;
 
-	//Object::Instantiate<CActor>(Enums::eLayerType::BackGround);
 }
 
 void Framework::CTitleScene::Tick()

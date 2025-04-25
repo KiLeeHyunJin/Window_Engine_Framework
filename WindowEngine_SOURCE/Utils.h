@@ -8,6 +8,13 @@ namespace Framework
 		class CSprite;
 	}
 
+	enum class ePivot
+	{
+		LeftTop		= 1,		MiddleTop,		RightTop,
+		LeftMiddle,				Middle,			RightMiddle,
+		LeftBottom,				MiddleBottom,	RightBottom,
+	};
+
 	class Utils
 	{
 	public:

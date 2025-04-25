@@ -1,6 +1,6 @@
 #pragma once
 #include "CEntity.h"
-#include "Enums.h"
+
 
 namespace Framework//::Resource
 {

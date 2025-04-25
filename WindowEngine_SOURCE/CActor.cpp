@@ -12,11 +12,10 @@
 namespace Framework
 {
 	CActor::CActor(UINT layerType) :
-		m_eState(eState::Enable), m_eLayerType(layerType), 
+		m_eState(eState::Enable), m_eLayerType(layerType), m_uiID(0),
 		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),m_fRotatate(0)
 		/*m_pTransform(new CTransformComponent)*/
 	{
-		m_uiID = GET_SINGLE(TIME).GetRandom();
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
 		//m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
 	}
@@ -24,6 +23,13 @@ namespace Framework
 	CActor::~CActor()
 	{	}
 	
+
+	void CActor::Initialize()
+	{	}
+
+	/// <summary>
+	/// 배치후 호출
+	/// </summary>
 	void CActor::BeginPlay()
 	{
 		for (CComponent* pCom : m_vecComponents)
@@ -62,6 +68,8 @@ namespace Framework
 		return state;
 	}
 
+
+
 	bool CActor::LastTick()
 	{
 		for (CComponent* pCom : m_vecComponents)
@@ -84,11 +92,26 @@ namespace Framework
 		}
 		return state;
 	}
-	
-	void CActor::Render(HDC hdc) const
+
+	void CActor::FixedTick()
 	{
-		if (RenderCheck() == false) //화면 안에 없으면 렌더 실행 취소
-		{	return;		}
+		m_vecRenderPosition = GetPosition();
+		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+		if (pCam != nullptr)
+		{
+			m_vecRenderPosition = pCam->CaluatePosition(m_vecRenderPosition);
+			m_bRenderResult = pCam->ScreenInCheck(m_vecRenderPosition, GetScale()); //화면 안에 있는지 결과를 반환
+
+		}
+		assert(false);
+		m_bRenderResult = true;
+	}
+
+	
+	bool CActor::Render(HDC hdc) const
+	{
+		if (GetRenderCheck() == false) //화면 안에 없으면 렌더 실행 취소
+		{	return false;		}
 
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -102,28 +125,10 @@ namespace Framework
 			pCom->Render(hdc);
 		}
 		const Maths::Vector2& pos = GetPosition();
-		Maths::Vector2 absolPos = pos;
-		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-		if (pCam != nullptr)
-		{
-			absolPos = pCam->CaluatePosition(absolPos);
-		}
 
 		std::wstring pointStr = L"Position : ( " + std::to_wstring((int)pos.x) + L", " + std::to_wstring((int)pos.y) + L" )";
 		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)(absolPos.x), (UINT)(absolPos.y + 80), pointStr.c_str(), lenPos);
-	}
-	bool CActor::RenderCheck() const
-	{
-		const Maths::Vector2& pos = GetPosition();
-		const CCameraComponent* mainCam = Renderer::CRenderer::GetMainCamera();
-		if (mainCam != nullptr)
-		{
-			const Maths::Vector2& absolutePos = mainCam->CaluatePosition(pos);
-			const bool result = mainCam->ScreenInCheck(absolutePos, GetScale()); //화면 안에 있는지 결과를 반환
-			return result;
-		}
-		return true;
+		TextOut(hdc, (UINT)(m_vecRenderPosition.x), (UINT)(m_vecRenderPosition.y + 80), pointStr.c_str(), lenPos);
 	}
 
 	void CActor::Release()

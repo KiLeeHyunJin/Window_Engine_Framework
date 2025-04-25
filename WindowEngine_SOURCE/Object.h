@@ -2,17 +2,11 @@
 #include "CEventManager.h"
 #include "CObjectManager.h"
 
-#include "Enums.h"
 #include "CActor.h"
-//#include "CComponent.h"
-
-//#include "CLayer.h"
 
 
 namespace Framework//::Object
 {
-	class CComponent;
-
 	namespace Object
 	{
 		template <typename T>
@@ -29,10 +23,19 @@ namespace Framework//::Object
 		static void Destroy(CActor* pObj)
 		{
 			const bool reserveDel = pObj->GetReserveDelete();
-			if (reserveDel)
-			{	return;		}
+			if (reserveDel == false)
+			{
+				GET_SINGLE(EVENT).DeleteActor(pObj);
+			}
+		}
 
-			GET_SINGLE(EVENT).DeleteActor(pObj);
+		static void Destroy(UINT actorID)
+		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
+			if (pActor != nullptr)
+			{	
+				GET_SINGLE(EVENT).DeleteActor(pActor);	
+			}
 		}
 
 		static void DontDestoryOnLoad(CActor* pActor, bool state = true)

@@ -67,28 +67,23 @@ namespace Framework
 	void CApplication::Run()
 	{
 		static float lag			= 0.0f;
-		static float FIXED_STEP		= 0.016f;
+		static float FIXED_STEP		= 1.f / 80.f;
 
-
-		// 현재 프레임 시간 측정
 		GET_SINGLE(TIME).Tick();
-		const float deltaTime = GET_SINGLE(TIME).ApplicationDeltaTime(); // 프레임 간 경과 시간
-		lag += deltaTime;  // 누적 시간에 더함
+		const float deltaTime = GET_SINGLE(TIME).ApplicationDeltaTime();	// 프레임 간 경과 시간 업데이트
+		lag += deltaTime;													// 누적 시간에 더함
 
-
-		// 고정 시간 간격으로 Tick 호출
-		while (lag >= FIXED_STEP) 
+		while (lag >= FIXED_STEP)											// 고정 시간 간격으로 Tick 호출
 		{
-			Tick();      // 게임 로직
-			LastTick();  // 상태 저장 또는 Physics 등
+			Tick();															// 게임 로직
+			LastTick();														
 			lag -= FIXED_STEP;
 		}
 
-		//float alpha = lag / FIXED_STEP;
-		FixedTick();
-		GET_SINGLE(COLLISION).Tick(); // 1초에 80번 업데이트
-		Render();
+		GET_SINGLE(COLLISION).Tick();										// 렌더 직전 충돌 검사
+		FixedTick();														// 물리 계산 후 실행되는 Tick 호출
 
+		Render();															// 렌더 업데이트 
 	}
 
 	void CApplication::Tick()

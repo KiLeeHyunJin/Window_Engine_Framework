@@ -16,6 +16,8 @@ namespace Framework
 
 	protected:
 		// CActor을(를) 통해 상속됨
+		void Initialize()			override;
+
 		void BeginPlay()			override;
 		void Release()				override;
 
@@ -23,12 +25,10 @@ namespace Framework
 		bool LastTick()				override;
 		void FixedTick()			override;
 
-		void Render(HDC hdc) const	override;
+		bool Render(HDC hdc) const	override;
 
 	private:
 		Resource::CSprite* m_pSprite;
-
-		// CActor을(를) 통해 상속됨
 	};
 
 

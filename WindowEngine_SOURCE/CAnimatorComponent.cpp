@@ -16,6 +16,7 @@ namespace Framework
 		m_bLoop(false),
 		m_mapAnimations{}
 	{
+		assert(false);
 	}
 
 	CAnimatorComponent::~CAnimatorComponent()

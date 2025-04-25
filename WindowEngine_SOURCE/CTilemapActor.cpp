@@ -13,6 +13,11 @@ namespace Framework
 	CTilemapActor::CTilemapActor(UINT32 layer) : CActor(layer)
 	{
 	}
+	void CTilemapActor::Initialize()
+	{
+		SUPER::Initialize();
+	}
+
 	void CTilemapActor::BeginPlay()
 	{
 		SUPER::BeginPlay();

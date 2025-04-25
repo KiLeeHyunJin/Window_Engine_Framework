@@ -1,6 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
-#include "Structs.h"
+
 
 namespace Framework
 {

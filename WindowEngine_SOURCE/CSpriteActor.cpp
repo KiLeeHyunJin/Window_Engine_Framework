@@ -1,5 +1,5 @@
 #include "CSpriteActor.h"
-#include "Utils.h"
+
 
 
 namespace Framework
@@ -10,6 +10,13 @@ namespace Framework
 	CSpriteActor::~CSpriteActor()
 	{
 	}
+
+
+	void CSpriteActor::Initialize()
+	{
+		SUPER::Initialize();
+	}
+
 	void CSpriteActor::BeginPlay()
 	{
 		SUPER::BeginPlay();
@@ -23,26 +30,34 @@ namespace Framework
 	{
 		return SUPER::Tick();
 	}
+
 	bool CSpriteActor::LastTick()
 	{
 		return SUPER::LastTick();
 	}
-	void CSpriteActor::Render(HDC hdc) const
+
+	void CSpriteActor::FixedTick()
 	{
-		SUPER::Render(hdc);
+		SUPER::FixedTick();
+	}
+
+	bool CSpriteActor::Render(HDC hdc) const
+	{
+		if (SUPER::Render(hdc) == false)
+			return false;
+
 		if (m_pSprite == nullptr)
 		{
-			return;
+			return false;
 		}
 		const Maths::Vector2& position = GetPosition();
 		const Maths::Vector2Int& spriteSize = m_pSprite->GetSize();
 		const Maths::Vector2Int& spriteLeftTop = m_pSprite->GetLeftTop();
-		HDC spriteHdc = m_pSprite->GetHDC();
 
 		Utils::UtilBitBlt(hdc, position, spriteSize, m_pSprite);
+
+		return true;
 		//BitBlt(hdc, position.x, position.y, spriteSize.x, spriteSize.y, spriteHdc, spriteLeftTop.x, spriteLeftTop.y, SRCCOPY);
 	}
-	void CSpriteActor::FixedTick()
-	{
-	}
+
 }

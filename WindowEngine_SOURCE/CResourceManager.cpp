@@ -169,11 +169,12 @@ namespace Framework//::Resource
 
 		void CResourceManager::Release()
 		{
-			RELEASE_MAP(m_mapResoucres);
+			//RELEASE_MAP(m_mapResoucres);
 			RELEASE_MAP(m_mapTextures);
 			RELEASE_MAP(m_mapSprites);
 			RELEASE_MAP(m_mapFlipbooks);
 			RELEASE_MAP(m_mapTilemap);
+			RELEASE_MAP(m_mapSounds);
 		}
 	}
 

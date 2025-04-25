@@ -20,7 +20,7 @@ namespace Framework
 			template<typename T>
 			T* CreateObject(UINT layer, bool dontDestroy = false)
 			{
-				static_assert(std::is_base_of<CActor, T>::value, "T is not from CComponent");
+				static_assert(std::is_base_of<CActor, T>::value, "T is not from CActor");
 
 				T* object = new T(layer);
 				GET_SINGLE(EVENT).AddActor(object, dontDestroy);

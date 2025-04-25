@@ -152,7 +152,7 @@ namespace Framework
 		}
 	}
 
-	void CLayer::Destroy() //CCollisionManager에서 삭제 예약을 한꺼번에 제거
+	void CLayer::DestroyActor() //CCollisionManager에서 삭제 예약을 한꺼번에 제거
 	{
 		if (m_vecRemoveActor.empty())
 			return; 

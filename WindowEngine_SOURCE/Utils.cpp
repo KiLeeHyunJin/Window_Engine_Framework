@@ -1,4 +1,4 @@
-#include "Utils.h"
+
 #include "CSprite.h"
 
 namespace Framework
@@ -53,6 +53,7 @@ namespace Framework
 		const Maths::Vector2Int& leftTop = sprite->GetLeftTop();
 		BitBlt(hdc, (INT)start.x, (INT)start.y, size.x, size.y, srcHdc, leftTop.x, leftTop.y, SRCCOPY);
 	}
+
 	void Utils::UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2& size, const Resource::CSprite* sprite)
 	{
 		HDC srcHdc = sprite->GetHDC();

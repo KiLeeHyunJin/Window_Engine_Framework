@@ -2,7 +2,7 @@
 #include "CFlipbook.h"
 #include "CSprite.h"
 #include "CTimeManager.h"
-#include "Utils.h"
+
 namespace Framework
 {
 	CFlipbookActor::CFlipbookActor(UINT layer) :CActor(layer), m_fSumTime(0), m_pFlipbook(nullptr), m_uiIndex(0), m_bCompleted(false)
@@ -16,6 +16,11 @@ namespace Framework
 		m_uiIndex = 0;
 		m_bCompleted = false;
 	}
+	void CFlipbookActor::Initialize()
+	{
+		SUPER::Initialize();
+	}
+
 	void CFlipbookActor::BeginPlay()
 	{
 		SUPER::BeginPlay();
@@ -26,22 +31,27 @@ namespace Framework
 	}
 	bool CFlipbookActor::Tick()
 	{
-		SUPER::Tick();
 		AnimationTickComponent();
-	
-		return true;
+		return SUPER::Tick();;
 	}
+
 	bool CFlipbookActor::LastTick()
 	{
 		return SUPER::LastTick ();
 	}
-	void CFlipbookActor::Render(HDC hdc) const
+	void CFlipbookActor::FixedTick()
 	{
-		SUPER::Render(hdc);
-
+		SUPER::FixedTick();
+	}
+	bool CFlipbookActor::Render(HDC hdc) const
+	{
+		if (SUPER::Render(hdc) == false)
+		{
+			return false;
+		}
 		if (m_pFlipbook == nullptr)
 		{
-			return;
+			return false;
 		}
 		const Maths::Vector2& position = GetPosition();
 		const Maths::Vector2& scale = GetScale();
@@ -55,6 +65,7 @@ namespace Framework
 
 		Utils::UtilBitBlt(hdc, position, spriteSize, sprite);
 
+		return true;
 	}
 
 
@@ -98,4 +109,5 @@ namespace Framework
 		
 
 	}
+
 }

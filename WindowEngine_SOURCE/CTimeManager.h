@@ -1,6 +1,6 @@
 #pragma once
 #include "CommonInclude.h"
-#include "Define.h"
+
 #include <random>
 
 namespace Framework

@@ -41,14 +41,44 @@ namespace Framework
 		CActor(UINT layerType);
 		virtual ~CActor();
 
+		/// <summary>
+		/// 배치 전 호출
+		/// </summary>
+		virtual void Initialize()			= 0;
+
+		/// <summary>
+		/// 배치 후 호출
+		/// </summary>
 		virtual void BeginPlay()			= 0;
+
+		/// <summary>
+		/// 제거 전 호출
+		/// </summary>
 		virtual void Release()				= 0;
 
+		/// <summary>
+		/// 1초에 80번 호출
+		/// </summary>
+		/// <returns>false를 반환 시 삭제 예약</returns>
 		virtual bool Tick()					= 0;
+
+
+		/// <summary>
+		/// Tick 이후 실행하는 함수
+		/// </summary>
+		/// <returns>false를 반환 시 삭제 예약</returns>
 		virtual bool LastTick()				= 0;
+
+		/// <summary>
+		/// 충돌 직전 호출
+		/// </summary>
 		virtual void FixedTick()			= 0;
 
-		virtual void Render(HDC hdc) const	= 0;
+		/// <summary>
+		/// FixedTick 이후 호출
+		/// </summary>
+		/// <param name="hdc"></param>
+		virtual bool Render(HDC hdc) const	= 0;
 
 		virtual void OnCollisionEnter(CColliderComponent* other)	{}
 		virtual void OnCollisionStay(CColliderComponent* other)		{}
@@ -185,6 +215,7 @@ namespace Framework
 
 		__forceinline const Maths::Vector2& GetScale()			const	{ return m_vecScale;										}
 		__forceinline const float			GetRotate()			const	{ return m_fRotatate;										}
+		__forceinline const Maths::Vector2& GetRenderPosition() const	{ return m_vecRenderPosition;								}
 
 		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable;		}
 
@@ -193,23 +224,23 @@ namespace Framework
 		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale;										}
 		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate;										}
 
-		__forceinline void SetSafeToDelete()							{ if (m_bSafeToDelete == false)  m_bSafeToDelete = true;	}
-		__forceinline void SetReserveDelete()							{ if (m_bReserveDelete == false) m_bReserveDelete = true;	}
-		__forceinline void SetDontDestroy(bool state)					{ m_bDontDestroy = state;									}
-		__forceinline void SetLayerType(const UINT layerType)			{ if (layerType != m_eLayerType) m_eLayerType = layerType;	}
-		__forceinline void SetID(UINT32 newID)							{ m_uiID = newID;											}
+		void SetSafeToDelete()							{ if (m_bSafeToDelete == false)  m_bSafeToDelete = true;	}
+		void SetReserveDelete()							{ if (m_bReserveDelete == false) m_bReserveDelete = true;	}
+		void SetDontDestroy(bool state)					{ m_bDontDestroy = state;									}
+		void SetLayerType(const UINT layerType)			{ if (layerType != m_eLayerType) m_eLayerType = layerType;	}
+		void SetID(UINT32 newID)						{ m_uiID = newID;											}
 
 
 		//friend CLayer;
 		//friend Manager::CEventManager;
 	protected:
-		bool RenderCheck() const;
-		
+		bool GetRenderCheck()										const	{ return m_bRenderResult; }
 
 	private:
 		Maths::Vector2 m_vecPosition;
 		Maths::Vector2 m_vecPrevPosition;
 		Maths::Vector2 m_vecScale;
+		Maths::Vector2 m_vecRenderPosition;
 		float m_fRotatate;
 
 		UINT m_eLayerType;
@@ -222,6 +253,8 @@ namespace Framework
 		bool m_bSafeToDelete;
 		bool m_bReserveDelete;
 		bool m_bDontDestroy;
+		bool m_bRenderResult			= false;
+
 	};
 }
 

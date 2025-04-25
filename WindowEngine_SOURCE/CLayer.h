@@ -1,31 +1,24 @@
 #pragma once
 #include "CEntity.h"
-#include "Enums.h"
+
 
 namespace Framework
 {
 
-	class CScene;
+	//class CScene;
 	class CActor;
 
-	namespace Manager
-	{
-		class CCollisionManager;
-		class CSceneManager;
-		class CObjectManager;
-	}
+	//namespace Manager
+	//{
+	//	class CCollisionManager;
+	//	class CSceneManager;
+	//	class CObjectManager;
+	//}
 
 	class CLayer :
 		public CEntity
 	{
 	public :
-
-
-		friend CScene;
-		friend Manager::CCollisionManager;
-		friend Manager::CSceneManager;
-		friend Manager::CObjectManager;
-	private:
 		CLayer(UINT layer);
 		virtual ~CLayer();
 
@@ -38,6 +31,8 @@ namespace Framework
 
 		void Render(HDC hdc) const;
 
+
+
 		void AddActor(CActor* pActor);
 		bool EraseInIndex(CActor* pActor);
 
@@ -45,8 +40,13 @@ namespace Framework
 
 		const std::vector<CActor*>& GetActor() const { return m_vecActor; }
 
-		void Destroy();
+		void DestroyActor();
 
+		//friend CScene;
+		//friend Manager::CCollisionManager;
+		//friend Manager::CSceneManager;
+		//friend Manager::CObjectManager;
+	private:
 		UINT m_eLayer;
 		std::vector<CActor*> m_vecActor;
 		std::vector<CActor*> m_vecRemoveActor;
