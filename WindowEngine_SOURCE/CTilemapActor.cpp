@@ -52,15 +52,15 @@ namespace Framework
 
 	}
 
-	void CTilemapActor::Render(HDC hdc) const
+	bool CTilemapActor::Render(HDC hdc) const
 	{
 		if (m_pTilemap == nullptr)
 		{
-			return;
+			return false;
 		}
 		if (m_bShowDebug == false)
 		{
-			return;
+			return false;
 		}
 		//SUPER::Render(hdc);
 
@@ -162,7 +162,7 @@ namespace Framework
 				
 			}
 		}
-
+		return true;
 	}
 
 	void CTilemapActor::TileMapPicking()

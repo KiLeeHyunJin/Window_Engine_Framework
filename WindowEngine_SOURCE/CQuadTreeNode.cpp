@@ -33,7 +33,8 @@ namespace Framework
 			{
 				//const CTransformComponent* pTr = item->GetOwner()->GetTransformComponent();
 				Vector2 pos = item->GetOwner()->GetPosition();
-				Vector2 offset = item->GetOffset();
+				pos.y -= item->GetSize().y * 0.5f;
+				const Vector2& offset = item->GetOffset();
 
 				m_vecChildren[(int)TestRegion(offset + pos)]->InsertAtDepth(item, targetDepth);
 			}
@@ -240,7 +241,7 @@ namespace Framework
 
 
 
-	CQuadTreeNode::NodeIndex CQuadTreeNode::TestRegion(Vector2 center) const //저장 시킬 노드의 위치를 정한다.
+	CQuadTreeNode::NodeIndex CQuadTreeNode::TestRegion(const Vector2& center) const //저장 시킬 노드의 위치를 정한다.
 	{
 		bool negX = center.x <= m_vecCenter.x;
 		bool negY = center.y <= m_vecCenter.y;
@@ -302,7 +303,7 @@ namespace Framework
 		return true;
 	}
 
-	bool CQuadTreeNode::Intersects(Vector2 center1, Vector2 size1, Vector2 center2, Vector2 size2)
+	bool CQuadTreeNode::Intersects(const Vector2& center1, const Vector2& size1, const Vector2& center2, const Vector2& size2)
 	{
 		if (Maths::Abs(center1.x - center2.x) < Maths::Abs((size1.x + size2.x) * 0.5f) &&
 			Maths::Abs(center1.y - center2.y) < Maths::Abs((size1.y + size2.y) * 0.5f))

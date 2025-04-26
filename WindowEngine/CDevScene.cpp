@@ -117,10 +117,12 @@ namespace Framework
 			CLineComponent* pLine = pActor->AddComponent<CLineComponent>();
 
 			pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
-			pBoxColl->SetSize(Maths::Vector2(48, 48));
-			pBoxColl->SetAngle(-10);
+			pBoxColl->SetSize(Maths::Vector2(96, 48));
+			pBoxColl->SetAngle(10);
 			pBoxColl->SetTrigger(false);
 			pBoxColl->Initialize();
+
+			pLine->SetLineHeightPercent(0.1f);
 			pLine->Initialize();
 
 			//pCam->SetTarget(pActor);

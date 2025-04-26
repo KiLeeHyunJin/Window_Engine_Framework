@@ -45,8 +45,8 @@ namespace Framework
 	private:
 		void GetQuads(const Vector2& center, const Vector2& size, std::list<CQuadTreeNode*>& possibles);
 
-		__forceinline NodeIndex TestRegion(Vector2 center) const;
-		__forceinline bool Intersects(Vector2 center1, Vector2 size1, Vector2 center2, Vector2 size2);
+		__forceinline NodeIndex TestRegion(const Vector2& center) const;
+		__forceinline bool Intersects(const Vector2& center1, const Vector2& size1, const Vector2& center2, const Vector2& size2);
 		__forceinline bool ActorLifeCheck(CColliderComponent* pCollider);
 		__forceinline bool Split();
 

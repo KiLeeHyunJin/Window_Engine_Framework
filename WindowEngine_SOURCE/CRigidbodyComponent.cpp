@@ -206,8 +206,8 @@ namespace Framework
 				{
 					return false;
 				}
-				const Maths::Vector2 halfSize = target->GetSize() * 0.5f;
-				targetOwner->SetPosition(Maths::Vector2(pos.x, y - halfSize.y));
+				//const Maths::Vector2 halfSize = target->GetSize() * 0.5f;
+				targetOwner->SetPosition(Maths::Vector2(pos.x, y ));
 				return true;
 			}
 		}

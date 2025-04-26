@@ -54,8 +54,9 @@ namespace Framework
     {
     }
 
-    void CGameControllActor::Render(HDC hdc) const
+    bool CGameControllActor::Render(HDC hdc) const
     {
+        return true;
     }
 
 }

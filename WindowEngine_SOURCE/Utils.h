@@ -10,9 +10,11 @@ namespace Framework
 
 	enum class ePivot
 	{
-		LeftTop		= 1,		MiddleTop,		RightTop,
-		LeftMiddle,				Middle,			RightMiddle,
-		LeftBottom,				MiddleBottom,	RightBottom,
+		LeftTop		= -15	, MiddleTop		= -10, RightTop		= -17,
+
+
+		LeftMiddle	= 5	, Middle		= 0	, RightMiddle	= 7,
+		LeftBottom	= 15, MiddleBottom	= 10, RightBottom	= 17,
 	};
 
 	class Utils
@@ -26,8 +28,10 @@ namespace Framework
 		static void DrawCircle	(HDC hdc, const Maths::Vector2& pos, INT radius);
 
 		static void UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2Int& size, const Resource::CSprite* sprite);
-		static void UtilBitBlt	(HDC hdc, const Maths::Vector2& start, const Maths::Vector2& size, const Resource::CSprite* sprite);
+		static void UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2& size, const Resource::CSprite* sprite);
 		
+		static void UtilBitBlt(HDC hdc, const Maths::Vector2& start, const Maths::Vector2& size, const Resource::CSprite* sprite, ePivot pivot);
+
 
 		static void FlagOn(UINT32& dest, UINT32 target)
 		{

@@ -22,7 +22,7 @@ namespace Framework
 
         void FixedTick() override;
 
-        void Render(HDC hdc) const override;
+        bool Render(HDC hdc) const override;
 
 
         void        SetPlayerID(UINT32 uiPlayerID)      {    m_uiPlayerID = uiPlayerID;    }

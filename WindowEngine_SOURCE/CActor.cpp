@@ -101,7 +101,7 @@ namespace Framework
 		{
 			m_vecRenderPosition = pCam->CaluatePosition(m_vecRenderPosition);
 			m_bRenderResult = pCam->ScreenInCheck(m_vecRenderPosition, GetScale()); //화면 안에 있는지 결과를 반환
-
+			return;
 		}
 		assert(false);
 		m_bRenderResult = true;

@@ -152,7 +152,81 @@ namespace Framework
 			DeleteObject(oldBitmap);
 			DeleteObject(oldBitmap2);
 		}
-	}
+		IWICImagingFactory* CRenderManager::GetImageFactory()
+		{
+			return nullptr;
+		}
+		ID2D1HwndRenderTarget* CRenderManager::GetRenderTarget()
+		{
+			return nullptr;
+		}
+		void CRenderManager::SetTextAlignment(DWRITE_TEXT_ALIGNMENT textAlignment)
+		{
+		}
+		void CRenderManager::SetTextParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment)
+		{
+		}
+		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint)
+		{
+		}
+		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float fontSize)
+		{
+		}
+		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH)
+		{
+		}
+		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, const Color& color, float fontSize)
+		{
+		}
+		void CRenderManager::Line(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint)
+		{
+		}
+		void CRenderManager::Line(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth)
+		{
+		}
+		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float strokeWidth)
+		{
+		}
+		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth)
+		{
+		}
+		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint)
+		{
+		}
+		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color)
+		{
+		}
+		void CRenderManager::FrameEllipse(const Maths::Vector2& startPoint, float radius, float strokeWidth)
+		{
+		}
+		void CRenderManager::FrameEllipse(const Maths::Vector2& startPoint, float radius, const Color& color, float strokeWidth)
+		{
+		}
+		void CRenderManager::FillEllipse(const Maths::Vector2& startPoint, float radius)
+		{
+		}
+		void CRenderManager::FillEllipse(const Maths::Vector2& startPoint, float radius, const Color& color)
+		{
+		}
+		void CRenderManager::FrameCircle(const Maths::Vector2& startPoint, float radius)
+		{
+		}
+		void CRenderManager::FrameCircle(const Maths::Vector2& startPoint, float radius, const Color& color, float strokeWidth)
+		{
+		}
+		void CRenderManager::FillCircle(const Maths::Vector2& startPoint, float radius)
+		{
+		}
+		void CRenderManager::FillCircle(const Maths::Vector2& startPoint, float radius, const Color& color)
+		{
+		}
+		void CRenderManager::Image(Resource::CSprite* pImg, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float alpha)
+		{
+		}
+		void CRenderManager::FrameImage(Resource::CSprite* pImg, const Maths::Vector2& drawStartPoint, const Maths::Vector2& drawEndPoint, const Maths::Vector2& sliceStartPoint, const Maths::Vector2& sliceEndPoint, float alpha)
+		{
+		}
+}
 
 
 }

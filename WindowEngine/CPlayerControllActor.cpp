@@ -90,24 +90,32 @@ namespace Framework
 
 	void CPlayerControllActor::FixedTick()
 	{
+		SUPER::FixedTick();
 	}
-	void CPlayerControllActor::Render(HDC hdc) const
+
+	bool CPlayerControllActor::Render(HDC hdc) const
 	{
 
 		HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc,transparentBrush);
-		
+		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, transparentBrush);
+
 		HPEN pen = CreatePen(PS_SOLID, 2, RGB(m_color.r, m_color.g, m_color.b));
 		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
 		transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
 
-		SUPER::Render(hdc);
-
-		pen = (HPEN)SelectObject(hdc, oldPen);
-
-		DeleteObject(pen);
-
+		if (SUPER::Render(hdc) == false)
+		{
+			pen = (HPEN)SelectObject(hdc, oldPen);
+			DeleteObject(pen);
+			return false;
+		}
+		else
+		{
+			pen = (HPEN)SelectObject(hdc, oldPen);
+			DeleteObject(pen);
+		}
+		return true;
 	}
 	void CPlayerControllActor::OnCollisionEnter(CColliderComponent* other)
 	{

@@ -19,7 +19,7 @@ namespace Framework
 		bool LastTick()				override;
 		void FixedTick()			override;
 
-		void Render(HDC hdc) const	override;
+		bool Render(HDC hdc) const	override;
 	private:
 		virtual void OnCollisionEnter(CColliderComponent* other);
 		virtual void OnCollisionStay(CColliderComponent* other);

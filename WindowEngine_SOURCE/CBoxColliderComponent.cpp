@@ -13,9 +13,9 @@ namespace Framework
 		RECT rect =
 		{
 			static_cast<LONG>((pos.x - (size.x * 0.5f))),
-			static_cast<LONG>((pos.y - (size.y * 0.5f))),
+			static_cast<LONG>(pos.y - size.y),
 			static_cast<LONG>((pos.x + (size.x * 0.5f))),
-			static_cast<LONG>((pos.y + (size.y * 0.5f))),
+			static_cast<LONG>(pos.y),
 		};
 		return rect;
 	}
@@ -104,27 +104,26 @@ namespace Framework
 		const FLOAT cos = std::cos(radian);
 		const FLOAT sin = std::sin(radian);
 
+		// 회전 축(오브젝트의 로컬 X, Y 축)
 		m_vecAxis.clear();
-		m_vecAxis.push_back(Maths::Vector2(cos, sin));
-		m_vecAxis.push_back(Maths::Vector2(-sin, cos));
-		//축 방향 저장
+		m_vecAxis.push_back(Maths::Vector2(cos, sin));       // X축
+		m_vecAxis.push_back(Maths::Vector2(-sin, cos));      // Y축
 
 		const Maths::Vector2 halfSize = m_vecSize * 0.5f;
 
-		const Maths::Vector2 axeX(m_vecAxis[0] * halfSize.x);
-		const Maths::Vector2 axeY(m_vecAxis[1] * halfSize.y);
+		// 원래 중심 기준일 때의 회전된 X/Y 벡터
+		const Maths::Vector2 axeX = m_vecAxis[0] * halfSize.x;
+		const Maths::Vector2 axeY = m_vecAxis[1] * halfSize.y;
 
-		const Maths::Vector2 pointOne(
-			Maths::Vector2(-axeX + -axeY));
+		// 아래 중심을 기준으로 오프셋 보정
+		// 중심에서 절반 높이만큼 위로 올린 위치가 기준이 됨
+		const Maths::Vector2 pivotOffset = -axeY;
 
-		const Maths::Vector2 pointTwo(
-			Maths::Vector2(axeX + -axeY));
-
-		const Maths::Vector2 pointThree(
-			Maths::Vector2(-axeX + axeY));
-
-		const Maths::Vector2 pointFour(
-			Maths::Vector2(axeX + axeY));
+		// 최종 꼭짓점 계산 (pivot 기준 위치에서 오프셋 포함)
+		const Maths::Vector2 pointOne = pivotOffset + (-axeX - axeY);  // 좌하
+		const Maths::Vector2 pointTwo = pivotOffset + (axeX - axeY);  // 우하
+		const Maths::Vector2 pointThree = pivotOffset + (-axeX + axeY);  // 좌상
+		const Maths::Vector2 pointFour = pivotOffset + (axeX + axeY);  // 우상
 
 		m_vecPoints.clear();
 		m_vecPoints.push_back(pointOne);
