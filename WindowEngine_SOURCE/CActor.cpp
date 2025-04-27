@@ -124,11 +124,7 @@ namespace Framework
 		{
 			pCom->Render(hdc);
 		}
-		const Maths::Vector2& pos = GetPosition();
-
-		std::wstring pointStr = L"Position : ( " + std::to_wstring((int)pos.x) + L", " + std::to_wstring((int)pos.y) + L" )";
-		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)(m_vecRenderPosition.x), (UINT)(m_vecRenderPosition.y + 80), pointStr.c_str(), lenPos);
+		return true;
 	}
 
 	void CActor::Release()

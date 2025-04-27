@@ -2,6 +2,7 @@
 #include "CFlipbook.h"
 #include "CSprite.h"
 #include "CTimeManager.h"
+#include "CRenderManager.h"
 
 namespace Framework
 {
@@ -61,9 +62,11 @@ namespace Framework
 
 		const Maths::Vector2Int& spriteSize = sprite->GetSize();
 		const Maths::Vector2Int& spriteLeftTop = sprite->GetLeftTop();
-		HDC spriteHdc = sprite->GetHDC();
 
-		Utils::UtilBitBlt(hdc, position, spriteSize, sprite);
+		GET_SINGLE(RENDER).Image(sprite, position);
+		//HDC spriteHdc = sprite->GetHDC();
+
+		//Utils::UtilBitBlt(hdc, position, spriteSize, sprite);
 
 		return true;
 	}

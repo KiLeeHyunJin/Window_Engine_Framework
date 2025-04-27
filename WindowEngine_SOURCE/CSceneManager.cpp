@@ -44,11 +44,7 @@ namespace Framework
 		void CSceneManager::Render(HDC hDC)
 		{
 			m_pCurrentScene->SceneRender(hDC);
-
-			//m_pDontDestroyScene->Render(hDC);
-
-			std::wstring str = m_pCurrentScene->GetName();
-			Utils::DrawTxt(hDC, Maths::Vector2(0, 15), str);
+			return;
 		}
 
 		void CSceneManager::Release()

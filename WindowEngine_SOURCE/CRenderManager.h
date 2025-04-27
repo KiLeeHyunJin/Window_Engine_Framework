@@ -20,7 +20,7 @@ namespace Framework
 			RELEASE_SINGLE(CRenderManager)
 		public:
 
-			__forceinline const Maths::Vector2Int& GetResolution() { return m_vecCurrentBufferSize; }
+			__forceinline const Maths::Vector2Int GetResolution() { return Maths::Vector2Int(WIN_SIZE_X,WIN_SIZE_Y); }
 
 			friend CApplication;
 		private:
@@ -29,11 +29,12 @@ namespace Framework
 			void Release();
 
 			void Render();
+			void RenderCall();
 
-			void Draw() const;
+			//void Draw() const;
 
 			void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
-			void ChangeScreenSize(bool maximumScale);
+			//void ChangeScreenSize(bool maximumScale);
 
 			void CreateBackBuffer(int width, int height) const;
 
@@ -59,6 +60,10 @@ namespace Framework
 			IDWriteTextFormat* m_pCurTextFormat			= nullptr;		//현재 포맷
 
 		public:
+
+			void SetCurBrush(const Color& color);
+			void SetCurFontSize(float fontSize);
+
 			void SetBrush(Color color);
 			void SetTextFormat(
 				std::wstring fontName,
@@ -98,8 +103,8 @@ namespace Framework
 			void FillCircle(const Maths::Vector2& startPoint, float radius);
 			void FillCircle(const Maths::Vector2& startPoint, float radius, const Color& color);
 
-			void Image(Resource::CSprite* pImg, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float alpha = 1.f);
-			void FrameImage(Resource::CSprite* pImg,
+			void Image(const Resource::CSprite* pImg, const Maths::Vector2& startPoint, float alpha = 1.f);
+			void FrameImage(const Resource::CSprite* pImg,
 				const Maths::Vector2& drawStartPoint, const Maths::Vector2& drawEndPoint,
 				const Maths::Vector2& sliceStartPoint, const Maths::Vector2& sliceEndPoint, float alpha = 1.f);
 

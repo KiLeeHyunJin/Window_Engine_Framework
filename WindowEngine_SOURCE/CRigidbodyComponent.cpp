@@ -47,18 +47,7 @@ namespace Framework
 	}
 	void CRigidbodyComponent::Render(HDC hdc)
 	{
-		//const CTransformComponent* pTr = ;
-		Maths::Vector2 pos = GetOwner()->GetPosition();
-		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-		if (pCam != nullptr)
-		{
-			pos = pCam->CaluatePosition(pos);
-		}
-
-
-		std::wstring pointStr = L"x : " + std::to_wstring((int)m_vecVelocity.x) + L", Y : " + std::to_wstring((int)m_vecVelocity.y);
-		int lenPos = (int)wcsnlen_s(pointStr.c_str(), 50);
-		TextOut(hdc, (UINT)(pos.x + 30), (UINT)(pos.y), pointStr.c_str(), lenPos);
+		return;
 	}
 	
 	void CRigidbodyComponent::VelocityCompute()

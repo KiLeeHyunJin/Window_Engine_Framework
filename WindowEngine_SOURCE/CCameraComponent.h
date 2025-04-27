@@ -17,6 +17,9 @@ namespace Framework
 			return pos - m_vecDistance; 
 		}
 
+		Maths::Vector2 ScreenToWorldPoint(Maths::Vector2 vecScreen);
+
+
 		__forceinline bool ScreenInCheck(const Vector2& absolutePos, const Vector2& scale) const 
 		{ 
 			//Vector2 _scale = scale * 0.5f;

@@ -27,8 +27,8 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 Framework::CApplication application;
 
-ULONG_PTR g_pToken;
-Gdiplus::GdiplusStartupInput gpsi;
+//ULONG_PTR g_pToken;
+//Gdiplus::GdiplusStartupInput gpsi;
 bool processState;  // 게임 진행 중이면 true 종료면 false
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -87,7 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
-    Gdiplus::GdiplusShutdown(g_pToken);
+    //Gdiplus::GdiplusShutdown(g_pToken);
     application.Release();
 
     //_CrtDumpMemoryLeaks();
@@ -168,16 +168,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow, const WCHAR className[])
        nullptr);
 
    if (!hWnd)   {    return FALSE;   }
-   Gdiplus::GdiplusStartup(&g_pToken, &gpsi, NULL);
+   //Gdiplus::GdiplusStartup(&g_pToken, &gpsi, NULL);
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
    application.Initialize(
        hWnd, 
-       WINSIZEX , WINSIZEY, 
-       (screenScaleX - WINSIZEX) >> 1, 
-       (screenScaleY - WINSIZEY) >> 1,
+       WIN_SIZE_X , WIN_SIZE_Y, 
+       (screenScaleX - WIN_SIZE_X) >> 1, 
+       (screenScaleY - WIN_SIZE_Y) >> 1,
        myStyle, false, 
        false
    );
@@ -221,7 +221,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case ID_CHANGESCALE:
             {
                 bool screenState = application.GetScreenState() == false; // 스크린 상태 역전
-                application.ChangeScreenSize(screenState);
+                //application.ChangeScreenSize(screenState);
                 break;
             }
             default:

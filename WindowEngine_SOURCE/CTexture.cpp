@@ -1,6 +1,7 @@
 #include "CTexture.h"
 #include "CApplication.h"
 #include "CResourceManager.h"
+#include "CRenderManager.h"
 
 extern Framework::CApplication application;
 
@@ -52,8 +53,8 @@ namespace Framework//::Resource
 		CTexture::CTexture() :
 			CResource(Enums::eResourceType::Texture),
 			m_uiHeight(0), m_uiWidth(0),
-			m_hBmp(0), m_hdc(0), m_eTextureType(CTexture::eTextureType::Bmp),
-			m_pImg(nullptr), m_bAlpha(false)
+			m_hBmp(0), m_hdc(0), //m_eTextureType(CTexture::eTextureType::Bmp), m_pImg(nullptr),
+			m_bAlpha(false), m_pBitmap(nullptr)
 		{	}
 
 
@@ -62,7 +63,7 @@ namespace Framework//::Resource
 
 		HRESULT CTexture::Load(const std::wstring& wstrPath)
 		{
-			std::wstring ext = wstrPath.substr(wstrPath.find_last_of(L".") + 1);
+			/*std::wstring ext = wstrPath.substr(wstrPath.find_last_of(L".") + 1);
 
 			if (ext == L"png")
 			{
@@ -97,8 +98,33 @@ namespace Framework//::Resource
 			HDC mainDC = application.GetHDC();
 			m_hdc = CreateCompatibleDC(mainDC);
 			HBITMAP oldBmp = (HBITMAP)SelectObject(m_hdc, m_hBmp);
-			DeleteObject(oldBmp);
+			DeleteObject(oldBmp);*/
 
+			IWICBitmapDecoder* p_decoder;
+			IWICBitmapFrameDecode* p_frame;
+			IWICFormatConverter* p_converter;
+
+			HRESULT hResult;
+			hResult = GET_SINGLE(RENDER).GetImageFactory()->CreateDecoderFromFilename(wstrPath.c_str(), NULL, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &p_decoder);
+			assert(hResult == S_OK && L"DecoderFromFilename Faild");
+
+			hResult = p_decoder->GetFrame(0, &p_frame);
+			assert(hResult == S_OK && L"GetFrame Faild");
+
+			hResult = GET_SINGLE(RENDER).GetImageFactory()->CreateFormatConverter(&p_converter);
+			assert(hResult == S_OK && L"CreateFormatConverter Faild");
+
+			hResult = p_converter->Initialize(p_frame, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, NULL, 0, WICBitmapPaletteTypeCustom);
+			assert(hResult == S_OK && L"converter Initialize Faild");
+
+			hResult = GET_SINGLE(RENDER).GetRenderTarget()->CreateBitmapFromWicBitmap(p_converter, NULL, &m_pBitmap);
+			assert(hResult == S_OK && L"CreateBitmap Faild");
+
+			p_frame->GetSize(&m_uiWidth, &m_uiHeight);
+
+			p_converter->Release();
+			p_frame->Release();
+			p_decoder->Release();
 			return S_OK;
 		}
 

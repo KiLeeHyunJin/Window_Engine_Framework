@@ -25,8 +25,6 @@ namespace Framework
 		void Tick();
 		void LastTick();
 		void FixedTick();
-		//void Destroy();
-		void Render();
 		HWND m_hwnc;
 		HDC m_hdc;
 		//bool m_bRelease;

@@ -9,6 +9,8 @@ namespace Framework
 	//void CCameraComponent::SetCameraRange(const Maths::Vector2& max)
 
 
+
+
 	void CCameraComponent::SetTarget(CActor* pTarget)
 	{
 		m_pTarget = pTarget;		
@@ -36,6 +38,17 @@ namespace Framework
 		return true;
 	}
 	 
+	Maths::Vector2 CCameraComponent::ScreenToWorldPoint(Maths::Vector2 vecScreen)
+	{
+		CActor* pTarget =
+			m_pTarget != nullptr ?
+			m_pTarget : GetOwner();
+
+		const Maths::Vector2& lookPosition = pTarget->GetPosition();
+		const Maths::Vector2Int& resolution = GET_SINGLE(RENDER).GetResolution();
+		return vecScreen + (lookPosition - (Maths::Vector2(resolution.x * 0.5f, resolution.y * 0.5f)));
+	}
+
 	bool CCameraComponent::LastTickComponent()
 	{
 		CActor* pTarget =

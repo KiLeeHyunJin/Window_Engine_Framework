@@ -83,7 +83,8 @@ namespace Framework
 		GET_SINGLE(COLLISION).Tick();										// 렌더 직전 충돌 검사
 		FixedTick();														// 물리 계산 후 실행되는 Tick 호출
 
-		Render();															// 렌더 업데이트 
+		GET_SINGLE(RENDER).Render();
+		// 렌더 업데이트 
 	}
 
 	void CApplication::Tick()
@@ -113,14 +114,9 @@ namespace Framework
 		GET_SINGLE(OBJECT).FixedTick();
 	}
 
-	void CApplication::Render()
-	{
-		GET_SINGLE(RENDER).Render();
-	}
-
 	void CApplication::ChangeScreenSize(bool maximumScale)
 	{
-		GET_SINGLE(RENDER).ChangeScreenSize(maximumScale);
+		//GET_SINGLE(RENDER).ChangeScreenSize(maximumScale);
 	}
 
 	HDC CApplication::GetHDC() const

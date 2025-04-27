@@ -100,12 +100,12 @@ namespace Framework
 			
 			//pBoxColl->RemoveCollisionFlag((UINT)eLayer::Character);
 			pBoxColl->SetSize(Maths::Vector2(40, 70));
-			pBoxColl->SetAngle(20);
+			//pBoxColl->SetAngle(20);
 			pBoxColl->SetTrigger(false);
 			pBoxColl->Initialize();
 			pCam->SetTarget(pActor);
 		}
-
+		return;
 		{
 			CActor* pActor = Object::Instantiate<CSpriteActor>(static_cast<UINT>(eLayer::Character), L"Test");
 

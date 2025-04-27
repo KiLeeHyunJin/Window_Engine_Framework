@@ -26,7 +26,7 @@ namespace Framework
         void AddSprite(CSprite* sprite, float duration = 1) { m_vecSprites.push_back(std::make_pair(sprite, duration)); }
         //void AddSprite(const Resource::CSprite* sprite, float duration);
 
-        HRESULT Load(const std::wstring& wstrPath) override;
+        HRESULT Load(const std::wstring& wstrPath) override { return S_OK; }
 
         void Reset();
         void TickComponent();
@@ -37,10 +37,10 @@ namespace Framework
 
     private:
         void RenderBMP(HDC hdc, float rot,const Maths::Vector2& pos,const Maths::Vector2& scale) const;
-        void RenderPNG(HDC hdc, float rot,const Maths::Vector2& pos,const Maths::Vector2& scale) const;
+        //void RenderPNG(HDC hdc, float rot,const Maths::Vector2& pos,const Maths::Vector2& scale) const;
 
-        void (CAnimation::* RenderFunc[(int)Resource::CTexture::eTextureType::None])
-            (HDC hdc, float rot,const Maths::Vector2& pos,const Maths::Vector2& scale)  const;
+       /* void (CAnimation::* RenderFunc[(int)Resource::CTexture::eTextureType::None])
+            (HDC hdc, float rot,const Maths::Vector2& pos,const Maths::Vector2& scale)  const;*/
 
         CAnimatorComponent* m_pOwner;
         std::vector<std::pair<Resource::CSprite*, float>> m_vecSprites;

@@ -16,14 +16,14 @@ namespace Framework
             CFlipbook(bool loop);
             virtual ~CFlipbook();
 
-            void AddSprite(const CSprite* sprite, float duration) { m_vecSprites.push_back(std::make_pair(sprite, duration)); }
+            void    AddSprite(const CSprite* sprite, float duration)                { m_vecSprites.push_back(std::make_pair(sprite, duration)); }
 
-            bool GetLoop() const                                                { return m_bLoop; }
-            INT GetSize() const                                                { return (UINT)m_vecSprites.size() - 1; }
+            bool    GetLoop() const                                                 { return m_bLoop; }
+            INT     GetSize() const                                                 { return (UINT)m_vecSprites.size() - 1; }
  
-            const std::pair<const CSprite*, float>& GetPair(UINT index) const   { return m_vecSprites[index]; }
-            float GetDuration(UINT index) const                                 { return m_vecSprites[index].second; }
-            const CSprite* GetSprite(UINT index) const                          { return m_vecSprites[index].first; }
+            const std::pair<const CSprite*, float>& GetPair(UINT index) const       { return m_vecSprites[index]; }
+            float   GetDuration(UINT index) const                                   { return m_vecSprites[index].second; }
+            const CSprite* GetSprite(UINT index) const                              { return m_vecSprites[index].first; }
 
             //friend Manager::CResourceManager;
         private:

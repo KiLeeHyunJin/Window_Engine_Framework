@@ -130,35 +130,35 @@ namespace Framework
 					(INT32)((position.x + (x * m_veciTileSize.x)) - (camPos.x)),
 					(INT32)((position.y + (y * m_veciTileSize.y)) - (camPos.y)));
 
-				switch (tiles[y][x].value)
-				{
-				case 0:
-					::TransparentBlt(hdc,
-						setPos.x,
-						setPos.y,
-						m_veciTileSize.x, m_veciTileSize.y,
-						spriteO->GetHDC(),
-						(INT)spriteO->GetSize().x, 
-						(INT)spriteO->GetSize().y,
-						m_veciTileSize.x, m_veciTileSize.y,
-						spriteO->GetTransparent()
-					);
-					break;
-				case 1:
-					::TransparentBlt(hdc,
-						setPos.x,
-						setPos.y,
-						m_veciTileSize.x, m_veciTileSize.y,
-						sprite1->GetHDC(),
-						(INT)sprite1->GetSize().x,
-						(INT)sprite1->GetSize().y,
-						m_veciTileSize.x, m_veciTileSize.y,
-						spriteO->GetTransparent()
-					);
-					break;
-				default:
-					break;
-				}
+				//switch (tiles[y][x].value)
+				//{
+				//case 0:
+				//	::TransparentBlt(hdc,
+				//		setPos.x,
+				//		setPos.y,
+				//		m_veciTileSize.x, m_veciTileSize.y,
+				//		spriteO->GetHDC(),
+				//		(INT)spriteO->GetSize().x, 
+				//		(INT)spriteO->GetSize().y,
+				//		m_veciTileSize.x, m_veciTileSize.y,
+				//		spriteO->GetTransparent()
+				//	);
+				//	break;
+				//case 1:
+				//	::TransparentBlt(hdc,
+				//		setPos.x,
+				//		setPos.y,
+				//		m_veciTileSize.x, m_veciTileSize.y,
+				//		sprite1->GetHDC(),
+				//		(INT)sprite1->GetSize().x,
+				//		(INT)sprite1->GetSize().y,
+				//		m_veciTileSize.x, m_veciTileSize.y,
+				//		spriteO->GetTransparent()
+				//	);
+				//	break;
+				//default:
+				//	break;
+				//}
 				
 			}
 		}

@@ -3,7 +3,7 @@
 #include "CTransformComponent.h"
 #include "CRenderer.h"
 #include "CActor.h"
-
+#include "CRenderManager.h"
 namespace Framework
 {
 	RECT CBoxColliderComponent::GetRect()
@@ -63,14 +63,39 @@ namespace Framework
 
 		if (((INT)m_fAngle % 180) == 0)
 		{
-			Utils::DrawRect(hdc, offsetPos, m_vecSize);
+			Maths::Vector2 start = { offsetPos.x - (m_vecSize.x * 0.5f), offsetPos.y - m_vecSize.y };
+			Maths::Vector2 end = { offsetPos.x + (m_vecSize.x * 0.5f), offsetPos.y };
+			GET_SINGLE(RENDER).FrameRect(start, end);
+			//Utils::DrawRect(hdc, offsetPos, m_vecSize);
 		}
 		else
 		{
-			Utils::DrawLine(hdc, offsetPos + m_vecPoints[0], offsetPos + m_vecPoints[1]);
-			Utils::DrawLine(hdc, offsetPos + m_vecPoints[1], offsetPos + m_vecPoints[3]);
-			Utils::DrawLine(hdc, offsetPos + m_vecPoints[2], offsetPos + m_vecPoints[3]);
-			Utils::DrawLine(hdc, offsetPos + m_vecPoints[2], offsetPos + m_vecPoints[0]);
+			//Utils::DrawLine(hdc, offsetPos + m_vecPoints[0], offsetPos + m_vecPoints[1]);
+			//Utils::DrawLine(hdc, offsetPos + m_vecPoints[1], offsetPos + m_vecPoints[3]);
+			//Utils::DrawLine(hdc, offsetPos + m_vecPoints[2], offsetPos + m_vecPoints[3]);
+			//Utils::DrawLine(hdc, offsetPos + m_vecPoints[2], offsetPos + m_vecPoints[0]);
+			Maths::Vector2 start, end;
+
+			start	= offsetPos + m_vecPoints[0];
+			end		= offsetPos + m_vecPoints[1];
+			GET_SINGLE(RENDER).Line(start, end);
+
+			start = offsetPos + m_vecPoints[1];
+			end = offsetPos + m_vecPoints[3];
+			GET_SINGLE(RENDER).Line(start, end);
+
+			start = offsetPos + m_vecPoints[2];
+			end = offsetPos + m_vecPoints[3];
+			GET_SINGLE(RENDER).Line(start, end);
+
+			start = offsetPos + m_vecPoints[2];
+			end = offsetPos + m_vecPoints[0];
+			GET_SINGLE(RENDER).Line(start,end, Color(100,100,100), 1);
+
+			//GET_SINGLE(RENDER).Line(offsetPos + m_vecPoints[1], offsetPos + m_vecPoints[3]);
+			//GET_SINGLE(RENDER).Line(offsetPos + m_vecPoints[2], offsetPos + m_vecPoints[3]);
+			//GET_SINGLE(RENDER).Line(offsetPos + m_vecPoints[2], offsetPos + m_vecPoints[0]);
+
 		}
 	}
 

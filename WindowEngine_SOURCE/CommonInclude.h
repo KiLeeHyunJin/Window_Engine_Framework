@@ -82,9 +82,9 @@
 #pragma endregion
 
 #pragma region GDI_PLUS
-#include <gdiplus.h>
-#include <gdiplusheaders.h>
-#pragma comment(lib, "gdiplus.lib")
+//#include <gdiplus.h>
+//#include <gdiplusheaders.h>
+//#pragma comment(lib, "gdiplus.lib")
 #pragma endregion
 
 

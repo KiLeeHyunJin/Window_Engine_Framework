@@ -25,13 +25,13 @@ namespace Framework//::Resource
 			inline UINT					GetWidth()	const			{ return m_uiWidth; }
 			inline UINT					GetHeight()	const			{ return m_uiWidth; }
 
-			inline bool					GetAlpha()	const			{ return m_bAlpha; }
-			inline const eTextureType	GetTextureType() const		{ return m_eTextureType; }
-			inline Gdiplus::Image*		GetImage()	const			{ return m_pImg; }
+			//inline bool					GetAlpha()	const			{ return m_bAlpha; }
+			//inline const eTextureType	GetTextureType() const		{ return m_eTextureType; }
+			//inline Gdiplus::Image*		GetImage()	const		{ return m_pImg; }
 			inline HDC					GetHDC()	const			{ return m_hdc; }
 
-			inline void SetWidth(UINT width) { m_uiWidth = width; }
-			inline void SetHeight(UINT height) { m_uiHeight = height; }
+			//inline void SetWidth(UINT width) { m_uiWidth = width; }
+			//inline void SetHeight(UINT height) { m_uiHeight = height; }
 
 			//friend Manager::CResourceManager;
 		private:
@@ -42,12 +42,14 @@ namespace Framework//::Resource
 			HDC m_hdc;
 
 			HBITMAP m_hBmp;
-			Gdiplus::Image* m_pImg;
+			//Gdiplus::Image* m_pImg;
 
 			UINT m_uiWidth;
 			UINT m_uiHeight;
 
-			eTextureType m_eTextureType;
+			//eTextureType m_eTextureType;
+
+			ID2D1Bitmap* m_pBitmap = nullptr;
 			bool m_bAlpha;
 		};
 

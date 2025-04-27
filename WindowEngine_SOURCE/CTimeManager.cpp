@@ -56,21 +56,7 @@ namespace Framework
 
 		void CTimeManager::Render(HDC hdc) const
 		{
-			if (m_bShowFPS == false)
-			{
-				return;
-			}
-
-			//static float time = 0;
-
-			//time += m_fDeltaTime;
-			//float fps = 1.0f / m_fDeltaTime;
-
-			wchar_t str[50] = L"";
-			swprintf_s(str, 50, L"FPS : %d", (int)m_uiFPS);
-			int len = (int)wcsnlen_s(str, 50);
-
-			TextOut(hdc, 0, 0, str, len);
+			return;
 		}
 
 		/// <summary>

@@ -9,6 +9,12 @@ static const float MIN_OVERLAP	= 0.7f;   // 너무 작은 값은 무시
 static const float DRAG_ALLOWABLE_RANGE = 40.f;
 static const float CLICK_ALLOWABLE_TIME = 0.2f;
 
+static const int START_POS_X = 400;
+static const int START_POS_Y = 250;
+
+static const int WIN_SIZE_X = 1024;
+static const int WIN_SIZE_Y = 768;
+
 #define DECLARE_SINGLE(classname)							\
 private :													\
 classname() {}												\

@@ -136,14 +136,7 @@ namespace Framework
 
 		void CCollisionManager::Render(HDC hdc) const
 		{
-			CQuadTreeManager::Render(hdc);
-
-			//wchar_t str[50] = L"";
-			//swprintf_s(str, 50, L"충돌검사 횟수 : %d", (int)(m_iCollTickComponentFPS));
-			//int len = (int)wcsnlen_s(str, 50);
-
-			//const Maths::Vector2 resolution = GET_SINGLE(RENDER).GetResolution();// - Maths::Vector2(100, 70);
-			//TextOut(hdc, ((int)resolution.x - 130), 20, str, len);
+			return;
 		}
 
 

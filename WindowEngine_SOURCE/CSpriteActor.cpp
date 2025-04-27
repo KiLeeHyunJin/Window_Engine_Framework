@@ -1,5 +1,5 @@
 #include "CSpriteActor.h"
-
+#include "CRenderManager.h"
 
 
 namespace Framework
@@ -54,7 +54,8 @@ namespace Framework
 		const Maths::Vector2Int& spriteSize = m_pSprite->GetSize();
 		const Maths::Vector2Int& spriteLeftTop = m_pSprite->GetLeftTop();
 
-		Utils::UtilBitBlt(hdc, position, spriteSize, m_pSprite);
+		GET_SINGLE(RENDER).Image(m_pSprite, position);
+		//Utils::UtilBitBlt(hdc, position, spriteSize, m_pSprite);
 
 		return true;
 		//BitBlt(hdc, position.x, position.y, spriteSize.x, spriteSize.y, spriteHdc, spriteLeftTop.x, spriteLeftTop.y, SRCCOPY);
