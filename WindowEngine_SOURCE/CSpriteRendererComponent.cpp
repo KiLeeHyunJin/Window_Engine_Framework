@@ -35,6 +35,8 @@ bool Framework::CSpriteRendererComponent::LastTickComponent()
 
 void Framework::CSpriteRendererComponent::Render(HDC hdc)
 {
+	return;
+
 	if (m_pTexture == nullptr)
 		return;
 

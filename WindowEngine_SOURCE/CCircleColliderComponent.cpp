@@ -33,6 +33,8 @@ namespace Framework
 
 	void CCircleColliderComponent::Render(HDC hdc)
 	{
+		return;
+
 		CTransformComponent* pTr = GetOwner()->GetComponent<CTransformComponent>();
 		Maths::Vector2 pos = pTr->GetPos();
 

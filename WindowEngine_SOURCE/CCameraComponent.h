@@ -24,8 +24,8 @@ namespace Framework
 		{ 
 			//Vector2 _scale = scale * 0.5f;
 			const Maths::Vector2Int& resolution = GET_SINGLE(RENDER).GetResolution();
-			if ((resolution.x + scale.x) < absolutePos.x || (scale.x * -1) > absolutePos.x) return false;
-			if ((resolution.y + scale.y) < absolutePos.y || (scale.y * -1) > absolutePos.y) return false;
+			if ((resolution.x + scale.x) < absolutePos.x || (scale.x * -1)	 > absolutePos.x) return false;
+			if ((resolution.y + scale.y) < absolutePos.y || 0				 > absolutePos.y) return false;
 			return true;
 		}
 

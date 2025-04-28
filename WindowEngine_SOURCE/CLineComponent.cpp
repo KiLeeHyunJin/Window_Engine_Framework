@@ -1,5 +1,7 @@
 #include "CLineComponent.h"
 #include "CBoxColliderComponent.h"
+#include "CRenderManager.h"
+#include "CTimeManager.h"
 
 namespace Framework
 {
@@ -53,6 +55,16 @@ namespace Framework
 	}
 	bool CLineComponent::LastTickComponent()
 	{
+		if (m_pTriggerEvent != nullptr)
+		{
+			m_pTriggerEvent->first -= GET_SINGLE(TIME).DeltaTime();
+			if (m_pTriggerEvent->first <= 0)
+			{
+				m_bTrigger = m_pTriggerEvent->second;
+				delete m_pTriggerEvent;
+				m_pTriggerEvent = nullptr;
+			}
+		}
 		return false;
 	}
 
@@ -71,6 +83,7 @@ namespace Framework
 		{
 			return false;
 		}
+
 		// 두 점을 지나는 직선의 방정식
 		// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
 		// Y  = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
@@ -88,17 +101,29 @@ namespace Framework
 
 	void CLineComponent::Render(HDC hdc)
 	{
-		HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, transparentBrush);
 
-		HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
-		HPEN oldPen = (HPEN)SelectObject(hdc, pen);
+		//HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		//HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, transparentBrush);
 
-		transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
+		//HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
+		//HPEN oldPen = (HPEN)SelectObject(hdc, pen);
 
-		Utils::DrawLine(hdc, m_vecStartPos, m_vecEndPos);
-		pen = (HPEN)SelectObject(hdc, oldPen);
+		//transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
 
-		DeleteObject(pen);
+		//Utils::DrawLine(hdc, m_vecStartPos, m_vecEndPos);
+		//pen = (HPEN)SelectObject(hdc, oldPen);
+		GET_SINGLE(RENDER).Line(m_vecStartPos,m_vecEndPos);
+
+		//DeleteObject(pen);
+	}
+	void CLineComponent::EventTrigger(float waitTime, bool state)
+	{
+		if (m_pTriggerEvent != nullptr)
+		{
+			if (m_pTriggerEvent->first < waitTime)
+			{		return;		}
+		}
+		m_pTriggerEvent = new  std::pair<FLOAT, BOOL>(waitTime, state);
+
 	}
 }

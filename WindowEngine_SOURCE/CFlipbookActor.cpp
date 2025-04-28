@@ -64,9 +64,6 @@ namespace Framework
 		const Maths::Vector2Int& spriteLeftTop = sprite->GetLeftTop();
 
 		GET_SINGLE(RENDER).Image(sprite, position);
-		//HDC spriteHdc = sprite->GetHDC();
-
-		//Utils::UtilBitBlt(hdc, position, spriteSize, sprite);
 
 		return true;
 	}

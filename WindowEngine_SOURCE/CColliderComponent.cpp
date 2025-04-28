@@ -29,6 +29,16 @@ namespace Framework
 	}
 	bool CColliderComponent::LastTickComponent()
 	{
+		if (m_pTriggerEvent != nullptr)
+		{
+			m_pTriggerEvent->first -= GET_SINGLE(TIME).DeltaTime();
+			if (m_pTriggerEvent->first <= 0)
+			{
+				m_bTrigger = m_pTriggerEvent->second;
+				delete m_pTriggerEvent;
+				m_pTriggerEvent = nullptr;
+			}
+		}
 		return true;
 	}
 
@@ -46,39 +56,48 @@ namespace Framework
 		return CheckFlag(this, other);
 	}
 
+	void CColliderComponent::EventTrigger(float waitTime, bool state)
+	{
+		if (m_pTriggerEvent != nullptr)
+		{
+			if (m_pTriggerEvent->first < waitTime)
+			{
+				return;
+			}
+		}
+		m_pTriggerEvent = new  std::pair<FLOAT, BOOL>(waitTime, state);
+	}
+
 	const bool CColliderComponent::CheckCollisionBoxToBox(CColliderComponent* box1, CColliderComponent* box2)
 	{
-		const Maths::Vector2& box1OriginPos = box1->GetOwner()->GetPosition();
-		const Maths::Vector2& box2OriginPos = box2->GetOwner()->GetPosition();
-
-		const Maths::Vector2& box1OriginOffset = box1->GetOffset();
-		const Maths::Vector2& box2OriginOffset = box2->GetOffset();
-
-		const Maths::Vector2& box1Size = box1->GetSize();
-		const Maths::Vector2& box2Size = box2->GetSize();
-
-		Maths::Vector2 box1Pos = box1OriginPos + box1OriginOffset;
-		Maths::Vector2 box2Pos = box2OriginPos + box2OriginOffset;
-
 		const INT box1Angle = (INT)box1->GetAngle();
 		const INT box2Angle = (INT)box2->GetAngle();
 
+		const CBoxColliderComponent* boxColl1 = dynamic_cast<CBoxColliderComponent*>(box1);
+		const CBoxColliderComponent* boxColl2 = dynamic_cast<CBoxColliderComponent*>(box2);
 		if ((box1Angle % 180) == 0 && (box2Angle % 180) == 0) //AABB 충돌
 		{
 			///AABB 충돌
-			if (Maths::Abs(box1Pos.x - box2Pos.x) <= (box1Size.x + box2Size.x) * 0.5f &&
-				Maths::Abs(box1Pos.y - box2Pos.y) <= (box1Size.y + box2Size.y) * 0.5f)
-			{
-				return true;
-			}
-			return false;
+			RECT box1Rect = boxColl1->GetRect();
+			RECT box2Rect = boxColl2->GetRect();
+			RECT rect;
+			return ::IntersectRect(&rect, &box1Rect, &box2Rect);
 		}
-		else///OBB 충돌
+
+		///OBB 충돌
 		{
-			
-			const CBoxColliderComponent* boxColl1 = dynamic_cast<CBoxColliderComponent*>(box1);
-			const CBoxColliderComponent* boxColl2 = dynamic_cast<CBoxColliderComponent*>(box2);
-			
+			const Maths::Vector2& box1OriginPos = box1->GetOwner()->GetPosition();
+			const Maths::Vector2& box2OriginPos = box2->GetOwner()->GetPosition();
+
+			const Maths::Vector2& box1OriginOffset = box1->GetOffset();
+			const Maths::Vector2& box2OriginOffset = box2->GetOffset();
+
+			const Maths::Vector2& box1Size = box1->GetSize();
+			const Maths::Vector2& box2Size = box2->GetSize();
+
+			Maths::Vector2 box1Pos = box1OriginPos + box1OriginOffset;
+			Maths::Vector2 box2Pos = box2OriginPos + box2OriginOffset;
+
 			//모서리를 가져온다.
 			const std::vector<Maths::Vector2>& boxColl1Points = boxColl1->GetPoints();
 			const std::vector<Maths::Vector2>& boxColl2Points = boxColl2->GetPoints();
@@ -155,10 +174,10 @@ namespace Framework
 
 	void CColliderComponent::AdjustPosition(CColliderComponent* target, CColliderComponent* other)
 	{
-		if (target->GetTrigger() || other->GetTrigger())
-		{
-			return;
-		} //물리충돌이 필요한 대상인지 확인
+		//if (target->GetTrigger() || other->GetTrigger())
+		//{
+		//	return;
+		//} 
 		CActor* pTarget = target->GetOwner();
 		CRigidbodyComponent* pRigid = pTarget->GetComponent<CRigidbodyComponent>();
 		if (pRigid != nullptr)

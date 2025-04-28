@@ -27,7 +27,7 @@ namespace Framework
             //CTexture::eTextureType      GetTextureType()    const   { return m_pTexture->GetTextureType(); }
             //bool                        GetAlpha()          const   { return m_pTexture->GetAlpha(); }
             //Gdiplus::Image*             GetImage()          const   { return m_pTexture->GetImage(); }
-            ID2D1Bitmap*                GetD2DImage()       const    { return m_pBitmap;  }
+            ID2D1Bitmap*                GetD2DImage()       const    { return m_pTexture->GetBitmap();  }
             void Render(HDC hdc) const;
 
         protected:
@@ -41,8 +41,6 @@ namespace Framework
             //int m_iTransparent;
             HDC m_hdc = 0;
             CTexture* m_pTexture;
-
-            ID2D1Bitmap* m_pBitmap;
 
             // CResource을(를) 통해 상속됨
 

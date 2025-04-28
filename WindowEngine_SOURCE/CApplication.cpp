@@ -77,11 +77,14 @@ namespace Framework
 		{
 			Tick();															// 게임 로직
 			LastTick();														
+
+			GET_SINGLE(COLLISION).Tick();										// 렌더 직전 충돌 검사
+			FixedTick();														// 물리 계산 후 실행되는 Tick 호출
+
 			lag -= FIXED_STEP;
 		}
 
-		GET_SINGLE(COLLISION).Tick();										// 렌더 직전 충돌 검사
-		FixedTick();														// 물리 계산 후 실행되는 Tick 호출
+
 
 		GET_SINGLE(RENDER).Render();
 		// 렌더 업데이트 

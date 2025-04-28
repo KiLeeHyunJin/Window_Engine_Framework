@@ -115,18 +115,9 @@ namespace Framework
 		CColliderComponent* coll = GetOwner()->GetComponent<CColliderComponent>();
 		Maths::Vector2 pos = GetOwner()->GetPosition();
 		Maths::Vector2 size = coll->GetSize();
-		Utils::DrawRect(hdc, pos, size);
 
-		MoveToEx(hdc, 
-			(INT)pos.x, 
-			(INT)pos.y, nullptr);
-		LineTo(hdc, 
-			(INT)pos.x,
-			(INT)pos.y + 100);
-
-		(HBRUSH)SelectObject(hdc, oldBrush);
-		DeleteObject(newBrush);
 	}
+
 	void CPlayerInput::OnCollisionEnter(CColliderComponent* other)
 	{
 		m_colorFill = Color(255, 0, 255);

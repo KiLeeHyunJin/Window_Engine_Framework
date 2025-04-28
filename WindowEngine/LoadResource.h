@@ -10,7 +10,7 @@ namespace Framework
 
 	void LoadTexture()
 	{
-		return;
+		//return;
 		const Resource::CTexture* roomTx	= GET_SINGLE(RESOURCE).LoadTexture(L"Room"	, L"..\\Resources\\Textures\\Room.png");
 		const Resource::CTexture* room1Tx	= GET_SINGLE(RESOURCE).LoadTexture(L"Room1"	, L"..\\Resources\\Textures\\Room1.png");
 		const Resource::CTexture* room2Tx	= GET_SINGLE(RESOURCE).LoadTexture(L"Room2"	, L"..\\Resources\\Textures\\Room2.png");

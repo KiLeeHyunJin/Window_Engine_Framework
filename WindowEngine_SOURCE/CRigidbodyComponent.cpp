@@ -10,49 +10,47 @@ namespace Framework
 {
 	CRigidbodyComponent::CRigidbodyComponent() :
 		CComponent(Enums::eComponentType::Rigidbody),
-		m_fFriction(10.0f), m_fMass(50), m_bGround(false),
+		m_fFriction(10.0f), m_fMass(70), m_bGround(false),
 		m_vecAccelation		(Maths::Vector2::Zero),			m_vecForce			(Maths::Vector2::Zero),
 		m_vecGravity		(Maths::Vector2(0,980)),		m_vecVelocity		(Maths::Vector2::Zero),
-		m_vecLimitVelocity	(Maths::Vector2(1000,1000)),	m_vecLimitGravity	(Maths::Vector2(1000,1000))
+		m_vecLimitVelocity	(Maths::Vector2(500, 500))//,		m_vecLimitGravity	(Maths::Vector2(500, 500))
 	{
 	}
 	CRigidbodyComponent::~CRigidbodyComponent()
 	{
 	}
-	
-	void CRigidbodyComponent::BeginPlay()
-	{
-	}
-	
-	void CRigidbodyComponent::Release()
-	{
-	}
+
 
 	bool CRigidbodyComponent::TickComponent()
 	{
-		VelocityCompute();
-		
-		//LimitSpeedCompute();
+		if (m_bFreeze)
+		{		return true;	}
 
-		if (m_vecVelocity.HasValue()) //가속도가 있다면
+		try
 		{
-			ChangePosition();
-		}
-		return true;
-	}
+			VelocityCompute();
+			LimitSpeedCompute();
 
-	bool CRigidbodyComponent::LastTickComponent()
-	{
+			if (m_vecVelocity.HasValue()) //가속도가 있다면
+			{
+				ChangePosition();
+			}
+			return true;
+
+		}
+		catch (std::exception e)
+		{
+			const std::string str = e.what();
+
+		}
+
 		return true;
-	}
-	void CRigidbodyComponent::Render(HDC hdc)
-	{
-		return;
 	}
 	
 	void CRigidbodyComponent::VelocityCompute()
 	{
-		if (m_vecForce.HasValue())
+
+		if (m_vecForce.HasValue()) //힘을 가속도로 전환 후 폐기
 		{
 			m_vecAccelation = m_vecForce / m_fMass; //가속도 = 힘 / 질량
 			m_vecVelocity += m_vecAccelation * GET_SINGLE(TIME).DeltaTime(); //프레임당 가속도를 계산해서 속도에 합산
@@ -70,42 +68,74 @@ namespace Framework
 	{
 		const Maths::Vector2 gravityDir = m_vecGravity.Normalized();
 
-		if (gravityDir.HasValue() == false && 
-			m_vecVelocity.HasValue() == false)
+		try
 		{
-			return;
-		}
+			if (gravityDir.HasValue() == false &&
+				m_vecVelocity.HasValue() == false)
+			{
+				return;
+			}
 
-		if (m_bGround)
-		{
-			const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
-			Maths::Vector2 minusGravityDir = gravityDir * dot;
-			m_vecVelocity -= minusGravityDir;
-		}
-		else
-		{
-			m_vecVelocity += m_vecGravity * GET_SINGLE(TIME).DeltaTime();
-		}
-		
-		const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
+			if (m_bGround )
+			{
+				if (m_fGravityValue != 0)
+				{
+					m_fGravityValue = 0;
+				}
+			//const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
+			//Maths::Vector2 minusGravityDir = gravityDir * dot;
+			//m_vecVelocity -= minusGravityDir;
+			}
+			else
+			{
+				m_vecVelocity.y += m_vecGravity.y * GET_SINGLE(TIME).DeltaTime();
+				
+				//m_vecVelocity.y = Maths::Clamp<FLOAT>(m_vecVelocity.y, m_vecLimitVelocity.y * -1, m_vecLimitVelocity.y);
+				//m_vecVelocity.x = Maths::Clamp<FLOAT>(m_vecVelocity.x, m_vecLimitVelocity.x * -1, m_vecLimitVelocity.x);
 
-		Maths::Vector2 gravityDot = gravityDir * dot;
-		Maths::Vector2 sideVelocity = m_vecVelocity - gravityDot;
-		
-		if (m_vecLimitGravity.y < gravityDot.Length())
-		{
-			gravityDot.Normalize();
-			gravityDot *= m_vecLimitVelocity.y;
+
+				if (m_vecVelocity.y > m_vecLimitVelocity.y)
+				{
+					m_vecVelocity.y = m_vecLimitVelocity.y;
+				}
+				else if (m_vecVelocity.y < -m_vecLimitVelocity.y)
+				{
+					m_vecVelocity.y = -m_vecLimitVelocity.y;
+				}
+
+				if (m_vecVelocity.x > m_vecLimitVelocity.x)
+				{
+					m_vecVelocity.x = m_vecLimitVelocity.x;
+				}
+				else if (m_vecVelocity.x < -m_vecLimitVelocity.x)
+				{
+					m_vecVelocity.x = -m_vecLimitVelocity.x;
+				}
+			}
+
+	/*	const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
+
+			Maths::Vector2 gravityDot = gravityDir * dot;
+			Maths::Vector2 sideVelocity = m_vecVelocity - gravityDot;
+
+			if (m_vecLimitGravity.y < gravityDot.Length())
+			{
+				gravityDot.Normalize();
+				gravityDot *= m_vecLimitVelocity.y;
+			}
+
+			if (m_vecLimitVelocity.x < sideVelocity.Length())
+			{
+				sideVelocity.Normalize();
+				sideVelocity *= m_vecLimitVelocity.x;
+			}
+
+			m_vecVelocity = gravityDot + sideVelocity;*/
 		}
-		
-		if (m_vecLimitVelocity.x < sideVelocity.Length())
+		catch (std::exception e)
 		{
-			sideVelocity.Normalize();
-			sideVelocity *= m_vecLimitVelocity.x;
+			const std::string str = e.what();
 		}
-		
-		m_vecVelocity = gravityDot + sideVelocity;
-		
 	}
 
 	void CRigidbodyComponent::ChangePosition()
@@ -116,26 +146,37 @@ namespace Framework
 		}
 		const float TickComponentTime = GET_SINGLE(TIME).DeltaTime();
 
-		Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //마찰력 방향
-		friction = friction * (m_fFriction * m_fMass * TickComponentTime); //마찰력 계산
-
-		if (m_vecVelocity.SqrLength() <= friction.SqrLength()) //속도가 마찰력보다 작거나 크면 정지
+		if (m_bGround)
 		{
-			m_vecVelocity.Clear();
-			return;
+
+			Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //마찰력 방향
+			friction = friction * (m_fFriction * m_fMass * TickComponentTime); //마찰력 계산
+
+			if (m_vecVelocity.SqrLength() <= friction.SqrLength()) //속도가 마찰력보다 작거나 크면 정지
+			{
+				m_vecVelocity.Clear();
+				return;
+			}
+
+			m_vecVelocity += friction; //속도에 마찰력 합산하여 속도 감소
 		}
 
-		m_vecVelocity += friction; //속도에 마찰력 합산하여 속도 감소
-
-		//CTransformComponent* pTr = GetOwner()->GetTransformComponent();
 		Maths::Vector2 pos = GetOwner()->GetPosition();
 		pos = pos + (m_vecVelocity * TickComponentTime);
 		GetOwner()->SetPosition(pos); //현재 위치에서 이동 방향으로 이동
 
-		if (m_vecForce.HasValue())
+		if (m_vecForce.HasValue()) //힘 폐기
 		{
 			m_vecForce.Clear();
 		}
+	}
+
+
+
+
+	void CRigidbodyComponent::SetGround(bool isGround)
+	{
+		m_bGround = isGround;
 	}
 
 	void CRigidbodyComponent::AdjustPosition(CBoxColliderComponent* target, CBoxColliderComponent* other)
@@ -149,6 +190,9 @@ namespace Framework
 
 		if (CheckCollisionLine(target, other))
 		{		return;		}
+
+		if (target->GetTrigger() || other->GetTrigger())
+		{		return;		}//물리충돌이 필요한 대상인지 확인
 
 		RECT collisionRect;
 		{
@@ -182,21 +226,28 @@ namespace Framework
 
 	bool CRigidbodyComponent::CheckCollisionLine(CBoxColliderComponent* target, CBoxColliderComponent* other)
 	{
-		CLineComponent* pLineComponent = other->GetOwner()->GetComponent<CLineComponent>();
+		const CLineComponent* pLineComponent = other->GetOwner()->GetComponent<CLineComponent>();
 		if (pLineComponent != nullptr)
 		{
+			if (pLineComponent->GetTrigger())
+			{		return false;	}
+
 			CActor* targetOwner = target->GetOwner();
-			const Maths::Vector2& pos = targetOwner->GetPosition() + target->GetOffset();
-			float y;
-			if (pLineComponent->GetPositionY(pos.x, &y))
+			const Maths::Vector2 pos = targetOwner->GetPosition() + target->GetOffset();
+			float lineYPos;
+			if (pLineComponent->GetPositionY(pos.x, &lineYPos))
 			{
-				float diff = y - pos.y; 
-				if (diff <= 0) //선이 중심보다 위에서 부딪히고있다면 무시
-				{
-					return false;
-				}
-				//const Maths::Vector2 halfSize = target->GetSize() * 0.5f;
-				targetOwner->SetPosition(Maths::Vector2(pos.x, y ));
+				if (lineYPos > pos.y) //선보다 위
+				{		return false;	}
+
+				if (Maths::Abs(lineYPos - pos.y) > (target->GetSize().y * 0.2f))
+				{		return false;	}	
+
+				targetOwner->SetPosition(Maths::Vector2(pos.x, lineYPos));
+				CRigidbodyComponent* pRigidbody = targetOwner->GetComponent<CRigidbodyComponent>();
+				if (pRigidbody != nullptr)
+				{		pRigidbody->SetGround(true);	}
+
 				return true;
 			}
 		}

@@ -65,6 +65,7 @@ namespace Framework
 		//inline void				RemoveColliderID(UINT32 colliderID)				{  m_unColls.erase(colliderID);						}
 
 		virtual const bool		CheckCollision(CColliderComponent* other);
+		void EventTrigger(float waitTime, bool state);
 
 	protected:
 		static const bool		CheckCollisionBoxToBox(CColliderComponent* owner, CColliderComponent* other);
@@ -106,6 +107,7 @@ namespace Framework
 		UINT32			m_iCollisionFlag;
 		eColliderType	m_eColliderType;
 		bool			m_bTrigger;
+		std::pair<FLOAT, BOOL>* m_pTriggerEvent = nullptr;
 
 		static UINT32	m_collId;
 

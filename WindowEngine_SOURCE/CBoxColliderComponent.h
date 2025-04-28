@@ -9,7 +9,7 @@ namespace Framework
 	{
 		DECLARE_PARENT(CColliderComponent)
 	public:
-		RECT GetRect();
+		RECT GetRect() const;
 
 		CBoxColliderComponent();
 		virtual ~CBoxColliderComponent();

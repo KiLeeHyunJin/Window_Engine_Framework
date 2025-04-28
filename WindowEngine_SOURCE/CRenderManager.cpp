@@ -589,7 +589,7 @@ namespace Framework
 			Maths::Vector2 start	= { startPoint.x - (scale.x * 0.5f)	, startPoint.y - scale.y };
 			Maths::Vector2 end		= { startPoint.x + scale.x			, startPoint.y };
 
-			D2D1_RECT_F srcImgRect = { leftTop.x,	leftTop.y,	leftTop.x + scale.x,	leftTop.y + scale.y };
+			D2D1_RECT_F srcImgRect = { (FLOAT)leftTop.x,	(FLOAT)leftTop.y,	(FLOAT)(leftTop.x + scale.x),	(FLOAT)(leftTop.y + scale.y) };
 
 			//Maths::Vector2 end = pCam->CaluatePosition(Maths::Vector2(pos.));
 			D2D1_RECT_F imgRect = { start.x, start.y, end.x, end.y };

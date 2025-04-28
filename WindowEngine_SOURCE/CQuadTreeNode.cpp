@@ -385,7 +385,7 @@ namespace Framework
 			HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 
 
-			Utils::DrawRect(hdc, drawPos, m_vecSize - Maths::Vector2(1,1));
+			//Utils::DrawRect(hdc, drawPos, m_vecSize - Maths::Vector2(1,1));
 
 
 			(HPEN)SelectObject(hdc, oldPen);

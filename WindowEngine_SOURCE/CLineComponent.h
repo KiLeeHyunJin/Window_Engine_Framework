@@ -26,14 +26,21 @@ namespace Framework
 		
 		//void				SetStartPosition(const Maths::Vector2& startPos)	{ m_vecStartPos = startPos; }
 		//void				SetEndPosition(const Maths::Vector2 & endPos)		{	m_vecEndPos = endPos;	}
-		bool				CheckCollisionX(float x) const;
-		bool				GetPositionY(float x, float* y) const;
+		bool				CheckCollisionX(float x)			const;
+		bool				GetPositionY(float x, float* y)		const;
+		bool				GetTrigger()						const	{ return m_bTrigger; }
 
-		void Render(HDC hdc) override;
+		void				SetTrigger(bool state) { m_bTrigger = state; }
+		void				Render(HDC hdc) override;
+
+		void EventTrigger(float waitTime, bool state);
+
 	private:
 		float m_fPercent = 0.1f;
+		bool m_bTrigger	 = false;
 		Maths::Vector2 m_vecStartPos;
 		Maths::Vector2 m_vecEndPos;
+		std::pair<FLOAT, BOOL>* m_pTriggerEvent = nullptr;
 
 	};
 

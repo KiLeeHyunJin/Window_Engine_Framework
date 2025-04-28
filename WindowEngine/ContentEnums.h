@@ -16,6 +16,7 @@ enum class eLayer
 	Sky,			//하늘
 	BackGround,		//배경
 	Environment,	//환경
+	Tile,
 	Monster,		//몬스터
 	Character,		//캐릭터
 	Item,			//아이템

@@ -27,7 +27,15 @@ namespace Framework
 
 	}
 
-	void CUIBase::OnRender(HDC hdc) const	{ Utils::DrawRect(hdc, m_vecRenderPos, m_vecSize); }
+	void CUIBase::OnRender(HDC hdc) const	
+	{ 
+		//Utils::DrawRect(hdc, m_vecRenderPos, m_vecSize); 
+		const Maths::Vector2& scale = GetScale();
+		Maths::Vector2 startPoint = { m_vecRenderPos.x - (scale.x * 0.5f), m_vecRenderPos.y - scale.y };
+		GET_SINGLE(RENDER).FrameRect(startPoint, startPoint + scale);
+
+
+	}
 
 
 
@@ -145,25 +153,26 @@ namespace Framework
 
 	RECT CUIBase::GetRect()
 	{
-		const Maths::Vector2 half = m_vecSize * 0.5f;
+		const float halfX = m_vecSize.x * 0.5f;
 		RECT rect = {
-			(LONG)(m_vecRenderPos.x - half.x),
-			(LONG)(m_vecRenderPos.y - half.y),
-			(LONG)(m_vecRenderPos.x + half.x),
-			(LONG)(m_vecRenderPos.y + half.y) };
+			(LONG)(m_vecRenderPos.x - halfX),
+			(LONG)(m_vecRenderPos.y - m_vecSize.y),
+			(LONG)(m_vecRenderPos.x + halfX),
+			(LONG)(m_vecRenderPos.y) };
 		return rect;
 	}
 
 	bool CUIBase::MouseInRect()
 	{
-		const Maths::Vector2 halfSize = GetScale() * 0.5f;
+		const float halfX = m_vecSize.x * 0.5f;
+
 		const auto& checkPos = GET_SINGLE(INPUT).GetMousePosition();
 
-		if (m_vecRenderPos.x - halfSize.x <= checkPos.x &&
-			m_vecRenderPos.x + halfSize.x >= checkPos.x)
+		if (m_vecRenderPos.x - halfX <= checkPos.x &&
+			m_vecRenderPos.x + halfX >= checkPos.x)
 		{
-			if (m_vecRenderPos.y - halfSize.y <= checkPos.y &&
-				m_vecRenderPos.y + halfSize.y >= checkPos.y)
+			if (m_vecRenderPos.y - m_vecSize.y <= checkPos.y &&
+				m_vecRenderPos.y >= checkPos.y)
 			{
 				m_bCurMouseOn = true;
 				return true;

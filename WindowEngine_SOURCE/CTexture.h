@@ -29,7 +29,7 @@ namespace Framework//::Resource
 			//inline const eTextureType	GetTextureType() const		{ return m_eTextureType; }
 			//inline Gdiplus::Image*		GetImage()	const		{ return m_pImg; }
 			inline HDC					GetHDC()	const			{ return m_hdc; }
-
+			ID2D1Bitmap*				GetBitmap() const			{ return m_pBitmap; }
 			//inline void SetWidth(UINT width) { m_uiWidth = width; }
 			//inline void SetHeight(UINT height) { m_uiHeight = height; }
 

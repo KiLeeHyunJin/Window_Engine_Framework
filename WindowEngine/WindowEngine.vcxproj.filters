@@ -22,6 +22,9 @@
     <Filter Include="01.Script\GameControllActor">
       <UniqueIdentifier>{d566b7d2-b6a4-48ab-aad2-5349eba8b2bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Script\PlayerCharacterActor">
+      <UniqueIdentifier>{c044c497-231b-4387-930d-933301337bab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadScene.h">
@@ -60,6 +63,9 @@
     <ClInclude Include="CGameControllActor.h">
       <Filter>01.Script\GameControllActor</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerCharacterActor.h">
+      <Filter>01.Script\PlayerCharacterActor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlayerInput.cpp">
@@ -82,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="CGameControllActor.cpp">
       <Filter>01.Script\GameControllActor</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerCharacterActor.cpp">
+      <Filter>01.Script\PlayerCharacterActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

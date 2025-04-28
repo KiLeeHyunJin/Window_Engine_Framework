@@ -17,14 +17,17 @@ namespace Framework
 		CRigidbodyComponent();
 		virtual ~CRigidbodyComponent();
 		// CComponent을(를) 통해 상속됨
-		virtual void BeginPlay() override;
-		virtual void Release() override;
+		virtual void BeginPlay() override			{				}
+		virtual void Release() override				{				}
 		virtual bool TickComponent() override;
-		virtual bool LastTickComponent() override;
-		virtual void Render(HDC hdc) override;
+		virtual bool LastTickComponent() override	{ return true;	}
+		virtual void Render(HDC hdc) override		{				}
 
 		static constexpr Enums::eComponentType	StaticComponentType()				{ return Enums::eComponentType::Rigidbody; }
 		const Enums::eComponentType				GetComponentType() const override	{ return StaticComponentType(); }
+
+		float GetCurrentGravity()			const { return m_fGravityValue; }
+		void SetCurrentGravity(float gravity) { m_fGravityValue = gravity; }
 		/// <summary>
 		/// 질량을 설정
 		/// </summary>
@@ -36,7 +39,7 @@ namespace Framework
 		/// <summary>
 		/// 중력을 재설정
 		/// </summary>
-		void SetGravity(Maths::Vector2 gravity)		{ m_vecGravity = gravity; }
+		///void SetGravity(Maths::Vector2 gravity)		{ m_vecGravity = gravity; }
 		/// <summary>
 		/// 속력을 재설정
 		/// </summary>
@@ -46,10 +49,15 @@ namespace Framework
 		/// </summary>
 		void SetAddForce(Maths::Vector2 addForce)	{ m_vecForce += addForce; }
 
-		void SetGround(bool isGround) { m_bGround = isGround; }
+		void AddVelocity(Maths::Vector2& addVelocity) { m_vecVelocity += addVelocity; }
 
-		Maths::Vector2 GetVelocity() const			{ return m_vecVelocity; }
-		Maths::Vector2 GetForce() const				{ return m_vecForce;}
+		void SetGround(bool isGround);
+		bool GetGround()				const		{ return m_bGround; }
+
+		void SetFreeze(bool state)					{ m_bFreeze = state; }
+		bool GetFreeze()				const		{ return m_bFreeze; }
+		const Maths::Vector2& GetVelocity()	const		{ return m_vecVelocity; }
+		const Maths::Vector2& GetForce()		const		{ return m_vecForce;}
 
 		float GetMass() const						{ return m_fMass; }
 		float GetFriction() const					{ return m_fFriction; }
@@ -81,6 +89,8 @@ namespace Framework
 		/// </summary>
 		float m_fFriction;
 
+		//중력 누적 량
+		float m_fGravityValue = 0;
 		/// <summary>
 		/// 가해지는 힘
 		/// </summary>
@@ -92,17 +102,16 @@ namespace Framework
 		/// <summary>
 		/// 중력
 		/// </summary>
-		Maths::Vector2 m_vecGravity;
+		const Maths::Vector2 m_vecGravity;
 		/// <summary>
 		/// 가속도
 		/// </summary>
 		Maths::Vector2 m_vecAccelation;
 
 		Maths::Vector2 m_vecLimitVelocity;
-		Maths::Vector2 m_vecLimitGravity;
 
 		//Maths::Vector2 m_vecMoveValue;
-
+		bool m_bFreeze = false;
 		bool m_bGround;
 	};
 

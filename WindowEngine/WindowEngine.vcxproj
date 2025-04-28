@@ -161,6 +161,7 @@
     <ClInclude Include="CDevScene.h" />
     <ClInclude Include="CDummy.h" />
     <ClInclude Include="CGameControllActor.h" />
+    <ClInclude Include="CPlayerCharacterActor.h" />
     <ClInclude Include="CPlayerControllActor.h" />
     <ClInclude Include="CPlayerInput.h" />
     <ClInclude Include="CPlayScene.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="CDevScene.cpp" />
     <ClCompile Include="CDummy.cpp" />
     <ClCompile Include="CGameControllActor.cpp" />
+    <ClCompile Include="CPlayerCharacterActor.cpp" />
     <ClCompile Include="CPlayerControllActor.cpp" />
     <ClCompile Include="CPlayerInput.cpp" />
     <ClCompile Include="CPlayScene.cpp" />

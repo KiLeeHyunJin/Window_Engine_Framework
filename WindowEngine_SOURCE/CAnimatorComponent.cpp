@@ -53,6 +53,7 @@ namespace Framework
 
 	void CAnimatorComponent::Render(HDC hdc)
 	{
+		return;
 		if (m_pCurrentAnimation != nullptr)
 		{
 			m_pCurrentAnimation->Render(hdc);

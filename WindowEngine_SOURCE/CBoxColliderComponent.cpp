@@ -6,15 +6,16 @@
 #include "CRenderManager.h"
 namespace Framework
 {
-	RECT CBoxColliderComponent::GetRect()
+	RECT CBoxColliderComponent::GetRect() const
 	{
 		const Maths::Vector2& pos = GetOwner()->GetPosition();
 		const Maths::Vector2& size = GetSize();
+		const float halfX = size.x * 0.5f;
 		RECT rect =
 		{
-			static_cast<LONG>((pos.x - (size.x * 0.5f))),
+			static_cast<LONG>(pos.x - halfX),
 			static_cast<LONG>(pos.y - size.y),
-			static_cast<LONG>((pos.x + (size.x * 0.5f))),
+			static_cast<LONG>(pos.x + halfX),
 			static_cast<LONG>(pos.y),
 		};
 		return rect;

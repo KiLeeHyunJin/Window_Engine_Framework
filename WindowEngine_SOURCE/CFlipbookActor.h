@@ -34,7 +34,9 @@ namespace Framework
         bool LastTick() override; 
 
         bool Render(HDC hdc) const override;
-
+        // CActor을(를) 통해 상속됨
+        void Initialize() override;
+        void FixedTick() override;
     private:
         void AnimationTickComponent();
 
@@ -43,9 +45,7 @@ namespace Framework
         INT m_uiIndex;
         bool m_bCompleted;
 
-        // CActor을(를) 통해 상속됨
-        void Initialize() override;
-        void FixedTick() override;
+
     };
 
 

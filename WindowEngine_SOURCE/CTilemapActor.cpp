@@ -5,8 +5,10 @@
 #include "CResourceManager.h"
 #include "CTimeManager.h"
 #include "CInputManager.h"
+#include "CRenderManager.h"
 
 #include "CCameraComponent.h"
+
 #include "CRenderer.h"
 namespace Framework
 {
@@ -68,8 +70,6 @@ namespace Framework
 		const Maths::Vector2& mapSize = m_pTilemap->GetMapSize();
 		const std::vector<std::vector<Tile>>& tiles = m_pTilemap->GetTiles();
 
-		const Resource::CSprite* spriteO = GET_SINGLE(RESOURCE).FindSprite(L"1");
-		const Resource::CSprite* sprite1 = GET_SINGLE(RESOURCE).FindSprite(L"2");
 
 		//const Maths::Vector2 vecTileSize	= Maths::Vector2(static_cast<FLOAT>(tileSize), static_cast<FLOAT>(tileSize));
 
@@ -82,13 +82,15 @@ namespace Framework
 
 		INT32 startX	= (INT32)((camPos.x - position.x) / m_veciTileSize.x);
 		INT32 startY	= (INT32)((camPos.y - position.x) / m_veciTileSize.y);
-		INT32 endX		= (INT32)((camPos.x + resolution.x - position.x) / m_veciTileSize.x);
+		INT32 endX		= (INT32)((camPos.x + resolution.x - position.x + (m_veciTileSize.x * 0.5f)) / m_veciTileSize.x);
 		INT32 endY		= (INT32)((camPos.y + resolution.y - position.y) / m_veciTileSize.y);
 
-		bool check = true;
-		for (INT32 y = startY; y <= endY; y++)
+		const Maths::Vector2 pos = position - camPos;
+
+		bool check = true;	
+		for (INT32 y = startY; y < endY; y++)
 		{
-			for (INT32 x = startX; x <= endX; x++)
+			for (INT32 x = startX; x < endX; x++)
 			{
 				if (x < 0 || x >= mapSize.x)
 				{
@@ -103,15 +105,15 @@ namespace Framework
 					//if (mainCam != nullptr)
 					//{
 					//	const Maths::Vector2 pos = Maths::Vector2(
-					//		(x * tileSize) + position.x, 
-					//		(y * tileSize) + position.y);
+					//		(x * m_veciTileSize.x) + position.x, 
+					//		(y * m_veciTileSize.y) + position.y);
 					//	absolutePos = mainCam->CaluatePosition(pos);
-					//	check = mainCam->ScreenInCheck(absolutePos, vecTileSize); //화면 안에 있는지 결과를 반환
+					//	check = mainCam->ScreenInCheck(absolutePos, m_veciTileSize); //화면 안에 있는지 결과를 반환
 					//}
 					//else
 					//{
-					//	absolutePos.x = position.x + (x * tileSize);
-					//	absolutePos.y = position.y + (y * tileSize);
+					//	absolutePos.x = position.x + (x * m_veciTileSize.x);
+					//	absolutePos.y = position.y + (y * m_veciTileSize.y);
 					//}
 					
 					//if (check == false)
@@ -119,46 +121,43 @@ namespace Framework
 				}
 
 
-				if (x < startX || x > endX)
+			/*	if (x < startX || x > endX)
 					continue;
 				if (y < startY || y > endY)
-					continue;
+					continue;*/
 				//Maths::Vector2 camStartPos(camPos.x - halfResolution.x, camPos.y - halfResolution.y);
 
 
-				Maths::Vector2Int setPos(
-					(INT32)((position.x + (x * m_veciTileSize.x)) - (camPos.x)),
-					(INT32)((position.y + (y * m_veciTileSize.y)) - (camPos.y)));
+				Maths::Vector2Int startPos = pos + 
+					Maths::Vector2(
+						(FLOAT)(x * m_veciTileSize.x) + m_veciTileSize.x * 0.5f,
+						(FLOAT)(y * m_veciTileSize.y) + m_veciTileSize.y);
 
-				//switch (tiles[y][x].value)
-				//{
-				//case 0:
-				//	::TransparentBlt(hdc,
-				//		setPos.x,
-				//		setPos.y,
-				//		m_veciTileSize.x, m_veciTileSize.y,
-				//		spriteO->GetHDC(),
-				//		(INT)spriteO->GetSize().x, 
-				//		(INT)spriteO->GetSize().y,
-				//		m_veciTileSize.x, m_veciTileSize.y,
-				//		spriteO->GetTransparent()
-				//	);
-				//	break;
-				//case 1:
-				//	::TransparentBlt(hdc,
-				//		setPos.x,
-				//		setPos.y,
-				//		m_veciTileSize.x, m_veciTileSize.y,
-				//		sprite1->GetHDC(),
-				//		(INT)sprite1->GetSize().x,
-				//		(INT)sprite1->GetSize().y,
-				//		m_veciTileSize.x, m_veciTileSize.y,
-				//		spriteO->GetTransparent()
-				//	);
-				//	break;
-				//default:
-				//	break;
-				//}
+				switch (tiles[y][x].value)
+				{
+				case 0:
+				{
+					const Resource::CSprite* sprite = GET_SINGLE(RESOURCE).FindSprite(L"1");
+					if (sprite == nullptr)
+						break;
+					GET_SINGLE(RENDER).Image(sprite, startPos);
+				}
+					break;	  
+
+				case 1:
+				{
+					const Resource::CSprite* sprite = GET_SINGLE(RESOURCE).FindSprite(L"2");
+					if (sprite == nullptr)
+						break;
+					GET_SINGLE(RENDER).Image(sprite, startPos);
+				}
+					break;
+
+				default:
+					break;
+				}
+
+
 				
 			}
 		}
@@ -169,15 +168,14 @@ namespace Framework
 	{
 		if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::LBUTTON))
 		{
-			CCameraComponent* cam = Renderer::CRenderer::GetMainCamera();
+			const CCameraComponent* cam = Renderer::CRenderer::GetMainCamera();
 			const Maths::Vector2& camPos = cam->GetCameraPosition();
 			const Maths::Vector2& mousePos = GET_SINGLE(INPUT).GetMousePosition();
 
 			const Maths::Vector2 tileNum(
-				(mousePos.x + camPos.x) / m_veciTileSize.x,
-				(mousePos.y + camPos.y) / m_veciTileSize.y);
-
-			INT32 value = (m_pTilemap->GetTileAt(tileNum).value + 1) % 2;
+				(mousePos.x + camPos.x ) / m_veciTileSize.x,
+				(mousePos.y + camPos.y ) / m_veciTileSize.y);
+			const INT32 value = (m_pTilemap->GetTileAt(tileNum).value + 1) % 2;
 			m_pTilemap->SetTileAt(tileNum, value);
 		}
 	}

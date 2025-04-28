@@ -7,7 +7,7 @@ namespace Framework
 	Utils::Utils()
 	{	}
 
-	void Utils::DrawTxt(HDC hdc, const Maths::Vector2& pos, const std::wstring& str)
+	/*void Utils::DrawTxt(HDC hdc, const Maths::Vector2& pos, const std::wstring& str)
 	{
 		return;
 		::TextOut(hdc, 
@@ -102,7 +102,7 @@ namespace Framework
 		::LineTo(hdc, 
 			static_cast<INT>(to.x), 
 			static_cast<INT>(to.y));
-	}
+	}*/
 
 
 

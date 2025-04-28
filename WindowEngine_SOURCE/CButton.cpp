@@ -1,6 +1,7 @@
 #include "CButton.h"
 
 #include "CTimeManager.h"
+#include "CRenderManager.h"
 
 namespace Framework
 {
@@ -42,13 +43,16 @@ namespace Framework
 
 	void CButton::OnRender(HDC hdc) const
 	{
-		HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
-		HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
-		
-		Utils::DrawRect(hdc, m_vecRenderPos, GetScale());
+		const Maths::Vector2& scale = GetScale();
+		Maths::Vector2 startPoint = { m_vecRenderPos.x - (scale.x * 0.5f), m_vecRenderPos.y - scale.y };
+		GET_SINGLE(RENDER).FillRect(startPoint, startPoint + scale, m_colorFill);
+		//HBRUSH newBrush = CreateSolidBrush(RGB(m_colorFill.r, m_colorFill.g, m_colorFill.b));
+		//HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
+		//
+		//Utils::DrawRect(hdc, m_vecRenderPos, GetScale());
 
-		(HBRUSH)SelectObject(hdc, oldBrush);
-		DeleteObject(newBrush);
+		//(HBRUSH)SelectObject(hdc, oldBrush);
+		//DeleteObject(newBrush);
 	}
 
 	void CButton::OnClick()
