@@ -22,6 +22,11 @@ namespace Framework
 
 	void CLineComponent::Release()
 	{
+		if (m_pTriggerEvent != nullptr)
+		{
+			delete m_pTriggerEvent;
+			m_pTriggerEvent = nullptr;
+		}
 	}
 	void CLineComponent::Initialize()
 	{

@@ -21,9 +21,13 @@ namespace Framework
 		CBoxColliderComponent* pBoxColl = AddComponent<CBoxColliderComponent>();
 		
 		pBoxColl->SetSize(Maths::Vector2(40, 70));
-		//pBoxColl->SetAngle(20);
+		pBoxColl->SetAngle(20);
 		pBoxColl->SetTrigger(false);
+		pBoxColl->AddCollisionFlag((UINT)eLayer::Tile);
 		pBoxColl->Initialize();
+
+		pRigid->SetMass(60);
+		pRigid->SetFriction(15);
 	}
 	void CPlayerCharacterActor::BeginPlay()
 	{
@@ -59,7 +63,7 @@ namespace Framework
 		{
 			if (pRigid->GetGround())
 			{
-				addForceDir += Maths::Vector2::Up * 500;
+				addForceDir += Maths::Vector2::Up * 400;
 				pRigid->SetGround(false);
 			}
 		}
@@ -90,6 +94,12 @@ namespace Framework
 		else
 		{
 			pColl->AddCollisionFlag((UINT)eLayer::Tile);
+		}
+
+		const bool tileCollision = m_iTileCollisionCount >= 1 ? true : false;
+		if (tileCollision != pRigid->GetGround())
+		{
+			pRigid->SetGround(tileCollision);
 		}
 		return state;
 	}

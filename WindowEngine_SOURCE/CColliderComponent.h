@@ -50,6 +50,7 @@ namespace Framework
 		void							RemoveCollisionFlag(UINT32 flag)		{ Utils::FlagOff(m_iCollisionFlag, flag);	}
 		void							SetCollisionFlag(UINT32 flag)			{ m_iCollisionFlag = flag;					}
 		void							ResetCollisionFlag()					{ m_iCollisionFlag = 0;						}
+		bool							CheckCollisionFlag(UINT32 flag)	const	{ Utils::FlagCheck(m_iCollisionFlag, flag); }
 
 		void							SetOffset(const Maths::Vector2& offset)	{ m_vecOffset = offset;						}
 		void							SetSize(const Maths::Vector2& size)		{ m_vecSize = size;							}

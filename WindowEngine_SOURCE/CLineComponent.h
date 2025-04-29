@@ -20,7 +20,7 @@ namespace Framework
 		bool TickComponent() override;
 		bool LastTickComponent() override;
 
-		void SetLineHeightPercent(float percent)						{ m_fPercent = Maths::Clamp<FLOAT>(percent, 0.05f, 0.95f); }
+		void SetLineHeightPercent(float percent)						{ m_fPercent = Maths::Clamp<FLOAT>(percent, 0.05f, 1.f); }
 		__inline const Maths::Vector2&	GetStartPosition()		const	{ return m_vecStartPos;		}
 		__inline const Maths::Vector2&	GetEndPosition()		const	{ return m_vecEndPos;		}
 		

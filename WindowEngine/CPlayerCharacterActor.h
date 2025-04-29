@@ -23,8 +23,11 @@ namespace Framework
 
         bool Render(HDC hdc) const override;
         void FixedTick() override;
+        void SetTileCollision() { m_iTileCollisionCount++; }
 
     private:
+        INT m_iTileCollisionCount = 0;
+
 
     };
 }

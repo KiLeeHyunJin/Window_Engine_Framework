@@ -84,8 +84,6 @@ namespace Framework
 			lag -= FIXED_STEP;
 		}
 
-
-
 		GET_SINGLE(RENDER).Render();
 		// 렌더 업데이트 
 	}

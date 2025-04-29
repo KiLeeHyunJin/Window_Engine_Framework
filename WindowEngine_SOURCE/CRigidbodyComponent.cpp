@@ -13,7 +13,7 @@ namespace Framework
 		m_fFriction(10.0f), m_fMass(70), m_bGround(false),
 		m_vecAccelation		(Maths::Vector2::Zero),			m_vecForce			(Maths::Vector2::Zero),
 		m_vecGravity		(Maths::Vector2(0,980)),		m_vecVelocity		(Maths::Vector2::Zero),
-		m_vecLimitVelocity	(Maths::Vector2(500, 500))//,		m_vecLimitGravity	(Maths::Vector2(500, 500))
+		m_vecLimitVelocity	(Maths::Vector2(500, 380))//,		m_vecLimitGravity	(Maths::Vector2(500, 500))
 	{
 	}
 	CRigidbodyComponent::~CRigidbodyComponent()
@@ -76,61 +76,22 @@ namespace Framework
 				return;
 			}
 
-			if (m_bGround )
+			if (m_bGround  )
 			{
-				if (m_fGravityValue != 0)
+				if (m_vecVelocity.y != 0)
 				{
-					m_fGravityValue = 0;
+					m_vecVelocity.y = 0;
 				}
-			//const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
-			//Maths::Vector2 minusGravityDir = gravityDir * dot;
-			//m_vecVelocity -= minusGravityDir;
+				//return;
 			}
-			else
+			//else
 			{
 				m_vecVelocity.y += m_vecGravity.y * GET_SINGLE(TIME).DeltaTime();
 				
-				//m_vecVelocity.y = Maths::Clamp<FLOAT>(m_vecVelocity.y, m_vecLimitVelocity.y * -1, m_vecLimitVelocity.y);
-				//m_vecVelocity.x = Maths::Clamp<FLOAT>(m_vecVelocity.x, m_vecLimitVelocity.x * -1, m_vecLimitVelocity.x);
+				m_vecVelocity.y = Maths::Clamp<FLOAT>(m_vecVelocity.y, m_vecLimitVelocity.y * -1, m_vecLimitVelocity.y);
+				m_vecVelocity.x = Maths::Clamp<FLOAT>(m_vecVelocity.x, m_vecLimitVelocity.x * -1, m_vecLimitVelocity.x);
 
-
-				if (m_vecVelocity.y > m_vecLimitVelocity.y)
-				{
-					m_vecVelocity.y = m_vecLimitVelocity.y;
-				}
-				else if (m_vecVelocity.y < -m_vecLimitVelocity.y)
-				{
-					m_vecVelocity.y = -m_vecLimitVelocity.y;
-				}
-
-				if (m_vecVelocity.x > m_vecLimitVelocity.x)
-				{
-					m_vecVelocity.x = m_vecLimitVelocity.x;
-				}
-				else if (m_vecVelocity.x < -m_vecLimitVelocity.x)
-				{
-					m_vecVelocity.x = -m_vecLimitVelocity.x;
-				}
 			}
-
-	/*	const float dot = Maths::Vector2::Dot(m_vecVelocity, gravityDir);
-
-			Maths::Vector2 gravityDot = gravityDir * dot;
-			Maths::Vector2 sideVelocity = m_vecVelocity - gravityDot;
-
-			if (m_vecLimitGravity.y < gravityDot.Length())
-			{
-				gravityDot.Normalize();
-				gravityDot *= m_vecLimitVelocity.y;
-			}
-
-			if (m_vecLimitVelocity.x < sideVelocity.Length())
-			{
-				sideVelocity.Normalize();
-				sideVelocity *= m_vecLimitVelocity.x;
-			}
-
-			m_vecVelocity = gravityDot + sideVelocity;*/
 		}
 		catch (std::exception e)
 		{
@@ -148,7 +109,6 @@ namespace Framework
 
 		if (m_bGround)
 		{
-
 			Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //마찰력 방향
 			friction = friction * (m_fFriction * m_fMass * TickComponentTime); //마찰력 계산
 
@@ -188,8 +148,8 @@ namespace Framework
 		if (pos == pre)
 		{		return;		}
 
-		if (CheckCollisionLine(target, other))
-		{		return;		}
+		//if (CheckCollisionLine(target, other))
+		//{		return;		}
 
 		if (target->GetTrigger() || other->GetTrigger())
 		{		return;		}//물리충돌이 필요한 대상인지 확인
@@ -240,6 +200,7 @@ namespace Framework
 				if (lineYPos > pos.y) //선보다 위
 				{		return false;	}
 
+				//선 높이랑 플레이어 높이가 플레이어의 콜라이더 박스 높이의 20% 보다 크다면 충돌 인정 X 
 				if (Maths::Abs(lineYPos - pos.y) > (target->GetSize().y * 0.2f))
 				{		return false;	}	
 

@@ -25,6 +25,9 @@
     <Filter Include="01.Script\PlayerCharacterActor">
       <UniqueIdentifier>{c044c497-231b-4387-930d-933301337bab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Script\TileActor">
+      <UniqueIdentifier>{4d028269-d09d-429e-b048-d98812356a44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadScene.h">
@@ -57,14 +60,14 @@
     <ClInclude Include="CDevScene.h">
       <Filter>00.Scene\Dev</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerControllActor.h">
-      <Filter>01.Script</Filter>
-    </ClInclude>
     <ClInclude Include="CGameControllActor.h">
       <Filter>01.Script\GameControllActor</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerCharacterActor.h">
       <Filter>01.Script\PlayerCharacterActor</Filter>
+    </ClInclude>
+    <ClInclude Include="CTileActor.h">
+      <Filter>01.Script\TileActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,14 +86,14 @@
     <ClCompile Include="CDevScene.cpp">
       <Filter>00.Scene\Dev</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerControllActor.cpp">
-      <Filter>01.Script</Filter>
-    </ClCompile>
     <ClCompile Include="CGameControllActor.cpp">
       <Filter>01.Script\GameControllActor</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerCharacterActor.cpp">
       <Filter>01.Script\PlayerCharacterActor</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileActor.cpp">
+      <Filter>01.Script\TileActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

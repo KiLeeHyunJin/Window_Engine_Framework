@@ -22,6 +22,11 @@ namespace Framework
 	}
 	void CColliderComponent::Release()
 	{
+		if (m_pTriggerEvent != nullptr)
+		{
+			delete m_pTriggerEvent;
+			m_pTriggerEvent = nullptr;
+		}
 	}
 	bool CColliderComponent::TickComponent()
 	{
@@ -52,8 +57,8 @@ namespace Framework
 	/// <param name="other"></param>
 	/// <returns></returns>
 	const bool CColliderComponent::CheckCollision(CColliderComponent* other)
-	{
-		return CheckFlag(this, other);
+	{ 
+		return CheckFlag(this, other) && CheckFlag(other, this);
 	}
 
 	void CColliderComponent::EventTrigger(float waitTime, bool state)

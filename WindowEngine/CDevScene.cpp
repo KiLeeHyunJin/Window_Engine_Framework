@@ -1,6 +1,9 @@
 #include "CDevScene.h"
 
-#include "CTilemap.h"
+#include "CPlayerCharacterActor.h"
+#include "CSpriteActor.h"
+#include "CTileActor.h"
+
 #include "CTilemapActor.h"
 
 #include "Object.h"
@@ -10,13 +13,8 @@
 #include "CResourceManager.h"
 #include "CCollisionManager.h"
 
-#include "CPlayerCharacterActor.h"
-#include "CSpriteActor.h"
-
-#include "CRigidbodyComponent.h"
 #include "CBoxColliderComponent.h"
 #include "CCameraComponent.h"
-#include "CLineComponent.h"
 
 namespace Framework
 {
@@ -58,11 +56,17 @@ namespace Framework
 	}
 	void CDevScene::OnEnter()
 	{
-		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character, true);
-		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Tile, true);
-		//GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Environment, true);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Item		, (UINT)eLayer::Character	, true);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Monster	, (UINT)eLayer::Character	, true);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Tile		, (UINT)eLayer::Character	, true);
+
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Tile		, (UINT)eLayer::Tile		, false);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character	, false);
+
+#pragma region  Cam
 
 		CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+
 		if (pCam == nullptr) // Create Camera
 		{
 			CActor* pActor = Object::Instantiate<CSpriteActor>(static_cast<UINT>(eLayer::Character), L"Test2");
@@ -77,8 +81,11 @@ namespace Framework
 			pCam->SetFollowRange(vecFollowMin, vecFollowMax);
 		}
 
+#pragma endregion
 
-		if(false)
+
+#pragma region  TileMapActor
+		if (false)
 		{
 			CTilemapActor* ta = Object::Instantiate<CTilemapActor>(3, L"");
 			SetTilemapActor(ta);
@@ -88,8 +95,10 @@ namespace Framework
 			ta->SetTilemap(tm);
 			ta->SetShowDebug(true);
 		}
+#pragma endregion
 
-
+	
+#pragma region  Player
 		{
 			CActor* pActor = Object::Instantiate<CPlayerCharacterActor>(static_cast<UINT>(eLayer::Character), L"Test");
 
@@ -98,51 +107,34 @@ namespace Framework
 			pCam->SetTarget(pActor);
 		}
 
+#pragma endregion
 
 		{
-			CActor* pActor = Object::Instantiate<CSpriteActor>(static_cast<UINT>(eLayer::Tile), L"Test");
+			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test");
 
 			pActor->SetPosition(Maths::Vector2(100, 500));
 			pActor->SetScale(Maths::Vector2(20, 20));
-
-			CRigidbodyComponent* pRigid = pActor->AddComponent<CRigidbodyComponent>();
-			CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
-			CLineComponent* pLine = pActor->AddComponent<CLineComponent>();
-
-			pRigid->SetFreeze(true);
-			pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
-			pBoxColl->SetSize(Maths::Vector2(96, 48));
-			//pBoxColl->SetAngle(10);
-			pBoxColl->SetTrigger(true);
-			pBoxColl->Initialize();
-
-			pLine->SetLineHeightPercent(0.5f);
-			pLine->Initialize();
-
-			//pCam->SetTarget(pActor);
+			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 20));
 		}
 
-		//for (UINT i = 200; i > 0; i--)
-		//{
-		//	CActor* pActor = Object::Instantiate<CSpriteActor>(static_cast<UINT>(eLayer::Character), L"Test" + std::to_wstring(i));
+		{
+			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test");
 
-		//	pActor->AddComponent<CRigidbodyComponent>();
-		//	CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
-		//	pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
-		//	pBoxColl->SetSize(Maths::Vector2(50, 50));
-		//	pActor->SetPosition(Maths::Vector2Int(150 + (i), 50 + i));
-		//	pBoxColl->SetTrigger(false);
+			pActor->SetPosition(Maths::Vector2(190, 510));
+			pActor->SetScale(Maths::Vector2(20, 20));
+			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 20));
+		}
 
-		//	pCam->SetTarget(pActor);
-		//}
-
+		{
+			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test");
+			pActor->SetPosition(Maths::Vector2(100, 550));
+			pActor->SetScale(Maths::Vector2(20, 20));
+			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(192, 20));
+		}
 
 	}
 	void CDevScene::OnExit()
 	{
-		//SAFE_DELETE(m_pTilemapActor);
+
 	}
-	//void CDevScene::LastRender(HDC hdc)
-	//{
-	//}
 }

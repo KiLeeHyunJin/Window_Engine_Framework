@@ -21,7 +21,6 @@
 #include "CActor.h"
 #include "CSpriteActor.h"
 #include "CFlipbookActor.h"
-#include "CPlayerControllActor.h"
 #include "CGameControllActor.h"
 
 
@@ -77,30 +76,30 @@ void Framework::CPlayScene::OnEnter()
 {
 	GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character, true);
 
-	CActor* pActor = Object::Instantiate<CPlayerControllActor>((UINT)eLayer::Character, L"Test");
-	pActor->AddComponent<CRigidbodyComponent>();
-	CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
-	pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
-	pBoxColl->SetSize(Maths::Vector2(50, 50));
-	pActor->SetPosition(Maths::Vector2(50,50));
+	//CActor* pActor = Object::Instantiate<CPlayerControllActor>((UINT)eLayer::Character, L"Test");
+	//pActor->AddComponent<CRigidbodyComponent>();
+	//CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+	//pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
+	//pBoxColl->SetSize(Maths::Vector2(50, 50));
+	//pActor->SetPosition(Maths::Vector2(50,50));
 
 	{
-		pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
-		pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+		CActor* pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
+		CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
 		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
 		pBoxColl->SetSize(Maths::Vector2(50, 50));
 		pActor->SetPosition(Maths::Vector2(200, 70));
 	}
 	{
-		pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
-		pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+		CActor* pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
+		CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
 		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
 		pBoxColl->SetSize(Maths::Vector2(50, 50));
 		pActor->SetPosition(Maths::Vector2(260, 70));
 	}
 	{
-		pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
-		pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
+		CActor* pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
+		CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
 		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
 		pBoxColl->SetSize(Maths::Vector2(50, 50));
 		pActor->SetPosition(Maths::Vector2(320, 70));

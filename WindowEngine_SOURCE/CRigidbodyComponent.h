@@ -27,7 +27,8 @@ namespace Framework
 		const Enums::eComponentType				GetComponentType() const override	{ return StaticComponentType(); }
 
 		float GetCurrentGravity()			const { return m_fGravityValue; }
-		void SetCurrentGravity(float gravity) { m_fGravityValue = gravity; }
+		void SetCurrentGravity(float gravity)		{ m_fGravityValue = gravity; }
+		void SetFriction(float friction)			{ m_fFriction = friction; }
 		/// <summary>
 		/// 질량을 설정
 		/// </summary>

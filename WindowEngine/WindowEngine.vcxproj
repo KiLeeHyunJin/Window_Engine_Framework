@@ -162,9 +162,9 @@
     <ClInclude Include="CDummy.h" />
     <ClInclude Include="CGameControllActor.h" />
     <ClInclude Include="CPlayerCharacterActor.h" />
-    <ClInclude Include="CPlayerControllActor.h" />
     <ClInclude Include="CPlayerInput.h" />
     <ClInclude Include="CPlayScene.h" />
+    <ClInclude Include="CTileActor.h" />
     <ClInclude Include="CTitleScene.h" />
     <ClInclude Include="ContentEnums.h" />
     <ClInclude Include="LoadResource.h" />
@@ -177,9 +177,9 @@
     <ClCompile Include="CDummy.cpp" />
     <ClCompile Include="CGameControllActor.cpp" />
     <ClCompile Include="CPlayerCharacterActor.cpp" />
-    <ClCompile Include="CPlayerControllActor.cpp" />
     <ClCompile Include="CPlayerInput.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
+    <ClCompile Include="CTileActor.cpp" />
     <ClCompile Include="CTitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
