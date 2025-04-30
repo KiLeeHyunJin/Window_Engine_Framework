@@ -1,9 +1,13 @@
 #include "CPlayerCharacterActor.h"
 #include "CRenderManager.h"
 #include "CInputManager.h"
+
 #include "CRigidbodyComponent.h"
 #include "CBoxColliderComponent.h"
+
 #include "ContentEnums.h"
+
+#include "CTileActor.h"
 
 namespace Framework
 {
@@ -17,17 +21,17 @@ namespace Framework
 	{
 		SUPER::Initialize();
 
-		CRigidbodyComponent* pRigid = AddComponent<CRigidbodyComponent>();
-		CBoxColliderComponent* pBoxColl = AddComponent<CBoxColliderComponent>();
+		m_pRigid = AddComponent<CRigidbodyComponent>();
+		m_pBoxColl = AddComponent<CBoxColliderComponent>();
 		
-		pBoxColl->SetSize(Maths::Vector2(40, 70));
-		pBoxColl->SetAngle(20);
-		pBoxColl->SetTrigger(false);
-		pBoxColl->AddCollisionFlag((UINT)eLayer::Tile);
-		pBoxColl->Initialize();
+		m_pBoxColl->SetSize(Maths::Vector2(40, 70));
+		//pBoxColl->SetAngle(20);
+		m_pBoxColl->SetTrigger(false);
+		m_pBoxColl->AddCollisionFlag((UINT)eLayer::Tile);
+		m_pBoxColl->Initialize();
 
-		pRigid->SetMass(60);
-		pRigid->SetFriction(15);
+		m_pRigid->SetMass(60);
+		m_pRigid->SetFriction(15);
 	}
 	void CPlayerCharacterActor::BeginPlay()
 	{
@@ -39,11 +43,9 @@ namespace Framework
 	}
 	bool CPlayerCharacterActor::Tick()
 	{
-		CRigidbodyComponent* pRigid = GetComponent<CRigidbodyComponent>();
-
 		Maths::Vector2 addForceDir = {};
 
-		const float yValue = pRigid->GetVelocity().y;
+		const float yValue = m_pRigid->GetVelocity().y;
 
 		const float speed = 20;
 		const float movePower = speed * 5;
@@ -61,10 +63,10 @@ namespace Framework
 
 		if (GET_SINGLE(INPUT).GetKeyDown(eKeyCode::Space))
 		{
-			if (pRigid->GetGround())
+			if (m_pRigid->GetGround())
 			{
 				addForceDir += Maths::Vector2::Up * 400;
-				pRigid->SetGround(false);
+				m_pRigid->SetGround(false);
 			}
 		}
 
@@ -74,39 +76,70 @@ namespace Framework
 			{
 				addForceDir.y += yValue;
 			}
-			pRigid->SetVelocity(addForceDir);
+			m_pRigid->SetVelocity(addForceDir);
 		}
 
 		bool state = SUPER::Tick();
 		return state;
 	}
+
 	bool CPlayerCharacterActor::LastTick()
 	{
 		bool state = SUPER::LastTick();
-		CRigidbodyComponent* pRigid = GetComponent<CRigidbodyComponent>();
-		CColliderComponent* pColl = AddComponent<CBoxColliderComponent>();
-		const Maths::Vector2& velocity = pRigid->GetVelocity();
+		const Maths::Vector2& velocity = m_pRigid->GetVelocity();
 
 		if (velocity.y < 0)
 		{
-			pColl->RemoveCollisionFlag((UINT)eLayer::Tile);
+			m_pBoxColl->RemoveCollisionFlag((UINT)eLayer::Tile);
 		}
 		else
 		{
-			pColl->AddCollisionFlag((UINT)eLayer::Tile);
+			m_pBoxColl->AddCollisionFlag((UINT)eLayer::Tile);
 		}
 
-		const bool tileCollision = m_iTileCollisionCount >= 1 ? true : false;
-		if (tileCollision != pRigid->GetGround())
-		{
-			pRigid->SetGround(tileCollision);
-		}
 		return state;
 	}
+
 	void CPlayerCharacterActor::FixedTick()
 	{
 		SUPER::FixedTick();
+
+		if (m_vecTiles.size() == 0)
+			return;
+
+		bool state = false;
+		for (auto tile : m_vecTiles)
+		{
+			if (state == false && tile->TileAdjustPosition(m_pBoxColl))
+			{
+				state = true;
+			}
+		}
+		m_pRigid->SetGround(state);
 	}
+	void CPlayerCharacterActor::OnCollisionEnter(CColliderComponent* other)
+	{
+		CTileActor* pTile = dynamic_cast<CTileActor*>(other->GetOwner());
+		if(pTile != nullptr)
+		{
+			m_vecTiles.push_back(pTile);
+		}
+	}
+
+	void CPlayerCharacterActor::OnCollisionStay(CColliderComponent* other)
+	{
+	}
+
+	void CPlayerCharacterActor::OnCollisionExit(CColliderComponent* other)
+	{
+		CTileActor* pTile = dynamic_cast<CTileActor*>(other->GetOwner());
+		if (pTile != nullptr)
+		{
+			auto iter = std::remove(m_vecTiles.begin(), m_vecTiles.end(), pTile);
+			m_vecTiles.erase(iter);
+		}
+	}
+
 	bool CPlayerCharacterActor::Render(HDC hdc) const
 	{
 		if (SUPER::Render(hdc) == false)

@@ -35,6 +35,7 @@ namespace Framework
 			if (iter == m_unObjects.end())			//존재 하지 않는 아이디
 			{
 				m_unObjects.insert(std::make_pair(id, pActor));
+				pActor->SetID(id);
 				return;
 			}
 

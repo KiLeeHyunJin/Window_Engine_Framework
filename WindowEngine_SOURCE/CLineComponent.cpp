@@ -1,5 +1,8 @@
 #include "CLineComponent.h"
 #include "CBoxColliderComponent.h"
+#include "CCameraComponent.h"
+#include "CRenderer.h"
+
 #include "CRenderManager.h"
 #include "CTimeManager.h"
 
@@ -106,18 +109,17 @@ namespace Framework
 
 	void CLineComponent::Render(HDC hdc)
 	{
+		Maths::Vector2 startPos = m_vecStartPos;
+		Maths::Vector2 endPos = m_vecEndPos;
 
-		//HBRUSH transparentBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
-		//HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, transparentBrush);
+		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 
-		//HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
-		//HPEN oldPen = (HPEN)SelectObject(hdc, pen);
-
-		//transparentBrush = (HBRUSH)SelectObject(hdc, oldBrush);
-
-		//Utils::DrawLine(hdc, m_vecStartPos, m_vecEndPos);
-		//pen = (HPEN)SelectObject(hdc, oldPen);
-		GET_SINGLE(RENDER).Line(m_vecStartPos,m_vecEndPos);
+		if (pCam != nullptr)
+		{
+			startPos = pCam->CaluatePosition(startPos);
+			endPos = pCam->CaluatePosition(endPos);
+		}
+		GET_SINGLE(RENDER).Line(startPos, endPos);
 
 		//DeleteObject(pen);
 	}

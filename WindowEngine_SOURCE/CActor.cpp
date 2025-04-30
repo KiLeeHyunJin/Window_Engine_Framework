@@ -7,8 +7,10 @@
 #include "CRenderManager.h"
 #include "CEventManager.h"
 
+#include "CCameraComponent.h"
 #include "CTransformComponent.h"
 #include "CRigidbodyComponent.h"
+
 namespace Framework
 {
 	CActor::CActor(UINT layerType) :
@@ -124,6 +126,17 @@ namespace Framework
 		{
 			pCom->Render(hdc);
 		}
+
+		Maths::Vector2 pos = GetPosition();
+		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+
+		if (pCam != nullptr)
+		{
+			pos = pCam->CaluatePosition(pos);
+		}
+
+		GET_SINGLE(RENDER).FrameCircle(pos, 2.f);
+		GET_SINGLE(RENDER).Text(std::to_wstring(m_uiID), pos, Maths::Vector2(100 + pos.x,  pos.y));
 		return true;
 	}
 

@@ -8,7 +8,6 @@
 
 #include "CCameraComponent.h"
 
-#include "CPlayerInput.h"
 #include "CGameControllActor.h"
 
 

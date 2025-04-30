@@ -409,7 +409,7 @@ namespace Framework
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			//const Maths::Vector2 end = pCam->CaluatePosition(endPoint);
-			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x, endPoint.x };
+			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x, endPoint.y };
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pDefaultTextFormat, rect, m_pDefaultBrush);
 		}
 

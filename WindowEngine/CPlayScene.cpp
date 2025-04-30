@@ -15,8 +15,6 @@
 #include "CTexture.h"
 #include "ContentEnums.h"
 
-#include "CPlayerInput.h"
-#include "CDummy.h"
 
 #include "CActor.h"
 #include "CSpriteActor.h"

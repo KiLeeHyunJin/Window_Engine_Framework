@@ -3,6 +3,10 @@
 
 namespace Framework
 {
+    class CBoxColliderComponent;
+    class CRigidbodyComponent;
+
+    class CTileActor;
 
     class CPlayerCharacterActor :
         public CFlipbookActor
@@ -23,12 +27,18 @@ namespace Framework
 
         bool Render(HDC hdc) const override;
         void FixedTick() override;
+
+        void OnCollisionEnter(CColliderComponent* other) override;
+        void OnCollisionStay(CColliderComponent* other) override;
+        void OnCollisionExit(CColliderComponent* other) override;
+
         void SetTileCollision() { m_iTileCollisionCount++; }
 
     private:
         INT m_iTileCollisionCount = 0;
-
-
+        std::vector<CTileActor*> m_vecTiles;
+        CBoxColliderComponent* m_pBoxColl   = nullptr;
+        CRigidbodyComponent* m_pRigid = nullptr;
     };
 }
 

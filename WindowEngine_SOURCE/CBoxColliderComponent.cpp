@@ -55,12 +55,12 @@ namespace Framework
 	{
 		Maths::Vector2 pos = GetOwner()->GetPosition();
 		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-		const Maths::Vector2 offsetPos = pos + m_vecOffset;
 
 		if (pCam != nullptr)
 		{
 			pos = pCam->CaluatePosition(pos);
 		}
+		const Maths::Vector2 offsetPos = pos + m_vecOffset;
 
 		if (((INT)m_fAngle % 180) == 0)
 		{

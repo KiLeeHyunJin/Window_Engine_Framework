@@ -13,7 +13,7 @@ namespace Framework
 		m_fFriction(10.0f), m_fMass(70), m_bGround(false),
 		m_vecAccelation		(Maths::Vector2::Zero),			m_vecForce			(Maths::Vector2::Zero),
 		m_vecGravity		(Maths::Vector2(0,980)),		m_vecVelocity		(Maths::Vector2::Zero),
-		m_vecLimitVelocity	(Maths::Vector2(500, 380))//,		m_vecLimitGravity	(Maths::Vector2(500, 500))
+		m_vecLimitVelocity	(Maths::Vector2(500, 600))//,		m_vecLimitGravity	(Maths::Vector2(500, 500))
 	{
 	}
 	CRigidbodyComponent::~CRigidbodyComponent()
@@ -80,9 +80,9 @@ namespace Framework
 			{
 				if (m_vecVelocity.y != 0)
 				{
-					m_vecVelocity.y = 0;
+					m_vecVelocity.y = m_vecGravity.y * GET_SINGLE(TIME).DeltaTime();
 				}
-				//return;
+				return;
 			}
 			//else
 			{
@@ -106,8 +106,8 @@ namespace Framework
 			return;
 		}
 		const float TickComponentTime = GET_SINGLE(TIME).DeltaTime();
-
-		if (m_bGround)
+		const float yValue = m_vecVelocity.y;
+		//if (m_bGround)
 		{
 			Maths::Vector2 friction = m_vecVelocity.Normalized() * -1; //마찰력 방향
 			friction = friction * (m_fFriction * m_fMass * TickComponentTime); //마찰력 계산
@@ -120,7 +120,7 @@ namespace Framework
 
 			m_vecVelocity += friction; //속도에 마찰력 합산하여 속도 감소
 		}
-
+		m_vecVelocity.y = yValue;
 		Maths::Vector2 pos = GetOwner()->GetPosition();
 		pos = pos + (m_vecVelocity * TickComponentTime);
 		GetOwner()->SetPosition(pos); //현재 위치에서 이동 방향으로 이동

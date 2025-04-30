@@ -13,8 +13,9 @@ namespace Framework
 		DECLARE_PARENT(CSpriteActor)
 	public:
 		CTileActor(UINT layer);
-			virtual ~CTileActor();
+		virtual ~CTileActor();
 
+		bool TileAdjustPosition(CBoxColliderComponent* targetCollider);
 	protected:
 		// CActor을(를) 통해 상속됨
 		void Initialize()			override;
@@ -30,7 +31,6 @@ namespace Framework
 
 		virtual void OnCollisionEnter(CColliderComponent* other) override;
 		virtual void OnCollisionStay(CColliderComponent* other)  override;
-		virtual void OnCollisionExit(CColliderComponent* other)  override;
 
 	private:
 		bool CheckCollisionLine(const CBoxColliderComponent* target);
