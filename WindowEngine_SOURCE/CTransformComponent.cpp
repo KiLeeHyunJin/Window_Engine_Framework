@@ -29,7 +29,11 @@ bool Framework::CTransformComponent::LastTickComponent()
 {
 	return true;
 }
-
+void Framework::CTransformComponent::FixedComponent()
+{
+}
 void Framework::CTransformComponent::Render(HDC hdc)
 {
 }
+
+

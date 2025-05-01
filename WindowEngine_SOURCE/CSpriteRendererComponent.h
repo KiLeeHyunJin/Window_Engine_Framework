@@ -35,6 +35,10 @@ namespace Framework
 		CTexture* m_pTexture;
 		Maths::Vector2 m_vecScale;
 
+
+		// CComponent을(를) 통해 상속됨
+		void FixedComponent() override;
+
 	};
 }
 

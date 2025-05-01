@@ -15,7 +15,8 @@ namespace Framework
 		CTileActor(UINT layer);
 		virtual ~CTileActor();
 
-		bool TileAdjustPosition(CBoxColliderComponent* targetCollider);
+		bool CheckCollisionLine(const CBoxColliderComponent* target, float& lineY);
+		void GetPositionY(float x, float& y);
 	protected:
 		// CActor을(를) 통해 상속됨
 		void Initialize()			override;
@@ -29,11 +30,8 @@ namespace Framework
 
 		bool Render(HDC hdc) const	override;
 
-		virtual void OnCollisionEnter(CColliderComponent* other) override;
-		virtual void OnCollisionStay(CColliderComponent* other)  override;
 
 	private:
-		bool CheckCollisionLine(const CBoxColliderComponent* target);
 
 		CBoxColliderComponent*	m_pBoxCollider		= nullptr;
 		CRigidbodyComponent*	m_pRigidbody		= nullptr;

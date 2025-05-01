@@ -47,6 +47,10 @@ namespace Framework
 		return true;
 	}
 
+	void CColliderComponent::FixedComponent()
+	{
+	}
+
 	void CColliderComponent::Render(HDC hdc)
 	{
 	}
@@ -212,6 +216,7 @@ namespace Framework
 		Projection(verts2, axis, minB, maxB);// obb 2번째 정점s, 변의 방향
 		return maxA < minB || maxB < minA;
 	}
+
 #pragma endregion
 
 

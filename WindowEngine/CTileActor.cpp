@@ -26,19 +26,6 @@ namespace Framework
 	{
 	}
 
-	bool CTileActor::TileAdjustPosition(CBoxColliderComponent* targetCollider)
-	{
-		if (targetCollider == nullptr)
-		{		return false;	}
-
-		CActor* pOtherOWner = targetCollider->GetOwner();
-		CPlayerCharacterActor* pPlayerCharacter = dynamic_cast<CPlayerCharacterActor*>(pOtherOWner);
-
-		if (pPlayerCharacter == nullptr)
-			return false;
-
-		return CheckCollisionLine(targetCollider);
-	}
 
 	void CTileActor::Initialize()
 	{
@@ -80,43 +67,36 @@ namespace Framework
 		return false;
 	}
 
-	void CTileActor::OnCollisionEnter(CColliderComponent* other)
+	bool CTileActor::CheckCollisionLine(const CBoxColliderComponent* target, float& lineY)
 	{
-		//CBoxColliderComponent* pBoxColl = dynamic_cast<CBoxColliderComponent*>(other);
-		//TileAdjustPosition(pBoxColl);
-	}
-
-	void CTileActor::OnCollisionStay(CColliderComponent* other)
-	{
-		/*CBoxColliderComponent* pBoxColl = dynamic_cast<CBoxColliderComponent*>(other);
-		TileAdjustPosition(pBoxColl);*/
-	}
-
-	bool CTileActor::CheckCollisionLine(const CBoxColliderComponent* target)
-	{
-		if (m_pLine->GetTrigger())
+		if (m_pLine->GetTrigger()) //비활성화 타일일 경우 false
 		{		return false;	}
 
 		CActor* targetOwner = target->GetOwner();
 		const Maths::Vector2 pos = targetOwner->GetPosition() + target->GetOffset();
 
-		float lineYPos;
-
-		if (m_pLine->GetPositionY(pos.x, &lineYPos) == false)
+		if (m_pLine->GetPositionY(pos.x, &lineY) == false)
 		{		return false;	}
 
-		if (lineYPos > pos.y) //선보다 위
+		if (lineY > pos.y) //선보다 위
 		{		return false;	}
 
 		//선 높이랑 플레이어 높이가 플레이어의 콜라이더 박스 높이의 20% 보다 크다면 충돌 인정 X 
-		const float length = Maths::Abs(lineYPos - pos.y);
+		const float length = Maths::Abs(lineY - pos.y);
 		const float targetSizeIgnoreLenth = target->GetSize().y * 0.12f;
 		if (length > targetSizeIgnoreLenth)
 		{		return false;	}
 
-		lineYPos += 0.05f;
-		targetOwner->SetPosition(Maths::Vector2(pos.x, lineYPos));
 		return true;
+	}
+
+
+	void CTileActor::GetPositionY(float x, float& y)
+	{
+		if (m_pLine->GetPositionY(x, &y) == false)
+		{
+			y = 0;
+		}
 	}
 
 

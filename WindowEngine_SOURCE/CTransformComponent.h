@@ -38,5 +38,9 @@ namespace Framework
         Maths::Vector2 m_vecScale;
         float m_fRot;
 
+
+        // CComponent을(를) 통해 상속됨
+        void FixedComponent() override;
+
     };
 }

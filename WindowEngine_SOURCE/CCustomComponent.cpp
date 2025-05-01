@@ -36,4 +36,7 @@ namespace Framework
 	void CCustomComponent::Render(HDC hdc)
 	{
 	}
+	void CCustomComponent::FixedComponent()
+	{
+	}
 }

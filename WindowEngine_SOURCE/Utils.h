@@ -49,7 +49,7 @@ namespace Framework
 
 		__forceinline static bool FlagCompare(UINT32 dest, UINT32 target)
 		{
-			return dest & target;
+			return dest == target;
 		}
 	private:
 		Utils();

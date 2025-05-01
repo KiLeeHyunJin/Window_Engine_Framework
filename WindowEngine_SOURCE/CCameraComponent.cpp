@@ -89,6 +89,10 @@ namespace Framework
 		m_vecDistance = (adjustPos - resolutionHalf) - diffPos;
 	}
 
+	void CCameraComponent::FixedComponent()
+	{
+	}
+
 
 	void CCameraComponent::Render(HDC hdc)
 	{

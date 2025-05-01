@@ -29,7 +29,7 @@ namespace Framework
         void FixedTick() override;
 
         void OnCollisionEnter(CColliderComponent* other) override;
-        void OnCollisionStay(CColliderComponent* other) override;
+        //void OnCollisionStay(CColliderComponent* other) override;
         void OnCollisionExit(CColliderComponent* other) override;
 
         void SetTileCollision() { m_iTileCollisionCount++; }

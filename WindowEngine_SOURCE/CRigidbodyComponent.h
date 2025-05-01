@@ -114,7 +114,10 @@ namespace Framework
 		//Maths::Vector2 m_vecMoveValue;
 		bool m_bFreeze = false;
 		bool m_bGround;
-	};
+
+		// CComponent을(를) 통해 상속됨
+		void FixedComponent() override;
+};
 
 }
 

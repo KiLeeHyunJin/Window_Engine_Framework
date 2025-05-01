@@ -67,6 +67,9 @@ public CComponent
 		std::map<std::wstring, Events*> m_mapEvents;
 		
 		bool m_bLoop;
+
+		// CComponent을(를) 통해 상속됨
+		void FixedComponent() override;
 	};
 
 

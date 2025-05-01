@@ -37,14 +37,11 @@ namespace Framework
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
-			{
-				pCom->BeginPlay();
-			}
+			{		pCom->BeginPlay();	}
 		}
+
 		for (CComponent* pCom : m_vecCustomComponents)
-		{
-			pCom->BeginPlay();
-		}
+		{		pCom->BeginPlay();	}
 	}
 
 	bool CActor::Tick()
@@ -54,6 +51,9 @@ namespace Framework
 		{
 			if (pCom != nullptr)
 			{
+				if (pCom->GetDisable())
+				{		continue;	}
+
 				pCom->TickComponent();
 			}
 		}
@@ -61,11 +61,12 @@ namespace Framework
 		bool state = true;
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
+			if (pCom->GetDisable())
+			{		continue;	}
+
 			const bool currentComResult = pCom->TickComponent();
 			if (state && currentComResult == false)
-			{
-				state = false;
-			}
+			{		state = false;	}
 		}
 		return state;
 	}
@@ -78,6 +79,9 @@ namespace Framework
 		{
 			if (pCom != nullptr)
 			{
+				if (pCom->GetDisable())
+				{		continue;	}
+
 				pCom->LastTickComponent();
 			}
 		}
@@ -86,21 +90,44 @@ namespace Framework
 
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
+			if (pCom->GetDisable())
+			{		continue;	}
+
 			const bool currentComResult = pCom->LastTickComponent();
 			if (state && currentComResult == false)
-			{
-				state = false;
-			}
+			{		state = false;	}
 		}
 		return state;
 	}
 
 	void CActor::FixedTick()
 	{
+		for (CComponent* pCom : m_vecComponents)
+		{
+			if (pCom != nullptr)
+			{
+				if (pCom->GetDisable())
+				{		continue;	}
+
+				pCom->FixedComponent();
+			}
+		}
+
+		bool state = true;
+
+		for (CComponent* pCom : m_vecCustomComponents)
+		{
+			if (pCom->GetDisable())
+			{		continue;	}
+
+			pCom->FixedComponent();
+		}
+
 		m_vecRenderPosition = GetPosition();
 		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam != nullptr)
 		{
+
 			m_vecRenderPosition = pCam->CaluatePosition(m_vecRenderPosition);
 			m_bRenderResult = pCam->ScreenInCheck(m_vecRenderPosition, GetScale()); //화면 안에 있는지 결과를 반환
 			return;

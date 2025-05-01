@@ -168,7 +168,14 @@ namespace Framework
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
+		{
+			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
 
+			pActor->SetPosition(Maths::Vector2(300, 770));
+			pActor->SetScale(Maths::Vector2(20, 20));
+			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
+			pActor->GetComponent<CBoxColliderComponent>()->SetAngle(20);
+		}
 
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");

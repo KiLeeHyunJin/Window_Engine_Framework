@@ -243,4 +243,8 @@ namespace Framework
 		//m_mapEvents.clear();
 	}
 
+	void CAnimatorComponent::FixedComponent()
+	{
+	}
+
 }

@@ -2,19 +2,6 @@
 #include "CommonInclude.h"
 #include "CEntity.h"
 
-//성능이 중요 → 부모 클래스의 함수 포인터 사용
-//
-//가상함수 테이블을 거치지 않으므로 더 빠른 호출 성능을 제공한다.
-//게임 엔진, 실시간 렌더링 등 극한의 성능 최적화가 필요한 경우 적합.
-//하지만 객체 지향적인 설계가 어려워지고 유지보수가 복잡해질 수 있음.    
-//  
-// => 불가 : 부모 함수 포인터에 자식 멤버 함수를 대입할 방법이 없고, 
-// 하더라도 가상함수 방식이 더 성능과 효율적으로 좋음
-// 
-//코드 유지보수가 중요 → 가상 함수 사용
-//
-//다형성을 쉽게 지원하고 코드 유지보수가 쉬움.
-//성능이 아주 중요한 경우가 아니라면, 일반적인 OOP 설계에서는 가상 함수가 더 적절하다.
 
 namespace Framework
 {
@@ -88,7 +75,6 @@ namespace Framework
 
 		//CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
-
 		template<typename T>
 		T* AddComponent()
 		{
@@ -105,7 +91,7 @@ namespace Framework
 			T* newCom = new T;
 			CComponent* pCom = static_cast<CComponent*>(newCom);
 
-			pCom->BeginPlay();
+			//pCom->BeginPlay();
 			pCom->SetOwner(this);
 
 			const Enums::eComponentType componentType = pCom->GetComponentType();
@@ -128,7 +114,7 @@ namespace Framework
 			if (m_bReserveDelete)
 				return nullptr;
 
-			const Enums::eComponentType componentType = T::StaticComponentType();
+			const Enums::eComponentType componentType = T::StaticComponentType(); //정적함수를 통해 가져온다.
 			T* getCom = nullptr;
 			if (componentType == Enums::eComponentType::Custom)
 			{
@@ -160,7 +146,8 @@ namespace Framework
 			static_assert(std::is_base_of<CComponent, T>::value, "T is not from CComponent");
 
 			const Enums::eComponentType componentType = T::StaticComponentType();
-			if (componentType == Enums::eComponentType::Transform)	{	return false;	}
+			if (componentType == Enums::eComponentType::Transform)	  
+			{	return false;	}
 
 			if (componentType == Enums::eComponentType::Custom)
 			{

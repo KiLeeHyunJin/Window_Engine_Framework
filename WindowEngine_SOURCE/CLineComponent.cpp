@@ -20,7 +20,6 @@ namespace Framework
 	}
 	void CLineComponent::BeginPlay()
 	{
-	
 	}
 
 	void CLineComponent::Release()
@@ -31,6 +30,7 @@ namespace Framework
 			m_pTriggerEvent = nullptr;
 		}
 	}
+
 	void CLineComponent::Initialize()
 	{
 		CActor* owner = GetOwner();
@@ -57,10 +57,12 @@ namespace Framework
 		m_vecStartPos	= baseLineCenter - axeX;
 		m_vecEndPos		= baseLineCenter + axeX;
 	}
+
 	bool CLineComponent::TickComponent()
 	{
 		return false;
 	}
+
 	bool CLineComponent::LastTickComponent()
 	{
 		if (m_pTriggerEvent != nullptr)
@@ -76,7 +78,7 @@ namespace Framework
 		return false;
 	}
 
-	bool CLineComponent::CheckCollisionX(float x) const
+	bool CLineComponent::CheckCollisionX(float x) const //범위 내에 있는지 확인
 	{
 		if (x >= m_vecStartPos.x && x <= m_vecEndPos.x)
 		{
@@ -85,7 +87,7 @@ namespace Framework
 		return false;
 	}
 
-	bool CLineComponent::GetPositionY(float x, float* y) const
+	bool CLineComponent::GetPositionY(float x, float* y) const //해당 범위의 Y값을 반환
 	{
 		if (CheckCollisionX(x) == false)
 		{
@@ -132,5 +134,8 @@ namespace Framework
 		}
 		m_pTriggerEvent = new  std::pair<FLOAT, BOOL>(waitTime, state);
 
+	}
+	void CLineComponent::FixedComponent()
+	{
 	}
 }

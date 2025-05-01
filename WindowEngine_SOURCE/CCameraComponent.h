@@ -73,6 +73,9 @@ namespace Framework
 		Maths::Vector2 m_vecFollowMin = Maths::Vector2::Zero;
 		Maths::Vector2 m_vecFollowMax		= Maths::Vector2::Zero;
 		CActor* m_pTarget				= nullptr;
+
+		// CComponent을(를) 통해 상속됨
+		void FixedComponent() override;
 	};
 
 }

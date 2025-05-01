@@ -120,3 +120,7 @@ void Framework::CSpriteRendererComponent::Render(HDC hdc)
 	SelectObject(hdc, (HGDIOBJ)oldBrush);
 	DeleteObject(bluBrush);
 }
+
+void Framework::CSpriteRendererComponent::FixedComponent()
+{
+}

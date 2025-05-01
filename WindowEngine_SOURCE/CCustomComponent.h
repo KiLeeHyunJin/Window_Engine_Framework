@@ -29,6 +29,9 @@ namespace Framework
 		bool LastTickComponent() override;
 
 		void Render(HDC hdc) override;
+
+		// CComponent을(를) 통해 상속됨
+		void FixedComponent() override;
 	};
 
 

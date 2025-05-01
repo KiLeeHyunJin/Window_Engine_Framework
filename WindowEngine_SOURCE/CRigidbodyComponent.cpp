@@ -47,6 +47,10 @@ namespace Framework
 		return true;
 	}
 	
+	void CRigidbodyComponent::FixedComponent()
+	{
+	}
+
 	void CRigidbodyComponent::VelocityCompute()
 	{
 
@@ -130,6 +134,8 @@ namespace Framework
 			m_vecForce.Clear();
 		}
 	}
+
+
 
 
 

@@ -23,9 +23,8 @@ namespace Framework
 
 		m_pRigid = AddComponent<CRigidbodyComponent>();
 		m_pBoxColl = AddComponent<CBoxColliderComponent>();
-		
+
 		m_pBoxColl->SetSize(Maths::Vector2(40, 70));
-		//pBoxColl->SetAngle(20);
 		m_pBoxColl->SetTrigger(false);
 		m_pBoxColl->AddCollisionFlag((UINT)eLayer::Tile);
 		m_pBoxColl->Initialize();
@@ -104,19 +103,41 @@ namespace Framework
 	{
 		SUPER::FixedTick();
 
-		if (m_vecTiles.size() == 0)
-			return;
-
 		bool state = false;
-		for (auto tile : m_vecTiles)
+		if (m_pBoxColl->CheckCollisionFlag((UINT)eLayer::Tile) == false)
 		{
-			if (state == false && tile->TileAdjustPosition(m_pBoxColl))
+			m_pRigid->SetGround(state);
+			return;
+		}
+
+		if (m_vecTiles.empty() == false)
+		{
+			float tileY = 0;
+			for (auto tile : m_vecTiles)
 			{
-				state = true;
+				float newTileY = 0;
+				if (tile->CheckCollisionLine(m_pBoxColl, newTileY))
+				{
+					if (tileY < newTileY)
+					{
+						if (state == false)
+						{
+							state = true;
+						}
+						tileY = newTileY;
+					}
+				}
+			}
+			if (state)
+			{
+				tileY += 0.05f;
+				const Maths::Vector2& pos = GetPosition();
+				SetPosition(Maths::Vector2(pos.x, tileY));
 			}
 		}
 		m_pRigid->SetGround(state);
 	}
+
 	void CPlayerCharacterActor::OnCollisionEnter(CColliderComponent* other)
 	{
 		CTileActor* pTile = dynamic_cast<CTileActor*>(other->GetOwner());
@@ -126,9 +147,6 @@ namespace Framework
 		}
 	}
 
-	void CPlayerCharacterActor::OnCollisionStay(CColliderComponent* other)
-	{
-	}
 
 	void CPlayerCharacterActor::OnCollisionExit(CColliderComponent* other)
 	{
@@ -139,6 +157,7 @@ namespace Framework
 			m_vecTiles.erase(iter);
 		}
 	}
+
 
 	bool CPlayerCharacterActor::Render(HDC hdc) const
 	{
