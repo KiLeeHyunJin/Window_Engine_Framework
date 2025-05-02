@@ -34,6 +34,9 @@
     <Filter Include="01.Script\01.Component">
       <UniqueIdentifier>{545323c8-363a-49f1-86bb-0ac2846d7c89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Script\01.Component\TileCollisionComponent">
+      <UniqueIdentifier>{fe503861-9fbc-4768-bcdd-a48885390b81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LoadScene.h">
@@ -69,6 +72,9 @@
     <ClInclude Include="CTileActor.h">
       <Filter>01.Script\00.Actor\TileActor</Filter>
     </ClInclude>
+    <ClInclude Include="CTileCollisionComponent.h">
+      <Filter>01.Script\01.Component\TileCollisionComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPlayScene.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="CTileActor.cpp">
       <Filter>01.Script\00.Actor\TileActor</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileCollisionComponent.cpp">
+      <Filter>01.Script\01.Component\TileCollisionComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

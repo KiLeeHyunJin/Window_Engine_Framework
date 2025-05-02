@@ -163,6 +163,7 @@
     <ClInclude Include="CPlayerCharacterActor.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CTileActor.h" />
+    <ClInclude Include="CTileCollisionComponent.h" />
     <ClInclude Include="CTitleScene.h" />
     <ClInclude Include="ContentEnums.h" />
     <ClInclude Include="LoadResource.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="CPlayerCharacterActor.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
     <ClCompile Include="CTileActor.cpp" />
+    <ClCompile Include="CTileCollisionComponent.cpp" />
     <ClCompile Include="CTitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 
 #include "CRigidbodyComponent.h"
 #include "CBoxColliderComponent.h"
+#include "CTileCollisionComponent.h"
 
 #include "ContentEnums.h"
 
@@ -21,8 +22,9 @@ namespace Framework
 	{
 		SUPER::Initialize();
 
-		m_pRigid = AddComponent<CRigidbodyComponent>();
-		m_pBoxColl = AddComponent<CBoxColliderComponent>();
+		m_pRigid	= AddComponent<CRigidbodyComponent>();
+		m_pBoxColl	= AddComponent<CBoxColliderComponent>();
+		m_pTileColl = AddComponent<CTileCollisionComponent>();
 
 		m_pBoxColl->SetSize(Maths::Vector2(40, 70));
 		m_pBoxColl->SetTrigger(false);
@@ -85,16 +87,7 @@ namespace Framework
 	bool CPlayerCharacterActor::LastTick()
 	{
 		bool state = SUPER::LastTick();
-		const Maths::Vector2& velocity = m_pRigid->GetVelocity();
 
-		if (velocity.y < 0)
-		{
-			m_pBoxColl->RemoveCollisionFlag((UINT)eLayer::Tile);
-		}
-		else
-		{
-			m_pBoxColl->AddCollisionFlag((UINT)eLayer::Tile);
-		}
 
 		return state;
 	}
@@ -102,40 +95,6 @@ namespace Framework
 	void CPlayerCharacterActor::FixedTick()
 	{
 		SUPER::FixedTick();
-
-		bool state = false;
-		if (m_pBoxColl->CheckCollisionFlag((UINT)eLayer::Tile) == false)
-		{
-			m_pRigid->SetGround(state);
-			return;
-		}
-
-		if (m_vecTiles.empty() == false)
-		{
-			float tileY = 0;
-			for (auto tile : m_vecTiles)
-			{
-				float newTileY = 0;
-				if (tile->CheckCollisionLine(m_pBoxColl, newTileY))
-				{
-					if (tileY < newTileY)
-					{
-						if (state == false)
-						{
-							state = true;
-						}
-						tileY = newTileY;
-					}
-				}
-			}
-			if (state)
-			{
-				tileY += 0.05f;
-				const Maths::Vector2& pos = GetPosition();
-				SetPosition(Maths::Vector2(pos.x, tileY));
-			}
-		}
-		m_pRigid->SetGround(state);
 	}
 
 	void CPlayerCharacterActor::OnCollisionEnter(CColliderComponent* other)
@@ -143,7 +102,7 @@ namespace Framework
 		CTileActor* pTile = dynamic_cast<CTileActor*>(other->GetOwner());
 		if(pTile != nullptr)
 		{
-			m_vecTiles.push_back(pTile);
+			m_pTileColl->AddTile(pTile);
 		}
 	}
 
@@ -153,8 +112,7 @@ namespace Framework
 		CTileActor* pTile = dynamic_cast<CTileActor*>(other->GetOwner());
 		if (pTile != nullptr)
 		{
-			auto iter = std::remove(m_vecTiles.begin(), m_vecTiles.end(), pTile);
-			m_vecTiles.erase(iter);
+			m_pTileColl->RemoveTile(pTile);
 		}
 	}
 

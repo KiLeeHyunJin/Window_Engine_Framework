@@ -18,9 +18,9 @@ namespace Framework
 		friend CActor;
 		friend CColliderComponent;
 	private:
-		virtual void OnCollisionEnter(CColliderComponent* other);
-		virtual void OnCollisionStay(CColliderComponent* other);
-		virtual void OnCollisionExit(CColliderComponent* other);
+		//virtual void OnCollisionEnter(CColliderComponent* other);
+		//virtual void OnCollisionStay(CColliderComponent* other);
+		//virtual void OnCollisionExit(CColliderComponent* other);
 
 		void BeginPlay() override;
 		void Release() override;

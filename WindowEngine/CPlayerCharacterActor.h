@@ -5,6 +5,7 @@ namespace Framework
 {
     class CBoxColliderComponent;
     class CRigidbodyComponent;
+    class CTileCollisionComponent;
 
     class CTileActor;
 
@@ -36,9 +37,9 @@ namespace Framework
 
     private:
         INT m_iTileCollisionCount = 0;
-        std::vector<CTileActor*> m_vecTiles;
         CBoxColliderComponent* m_pBoxColl   = nullptr;
         CRigidbodyComponent* m_pRigid = nullptr;
+        CTileCollisionComponent* m_pTileColl = nullptr;
     };
 }
 
