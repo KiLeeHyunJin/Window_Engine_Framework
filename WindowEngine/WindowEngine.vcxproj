@@ -166,6 +166,7 @@
     <ClInclude Include="CTileCollisionComponent.h" />
     <ClInclude Include="CTitleScene.h" />
     <ClInclude Include="ContentEnums.h" />
+    <ClInclude Include="ItemActor.h" />
     <ClInclude Include="LoadResource.h" />
     <ClInclude Include="LoadScene.h" />
     <ClInclude Include="LoadUI.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="CTileActor.cpp" />
     <ClCompile Include="CTileCollisionComponent.cpp" />
     <ClCompile Include="CTitleScene.cpp" />
+    <ClCompile Include="ItemActor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
