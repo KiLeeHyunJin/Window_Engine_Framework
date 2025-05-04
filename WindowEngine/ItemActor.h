@@ -9,7 +9,7 @@ namespace Framework
         public CSpriteActor
     {
     public:
-		ItemActor();
+		ItemActor(INT layer);
 		virtual ~ItemActor();
 
 		void Initialize()			override;

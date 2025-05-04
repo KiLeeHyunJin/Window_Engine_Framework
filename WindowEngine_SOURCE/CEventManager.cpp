@@ -86,7 +86,6 @@ namespace Framework
 		void CEventManager::AddActor(CActor* pObj, bool dontDestroy)
 		{
 			EventAddActor* newJob = new EventAddActor(pObj, dontDestroy);
-			//pObj->SetLayerType(layerType);
 			EventJob* parentJob = static_cast<EventJob*>(newJob);
 			m_quequeEventJob.push(parentJob);
 		}

@@ -71,6 +71,12 @@ namespace Framework
 		virtual void OnCollisionStay(CColliderComponent* other)		{}
 		virtual void OnCollisionExit(CColliderComponent* other)		{}
 
+		void	AddChildActor(CActor* pActor);
+		void	SetParentActor(CActor* pParent) { m_pParent = pParent; }
+		CActor* GetParentActor()		const { return m_pParent; }
+		UINT	GetChildCount()			const { return (UINT)m_vecChilds.size(); }
+		void	RemoveChild(CActor* pChild);
+
 		void								ChangeLayer(UINT layerType);
 
 		//CTransformComponent* GetTransformComponent() const { return m_pTransform; }
@@ -224,6 +230,8 @@ namespace Framework
 		bool GetRenderCheck()										const	{ return m_bRenderResult; }
 
 	private:
+		Maths::Vector2 m_vecWorldPosition;
+
 		Maths::Vector2 m_vecPosition;
 		Maths::Vector2 m_vecPrevPosition;
 		Maths::Vector2 m_vecScale;
@@ -233,7 +241,9 @@ namespace Framework
 		UINT m_eLayerType;
 		UINT32 m_uiID;
 		eState m_eState;
+		CActor* m_pParent = nullptr;
 
+		std::vector<CActor*> m_vecChilds;
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;
 

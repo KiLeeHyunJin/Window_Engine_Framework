@@ -6,6 +6,7 @@
 #include "CTimeManager.h"
 #include "CRenderManager.h"
 #include "CEventManager.h"
+#include "CObjectManager.h"
 
 #include "CCameraComponent.h"
 #include "CTransformComponent.h"
@@ -42,11 +43,19 @@ namespace Framework
 
 		for (CComponent* pCom : m_vecCustomComponents)
 		{		pCom->BeginPlay();	}
+
+		for (CActor* pActor : m_vecChilds)
+		{
+			if (pActor->GetDisable())
+			{
+				continue;
+			}
+			pActor->BeginPlay();
+		}
 	}
 
 	bool CActor::Tick()
 	{
-		m_vecPrevPosition = m_vecPosition;
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
@@ -68,13 +77,35 @@ namespace Framework
 			if (state && currentComResult == false)
 			{		state = false;	}
 		}
+
+		for (CActor* pActor : m_vecChilds)
+		{
+			if (pActor->GetDisable())
+			{
+				continue;
+			}
+			if (pActor->GetReserveDelete() == false)
+			{
+				if (pActor->Tick() == false)
+				{
+					pActor->SetReserveDelete();
+				}
+			}
+		}
+
 		return state;
 	}
 
-
-
 	bool CActor::LastTick()
 	{
+		//m_vecWorldPosition = m_vecLocalPosition;
+		//if (m_pParent != nullptr)
+		//{
+		//	m_vecWorldPosition += m_pParent->GetWorldPosition();
+		//}
+
+		//m_vecPrevWorldPosition = m_vecWorldPosition;
+
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
@@ -96,6 +127,21 @@ namespace Framework
 			const bool currentComResult = pCom->LastTickComponent();
 			if (state && currentComResult == false)
 			{		state = false;	}
+		}
+
+		for (CActor* pActor : m_vecChilds)
+		{
+			if (pActor->GetDisable())
+			{
+				continue;
+			}
+			if (pActor->GetReserveDelete() == false)
+			{
+				if (pActor->LastTick() == false)
+				{
+					pActor->SetReserveDelete();
+				}
+			}
 		}
 		return state;
 	}
@@ -122,8 +168,20 @@ namespace Framework
 
 			pCom->FixedComponent();
 		}
+ 
+		for (CActor* pActor : m_vecChilds)
+		{
+			if (pActor->GetDisable())
+			{
+				continue;
+			}
+			if (pActor->GetReserveDelete() == false)
+			{
+				pActor->FixedTick();
+			}
+		}
 
-		m_vecRenderPosition = GetPosition();
+		m_vecRenderPosition = m_vecPosition;
 		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam != nullptr)
 		{
@@ -152,6 +210,18 @@ namespace Framework
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			pCom->Render(hdc);
+		}
+
+		for (CActor* pActor : m_vecChilds)
+		{
+			if (pActor->GetDisable())
+			{
+				continue;
+			}
+			if (pActor->GetReserveDelete() == false)
+			{
+				pActor->Render(hdc);
+			}
 		}
 
 		Maths::Vector2 pos = GetPosition();
@@ -185,8 +255,17 @@ namespace Framework
 				delete pCom;
 			}
 		}
+
+		for (CActor* pActor : m_vecChilds)
+		{
+			if (pActor != nullptr)
+			{
+				GET_SINGLE(EVENT).DeleteActor(pActor);
+			}
+		}
 		m_vecComponents.clear();
 		m_vecComponents.clear();
+		m_vecChilds.clear();
 	}
 
 	void CActor::ChangeLayer(const UINT layerType)
@@ -197,11 +276,29 @@ namespace Framework
 		}
 	}
 
-	//void CActor::AddTransform()
-	//{
-	//	if (m_pTransform == nullptr)
-	//	{
-	//		m_pTransform = AddComponent<CTransformComponent>();
-	//	}
-	//}
+	void CActor::AddChildActor(CActor* pActor)
+	{
+		if (pActor->GetParentActor() != nullptr)
+		{
+			assert(false);
+			return;
+		}
+
+		if (GET_SINGLE(OBJECT).GetActor(pActor->GetID()) == nullptr)
+		{
+			GET_SINGLE(OBJECT).AddActor(pActor);
+		}
+		m_vecChilds.push_back(pActor);
+		pActor->SetParentActor(this);
+	}
+
+	void CActor::RemoveChild(CActor* pChild)
+	{
+		auto iter = std::find(m_vecChilds.begin(), m_vecChilds.end(), pChild);
+		if (iter != m_vecChilds.end())
+		{
+			m_vecChilds.erase(iter);
+		}
+	}
+
 }

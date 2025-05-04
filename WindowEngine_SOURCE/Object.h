@@ -4,7 +4,6 @@
 
 #include "CActor.h"
 
-
 namespace Framework//::Object
 {
 	namespace Object

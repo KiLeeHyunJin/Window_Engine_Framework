@@ -47,8 +47,7 @@ namespace Framework
 				return m_vecLayer[layer]->GetActor();
 			}
 			void Render(HDC hdc);								//RenderManager
-			void AddActorID(CActor* pActor);						//EventManager
-			void AddActor(CActor* pActor);						//EventManager
+			bool AddActor(CActor* pActor);						//EventManager
 
 			void AddInLayer(CActor* pActor);						//EventManager
 			bool EraseInLayer(CActor* pActor);					//EventManager
@@ -56,14 +55,8 @@ namespace Framework
 			void Clear(bool allClear = false);					//SceneManager
 			void Destroy();										//CollisionManager
 
-			__forceinline void RemoveActor(UINT32 actorId) 		//EventManager
-			{
-				auto iter = m_unObjects.find(actorId);
-				if (iter != m_unObjects.end())
-				{
-					m_unObjects.erase(actorId);
-				}
-			}
+			void RemoveActor(UINT32 actorId); 		//EventManager
+			
 
 
 			friend CApplication;		//매번 함수 실행을 위해 사용
@@ -74,6 +67,7 @@ namespace Framework
 		private:
 			//CObjectManager();
 			~CObjectManager();
+			bool AddActorID(CActor* pActor);						//EventManager
 
 			void Initialize();									//Application
 			void Release();										//Application

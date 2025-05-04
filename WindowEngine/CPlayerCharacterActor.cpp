@@ -9,6 +9,7 @@
 #include "ContentEnums.h"
 
 #include "CTileActor.h"
+#include "Object.h"
 
 namespace Framework
 {
@@ -25,6 +26,11 @@ namespace Framework
 		m_pRigid	= AddComponent<CRigidbodyComponent>();
 		m_pBoxColl	= AddComponent<CBoxColliderComponent>();
 		m_pTileColl = AddComponent<CTileCollisionComponent>();
+
+		CActor* child = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Child");
+		child->SetPosition(Maths::Vector2(30, 30));
+		child->AddComponent<CBoxColliderComponent>();
+		AddChildActor(child);
 
 		m_pBoxColl->SetSize(Maths::Vector2(40, 70));
 		m_pBoxColl->SetTrigger(false);

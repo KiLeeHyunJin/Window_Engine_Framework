@@ -3,7 +3,7 @@
 
 namespace Framework
 {
-	ItemActor::ItemActor()
+	ItemActor::ItemActor(INT layer) : CSpriteActor(layer)
 	{
 	}
 	ItemActor::~ItemActor()
