@@ -67,8 +67,8 @@ namespace Framework
 		private:
 			//CObjectManager();
 			~CObjectManager();
-			bool AddActorID(CActor* pActor);						//EventManager
-
+			void AddActorID(CActor* pActor);						//EventManager
+			bool ActorCheck(CActor* pActor);
 			void Initialize();									//Application
 			void Release();										//Application
 

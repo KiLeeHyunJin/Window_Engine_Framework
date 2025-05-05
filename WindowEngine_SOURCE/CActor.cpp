@@ -16,7 +16,7 @@ namespace Framework
 {
 	CActor::CActor(UINT layerType) :
 		m_eState(eState::Enable), m_eLayerType(layerType), m_uiID(0),
-		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),m_fRotatate(0)
+		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false), m_fRotatate(0)
 		/*m_pTransform(new CTransformComponent)*/
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
@@ -24,11 +24,13 @@ namespace Framework
 	}
 
 	CActor::~CActor()
-	{	}
-	
+	{
+	}
+
 
 	void CActor::Initialize()
-	{	}
+	{
+	}
 
 	/// <summary>
 	/// 배치후 호출
@@ -38,11 +40,15 @@ namespace Framework
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
-			{		pCom->BeginPlay();	}
+			{
+				pCom->BeginPlay();
+			}
 		}
 
 		for (CComponent* pCom : m_vecCustomComponents)
-		{		pCom->BeginPlay();	}
+		{
+			pCom->BeginPlay();
+		}
 
 		for (CActor* pActor : m_vecChilds)
 		{
@@ -61,7 +67,9 @@ namespace Framework
 			if (pCom != nullptr)
 			{
 				if (pCom->GetDisable())
-				{		continue;	}
+				{
+					continue;
+				}
 
 				pCom->TickComponent();
 			}
@@ -71,11 +79,15 @@ namespace Framework
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			if (pCom->GetDisable())
-			{		continue;	}
+			{
+				continue;
+			}
 
 			const bool currentComResult = pCom->TickComponent();
 			if (state && currentComResult == false)
-			{		state = false;	}
+			{
+				state = false;
+			}
 		}
 
 		for (CActor* pActor : m_vecChilds)
@@ -93,25 +105,22 @@ namespace Framework
 			}
 		}
 
+		CalculatePosition();
 		return state;
 	}
 
 	bool CActor::LastTick()
 	{
-		//m_vecWorldPosition = m_vecLocalPosition;
-		//if (m_pParent != nullptr)
-		//{
-		//	m_vecWorldPosition += m_pParent->GetWorldPosition();
-		//}
-
-		//m_vecPrevWorldPosition = m_vecWorldPosition;
+		m_vecPrevPosition = m_vecWorldPosition;
 
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
 				if (pCom->GetDisable())
-				{		continue;	}
+				{
+					continue;
+				}
 
 				pCom->LastTickComponent();
 			}
@@ -122,11 +131,15 @@ namespace Framework
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			if (pCom->GetDisable())
-			{		continue;	}
+			{
+				continue;
+			}
 
 			const bool currentComResult = pCom->LastTickComponent();
 			if (state && currentComResult == false)
-			{		state = false;	}
+			{
+				state = false;
+			}
 		}
 
 		for (CActor* pActor : m_vecChilds)
@@ -148,12 +161,15 @@ namespace Framework
 
 	void CActor::FixedTick()
 	{
+
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
 				if (pCom->GetDisable())
-				{		continue;	}
+				{
+					continue;
+				}
 
 				pCom->FixedComponent();
 			}
@@ -164,11 +180,13 @@ namespace Framework
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			if (pCom->GetDisable())
-			{		continue;	}
+			{
+				continue;
+			}
 
 			pCom->FixedComponent();
 		}
- 
+
 		for (CActor* pActor : m_vecChilds)
 		{
 			if (pActor->GetDisable())
@@ -181,24 +199,16 @@ namespace Framework
 			}
 		}
 
-		m_vecRenderPosition = m_vecPosition;
-		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-		if (pCam != nullptr)
-		{
-
-			m_vecRenderPosition = pCam->CaluatePosition(m_vecRenderPosition);
-			m_bRenderResult = pCam->ScreenInCheck(m_vecRenderPosition, GetScale()); //화면 안에 있는지 결과를 반환
-			return;
-		}
-		assert(false);
-		m_bRenderResult = true;
+		CalculateRenderPosition();
 	}
 
-	
+
 	bool CActor::Render(HDC hdc) const
 	{
 		if (GetRenderCheck() == false) //화면 안에 없으면 렌더 실행 취소
-		{	return false;		}
+		{
+			return false;
+		}
 
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -224,16 +234,10 @@ namespace Framework
 			}
 		}
 
-		Maths::Vector2 pos = GetPosition();
-		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 
-		if (pCam != nullptr)
-		{
-			pos = pCam->CaluatePosition(pos);
-		}
 
-		GET_SINGLE(RENDER).FrameCircle(pos, 2.f);
-		GET_SINGLE(RENDER).Text(std::to_wstring(m_uiID), pos, Maths::Vector2(100 + pos.x,  pos.y));
+		GET_SINGLE(RENDER).FrameCircle(m_vecRenderPosition, 2.f);
+		GET_SINGLE(RENDER).Text(std::to_wstring(m_uiID), m_vecRenderPosition, Maths::Vector2(100 + m_vecRenderPosition.x, m_vecRenderPosition.y));
 		return true;
 	}
 
@@ -283,8 +287,8 @@ namespace Framework
 			assert(false);
 			return;
 		}
-
-		if (GET_SINGLE(OBJECT).GetActor(pActor->GetID()) == nullptr)
+		const UINT32 actorID = pActor->GetID();
+		if (GET_SINGLE(OBJECT).GetActor(actorID) == nullptr)
 		{
 			GET_SINGLE(OBJECT).AddActor(pActor);
 		}
@@ -299,6 +303,29 @@ namespace Framework
 		{
 			m_vecChilds.erase(iter);
 		}
+	}
+
+	void CActor::CalculatePosition()
+	{
+		m_vecWorldPosition = m_vecPosition;
+		if (m_pParent != nullptr)
+		{
+			m_vecWorldPosition += m_pParent->GetPosition();
+		}
+	}
+
+	void CActor::CalculateRenderPosition()
+	{
+		m_vecRenderPosition = m_vecWorldPosition;
+		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+		if (pCam != nullptr)
+		{
+			m_vecRenderPosition = pCam->CaluatePosition(m_vecRenderPosition);
+			m_bRenderResult = pCam->ScreenInCheck(m_vecRenderPosition, GetScale()); //화면 안에 있는지 결과를 반환
+			return;
+		}
+		assert(false);
+		m_bRenderResult = true;
 	}
 
 }

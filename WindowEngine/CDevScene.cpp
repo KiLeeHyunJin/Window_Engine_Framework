@@ -102,7 +102,7 @@ namespace Framework
 		{
 			CActor* pActor = Object::Instantiate<CPlayerCharacterActor>(static_cast<UINT>(eLayer::Character), L"Test");
 
-			pActor->SetPosition(Maths::Vector2(0, 0));
+			pActor->SetLocalPosition(Maths::Vector2(0, 0));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pCam->SetTarget(pActor);
 		}
@@ -112,21 +112,21 @@ namespace Framework
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test1");
 
-			pActor->SetPosition(Maths::Vector2(100, 500));
+			pActor->SetLocalPosition(Maths::Vector2(100, 500));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
 
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test3");
-			pActor->SetPosition(Maths::Vector2(100, 650));
+			pActor->SetLocalPosition(Maths::Vector2(100, 650));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
 
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test3");
-			pActor->SetPosition(Maths::Vector2(100, 750));
+			pActor->SetLocalPosition(Maths::Vector2(100, 750));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
@@ -134,7 +134,7 @@ namespace Framework
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
 
-			pActor->SetPosition(Maths::Vector2(190, 530));
+			pActor->SetLocalPosition(Maths::Vector2(190, 530));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
@@ -146,16 +146,7 @@ namespace Framework
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
 
-			pActor->SetPosition(Maths::Vector2(160, 570));
-			pActor->SetScale(Maths::Vector2(20, 20));
-			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
-		}
-
-
-		{
-			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
-
-			pActor->SetPosition(Maths::Vector2(190, 700));
+			pActor->SetLocalPosition(Maths::Vector2(160, 570));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
@@ -164,23 +155,7 @@ namespace Framework
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
 
-			pActor->SetPosition(Maths::Vector2(210, 750));
-			pActor->SetScale(Maths::Vector2(20, 20));
-			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
-		}
-		{
-			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
-
-			pActor->SetPosition(Maths::Vector2(300, 770));
-			pActor->SetScale(Maths::Vector2(20, 20));
-			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
-			pActor->GetComponent<CBoxColliderComponent>()->SetAngle(20);
-		}
-
-		{
-			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
-
-			pActor->SetPosition(Maths::Vector2(190, 800));
+			pActor->SetLocalPosition(Maths::Vector2(190, 700));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
@@ -189,7 +164,32 @@ namespace Framework
 		{
 			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
 
-			pActor->SetPosition(Maths::Vector2(200, 830));
+			pActor->SetLocalPosition(Maths::Vector2(210, 750));
+			pActor->SetScale(Maths::Vector2(20, 20));
+			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
+		}
+		{
+			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
+
+			pActor->SetLocalPosition(Maths::Vector2(300, 770));
+			pActor->SetScale(Maths::Vector2(20, 20));
+			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
+			//pActor->GetComponent<CBoxColliderComponent>()->SetAngle(20);
+		}
+
+		{
+			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
+
+			pActor->SetLocalPosition(Maths::Vector2(190, 800));
+			pActor->SetScale(Maths::Vector2(20, 20));
+			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
+		}
+
+
+		{
+			CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
+
+			pActor->SetLocalPosition(Maths::Vector2(200, 830));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(192, 15));
 		}

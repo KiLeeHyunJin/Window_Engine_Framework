@@ -77,7 +77,7 @@ namespace Framework
 		{
 			Tick();															// 게임 로직
 			LastTick();														
-			FixedTick();														// 물리 계산 후 실행되는 Tick 호출
+			FixedTick();													// 물리 계산 후 실행되는 Tick 호출
 
 			lag -= FIXED_STEP;
 		}
@@ -123,10 +123,12 @@ namespace Framework
 	{
 		return GET_SINGLE(RENDER).GetHDC();
 	}
+	
 	bool CApplication::GetScreenState() const
 	{
 		return GET_SINGLE(RENDER).m_bScreenState;
 	}
+
 	HWND CApplication::GetHWND() const
 	{
 		return GET_SINGLE(RENDER).m_hWnd;

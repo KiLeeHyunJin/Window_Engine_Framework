@@ -127,7 +127,7 @@ namespace Framework
 		m_vecVelocity.y = yValue;
 		Maths::Vector2 pos = GetOwner()->GetPosition();
 		pos = pos + (m_vecVelocity * TickComponentTime);
-		GetOwner()->SetPosition(pos); //현재 위치에서 이동 방향으로 이동
+		GetOwner()->SetLocalPosition(pos); //현재 위치에서 이동 방향으로 이동
 
 		if (m_vecForce.HasValue()) //힘 폐기
 		{
@@ -210,7 +210,7 @@ namespace Framework
 				if (Maths::Abs(lineYPos - pos.y) > (target->GetSize().y * 0.2f))
 				{		return false;	}	
 
-				targetOwner->SetPosition(Maths::Vector2(pos.x, lineYPos));
+				targetOwner->SetLocalPosition(Maths::Vector2(pos.x, lineYPos));
 				CRigidbodyComponent* pRigidbody = targetOwner->GetComponent<CRigidbodyComponent>();
 				if (pRigidbody != nullptr)
 				{		pRigidbody->SetGround(true);	}
@@ -263,7 +263,7 @@ namespace Framework
 			resultPos.y += static_cast<float>(offsetY);
 
 		// 최종 위치 반영
-		targetOwner->SetPosition(resultPos);
+		targetOwner->SetLocalPosition(resultPos);
 	}
 
 
@@ -318,6 +318,6 @@ namespace Framework
 		}
 
 		// 위치 적용
-		targetOwner->SetPosition(currentPos + pushOffset);
+		targetOwner->SetLocalPosition(currentPos + pushOffset);
 	}
 }

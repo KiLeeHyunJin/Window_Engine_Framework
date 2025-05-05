@@ -77,7 +77,7 @@ namespace Framework
 		UINT	GetChildCount()			const { return (UINT)m_vecChilds.size(); }
 		void	RemoveChild(CActor* pChild);
 
-		void								ChangeLayer(UINT layerType);
+		void	ChangeLayer(UINT layerType);
 
 		//CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
@@ -202,6 +202,8 @@ namespace Framework
 		__forceinline const bool			GetDontDestroy()	const	{ return m_bDontDestroy;									}
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
+		__forceinline const Maths::Vector2& GetLocalPosition()	const	{ return m_vecPosition; }
+		__forceinline const Maths::Vector2& GetWorldPosition()	const	{ return m_vecWorldPosition; }
 		__forceinline const Maths::Vector2& GetPosition()		const	{ return m_vecPosition;										}
 		__forceinline const Maths::Vector2& GetPrevPosition()	const	{ return m_vecPrevPosition;									}
 		__forceinline const Maths::Vector2	GetMoveSqrDirection()const	{ return m_vecPosition - m_vecPrevPosition;					}
@@ -212,8 +214,8 @@ namespace Framework
 
 		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable;		}
 
-		__forceinline void SetPosition(const Maths::Vector2& position) { m_vecPosition = position; }
-		__forceinline void SetPosition(const Maths::Vector2Int& position)	{ m_vecPosition = position;									}
+		__forceinline void SetLocalPosition(const Maths::Vector2& position)	{ m_vecPosition = position; }
+		__forceinline void SetLocalPosition(const Maths::Vector2Int& position)	{ m_vecPosition = position;									}
 		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale;										}
 		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate;										}
 
@@ -230,12 +232,14 @@ namespace Framework
 		bool GetRenderCheck()										const	{ return m_bRenderResult; }
 
 	private:
-		Maths::Vector2 m_vecWorldPosition;
+		void CalculatePosition();
+		void CalculateRenderPosition();
+		Maths::Vector2 m_vecWorldPosition;	//Àý´ëÁÂÇ¥ (ÀÚ½Å ÁÂÇ¥ + ºÎ¸ð ÁÂÇ¥)
+		Maths::Vector2 m_vecRenderPosition; //·»´õ¸µ ÁÂÇ¥ (Ä«¸Þ¶ó ±âÁØ ÁÂÇ¥)
 
-		Maths::Vector2 m_vecPosition;
-		Maths::Vector2 m_vecPrevPosition;
+		Maths::Vector2 m_vecPosition;		//»ó´ëÁÂÇ¥
+		Maths::Vector2 m_vecPrevPosition;	//ÀÌÀü ÇÁ·¹ÀÓ Àý´ëÁÂÇ¥
 		Maths::Vector2 m_vecScale;
-		Maths::Vector2 m_vecRenderPosition;
 		float m_fRotatate;
 
 		UINT m_eLayerType;

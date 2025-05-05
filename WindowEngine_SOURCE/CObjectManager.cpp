@@ -22,46 +22,54 @@ namespace Framework
 
 		bool CObjectManager::AddActor(CActor* pActor)
 		{
-			if (AddActorID(pActor) == false)
-			{
-				return false;
-			}
+			if (ActorCheck(pActor) == false)
+			{		return false;	}
+
+			AddActorID(pActor);
 			if (pActor->GetParentActor() == nullptr)
-			{
-				AddInLayer(pActor);
-			}
+			{		AddInLayer(pActor);	}
 			pActor->BeginPlay();
+
 			return true;
 		}
 
-		bool CObjectManager::AddActorID(CActor* pActor)
+		bool CObjectManager::ActorCheck(CActor* pActor)
+		{
+			const UINT32 currentId = pActor->GetID();
+			if (currentId != 0)
+			{
+				auto iter = m_unObjects.find(currentId);
+				if (iter != m_unObjects.end())
+				{
+					CActor* target = iter->second;
+					if (target == pActor)
+					{
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		void CObjectManager::AddActorID(CActor* pActor)
 		{
 			const UINT32 id = GET_SINGLE(TIME).GetRandom();
+			pActor->Initialize();
+
 			auto iter = m_unObjects.find(id);
 			if (iter == m_unObjects.end())			//존재 하지 않는 아이디
 			{
 				m_unObjects.insert(std::make_pair(id, pActor));
 				pActor->SetID(id);
-				pActor->Initialize();
-				return true;
-			}
-			
-
-			UINT32 _id = iter->first;
-			CActor* target = iter->second;
-
-			if (target == pActor)
-			{
-				return false;
+				return;
 			}
 
-			pActor->Initialize();
-
-			if (target == nullptr)		//소멸된 아이디
+			if (iter->second == nullptr)			//소멸된 아이디
 			{
 				iter->second = pActor;
-				return true;
+				return;
 			}
+
 			while (true)
 			{
 				const UINT32 newID = GET_SINGLE(TIME).GetRandom();
@@ -73,7 +81,7 @@ namespace Framework
 					break;
 				}
 			}
-			return true;
+			return;
 		}
 
 		void CObjectManager::AddInLayer(CActor* pActor)

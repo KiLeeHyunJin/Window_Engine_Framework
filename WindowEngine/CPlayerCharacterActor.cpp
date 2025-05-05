@@ -28,8 +28,8 @@ namespace Framework
 		m_pTileColl = AddComponent<CTileCollisionComponent>();
 
 		CActor* child = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Child");
-		child->SetPosition(Maths::Vector2(30, 30));
-		child->AddComponent<CBoxColliderComponent>();
+		child->SetLocalPosition(Maths::Vector2(30, 30));
+		child->AddComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(20,20));
 		AddChildActor(child);
 
 		m_pBoxColl->SetSize(Maths::Vector2(40, 70));

@@ -122,9 +122,8 @@ namespace Framework
 			endPos = pCam->CaluatePosition(endPos);
 		}
 		GET_SINGLE(RENDER).Line(startPos, endPos);
-
-		//DeleteObject(pen);
 	}
+
 	void CLineComponent::EventTrigger(float waitTime, bool state)
 	{
 		if (m_pTriggerEvent != nullptr)
@@ -133,8 +132,8 @@ namespace Framework
 			{		return;		}
 		}
 		m_pTriggerEvent = new  std::pair<FLOAT, BOOL>(waitTime, state);
-
 	}
+
 	void CLineComponent::FixedComponent()
 	{
 	}

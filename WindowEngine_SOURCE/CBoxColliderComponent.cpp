@@ -53,13 +53,7 @@ namespace Framework
 
 	void CBoxColliderComponent::Render(HDC hdc)
 	{
-		Maths::Vector2 pos = GetOwner()->GetPosition();
-		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-
-		if (pCam != nullptr)
-		{
-			pos = pCam->CaluatePosition(pos);
-		}
+		Maths::Vector2 pos = GetOwner()->GetRenderPosition();
 		const Maths::Vector2 offsetPos = pos + m_vecOffset;
 
 		if (((INT)m_fAngle % 180) == 0)
