@@ -9,18 +9,14 @@
 #include "CObjectManager.h"
 
 #include "CCameraComponent.h"
-#include "CTransformComponent.h"
-#include "CRigidbodyComponent.h"
+//#include "CRigidbodyComponent.h"
 
 namespace Framework
 {
 	CActor::CActor(UINT layerType) :
-		m_eState(eState::Enable), m_eLayerType(layerType), m_uiID(0),
-		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false), m_fRotatate(0)
-		/*m_pTransform(new CTransformComponent)*/
+		m_eState(eState::Enable), m_eLayerType(layerType), m_uiID(0), m_fRotatate(0)
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
-		//m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
 	}
 
 	CActor::~CActor()
@@ -33,7 +29,7 @@ namespace Framework
 	}
 
 	/// <summary>
-	/// 배치후 호출
+	/// 필드 배치후 호출
 	/// </summary>
 	void CActor::BeginPlay()
 	{
@@ -50,8 +46,9 @@ namespace Framework
 			pCom->BeginPlay();
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -90,8 +87,9 @@ namespace Framework
 			}
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -105,13 +103,12 @@ namespace Framework
 			}
 		}
 
-		CalculatePosition();
 		return state;
 	}
 
 	bool CActor::LastTick()
 	{
-		m_vecPrevPosition = m_vecWorldPosition;
+		CalculatePosition();
 
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -142,8 +139,9 @@ namespace Framework
 			}
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -156,11 +154,14 @@ namespace Framework
 				}
 			}
 		}
+
 		return state;
 	}
 
 	void CActor::FixedTick()
 	{
+		m_vecPrevWorldPosition = m_vecCurWorldPosition;
+		//CalculatePosition();
 
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -187,8 +188,9 @@ namespace Framework
 			pCom->FixedComponent();
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -222,8 +224,9 @@ namespace Framework
 			pCom->Render(hdc);
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -237,7 +240,9 @@ namespace Framework
 
 
 		GET_SINGLE(RENDER).FrameCircle(m_vecRenderPosition, 2.f);
-		GET_SINGLE(RENDER).Text(std::to_wstring(m_uiID), m_vecRenderPosition, Maths::Vector2(100 + m_vecRenderPosition.x, m_vecRenderPosition.y));
+		GET_SINGLE(RENDER).Text(std::to_wstring(m_uiID), 
+			m_vecRenderPosition, 
+			Maths::Vector2(100 + m_vecRenderPosition.x, m_vecRenderPosition.y));
 		return true;
 	}
 
@@ -260,16 +265,19 @@ namespace Framework
 			}
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor != nullptr)
 			{
-				GET_SINGLE(EVENT).DeleteActor(pActor);
+				pActor->Release();
 			}
 		}
+
 		m_vecComponents.clear();
 		m_vecComponents.clear();
 		m_vecChilds.clear();
+		//GET_SINGLE(OBJECT).RemoveActor(GetID());
 	}
 
 	void CActor::ChangeLayer(const UINT layerType)
@@ -280,25 +288,26 @@ namespace Framework
 		}
 	}
 
-	void CActor::AddChildActor(CActor* pActor)
+	void CActor::AddChildID(UINT actorID)
 	{
-		if (pActor->GetParentActor() != nullptr)
+		if (GET_SINGLE(OBJECT).GetActor(actorID)->GetParentID() != 0)
 		{
 			assert(false);
 			return;
 		}
-		const UINT32 actorID = pActor->GetID();
-		if (GET_SINGLE(OBJECT).GetActor(actorID) == nullptr)
+		CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
+		if (pActor != nullptr)
 		{
-			GET_SINGLE(OBJECT).AddActor(pActor);
+			m_vecChilds.push_back(actorID);
+			pActor->SetParentID(GetID());
+			return;
 		}
-		m_vecChilds.push_back(pActor);
-		pActor->SetParentActor(this);
+		assert(false);
 	}
 
-	void CActor::RemoveChild(CActor* pChild)
+	void CActor::RemoveChild(UINT childID)
 	{
-		auto iter = std::find(m_vecChilds.begin(), m_vecChilds.end(), pChild);
+		auto iter = std::find(m_vecChilds.begin(), m_vecChilds.end(), childID);
 		if (iter != m_vecChilds.end())
 		{
 			m_vecChilds.erase(iter);
@@ -307,16 +316,20 @@ namespace Framework
 
 	void CActor::CalculatePosition()
 	{
-		m_vecWorldPosition = m_vecPosition;
-		if (m_pParent != nullptr)
+		m_vecCurWorldPosition = m_vecLocalPosition;
+		if (m_uiParentID != 0)
 		{
-			m_vecWorldPosition += m_pParent->GetPosition();
+			const CActor* parent = GET_SINGLE(OBJECT).GetActor(m_uiParentID);
+			if (parent != nullptr)
+			{
+				m_vecCurWorldPosition += parent->GetPosition();
+			}
 		}
 	}
 
 	void CActor::CalculateRenderPosition()
 	{
-		m_vecRenderPosition = m_vecWorldPosition;
+		m_vecRenderPosition = m_vecCurWorldPosition;
 		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 		if (pCam != nullptr)
 		{

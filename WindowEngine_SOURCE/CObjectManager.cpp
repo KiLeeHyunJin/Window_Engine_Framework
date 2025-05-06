@@ -20,19 +20,6 @@ namespace Framework
 		{
 		}
 
-		bool CObjectManager::AddActor(CActor* pActor)
-		{
-			if (ActorCheck(pActor) == false)
-			{		return false;	}
-
-			AddActorID(pActor);
-			if (pActor->GetParentActor() == nullptr)
-			{		AddInLayer(pActor);	}
-			pActor->BeginPlay();
-
-			return true;
-		}
-
 		bool CObjectManager::ActorCheck(CActor* pActor)
 		{
 			const UINT32 currentId = pActor->GetID();
@@ -51,37 +38,68 @@ namespace Framework
 			return true;
 		}
 
-		void CObjectManager::AddActorID(CActor* pActor)
+		void CObjectManager::GrantID(CActor* pActor)
 		{
-			const UINT32 id = GET_SINGLE(TIME).GetRandom();
-			pActor->Initialize();
+			UINT32 id = GET_SINGLE(TIME).GetRandom();
 
 			auto iter = m_unObjects.find(id);
-			if (iter == m_unObjects.end())			//존재 하지 않는 아이디
+			if (iter != m_unObjects.end())				//사용 흔적이 있는 아이디
 			{
-				m_unObjects.insert(std::make_pair(id, pActor));
-				pActor->SetID(id);
-				return;
-			}
-
-			if (iter->second == nullptr)			//소멸된 아이디
-			{
-				iter->second = pActor;
-				return;
-			}
-
-			while (true)
-			{
-				const UINT32 newID = GET_SINGLE(TIME).GetRandom();
-				auto iter = m_unObjects.find(newID);
-				if (iter == m_unObjects.end())			//존재 하지 않는 아이디
+				if (iter->second == nullptr)			//소멸된 아이디
 				{
-					pActor->SetID(newID);
-					m_unObjects.insert(std::make_pair(newID, pActor));
-					break;
+					m_unObjects.erase(iter);
 				}
+				else
+				{
+					while (true)								//사용안하는 ID가 나올때까지 탐색
+					{
+						id = GET_SINGLE(TIME).GetRandom();
+						auto iter = m_unObjects.find(id);
+						if (iter == m_unObjects.end())			//사용하지 않는 아이디
+						{
+							break;
+						}
+						else
+						{
+							if (iter->second == nullptr)		//소멸된 아이디
+							{
+								m_unObjects.erase(iter);
+								break;
+							}
+						}
+					}
+				}
+				
 			}
+			m_unObjects.insert(std::make_pair(id, pActor));		//정보 기록
+
+			pActor->SetID(id);									//ID부여
+			pActor->Initialize();								//초기화 진행
+
 			return;
+		}
+
+		void CObjectManager::EnterLayer(CActor* pActor)
+		{
+			AddInLayer(pActor);
+			pActor->BeginPlay();
+		}
+
+		void CObjectManager::CreateID(CActor* pActor)
+		{
+			if (ActorCheck(pActor) == false)
+			{	return ;	}
+			GrantID(pActor);
+		}
+
+		void CObjectManager::DeleteID(CActor* pActor)
+		{
+			const UINT id = pActor->GetID();
+			auto iter = m_unObjects.find(id);
+			if (iter != m_unObjects.end())
+			{
+				m_unObjects.erase(iter);
+			}
 		}
 
 		void CObjectManager::AddInLayer(CActor* pActor)
@@ -103,7 +121,6 @@ namespace Framework
 			return result;
 		}
 
-
 		void CObjectManager::Clear(bool allClear)
 		{
 			for (auto layer : m_vecLayer)
@@ -121,28 +138,33 @@ namespace Framework
 
 		void CObjectManager::Destroy()
 		{
+			//데이터 정리
 			for (auto layer : m_vecLayer)
 			{
-				layer->DestroyActor();
+				layer->ReleaseActor();
 			}
 			for (auto layer : m_vecDontDestoryLayer)
 			{
-				layer->DestroyActor();
+				layer->ReleaseActor();
+			}
+			//할당 해제
+			for (auto layer : m_vecLayer)
+			{
+				layer->DeleteActor();
+			}
+			for (auto layer : m_vecDontDestoryLayer)
+			{
+				layer->DeleteActor();
 			}
 		}
 
-		void CObjectManager::RemoveActor(UINT32 actorId)
+		void CObjectManager::RemoveActor(CActor* pActor)
 		{
-			auto iter = m_unObjects.find(actorId);
-			if (iter != m_unObjects.end())
+			const UINT parentID = pActor->GetParentID();
+			CActor* pParent = parentID == 0 ? nullptr : GetActor(parentID); //부모 아이디를 통해 부모를 찾기
+			if (pParent != nullptr)
 			{
-				CActor* pActor = iter->second;
-				CActor* pParent = pActor->GetParentActor();
-				if (pParent != nullptr)
-				{
-					pParent->RemoveChild(pActor);
-				}
-				m_unObjects.erase(actorId);
+				pParent->RemoveChild(pActor->GetID());
 			}
 		}
 
@@ -173,19 +195,29 @@ namespace Framework
 
 		void CObjectManager::Release()
 		{
+			//액터 데이터 정리
 			for (auto& layer : m_vecLayer)
 			{
 				layer->Release();
-				delete layer;
 			}
-			m_vecLayer.clear();
 			for (auto& layer : m_vecDontDestoryLayer)
 			{
 				layer->Release();
+			}
+			//액터 & 레이어 메모리 해제
+			for (auto& layer : m_vecLayer)
+			{
+				layer->Delete();
 				delete layer;
 			}
-			m_vecDontDestoryLayer.clear();
+			for (auto& layer : m_vecDontDestoryLayer)
+			{
+				layer->Delete();
+				delete layer;
+			}
 			m_unObjects.clear();
+			m_vecLayer.clear();
+			m_vecDontDestoryLayer.clear();
 		}
 
 		void CObjectManager::Tick()

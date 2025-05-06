@@ -16,11 +16,11 @@ namespace Framework
 
 	protected:
 		/// <summary>
-		/// 배치 전 호출
+		/// 기록 후 배치 전 호출
 		/// </summary>
 		void Initialize()			override;
 		/// <summary>
-		/// 배치 후 호출
+		/// 필드 배치 후 호출
 		/// </summary>
 		void BeginPlay()			override;
 		/// <summary>

@@ -75,6 +75,27 @@ namespace Framework
 				m_pTriggerEvent = nullptr;
 			}
 		}
+		CActor* owner = GetOwner();
+
+		const CBoxColliderComponent* pCollider = owner->GetComponent<CBoxColliderComponent>();
+		const Maths::Vector2& position = owner->GetPosition();
+		const Maths::Vector2& size = pCollider->GetSize();
+		const std::vector<Maths::Vector2>& axis = pCollider->GetAxis();
+
+		const Maths::Vector2 halfSize = size * 0.5f;
+
+		const Maths::Vector2 axeX = axis[0] * halfSize.x;
+		const Maths::Vector2 axeY = axis[1] * halfSize.y;
+
+
+		// 중심에서 위로 halfSize만큼 이동한 top을 기준으로,
+		// m_fPercent만큼 위로 이동
+		// 즉: bottom + (axeY * m_fPercent * -2)
+		// 음수를 더해야 위로 이동 ((halfAxeY * -2 )* percent)
+		const Maths::Vector2 baseLineCenter = position + ((axeY * -2.0f) * m_fPercent);
+		m_vecStartPos = baseLineCenter - axeX;
+		m_vecEndPos = baseLineCenter + axeX;
+
 		return false;
 	}
 

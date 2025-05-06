@@ -79,7 +79,7 @@ namespace Framework
 			{
 				tileY += 0.05f;
 				CActor* pActor = GetOwner();
-				const Maths::Vector2& pos = pActor->GetPosition();
+				const Maths::Vector2& pos = pActor->GetLocalPosition();
 				pActor->SetLocalPosition(Maths::Vector2(pos.x, tileY));
 			}
 		}

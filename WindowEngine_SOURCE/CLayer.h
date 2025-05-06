@@ -24,7 +24,7 @@ namespace Framework
 
 		void Initialize();
 		void Release();
-
+		void Delete();
 		void Tick();
 		void LastTick();
 		void FixedTick();
@@ -40,7 +40,8 @@ namespace Framework
 
 		const std::vector<CActor*>& GetActor() const { return m_vecActor; }
 
-		void DestroyActor();
+		void ReleaseActor();
+		void DeleteActor();
 
 		//friend CScene;
 		//friend Manager::CCollisionManager;

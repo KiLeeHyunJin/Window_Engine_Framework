@@ -29,17 +29,20 @@ namespace Framework
 
 		CActor* child = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Child");
 		child->SetLocalPosition(Maths::Vector2(30, 30));
-		child->AddComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(20,20));
-		AddChildActor(child);
+		CBoxColliderComponent* pchildBoxColl = child->AddComponent<CBoxColliderComponent>();
+		pchildBoxColl->SetSize(Maths::Vector2(20, 20));
+		pchildBoxColl->SetTrigger(true);
+		AddChildID(child->GetID());
 
 		m_pBoxColl->SetSize(Maths::Vector2(40, 70));
-		m_pBoxColl->SetTrigger(false);
+		m_pBoxColl->SetTrigger(true);
 		m_pBoxColl->AddCollisionFlag((UINT)eLayer::Tile);
 		m_pBoxColl->Initialize();
 
-		m_pRigid->SetMass(60);
+		m_pRigid->SetMass(30);
 		m_pRigid->SetFriction(15);
 	}
+
 	void CPlayerCharacterActor::BeginPlay()
 	{
 		SUPER::BeginPlay();
@@ -48,6 +51,7 @@ namespace Framework
 	{
 		SUPER::Release();
 	}
+
 	bool CPlayerCharacterActor::Tick()
 	{
 		Maths::Vector2 addForceDir = {};
@@ -94,7 +98,6 @@ namespace Framework
 	{
 		bool state = SUPER::LastTick();
 
-
 		return state;
 	}
 
@@ -128,6 +131,10 @@ namespace Framework
 		if (SUPER::Render(hdc) == false)
 		{		return false;	}
 
+		GET_SINGLE(RENDER).Text(
+			std::to_wstring(GetLocalPosition().x) + L"," + std::to_wstring(GetLocalPosition().y), 
+			GetRenderPosition() + Maths::Vector2(50,0),
+			GetRenderPosition() + Maths::Vector2(250,0), 30);
 		return true;
 	}
 

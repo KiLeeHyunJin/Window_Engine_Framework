@@ -72,34 +72,27 @@ namespace Framework
 	{
 		const Maths::Vector2 gravityDir = m_vecGravity.Normalized();
 
-		try
+		if (gravityDir.HasValue() == false &&
+			m_vecVelocity.HasValue() == false)
 		{
-			if (gravityDir.HasValue() == false &&
-				m_vecVelocity.HasValue() == false)
-			{
-				return;
-			}
-
-			if (m_bGround  )
-			{
-				if (m_vecVelocity.y != 0)
-				{
-					m_vecVelocity.y = m_vecGravity.y * GET_SINGLE(TIME).DeltaTime();
-				}
-				return;
-			}
-			//else
-			{
-				m_vecVelocity.y += m_vecGravity.y * GET_SINGLE(TIME).DeltaTime();
-				
-				m_vecVelocity.y = Maths::Clamp<FLOAT>(m_vecVelocity.y, m_vecLimitVelocity.y * -1, m_vecLimitVelocity.y);
-				m_vecVelocity.x = Maths::Clamp<FLOAT>(m_vecVelocity.x, m_vecLimitVelocity.x * -1, m_vecLimitVelocity.x);
-
-			}
+			return;
 		}
-		catch (std::exception e)
+
+		if (m_bGround)
 		{
-			const std::string str = e.what();
+			//if (m_vecVelocity.y != 0)
+			{
+				m_vecVelocity.y = m_vecGravity.y * GET_SINGLE(TIME).DeltaTime();
+			}
+			return;
+		}
+		//else
+		{
+			m_vecVelocity.y += m_vecGravity.y * GET_SINGLE(TIME).DeltaTime();
+
+			m_vecVelocity.y = Maths::Clamp<FLOAT>(m_vecVelocity.y, m_vecLimitVelocity.y * -1, m_vecLimitVelocity.y);
+			m_vecVelocity.x = Maths::Clamp<FLOAT>(m_vecVelocity.x, m_vecLimitVelocity.x * -1, m_vecLimitVelocity.x);
+
 		}
 	}
 
@@ -125,20 +118,17 @@ namespace Framework
 			m_vecVelocity += friction; //속도에 마찰력 합산하여 속도 감소
 		}
 		m_vecVelocity.y = yValue;
-		Maths::Vector2 pos = GetOwner()->GetPosition();
+
+		CActor* pActor = GetOwner();
+		Maths::Vector2 pos = pActor->GetLocalPosition();
 		pos = pos + (m_vecVelocity * TickComponentTime);
-		GetOwner()->SetLocalPosition(pos); //현재 위치에서 이동 방향으로 이동
+		pActor->SetLocalPosition(pos); //현재 위치에서 이동 방향으로 이동
 
 		if (m_vecForce.HasValue()) //힘 폐기
 		{
 			m_vecForce.Clear();
 		}
 	}
-
-
-
-
-
 
 	void CRigidbodyComponent::SetGround(bool isGround)
 	{
@@ -147,6 +137,11 @@ namespace Framework
 
 	void CRigidbodyComponent::AdjustPosition(CBoxColliderComponent* target, CBoxColliderComponent* other)
 	{
+		if (target->GetTrigger() || other->GetTrigger())
+		{
+			return;
+		}//물리충돌이 필요한 대상인지 확인
+
 		const CActor* targetOwner = target->GetOwner();
 
 		const Maths::Vector2& pos = targetOwner->GetPosition();
@@ -154,18 +149,12 @@ namespace Framework
 		if (pos == pre)
 		{		return;		}
 
-		//if (CheckCollisionLine(target, other))
-		//{		return;		}
-
-		if (target->GetTrigger() || other->GetTrigger())
-		{		return;		}//물리충돌이 필요한 대상인지 확인
-
 		RECT collisionRect;
 		{
 			const RECT targetRect = target->GetRect();
 			const RECT otherRect = target->GetRect();
 
-			if (!::IntersectRect(&collisionRect, &targetRect, &otherRect))
+			if (::IntersectRect(&collisionRect, &targetRect, &otherRect) == false)
 			{
 				return; // 충돌 없으면 종료
 			}

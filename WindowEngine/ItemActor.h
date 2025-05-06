@@ -4,10 +4,15 @@
 
 namespace Framework
 {
+	class CBoxColliderComponent;
+	class CRigidbodyComponent;
+	class CTileCollisionComponent;
+
 
     class ItemActor :
         public CSpriteActor
     {
+		DECLARE_PARENT(CSpriteActor)
     public:
 		ItemActor(INT layer);
 		virtual ~ItemActor();
@@ -20,7 +25,10 @@ namespace Framework
 		void FixedTick()			override;
 		bool Render(HDC hdc) const	override;
     private:
-
+		float m_fRot;
+		CBoxColliderComponent* m_pBoxColl = nullptr;
+		CRigidbodyComponent* m_pRigid = nullptr;
+		CTileCollisionComponent* m_pTileColl = nullptr;
     };
 }
 

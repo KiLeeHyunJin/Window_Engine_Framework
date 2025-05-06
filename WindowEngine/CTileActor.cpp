@@ -50,7 +50,7 @@ namespace Framework
 	}
 	bool CTileActor::LastTick()
 	{
-		bool result = SUPER::Tick();
+		bool result = SUPER::LastTick();
 
 		return result;
 	}

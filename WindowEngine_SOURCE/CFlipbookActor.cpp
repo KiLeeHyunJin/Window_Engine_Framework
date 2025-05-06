@@ -52,7 +52,7 @@ namespace Framework
 		}
 		if (m_pFlipbook == nullptr)
 		{
-			return false;
+			return true;
 		}
 		const Maths::Vector2& position = GetPosition();
 		const Maths::Vector2& scale = GetScale();

@@ -31,7 +31,7 @@ namespace Framework
 
 			UINT					FPS()					const	{ return m_uiFPS;							}
 			bool					GetShowFPS()			const	{ return m_bShowFPS;						}
-			UINT32					GetRandom()						{ return GetRandomInRange(0, UINT32_MAX);	}
+			UINT32					GetRandom()						{ return GetRandomInRange(1, UINT32_MAX);	}
 
 			// 사용자 지정 범위
 			__forceinline UINT32	GetRandomInRange(UINT32 min, UINT32 max)

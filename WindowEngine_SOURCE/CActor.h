@@ -29,12 +29,12 @@ namespace Framework
 		virtual ~CActor();
 
 		/// <summary>
-		/// 배치 전 호출
+		/// 기록 후 배치 전 호출
 		/// </summary>
 		virtual void Initialize()			= 0;
 
 		/// <summary>
-		/// 배치 후 호출
+		/// 필드 배치 후 호출
 		/// </summary>
 		virtual void BeginPlay()			= 0;
 
@@ -71,15 +71,14 @@ namespace Framework
 		virtual void OnCollisionStay(CColliderComponent* other)		{}
 		virtual void OnCollisionExit(CColliderComponent* other)		{}
 
-		void	AddChildActor(CActor* pActor);
-		void	SetParentActor(CActor* pParent) { m_pParent = pParent; }
-		CActor* GetParentActor()		const { return m_pParent; }
-		UINT	GetChildCount()			const { return (UINT)m_vecChilds.size(); }
-		void	RemoveChild(CActor* pChild);
+						void	AddChildID(UINT pActorID);
+						void	SetParentID(UINT parentID)				{ m_uiParentID = parentID; }
+		__forceinline	UINT	GetParentID()					const	{ return m_uiParentID; }
+		__forceinline	UINT	GetChildCount()					const	{ return (UINT)m_vecChilds.size(); }
+		__forceinline	UINT	GetChildID(UINT childNum)		const	{ return m_vecChilds[childNum]; }
+						void	RemoveChild(UINT childID);
+						void	ChangeLayer(UINT layerType);
 
-		void	ChangeLayer(UINT layerType);
-
-		//CTransformComponent* GetTransformComponent() const { return m_pTransform; }
 #pragma region  Component Template
 		template<typename T>
 		T* AddComponent()
@@ -192,21 +191,19 @@ namespace Framework
 
 		__forceinline const UINT			GetLayerType()		const	{ return m_eLayerType;										}
 
-		//__forceinline const eState GetState()					const	{ return m_eState; }
 		__forceinline const bool			GetActive()			const	{ return m_eState == eState::Enable;						}
 		__forceinline const bool			GetDisable()		const	{ return m_eState == eState::Disable;						}
-		__forceinline UINT32				GetID()				const	{ return m_uiID;											}
+		__forceinline		UINT32			GetID()				const	{ return m_uiID;											}
 
 		__forceinline const bool			GetReserveDelete()	const	{ return m_bReserveDelete;									}
 		__forceinline const bool			GetSafeToDelete()	const	{ return m_bSafeToDelete;									}
 		__forceinline const bool			GetDontDestroy()	const	{ return m_bDontDestroy;									}
 		//__forceinline const bool GetDead()		const { return m_eState == eState::Destory; }
 
-		__forceinline const Maths::Vector2& GetLocalPosition()	const	{ return m_vecPosition; }
-		__forceinline const Maths::Vector2& GetWorldPosition()	const	{ return m_vecWorldPosition; }
-		__forceinline const Maths::Vector2& GetPosition()		const	{ return m_vecPosition;										}
-		__forceinline const Maths::Vector2& GetPrevPosition()	const	{ return m_vecPrevPosition;									}
-		__forceinline const Maths::Vector2	GetMoveSqrDirection()const	{ return m_vecPosition - m_vecPrevPosition;					}
+		__forceinline const Maths::Vector2& GetLocalPosition()	const	{ return m_vecLocalPosition;								}
+		__forceinline const Maths::Vector2	GetPosition()		const	{ return m_vecCurWorldPosition;								}
+		__forceinline const Maths::Vector2& GetPrevPosition()	const	{ return m_vecPrevWorldPosition;							}
+		__forceinline const Maths::Vector2	GetMoveSqrDirection()const	{ return m_vecCurWorldPosition - m_vecPrevWorldPosition;	}
 
 		__forceinline const Maths::Vector2& GetScale()			const	{ return m_vecScale;										}
 		__forceinline const float			GetRotate()			const	{ return m_fRotatate;										}
@@ -214,16 +211,15 @@ namespace Framework
 
 		__forceinline void SetActive(bool power)						{ m_eState = power ? eState::Enable : eState::Disable;		}
 
-		__forceinline void SetLocalPosition(const Maths::Vector2& position)	{ m_vecPosition = position; }
-		__forceinline void SetLocalPosition(const Maths::Vector2Int& position)	{ m_vecPosition = position;									}
+		__forceinline void SetLocalPosition(const Maths::Vector2& position)		{ m_vecLocalPosition = position; }
 		__forceinline void SetScale(const Maths::Vector2& scale)		{ m_vecScale = scale;										}
 		__forceinline void SetRotate(const float rotate)				{ m_fRotatate = rotate;										}
 
-		void SetSafeToDelete()							{ if (m_bSafeToDelete == false)  m_bSafeToDelete = true;	}
-		void SetReserveDelete()							{ if (m_bReserveDelete == false) m_bReserveDelete = true;	}
-		void SetDontDestroy(bool state)					{ m_bDontDestroy = state;									}
-		void SetLayerType(const UINT layerType)			{ if (layerType != m_eLayerType) m_eLayerType = layerType;	}
-		void SetID(UINT32 newID)						{ m_uiID = newID;											}
+		void SetSafeToDelete()											{ if (m_bSafeToDelete == false)  m_bSafeToDelete = true;	}
+		void SetReserveDelete()											{ if (m_bReserveDelete == false) m_bReserveDelete = true;	}
+		void SetDontDestroy(bool state)									{ m_bDontDestroy = state;									}
+		void SetLayerType(const UINT layerType)							{ if (layerType != m_eLayerType) m_eLayerType = layerType;	}
+		void SetID(UINT32 newID)										{ m_uiID = newID;											}
 
 
 		//friend CLayer;
@@ -234,26 +230,27 @@ namespace Framework
 	private:
 		void CalculatePosition();
 		void CalculateRenderPosition();
-		Maths::Vector2 m_vecWorldPosition;	//절대좌표 (자신 좌표 + 부모 좌표)
-		Maths::Vector2 m_vecRenderPosition; //렌더링 좌표 (카메라 기준 좌표)
 
-		Maths::Vector2 m_vecPosition;		//상대좌표
-		Maths::Vector2 m_vecPrevPosition;	//이전 프레임 절대좌표
+		Maths::Vector2 m_vecCurWorldPosition;	//절대좌표 (자신 좌표 + 부모 좌표)
+		Maths::Vector2 m_vecRenderPosition;		//렌더링 좌표 (카메라 기준 좌표)
+
+		Maths::Vector2 m_vecLocalPosition;			//부모기준 좌표(부모로부터 떨어져있는 위치)
+		Maths::Vector2 m_vecPrevWorldPosition;	//이전 프레임 절대좌표
 		Maths::Vector2 m_vecScale;
 		float m_fRotatate;
 
 		UINT m_eLayerType;
 		UINT32 m_uiID;
 		eState m_eState;
-		CActor* m_pParent = nullptr;
+		UINT m_uiParentID = 0;
 
-		std::vector<CActor*> m_vecChilds;
+		std::vector<UINT> m_vecChilds;
 		std::vector<CComponent*> m_vecComponents;
 		std::vector<CComponent*> m_vecCustomComponents;
 
-		bool m_bSafeToDelete;
-		bool m_bReserveDelete;
-		bool m_bDontDestroy;
+		bool m_bSafeToDelete			= false;
+		bool m_bReserveDelete			= false;
+		bool m_bDontDestroy				= false;
 		bool m_bRenderResult			= false;
 
 	};

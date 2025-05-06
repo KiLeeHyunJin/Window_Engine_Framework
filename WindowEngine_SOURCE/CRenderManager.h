@@ -35,6 +35,9 @@ namespace Framework
 
 			void AdjustWindow(HWND hWnd, int width, int height, int xPos, int yPos, DWORD winStyle, bool menu);
 			//void ChangeScreenSize(bool maximumScale);
+			void SetRotation(float rot, const Maths::Vector2& start, const Maths::Vector2& end);
+
+			__forceinline void ResetTransform() { m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity()); }
 
 			void CreateBackBuffer(int width, int height) const;
 
@@ -48,15 +51,15 @@ namespace Framework
 
 
 
-			ID2D1Factory* m_pFactory					= nullptr;					//d2d팩토리
+			ID2D1Factory* m_pFactory					= nullptr;		//d2d팩토리
 			ID2D1HwndRenderTarget* m_pRenderTarget		= nullptr;		//그려야하는 화면
 			IWICImagingFactory* m_pImageFactory			= nullptr;		//이미지
-			IDWriteFactory* m_pWriteFactory				= nullptr;			//그리기
+			IDWriteFactory* m_pWriteFactory				= nullptr;		//그리기
 
 			ID2D1SolidColorBrush* m_pDefaultBrush		= nullptr;		//도형 그리기 위한 브러시
-			IDWriteTextFormat* m_pDefaultTextFormat		= nullptr;	//텍스트  그리기 위한
+			IDWriteTextFormat* m_pDefaultTextFormat		= nullptr;		//텍스트  그리기 위한
 
-			ID2D1SolidColorBrush* m_pCurBrush			= nullptr;			//현재 브러시
+			ID2D1SolidColorBrush* m_pCurBrush			= nullptr;		//현재 브러시
 			IDWriteTextFormat* m_pCurTextFormat			= nullptr;		//현재 포맷
 
 		public:
@@ -76,20 +79,20 @@ namespace Framework
 			void SetTextAlignment(DWRITE_TEXT_ALIGNMENT textAlignment);
 			void SetTextParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment);
 
-			void Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint);
-			void Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float fontSize);
+			void Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float rot = 0);
+			void Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float fontSize, float rot = 0);
 
-			void Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH);
-			void Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, const Color& color, float fontSize);
+			void Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH , float rot = 0);
+			void Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, const Color& color, float fontSize, float rot = 0);
 
 			void Line(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint);
 			void Line(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth = 1.f);
 
-			void FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float strokeWidth = 1.f);
-			void FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth = 1.f);
+			void FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float strokeWidth = 1.f, float rot = 0);
+			void FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth = 1.f, float rot = 0);
 
-			void FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint);
-			void FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color);
+			void FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float rot = 0);
+			void FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float rot = 0);
 
 			void FrameEllipse(const Maths::Vector2& startPoint, float radius, float strokeWidth = 1.f);
 			void FrameEllipse(const Maths::Vector2& startPoint, float radius, const Color& color, float strokeWidth = 1.f);
@@ -103,10 +106,11 @@ namespace Framework
 			void FillCircle(const Maths::Vector2& startPoint, float radius);
 			void FillCircle(const Maths::Vector2& startPoint, float radius, const Color& color);
 
-			void Image(const Resource::CSprite* pImg, const Maths::Vector2& startPoint, float alpha = 1.f);
+			void Image(const Resource::CSprite* pImg, const Maths::Vector2& startPoint, float alpha = 1.f, float rot = 0);
 			void FrameImage(const Resource::CSprite* pImg,
 				const Maths::Vector2& drawStartPoint, const Maths::Vector2& drawEndPoint,
-				const Maths::Vector2& sliceStartPoint, const Maths::Vector2& sliceEndPoint, float alpha = 1.f);
+				const Maths::Vector2& sliceStartPoint, const Maths::Vector2& sliceEndPoint, float alpha = 1.f, float rot = 0);
+
 
 			IWICImagingFactory* GetImageFactory();
 			ID2D1HwndRenderTarget* GetRenderTarget();

@@ -314,6 +314,19 @@ namespace Framework
 			DeleteObject(oldBitmap2);
 		}
 		
+		void CRenderManager::SetRotation(float rot,const Maths::Vector2& start, const Maths::Vector2& end)
+		{
+			Maths::Vector2 center((start + end) * 0.5f);
+			//FLOAT angleRadians = rot * (3.14159265f / 180.0f);
+
+			// 3. 회전 변환 매트릭스 생성
+			D2D1_POINT_2F d2Center = { center.x, center.y };
+			D2D1::Matrix3x2F rotation = D2D1::Matrix3x2F::Rotation(rot, d2Center);
+
+			// 4. 변환 적용
+			m_pRenderTarget->SetTransform(rotation);
+		}
+
 		IWICImagingFactory* CRenderManager::GetImageFactory()
 		{
 			return m_pImageFactory;
@@ -404,44 +417,78 @@ namespace Framework
 
 
 
-		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint)
+		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			//const Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			if (rot != 0)
+			{
+				SetRotation(rot, startPoint, endPoint);
+			}
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x, endPoint.y };
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pDefaultTextFormat, rect, m_pDefaultBrush);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
-		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float fontSize)
+		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float fontSize, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			//const Maths::Vector2 end = pCam->CaluatePosition(endPoint);
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x, endPoint.y };
-
+			if (rot != 0)
+			{
+				SetRotation(rot, startPoint, endPoint);
+			}
 			SetCurFontSize(fontSize);
 			SetCurBrush(color);
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pCurTextFormat, rect, m_pCurBrush);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
-		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH)
+		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(Maths::Vector2(dstX, dstY));
+			if (rot != 0)
+			{
+				Maths::Vector2 start(dstX, dstY);
+				Maths::Vector2 end(dstX + dstW, dstX + dstH);
+				SetRotation(rot, start, end);
+			}
 			D2D1_RECT_F rect = { dstX, dstY,dstX + dstW, dstX + dstH };
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pDefaultTextFormat, rect, m_pDefaultBrush);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
-		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, const Color& color, float fontSize)
+		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, const Color& color, float fontSize, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(Maths::Vector2(dstX, dstY));
 			D2D1_RECT_F rect = { dstX, dstY, dstX + dstW, dstX + dstH };
-
+			if (rot != 0)
+			{
+				Maths::Vector2 start(dstX, dstY);
+				Maths::Vector2 end(dstX + dstW, dstX + dstH);
+				SetRotation(rot, start, end);
+			}
 			SetCurFontSize(fontSize);
 			SetCurBrush(color);
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pCurTextFormat, rect, m_pCurBrush);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
 		void CRenderManager::Line(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint)
@@ -467,48 +514,81 @@ namespace Framework
 			m_pRenderTarget->DrawLine(start, end, m_pCurBrush);
 		}
 
-		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float strokeWidth)
+		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float strokeWidth, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			if (rot != 0)
+			{
+				SetRotation(rot, startPoint, endPoint);
+			}
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x , endPoint.y };
 			m_pRenderTarget->DrawRectangle(rect, m_pDefaultBrush, strokeWidth);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
-		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth)
+		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x , endPoint.y };
+			if (rot != 0)
+			{
+				SetRotation(rot, startPoint, endPoint);
+			}
 			SetCurBrush(color);
 			m_pRenderTarget->DrawRectangle(rect, m_pCurBrush, strokeWidth);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
-		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint)
+		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			if (rot != 0)
+			{
+				SetRotation(rot, startPoint, endPoint);
+			}
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x , endPoint.y };
 			m_pRenderTarget->FillRectangle(rect, m_pDefaultBrush);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
-		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color)
+		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			if (rot != 0)
+			{
+				SetRotation(rot, startPoint, endPoint);
+			}
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x , endPoint.y };
 			SetCurBrush(color);
 			m_pRenderTarget->FillRectangle(rect, m_pCurBrush);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
 		void CRenderManager::FrameEllipse(const Maths::Vector2& startPoint, float radius, float strokeWidth)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
+
 			D2D1_ELLIPSE ellipse = { startPoint.x, startPoint.y ,radius , radius };
 			m_pRenderTarget->DrawEllipse(ellipse, m_pDefaultBrush, strokeWidth);
 		}
@@ -549,6 +629,7 @@ namespace Framework
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
 			D2D1_ELLIPSE ellipse = { startPoint.x, startPoint.y ,radius , radius };
 			m_pRenderTarget->DrawEllipse(ellipse, m_pDefaultBrush);
+			
 		}
 
 
@@ -579,7 +660,7 @@ namespace Framework
 			m_pRenderTarget->FillEllipse(ellipse, m_pCurBrush);
 		}
 
-		void CRenderManager::Image(const Resource::CSprite* pImg, const Maths::Vector2& startPoint, float alpha)
+		void CRenderManager::Image(const Resource::CSprite* pImg, const Maths::Vector2& startPoint, float alpha, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
@@ -588,23 +669,38 @@ namespace Framework
 
 			Maths::Vector2 start	= { startPoint.x - (scale.x * 0.5f)	, startPoint.y - scale.y };
 			Maths::Vector2 end		= { startPoint.x + scale.x			, startPoint.y };
-
+			if (rot != 0)
+			{
+				SetRotation(rot, start, end);
+			}
 			D2D1_RECT_F srcImgRect = { (FLOAT)leftTop.x,	(FLOAT)leftTop.y,	(FLOAT)(leftTop.x + scale.x),	(FLOAT)(leftTop.y + scale.y) };
 
 			//Maths::Vector2 end = pCam->CaluatePosition(Maths::Vector2(pos.));
 			D2D1_RECT_F imgRect = { start.x, start.y, end.x, end.y };
 
 			m_pRenderTarget->DrawBitmap(pImg->GetD2DImage(), imgRect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, srcImgRect);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 
-		void CRenderManager::FrameImage(const Resource::CSprite* pImg, const Maths::Vector2& drawStartPoint, const Maths::Vector2& drawEndPoint, const Maths::Vector2& sliceStartPoint, const Maths::Vector2& sliceEndPoint, float alpha)
+		void CRenderManager::FrameImage(const Resource::CSprite* pImg, const Maths::Vector2& drawStartPoint, const Maths::Vector2& drawEndPoint, const Maths::Vector2& sliceStartPoint, const Maths::Vector2& sliceEndPoint, float alpha, float rot)
 		{
 			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 			//Maths::Vector2 start = pCam->CaluatePosition(drawStartPoint);
 			//Maths::Vector2 end = pCam->CaluatePosition(drawEndPoint);
 			D2D1_RECT_F pointRect	= { drawStartPoint.x,	drawStartPoint.y,	drawEndPoint.x,		drawEndPoint.y };
 			D2D1_RECT_F srcImgRect	= { sliceStartPoint.x,	sliceStartPoint.y,	sliceEndPoint.x,	sliceEndPoint.y };
+			if (rot != 0)
+			{
+				SetRotation(rot, drawStartPoint, drawEndPoint);
+			}
 			m_pRenderTarget->DrawBitmap(pImg->GetD2DImage(), pointRect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, srcImgRect);
+			if (rot != 0)
+			{
+				ResetTransform();
+			}
 		}
 }
 

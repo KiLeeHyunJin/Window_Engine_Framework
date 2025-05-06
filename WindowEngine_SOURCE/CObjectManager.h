@@ -47,16 +47,27 @@ namespace Framework
 				return m_vecLayer[layer]->GetActor();
 			}
 			void Render(HDC hdc);								//RenderManager
-			bool AddActor(CActor* pActor);						//EventManager
 
-			void AddInLayer(CActor* pActor);						//EventManager
+			void AddInLayer(CActor* pActor);					//EventManager
 			bool EraseInLayer(CActor* pActor);					//EventManager
 
 			void Clear(bool allClear = false);					//SceneManager
 			void Destroy();										//CollisionManager
 
-			void RemoveActor(UINT32 actorId); 		//EventManager
-			
+			void RemoveActor(CActor* pActor); 					//EventManager
+			/// <summary>
+			/// 군번줄 생성
+			/// </summary>
+			void CreateID(CActor* pActor);	
+			/// <summary>
+			/// 병역기록 삭제
+			/// </summary>
+			void DeleteID(CActor* pActor);
+
+			/// <summary>
+			/// 부대 전입
+			/// </summary>
+			void EnterLayer(CActor* pActor);
 
 
 			friend CApplication;		//매번 함수 실행을 위해 사용
@@ -67,7 +78,8 @@ namespace Framework
 		private:
 			//CObjectManager();
 			~CObjectManager();
-			void AddActorID(CActor* pActor);						//EventManager
+			void GrantID(CActor* pActor);						//EventManager
+
 			bool ActorCheck(CActor* pActor);
 			void Initialize();									//Application
 			void Release();										//Application

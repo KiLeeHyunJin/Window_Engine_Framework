@@ -28,7 +28,7 @@ Framework::CTitleScene::~CTitleScene()
 
 void Framework::CTitleScene::Initialize()
 {
-	Object::Instantiate<CGameControllActor>	((UINT)eLayer::None	,L"GameManager"	,true);	//GameManager
+	//Object::Instantiate<CGameControllActor>	((UINT)eLayer::None	,L"GameManager"	,true);	//GameManager
 
 
 }

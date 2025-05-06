@@ -14,33 +14,56 @@ namespace Framework
 	{	}
 
 	CLayer::~CLayer()
-	{	}
+	{	
+	
+
+	}
 
 	void CLayer::Initialize()
 	{
-		for (CActor* pObj : m_vecActor)
+		for (CActor* pActor : m_vecActor)
 		{
-			pObj->BeginPlay();
+			if (pActor->GetParentID() != 0)
+			{
+				continue;
+			}
+			pActor->BeginPlay();
 		}
 	}
 
 	void CLayer::Release()
 	{
-		for (CActor* pObj : m_vecActor)
+		for (CActor* pActor : m_vecActor)
 		{
-			pObj->Release();
-			delete pObj;
+			if (pActor->GetParentID() == 0)
+			{
+				pActor->Release();
+			}
+		}
+		for (CActor* pActor : m_vecRemoveActor)
+		{
+			if (pActor->GetParentID() == 0)
+			{
+				pActor->Release();
+			}
+		}
+	}
+
+	void CLayer::Delete()
+	{
+		for (CActor* pActor : m_vecActor)
+		{
+			GET_SINGLE(OBJECT).DeleteID(pActor);
+			delete pActor;
 		}
 		m_vecActor.clear();
 
-		for (CActor* pObj : m_vecRemoveActor)
+		for (CActor* pActor : m_vecRemoveActor)
 		{
-			pObj->Release();
-			delete pObj;
+			delete pActor;
 		}
 		m_vecRemoveActor.clear();
 	}
-
 	void CLayer::Tick()
 	{
 		//삭제하지 않을 요소를 앞으로 밀어내고, 한번만 erase()를 호출
@@ -65,20 +88,24 @@ namespace Framework
 		}
 
 
-		for (CActor* pObj : m_vecActor)
+		for (CActor* pActor : m_vecActor)
 		{
-			if (pObj->GetReserveDelete())
+			if (pActor->GetReserveDelete())
 			{
-				pObj->SetSafeToDelete();
+				pActor->SetSafeToDelete();
 			}
 			else
 			{
-				if (pObj->GetActive())
+				if (pActor->GetParentID() != 0)
 				{
-					const bool result = pObj->Tick();
+					continue;
+				}
+				if (pActor->GetActive())
+				{
+					const bool result = pActor->Tick();
 					if (result == false)
 					{
-						Object::Destroy(pObj);
+						Object::Destroy(pActor);
 					}
 				}
 			}
@@ -87,35 +114,39 @@ namespace Framework
 
 	void CLayer::LastTick()
 	{
-		for (CActor* pObj : m_vecActor)
+		for (CActor* pActor : m_vecActor)
 		{
-			if (pObj->GetActive() && 
-				pObj->GetReserveDelete() == false)
+			if (pActor->GetParentID() != 0)
 			{
-				const bool result = pObj->LastTick();
+				continue;
+			}
+			if (pActor->GetActive() && 
+				pActor->GetReserveDelete() == false)
+			{
+				const bool result = pActor->LastTick();
 				if (result == false)
 				{
-					Object::Destroy(pObj);
+					Object::Destroy(pActor);
 				}
 			}
 		}
 
 		/*for (auto iter = m_vecActor.begin(); iter != m_vecActor.end();)
 		{
-			CActor* pObj = *iter;
+			CActor* pActor = *iter;
 
 			///삭제 예정이라면 삭제 목록으로 추가
-			if (pObj->GetReserveDelete()) 
+			if (pActor->GetReserveDelete()) 
 			{
-				DeleteActor(pObj);
+				DeleteActor(pActor);
 				iter = m_vecActor.erase(iter);
 			}
 			///활성화 되어있는 게임 오브젝트만 라스트 틱 호출
 			else 
 			{
-				if (pObj->GetActive())
+				if (pActor->GetActive())
 				{
-					pObj->LastTickComponent();
+					pActor->LastTickComponent();
 				}
 				++iter;
 			}
@@ -129,6 +160,10 @@ namespace Framework
 
 		for (CActor* pActor : m_vecActor)
 		{
+			if (pActor->GetParentID() != 0)
+			{
+				continue;
+			}
 			if (pActor->GetActive() &&
 				pActor->GetReserveDelete() == false)
 			{
@@ -144,6 +179,10 @@ namespace Framework
 
 		for (const CActor* pActor : m_vecActor)
 		{
+			if (pActor->GetParentID() != 0)
+			{
+				continue;
+			}
 			if (pActor->GetActive() && 
 				pActor->GetReserveDelete() == false)
 			{
@@ -152,18 +191,30 @@ namespace Framework
 		}
 	}
 
-	void CLayer::DestroyActor() //CCollisionManager에서 삭제 예약을 한꺼번에 제거
+	void CLayer::ReleaseActor() //CCollisionManager에서 삭제 예약을 한꺼번에 제거
 	{
 		if (m_vecRemoveActor.empty())
 			return; 
 
 		// 제거할 객체 삭제
-		for (CActor* pObj : m_vecRemoveActor)
+		for (CActor* pActor : m_vecRemoveActor)
 		{
-			pObj->Release();
-			delete pObj;
+			if (pActor->GetParentID() != 0)
+			{
+				pActor->Release();
+			}
 		}
+	}
+	void CLayer::DeleteActor()
+	{
+		if (m_vecRemoveActor.empty())
+			return;
 
+		// 제거할 객체 삭제
+		for (CActor* pActor : m_vecRemoveActor)
+		{
+			delete pActor;
+		}
 		m_vecRemoveActor.clear();
 	}
 
@@ -197,9 +248,9 @@ namespace Framework
 	//void CLayer::EraseActor(CActor* pActor)
 	//{
 	//	std::erase_if(m_vecActor, 
-	//		[=](CActor* pObj) 
+	//		[=](CActor* pActor) 
 	//		{
-	//			return pObj == pActor;
+	//			return pActor == pActor;
 	//		});
 	//}
 }
