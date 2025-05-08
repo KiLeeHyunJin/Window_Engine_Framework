@@ -9,13 +9,13 @@ namespace Framework
 	class CTileCollisionComponent;
 
 
-    class ItemActor :
+    class CItemActor :
         public CSpriteActor
     {
 		DECLARE_PARENT(CSpriteActor)
     public:
-		ItemActor(INT layer);
-		virtual ~ItemActor();
+		CItemActor(INT layer);
+		virtual ~CItemActor();
 
 		void Initialize()			override;
 		void BeginPlay()			override;
@@ -25,7 +25,9 @@ namespace Framework
 		void FixedTick()			override;
 		bool Render(HDC hdc) const	override;
     private:
-		float m_fRot;
+		float m_fRot = 0.0f;
+		SHORT m_shrtRotCount = 0;
+		bool m_bstandBy = false;
 		CBoxColliderComponent* m_pBoxColl = nullptr;
 		CRigidbodyComponent* m_pRigid = nullptr;
 		CTileCollisionComponent* m_pTileColl = nullptr;

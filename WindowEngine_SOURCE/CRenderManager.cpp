@@ -317,13 +317,9 @@ namespace Framework
 		void CRenderManager::SetRotation(float rot,const Maths::Vector2& start, const Maths::Vector2& end)
 		{
 			Maths::Vector2 center((start + end) * 0.5f);
-			//FLOAT angleRadians = rot * (3.14159265f / 180.0f);
-
-			// 3. 회전 변환 매트릭스 생성
 			D2D1_POINT_2F d2Center = { center.x, center.y };
 			D2D1::Matrix3x2F rotation = D2D1::Matrix3x2F::Rotation(rot, d2Center);
 
-			// 4. 변환 적용
 			m_pRenderTarget->SetTransform(rotation);
 		}
 
@@ -419,9 +415,8 @@ namespace Framework
 
 		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
-			//const Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			if (rot != 0)
 			{
 				SetRotation(rot, startPoint, endPoint);
@@ -430,15 +425,14 @@ namespace Framework
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pDefaultTextFormat, rect, m_pDefaultBrush);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
 		void CRenderManager::Text(const std::wstring& str, const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float fontSize, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
-			//const Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x, endPoint.y };
 			if (rot != 0)
 			{
@@ -449,14 +443,14 @@ namespace Framework
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pCurTextFormat, rect, m_pCurBrush);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
 		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(Maths::Vector2(dstX, dstY));
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			if (rot != 0)
 			{
 				Maths::Vector2 start(dstX, dstY);
@@ -467,14 +461,14 @@ namespace Framework
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pDefaultTextFormat, rect, m_pDefaultBrush);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
 		void CRenderManager::Text(const std::wstring& str, float dstX, float dstY, float dstW, float dstH, const Color& color, float fontSize, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(Maths::Vector2(dstX, dstY));
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			D2D1_RECT_F rect = { dstX, dstY, dstX + dstW, dstX + dstH };
 			if (rot != 0)
 			{
@@ -487,7 +481,7 @@ namespace Framework
 			m_pRenderTarget->DrawTextW(str.c_str(), (UINT32)str.size(), m_pCurTextFormat, rect, m_pCurBrush);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
@@ -516,9 +510,8 @@ namespace Framework
 
 		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float strokeWidth, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
-			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			if (rot != 0)
 			{
 				SetRotation(rot, startPoint, endPoint);
@@ -527,15 +520,14 @@ namespace Framework
 			m_pRenderTarget->DrawRectangle(rect, m_pDefaultBrush, strokeWidth);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
 		void CRenderManager::FrameRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float strokeWidth, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
-			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			D2D1_RECT_F rect = { startPoint.x, startPoint.y, endPoint.x , endPoint.y };
 			if (rot != 0)
 			{
@@ -545,15 +537,14 @@ namespace Framework
 			m_pRenderTarget->DrawRectangle(rect, m_pCurBrush, strokeWidth);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
 		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
-			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			if (rot != 0)
 			{
 				SetRotation(rot, startPoint, endPoint);
@@ -562,15 +553,14 @@ namespace Framework
 			m_pRenderTarget->FillRectangle(rect, m_pDefaultBrush);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
 		void CRenderManager::FillRect(const Maths::Vector2& startPoint, const Maths::Vector2& endPoint, const Color& color, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
-			//Maths::Vector2 end = pCam->CaluatePosition(endPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			if (rot != 0)
 			{
 				SetRotation(rot, startPoint, endPoint);
@@ -580,7 +570,7 @@ namespace Framework
 			m_pRenderTarget->FillRectangle(rect, m_pCurBrush);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
@@ -662,8 +652,8 @@ namespace Framework
 
 		void CRenderManager::Image(const Resource::CSprite* pImg, const Maths::Vector2& startPoint, float alpha, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(startPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			const Maths::Vector2Int& scale = pImg->GetSize();
 			const Maths::Vector2Int& leftTop = pImg->GetLeftTop();
 
@@ -681,15 +671,14 @@ namespace Framework
 			m_pRenderTarget->DrawBitmap(pImg->GetD2DImage(), imgRect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, srcImgRect);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 
 		void CRenderManager::FrameImage(const Resource::CSprite* pImg, const Maths::Vector2& drawStartPoint, const Maths::Vector2& drawEndPoint, const Maths::Vector2& sliceStartPoint, const Maths::Vector2& sliceEndPoint, float alpha, float rot)
 		{
-			//CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-			//Maths::Vector2 start = pCam->CaluatePosition(drawStartPoint);
-			//Maths::Vector2 end = pCam->CaluatePosition(drawEndPoint);
+			D2D1_MATRIX_3X2_F oldTransform;
+			m_pRenderTarget->GetTransform(&oldTransform);
 			D2D1_RECT_F pointRect	= { drawStartPoint.x,	drawStartPoint.y,	drawEndPoint.x,		drawEndPoint.y };
 			D2D1_RECT_F srcImgRect	= { sliceStartPoint.x,	sliceStartPoint.y,	sliceEndPoint.x,	sliceEndPoint.y };
 			if (rot != 0)
@@ -699,7 +688,7 @@ namespace Framework
 			m_pRenderTarget->DrawBitmap(pImg->GetD2DImage(), pointRect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, srcImgRect);
 			if (rot != 0)
 			{
-				ResetTransform();
+				m_pRenderTarget->SetTransform(&oldTransform);
 			}
 		}
 }

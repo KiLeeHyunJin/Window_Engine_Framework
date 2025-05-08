@@ -48,7 +48,7 @@ namespace Framework
 
 		if (m_pSprite == nullptr)
 		{
-			return false;
+			return true;
 		}
 		const Maths::Vector2& position = GetPosition();
 		const Maths::Vector2Int& spriteSize = m_pSprite->GetSize();

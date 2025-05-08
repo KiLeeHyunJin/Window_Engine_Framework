@@ -3,6 +3,7 @@
 #include "CPlayerCharacterActor.h"
 #include "CSpriteActor.h"
 #include "CTileActor.h"
+#include "CItemActor.h"
 
 #include "CTilemapActor.h"
 
@@ -115,6 +116,14 @@ namespace Framework
 			pActor->SetLocalPosition(Maths::Vector2(100, 500));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
+		}
+
+		{
+			CActor* pActor = Object::Instantiate<CItemActor>(static_cast<UINT>(eLayer::Character), L"item");
+
+			pActor->SetLocalPosition(Maths::Vector2(100, 400));
+			pActor->SetScale(Maths::Vector2(20, 20));
+			//pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(50, 50));
 		}
 
 		//{

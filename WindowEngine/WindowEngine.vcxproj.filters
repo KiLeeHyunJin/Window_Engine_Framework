@@ -78,7 +78,7 @@
     <ClInclude Include="CTileCollisionComponent.h">
       <Filter>01.Script\01.Component\TileCollisionComponent</Filter>
     </ClInclude>
-    <ClInclude Include="ItemActor.h">
+    <ClInclude Include="CItemActor.h">
       <Filter>01.Script\00.Actor\ItemActor</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,7 +104,7 @@
     <ClCompile Include="CTileCollisionComponent.cpp">
       <Filter>01.Script\01.Component\TileCollisionComponent</Filter>
     </ClCompile>
-    <ClCompile Include="ItemActor.cpp">
+    <ClCompile Include="CItemActor.cpp">
       <Filter>01.Script\00.Actor\ItemActor</Filter>
     </ClCompile>
   </ItemGroup>

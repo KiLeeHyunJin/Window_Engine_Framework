@@ -131,10 +131,10 @@ namespace Framework
 		if (SUPER::Render(hdc) == false)
 		{		return false;	}
 
-		GET_SINGLE(RENDER).Text(
-			std::to_wstring(GetLocalPosition().x) + L"," + std::to_wstring(GetLocalPosition().y), 
-			GetRenderPosition() + Maths::Vector2(50,0),
-			GetRenderPosition() + Maths::Vector2(250,0), 30);
+		//GET_SINGLE(RENDER).Text(
+		//	std::to_wstring(GetLocalPosition().x) + L"," + std::to_wstring(GetLocalPosition().y), 
+		//	GetRenderPosition() + Maths::Vector2(50,0),
+		//	GetRenderPosition() + Maths::Vector2(250,0), 30);
 		return true;
 	}
 
