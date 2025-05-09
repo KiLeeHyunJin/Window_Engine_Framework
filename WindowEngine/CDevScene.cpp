@@ -57,12 +57,15 @@ namespace Framework
 	}
 	void CDevScene::OnEnter()
 	{
-		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Item		, (UINT)eLayer::Character	, true);
 		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Monster	, (UINT)eLayer::Character	, true);
 		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Tile		, (UINT)eLayer::Character	, true);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Item		, (UINT)eLayer::Character	, true);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Tile		, (UINT)eLayer::Item		, true);
 
 		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Tile		, (UINT)eLayer::Tile		, false);
 		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Character, (UINT)eLayer::Character	, false);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Monster	, (UINT)eLayer::Monster		, false);
+		GET_SINGLE(COLLISION).SetCollisionLayerState((UINT)eLayer::Item		, (UINT)eLayer::Item		, false);
 
 #pragma region  Cam
 
@@ -100,13 +103,13 @@ namespace Framework
 
 	
 #pragma region  Player
-		{
+		/*{
 			CActor* pActor = Object::Instantiate<CPlayerCharacterActor>(static_cast<UINT>(eLayer::Character), L"Player");
 
 			pActor->SetLocalPosition(Maths::Vector2(0, 0));
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pCam->SetTarget(pActor);
-		}
+		}*/
 
 #pragma endregion
 
@@ -117,14 +120,17 @@ namespace Framework
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
-
+		for (size_t i = 0; i < 100; i++)
 		{
-			CActor* pActor = Object::Instantiate<CItemActor>(static_cast<UINT>(eLayer::Character), L"item");
+			{
+				CActor* pActor = Object::Instantiate<CItemActor>(static_cast<UINT>(eLayer::Item), L"item");
 
-			pActor->SetLocalPosition(Maths::Vector2(100, 400));
-			pActor->SetScale(Maths::Vector2(20, 20));
-			//pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(50, 50));
+				pActor->SetLocalPosition(Maths::Vector2(100, 400));
+				pActor->SetScale(Maths::Vector2(20, 20));
+				//pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(50, 50));
+			}
 		}
+
 
 		//{
 		//	CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test3");

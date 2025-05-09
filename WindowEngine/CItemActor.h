@@ -24,6 +24,9 @@ namespace Framework
 		bool LastTick()				override;
 		void FixedTick()			override;
 		bool Render(HDC hdc) const	override;
+
+		void OnCollisionEnter(CColliderComponent* other);
+		void OnCollisionExit(CColliderComponent* other);
     private:
 		float m_fRot = 0.0f;
 		SHORT m_shrtRotCount = 0;
