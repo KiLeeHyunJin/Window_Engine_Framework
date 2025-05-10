@@ -4,7 +4,6 @@
 #include "CSpriteActor.h"
 #include "CTileActor.h"
 #include "CItemActor.h"
-
 #include "CTilemapActor.h"
 
 #include "Object.h"
@@ -120,6 +119,7 @@ namespace Framework
 			pActor->SetScale(Maths::Vector2(20, 20));
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
+
 		for (size_t i = 0; i < 100; i++)
 		{
 			{
@@ -153,9 +153,6 @@ namespace Framework
 		//	pActor->SetScale(Maths::Vector2(20, 20));
 		//	pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		//}
-
-
-
 
 
 		//{
@@ -203,7 +200,6 @@ namespace Framework
 
 		//{
 		//	CActor* pActor = Object::Instantiate<CTileActor>(static_cast<UINT>(eLayer::Tile), L"Test2");
-
 		//	pActor->SetLocalPosition(Maths::Vector2(200, 830));
 		//	pActor->SetScale(Maths::Vector2(20, 20));
 		//	pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(192, 15));
