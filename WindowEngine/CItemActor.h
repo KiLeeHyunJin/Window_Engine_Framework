@@ -31,6 +31,9 @@ namespace Framework
 		float m_fRot = 0.0f;
 		SHORT m_shrtRotCount = 0;
 		bool m_bstandBy = false;
+		bool m_bUp = false;
+		FLOAT m_fYPos = 0;
+		FLOAT m_fRecordY = 0;
 		CBoxColliderComponent* m_pBoxColl = nullptr;
 		CRigidbodyComponent* m_pRigid = nullptr;
 		CTileCollisionComponent* m_pTileColl = nullptr;

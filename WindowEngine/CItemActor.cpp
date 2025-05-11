@@ -31,10 +31,12 @@ namespace Framework
 		Maths::Vector2 vecPop = Maths::Vector2::Up * 500;
 		m_pRigid->AddVelocity(vecPop);
 	}
+
 	void CItemActor::Release()
 	{
 		SUPER::Release();
 	}
+
 	bool CItemActor::Tick()
 	{
 		bool state = SUPER::Tick();
@@ -48,6 +50,7 @@ namespace Framework
 				if (m_shrtRotCount == 5)
 				{
 					m_bstandBy = true;
+					m_bUp = true;
 					m_fRot = 0;
 				}
 			}
@@ -55,8 +58,30 @@ namespace Framework
 
 		if (m_bstandBy)
 		{
-
+			float yPos;
+			Maths::Vector2 local = GetLocalPosition();
+			if (m_bUp)
+			{
+				yPos = GET_SINGLE(TIME).DeltaTime() * 20 * -1;
+				m_fYPos += yPos;
+				if (m_fYPos < m_fRecordY - 15)
+				{
+					m_bUp = false;
+				}
+			}
+			else
+			{
+				yPos = GET_SINGLE(TIME).DeltaTime() * 20;
+				m_fYPos += yPos;
+				if (m_fYPos > m_fRecordY)
+				{
+					m_bUp = true;
+				}
+			}
+			local.y += yPos;
+			SetLocalPosition(local);
 		}
+
 		return state;
 	}
 	bool CItemActor::LastTick()
@@ -84,12 +109,16 @@ namespace Framework
 
 		return false;
 	}
+
 	void CItemActor::OnCollisionEnter(CColliderComponent* other)
 	{
 		CTileActor* pTile = dynamic_cast<CTileActor*>(other->GetOwner());
 		if (pTile != nullptr)
 		{
 			m_pTileColl->AddTile(pTile);
+			m_pRigid->SetFreeze(true);
+			m_pBoxColl->SetTrigger(true);
+			m_fRecordY = GetLocalPosition().y;
 		}
 	}
 
