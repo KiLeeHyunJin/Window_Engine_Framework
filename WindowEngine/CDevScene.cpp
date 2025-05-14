@@ -120,7 +120,7 @@ namespace Framework
 			pActor->GetComponent<CBoxColliderComponent>()->SetSize(Maths::Vector2(96, 15));
 		}
 
-		for (size_t i = 0; i < 100; i++)
+		for (size_t i = 0; i < 1; i++)
 		{
 			{
 				CActor* pActor = Object::Instantiate<CItemActor>(static_cast<UINT>(eLayer::Item), L"item");

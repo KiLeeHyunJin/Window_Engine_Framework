@@ -55,27 +55,29 @@ namespace Framework
 				}
 			}
 		}
-
-		if (m_bstandBy)
+		else
 		{
+			static const FLOAT fFloatingRange = 10;
+			static const FLOAT fFloatingSpeed = 10;
+
 			float yPos;
 			Maths::Vector2 local = GetLocalPosition();
-			if (m_bUp)
+			if (m_bUp == false)
 			{
-				yPos = GET_SINGLE(TIME).DeltaTime() * 20 * -1;
-				m_fYPos += yPos;
-				if (m_fYPos < m_fRecordY - 15)
-				{
-					m_bUp = false;
-				}
-			}
-			else
-			{
-				yPos = GET_SINGLE(TIME).DeltaTime() * 20;
+				yPos = GET_SINGLE(TIME).DeltaTime() * fFloatingSpeed ;
 				m_fYPos += yPos;
 				if (m_fYPos > m_fRecordY)
 				{
 					m_bUp = true;
+				}
+			}
+			else
+			{
+				yPos = GET_SINGLE(TIME).DeltaTime() * fFloatingSpeed * -1;
+				m_fYPos += yPos;
+				if (m_fYPos < m_fRecordY - fFloatingRange)
+				{
+					m_bUp = false;
 				}
 			}
 			local.y += yPos;
@@ -119,6 +121,7 @@ namespace Framework
 			m_pRigid->SetFreeze(true);
 			m_pBoxColl->SetTrigger(true);
 			m_fRecordY = GetLocalPosition().y;
+			m_fYPos = m_fRecordY;
 		}
 	}
 
