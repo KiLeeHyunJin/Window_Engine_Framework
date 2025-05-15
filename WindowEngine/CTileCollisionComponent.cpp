@@ -79,8 +79,8 @@ namespace Framework
 			{
 				tileY += 0.05f;
 				CActor* pActor = GetOwner();
-				const Maths::Vector2& pos = pActor->GetPosition();
-				pActor->SetPosition(Maths::Vector2(pos.x, tileY));
+				const Maths::Vector2& pos = pActor->GetLocalPosition();
+				pActor->SetLocalPosition(Maths::Vector2(pos.x, tileY));
 			}
 		}
 		m_pRigid->SetGround(state);

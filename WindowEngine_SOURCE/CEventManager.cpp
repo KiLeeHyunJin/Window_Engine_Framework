@@ -85,6 +85,7 @@ namespace Framework
 
 		void CEventManager::AddActor(CActor* pObj, bool dontDestroy)
 		{
+			GET_SINGLE(OBJECT).CreateID(pObj);
 			EventAddActor* newJob = new EventAddActor(pObj, dontDestroy);
 			EventJob* parentJob = static_cast<EventJob*>(newJob);
 			m_quequeEventJob.push(parentJob);
@@ -95,6 +96,21 @@ namespace Framework
 			if (pObj->GetReserveDelete()) //파괴 예정이라면
 			{	return;		}
 
+			const UINT childCount = pObj->GetChildCount();
+			if (childCount != 0)
+			{
+				const UINT parentID = pObj->GetID();
+				for (UINT i = 0; i < childCount; i++)
+				{
+					UINT pChildID = pObj->GetChildID(i);
+					CActor* pChild = GET_SINGLE(OBJECT).GetActor(pChildID);
+					if (pChild != nullptr && //자식이 존재하고 
+						pChild->GetParentID() == parentID) //자신의 부모 아이디가 호출자 아이디와 같은지 확인
+					{
+						DeleteActor(pChild); //자식들도 삭제 예약(재귀)
+					}
+				}
+			}
 			EventDeleteActor* newJob = new EventDeleteActor(pObj);
 			EventJob* parentJob = static_cast<EventJob*>(newJob);
 			m_quequeEventJob.push(parentJob);
@@ -145,7 +161,7 @@ namespace Framework
 		void CEventManager::EventAddActor::operator() ()
 		{
 			pObj->SetDontDestroy(bDontDestroy);
-			GET_SINGLE(OBJECT).AddActor(pObj);
+			GET_SINGLE(OBJECT).EnterLayer(pObj);
 		}
 
 		void CEventManager::EventDeleteActor::operator() ()
@@ -154,7 +170,7 @@ namespace Framework
 			if (reserveDel == false)
 			{
 				pObj->SetReserveDelete();
-				GET_SINGLE(OBJECT).RemoveActor(pObj->GetID());
+				GET_SINGLE(OBJECT).RemoveActor(pObj);
 			}
 		}
 
@@ -175,7 +191,7 @@ namespace Framework
 			if (pObj->GetReserveDelete()) //파괴 예정이라면
 			{	return;		}
 			pObj->SetDontDestroy(bChangeState);
-			GET_SINGLE(OBJECT).AddActor(pObj);
+			GET_SINGLE(OBJECT).EnterLayer(pObj);
 		}
 	}
 

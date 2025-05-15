@@ -9,43 +9,46 @@
 #include "CObjectManager.h"
 
 #include "CCameraComponent.h"
-#include "CTransformComponent.h"
-#include "CRigidbodyComponent.h"
+//#include "CRigidbodyComponent.h"
 
 namespace Framework
 {
 	CActor::CActor(UINT layerType) :
-		m_eState(eState::Enable), m_eLayerType(layerType), m_uiID(0),
-		m_bReserveDelete(false), m_bSafeToDelete(false), m_bDontDestroy(false),m_fRotatate(0)
-		/*m_pTransform(new CTransformComponent)*/
+		m_eState(eState::Enable), m_eLayerType(layerType), m_uiID(0), m_fRotatate(0)
 	{
 		m_vecComponents.resize((int)Enums::eComponentType::Size, nullptr);
-		//m_vecComponents[(UINT)Enums::eComponentType::Transform] = m_pTransform;
 	}
 
 	CActor::~CActor()
-	{	}
-	
+	{
+	}
+
 
 	void CActor::Initialize()
-	{	}
+	{
+	}
 
 	/// <summary>
-	/// 배치후 호출
+	/// 필드 배치후 호출
 	/// </summary>
 	void CActor::BeginPlay()
 	{
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
-			{		pCom->BeginPlay();	}
+			{
+				pCom->BeginPlay();
+			}
 		}
 
 		for (CComponent* pCom : m_vecCustomComponents)
-		{		pCom->BeginPlay();	}
-
-		for (CActor* pActor : m_vecChilds)
 		{
+			pCom->BeginPlay();
+		}
+
+		for (UINT actorID : m_vecChilds)
+		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -61,7 +64,9 @@ namespace Framework
 			if (pCom != nullptr)
 			{
 				if (pCom->GetDisable())
-				{		continue;	}
+				{
+					continue;
+				}
 
 				pCom->TickComponent();
 			}
@@ -71,15 +76,20 @@ namespace Framework
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			if (pCom->GetDisable())
-			{		continue;	}
+			{
+				continue;
+			}
 
 			const bool currentComResult = pCom->TickComponent();
 			if (state && currentComResult == false)
-			{		state = false;	}
+			{
+				state = false;
+			}
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -98,20 +108,16 @@ namespace Framework
 
 	bool CActor::LastTick()
 	{
-		//m_vecWorldPosition = m_vecLocalPosition;
-		//if (m_pParent != nullptr)
-		//{
-		//	m_vecWorldPosition += m_pParent->GetWorldPosition();
-		//}
-
-		//m_vecPrevWorldPosition = m_vecWorldPosition;
+		CalculatePosition();
 
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
 				if (pCom->GetDisable())
-				{		continue;	}
+				{
+					continue;
+				}
 
 				pCom->LastTickComponent();
 			}
@@ -122,15 +128,20 @@ namespace Framework
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			if (pCom->GetDisable())
-			{		continue;	}
+			{
+				continue;
+			}
 
 			const bool currentComResult = pCom->LastTickComponent();
 			if (state && currentComResult == false)
-			{		state = false;	}
+			{
+				state = false;
+			}
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -143,17 +154,23 @@ namespace Framework
 				}
 			}
 		}
+
 		return state;
 	}
 
 	void CActor::FixedTick()
 	{
+		m_vecPrevWorldPosition = m_vecCurWorldPosition;
+		//CalculatePosition();
+
 		for (CComponent* pCom : m_vecComponents)
 		{
 			if (pCom != nullptr)
 			{
 				if (pCom->GetDisable())
-				{		continue;	}
+				{
+					continue;
+				}
 
 				pCom->FixedComponent();
 			}
@@ -164,13 +181,16 @@ namespace Framework
 		for (CComponent* pCom : m_vecCustomComponents)
 		{
 			if (pCom->GetDisable())
-			{		continue;	}
+			{
+				continue;
+			}
 
 			pCom->FixedComponent();
 		}
- 
-		for (CActor* pActor : m_vecChilds)
+
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -181,24 +201,16 @@ namespace Framework
 			}
 		}
 
-		m_vecRenderPosition = m_vecPosition;
-		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
-		if (pCam != nullptr)
-		{
-
-			m_vecRenderPosition = pCam->CaluatePosition(m_vecRenderPosition);
-			m_bRenderResult = pCam->ScreenInCheck(m_vecRenderPosition, GetScale()); //화면 안에 있는지 결과를 반환
-			return;
-		}
-		assert(false);
-		m_bRenderResult = true;
+		CalculateRenderPosition();
 	}
 
-	
+
 	bool CActor::Render(HDC hdc) const
 	{
 		if (GetRenderCheck() == false) //화면 안에 없으면 렌더 실행 취소
-		{	return false;		}
+		{
+			return false;
+		}
 
 		for (CComponent* pCom : m_vecComponents)
 		{
@@ -212,8 +224,9 @@ namespace Framework
 			pCom->Render(hdc);
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor->GetDisable())
 			{
 				continue;
@@ -224,16 +237,12 @@ namespace Framework
 			}
 		}
 
-		Maths::Vector2 pos = GetPosition();
-		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
 
-		if (pCam != nullptr)
-		{
-			pos = pCam->CaluatePosition(pos);
-		}
 
-		GET_SINGLE(RENDER).FrameCircle(pos, 2.f);
-		GET_SINGLE(RENDER).Text(std::to_wstring(m_uiID), pos, Maths::Vector2(100 + pos.x,  pos.y));
+		GET_SINGLE(RENDER).FrameCircle(m_vecRenderPosition, 2.f);
+		GET_SINGLE(RENDER).Text(std::to_wstring(m_uiID), 
+			m_vecRenderPosition, 
+			Maths::Vector2(100 + m_vecRenderPosition.x, m_vecRenderPosition.y));
 		return true;
 	}
 
@@ -256,16 +265,19 @@ namespace Framework
 			}
 		}
 
-		for (CActor* pActor : m_vecChilds)
+		for (UINT actorID : m_vecChilds)
 		{
+			CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
 			if (pActor != nullptr)
 			{
-				GET_SINGLE(EVENT).DeleteActor(pActor);
+				pActor->Release();
 			}
 		}
+
 		m_vecComponents.clear();
 		m_vecComponents.clear();
 		m_vecChilds.clear();
+		//GET_SINGLE(OBJECT).RemoveActor(GetID());
 	}
 
 	void CActor::ChangeLayer(const UINT layerType)
@@ -276,29 +288,57 @@ namespace Framework
 		}
 	}
 
-	void CActor::AddChildActor(CActor* pActor)
+	void CActor::AddChildID(UINT actorID)
 	{
-		if (pActor->GetParentActor() != nullptr)
+		if (GET_SINGLE(OBJECT).GetActor(actorID)->GetParentID() != 0)
 		{
 			assert(false);
 			return;
 		}
-
-		if (GET_SINGLE(OBJECT).GetActor(pActor->GetID()) == nullptr)
+		CActor* pActor = GET_SINGLE(OBJECT).GetActor(actorID);
+		if (pActor != nullptr)
 		{
-			GET_SINGLE(OBJECT).AddActor(pActor);
+			m_vecChilds.push_back(actorID);
+			pActor->SetParentID(GetID());
+			return;
 		}
-		m_vecChilds.push_back(pActor);
-		pActor->SetParentActor(this);
+		assert(false);
 	}
 
-	void CActor::RemoveChild(CActor* pChild)
+	void CActor::RemoveChild(UINT childID)
 	{
-		auto iter = std::find(m_vecChilds.begin(), m_vecChilds.end(), pChild);
+		auto iter = std::find(m_vecChilds.begin(), m_vecChilds.end(), childID);
 		if (iter != m_vecChilds.end())
 		{
 			m_vecChilds.erase(iter);
 		}
+	}
+
+	void CActor::CalculatePosition()
+	{
+		m_vecCurWorldPosition = m_vecLocalPosition;
+		if (m_uiParentID != 0)
+		{
+			const CActor* parent = GET_SINGLE(OBJECT).GetActor(m_uiParentID);
+			if (parent != nullptr)
+			{
+				m_vecCurWorldPosition += parent->GetPosition();
+			}
+		}
+	}
+
+	void CActor::CalculateRenderPosition()
+	{
+		m_vecRenderPosition = m_vecCurWorldPosition;
+		const CCameraComponent* pCam = Renderer::CRenderer::GetMainCamera();
+		if (pCam != nullptr)
+		{
+			m_vecRenderPosition = pCam->CaluatePosition(m_vecRenderPosition);
+			m_bRenderResult = pCam->ScreenInCheck(m_vecRenderPosition, GetScale()); //화면 안에 있는지 결과를 반환
+			return;
+		}
+		assert(false);
+		m_bRenderResult = true;
 	}
 
 }

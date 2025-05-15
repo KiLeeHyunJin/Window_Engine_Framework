@@ -86,21 +86,21 @@ void Framework::CPlayScene::OnEnter()
 		CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
 		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
 		pBoxColl->SetSize(Maths::Vector2(50, 50));
-		pActor->SetPosition(Maths::Vector2(200, 70));
+		pActor->SetLocalPosition(Maths::Vector2(200, 70));
 	}
 	{
 		CActor* pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
 		CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
 		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
 		pBoxColl->SetSize(Maths::Vector2(50, 50));
-		pActor->SetPosition(Maths::Vector2(260, 70));
+		pActor->SetLocalPosition(Maths::Vector2(260, 70));
 	}
 	{
 		CActor* pActor = Object::Instantiate<CSpriteActor>((UINT)eLayer::Character, L"Dest");
 		CBoxColliderComponent* pBoxColl = pActor->AddComponent<CBoxColliderComponent>();
 		pBoxColl->AddCollisionFlag((UINT)eLayer::Character);
 		pBoxColl->SetSize(Maths::Vector2(50, 50));
-		pActor->SetPosition(Maths::Vector2(320, 70));
+		pActor->SetLocalPosition(Maths::Vector2(320, 70));
 	}
 
 	//for (UINT i = 0; i < 200; i++)

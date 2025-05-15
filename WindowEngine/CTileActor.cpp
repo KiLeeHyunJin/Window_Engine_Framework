@@ -20,6 +20,7 @@ namespace Framework
 
 		m_pBoxCollider->SetTrigger(true);
 		m_pBoxCollider->AddCollisionFlag((UINT)eLayer::Character);
+		m_pBoxCollider->AddCollisionFlag((UINT)eLayer::Item);
 	}
 
 	CTileActor::~CTileActor()
@@ -50,7 +51,7 @@ namespace Framework
 	}
 	bool CTileActor::LastTick()
 	{
-		bool result = SUPER::Tick();
+		bool result = SUPER::LastTick();
 
 		return result;
 	}
